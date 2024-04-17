@@ -7,7 +7,7 @@ import numpy as np
 
 def dq_2_alpha_beta(dq, theta):
     """
-    Convert data from dq-frame to alpha-beta frame.
+    Convert data from dq-frame to alpha-beta frame. The data has n samples.
 
     Parameters
     ----------

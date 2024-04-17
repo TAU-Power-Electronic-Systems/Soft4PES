@@ -1,4 +1,4 @@
-""" Model of grid with stiff voltage source and RL-load in alpha-beta frame"""
+""" Model of a grid with stiff voltage source and RL-load in alpha-beta frame"""
 
 import numpy as np
 from soft4pes.util.conversions import abc_2_alpha_beta
@@ -6,7 +6,7 @@ from soft4pes.util.conversions import abc_2_alpha_beta
 
 class RLGrid:
     """
-    Model of grid with stiff voltage source and RL-load in alpha-beta frame. 
+    Model of a grid with stiff voltage source and RL-load in alpha-beta frame. 
     Grid voltage is treated as disturbance.
 
     Attributes
@@ -14,13 +14,14 @@ class RLGrid:
     Vgr : float
         Grid rated voltage [pu].
     wg : float
-        Grid angular frequency calculated [pu].
+        Grid angular frequency [pu].
     Rg : float
         Resistance [pu].
     Lg : float
         Inductance [pu].
     x : 1 x 2 ndarray of floats
-        Current state of the grid [pu]. The grid state is represented by the grid current.
+        Current state of the grid [pu]. The grid state is represented by the 
+        grid current in alpha-beta frame.
     """
 
     def __init__(self, Vgr, fgr, Rg, Lg, base):
@@ -55,7 +56,7 @@ class RLGrid:
         ----------
         x : 1 x 2 ndarray of floats
             Current state of the grid [pu].
-        u : 3 x 1 ndarray of ints
+        u : 1 x 3 ndarray of ints
             Converter switch position.
         v_dc : float
             Converter output terminal voltage [V].
@@ -115,7 +116,7 @@ class RLGrid:
 
     def get_grid_voltage(self, t):
         """
-        Get the grid voltage at a specific time.
+        Get the grid voltage at a specific time instant.
 
         Parameters
         ----------
@@ -142,7 +143,7 @@ class RLGrid:
         Parameters
         ----------
         x : 1 x 2 ndarray of floats
-            New state of the grid.
+            New state of the grid [pu].
         """
         self.x = x
 
@@ -153,7 +154,7 @@ class RLGrid:
         Parameters
         ----------
         x : 1 x 2 ndarray of floats
-            Current state of the grid.
+            Current state of the grid [pu].
 
         Returns
         -------

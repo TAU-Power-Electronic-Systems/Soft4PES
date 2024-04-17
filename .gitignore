@@ -9,3 +9,10 @@ __pycache__/
 .vscode
 
 *.mat
+
+examples/test_file.py
+
+docs
+
+soft4pes/control/mpc/mpc_bnb.py
+soft4pes/control/mpc/mpc_sphe_dec.py

@@ -1,5 +1,5 @@
 """
-This module contains the Sequence class which is used to generate a sequence of values over time.
+Sequency class is used to save reference sequences and interpolate the output values.
 """
 
 import numpy as np
@@ -16,7 +16,7 @@ class Sequence:
     Attributes
     ----------
     times : n x 1 ndarray of floats
-        Time values is seconds.
+        Time values [s]
     values : n x 2 ndarray of floats
         Output values.
     wb : float
@@ -32,7 +32,7 @@ class Sequence:
         Parameters
         ----------
         times : n x 1 ndarray of floats
-            Time values is seconds.
+            Time values [s].
         values : n x 2 ndarray of floats
             Output values.
         wb : float
