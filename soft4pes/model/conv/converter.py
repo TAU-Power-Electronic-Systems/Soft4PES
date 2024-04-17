@@ -1,35 +1,35 @@
 """ 
-n-level inverter model.
+n-level converter model.
 """
 
 from itertools import product
 import numpy as np
 
 
-class Inverter:
+class Converter:
     """ 
-    Class representing an 2- or 3-level inverter with constant dc-link voltage. 
+    Class representing an 2- or 3-level converter with constant dc-link voltage. 
 
     Attributes
     ----------
     v_dc : float
         Dc_link voltage [pu]
-    nl : float
-        Number of voltage levels in the inverter
+    nl : int
+        Number of voltage levels in the converter.
     SW_COMB : 3^nl x 3 ndarray of ints
-        Possible converter switching states.
+        Possible converter 3-phase switch positions.
     """
 
     def __init__(self, v_dc, nl, base):
         """
-        Initialize an Inverter instance.
+        Initialize a Converter instance.
 
         Parameters
         ----------
         v_dc : float
-            Dc_link voltage [V].
+            Dc-link voltage [V].
         nl : int
-            Number of voltage levels in the inverter.
+            Number of voltage levels in the converter.
         base : base value object
             Base values.
         """
@@ -38,24 +38,25 @@ class Inverter:
         self.nl = nl
 
         if nl == 2:
-            sw_pos = np.array([-1, 1])
-        elif nl == 3:
-            sw_pos = np.array([-1, 0, 1])
+            sw_pos_3ph = np.array([-1, 1])
 
-        # Create all possible switching states combinations
-        self.SW_COMB = np.array(list(product(sw_pos, repeat=3)))
+        elif nl == 3:
+            sw_pos_3ph = np.array([-1, 0, 1])
+
+        # Create all possible 3-phase switch position combinations
+        self.SW_COMB = np.array(list(product(sw_pos_3ph, repeat=3)))
 
     def switching_constraint_violated(self, u_k, u_km1):
         """
         Check if the converter violates a switching constraint. 
-        A three level inverter is not allowed to change directly between states -1 and 1. 
+        A three level converter is not allowed to change directly between switch positions -1 and 1. 
 
         Parameters
         ----------
-        u_k : 3 x 1 ndarray of ints
-            Switching state.
+        u_k : 1 x 3 ndarray of ints
+            3-phase switch position.
         u_km1 : 1 x 3 ndarray of ints
-            Previously applied switching state.
+            Previously applied 3-phase switch position.
 
         Returns
         -------
@@ -70,20 +71,20 @@ class Inverter:
 
         return res
 
-    def get_allowed_switching_states(self, u_km1):
+    def get_allowed_switch_positions(self, u_km1):
         """
-        Get possible switching states based on the previously applied state. 
-        A three level inverter is not allowed to change directly between states -1 and 1. 
+        Get allowed 1-phase switch positions based on the previously applied position. 
+        A three level converter is not allowed to change directly between positions -1 and 1. 
 
         Parameters
         ----------
-        u_km1 : 1 x 3 ndarray of ints
-            Previously applied switching state.
+        u_km1 : int
+            Previously applied 1-phase switch position.
 
         Returns
         -------
-        1 x n ndarray of ints
-            Allowed swithcing states.
+        1 x n ndarray of ints (n is the number of allowed switch positions)
+            Allowed 1-phase switch positions.
         """
 
         if self.nl == 2:

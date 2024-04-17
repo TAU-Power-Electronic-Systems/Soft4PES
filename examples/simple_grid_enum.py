@@ -23,7 +23,7 @@ from soft4pes import Simulation
 base = model.grid.BaseGrid(Vgr=3300, Igr=1575, fgr=50)
 sys = model.grid.RLGrid(Vgr=3300, fgr=50, Rg=0.01815, Lg=5.7773e-4, base=base)
 
-conv = model.conv.Inverter(v_dc=5200, nl=2, base=base)
+conv = model.conv.Converter(v_dc=5200, nl=2, base=base)
 
 i_ref_dq = Sequence(np.array([0, 1]), np.array([[1, 0], [1, 0]]), base.w)
 

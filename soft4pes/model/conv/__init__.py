@@ -1,5 +1,5 @@
-from soft4pes.model.conv.inverter import Inverter
+from soft4pes.model.conv.converter import Converter
 
 __all__ = [
-    "Inverter",
+    "Converter",
 ]
