@@ -1,0 +1,13 @@
+# Byte-compiled files
+__pycache__/
+*.pyc
+
+# Environments
+.venv
+
+# IDE
+.vscode
+
+# Exclude .mat files made for testing
+*.mat
+
