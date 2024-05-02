@@ -8,7 +8,7 @@ import numpy as np
 
 class Converter:
     """ 
-    Class representing an 2- or 3-level converter with constant dc-link voltage. 
+    Class representing a 2- or 3-level converter with constant dc-link voltage. 
 
     Attributes
     ----------
@@ -74,7 +74,7 @@ class Converter:
     def get_allowed_switch_positions(self, u_km1):
         """
         Get allowed 1-phase switch positions based on the previously applied position. 
-        A three level converter is not allowed to change directly between positions -1 and 1. 
+        A three-level converter is not allowed to change directly between positions -1 and 1. 
 
         Parameters
         ----------
