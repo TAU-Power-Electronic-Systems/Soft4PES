@@ -49,7 +49,7 @@ class Converter:
     def switching_constraint_violated(self, u_k, u_km1):
         """
         Check if the converter violates a switching constraint. 
-        A three level converter is not allowed to change directly between switch positions -1 and 1. 
+        A three-level converter is not allowed to change directly between switch positions -1 and 1. 
 
         Parameters
         ----------
