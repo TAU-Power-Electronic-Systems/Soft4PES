@@ -11,7 +11,7 @@ class RLGrid:
     Attributes
     ----------
     Vgr : float
-        Grid rated voltage [pu].
+        Grid rated voltage [pu] (line-to-line rms voltage).
     wg : float
         Grid angular frequency [pu].
     Rg : float
@@ -30,7 +30,7 @@ class RLGrid:
         Parameters
         ----------
         Vgr : float
-            Grid rated voltage [V].
+            Grid rated voltage [V] (line-to-line rms voltage).
         fgr : float
             Grid rated frequency [Hz].
         Rg : float
@@ -62,7 +62,7 @@ class RLGrid:
         t : float
             Current time [s].
         Ts : float
-            Time step [s].
+            Sampling interval [s].
 
         Returns
         -------

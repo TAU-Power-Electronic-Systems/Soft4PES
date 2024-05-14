@@ -36,9 +36,9 @@ class BaseGrid:
         Parameters
         ----------
         Vgr : float
-            Rated voltage [V].
+            Rated voltage [V] (line-to-line rms voltage).
         Igr : float
-            Rated current [A].
+            Rated current [A] (line rms current).
         fgr : float
             Rated frequency [Hz].
         """
