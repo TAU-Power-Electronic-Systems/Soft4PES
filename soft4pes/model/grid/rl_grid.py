@@ -1,7 +1,7 @@
 """ Model of a grid with stiff voltage source and RL-load in alpha-beta frame"""
 
 import numpy as np
-from soft4pes.util.conversions import abc_2_alpha_beta
+from soft4pes.utils.conversions import abc_2_alpha_beta
 
 
 class RLGrid:
@@ -47,37 +47,7 @@ class RLGrid:
         self.x = np.array([0, 0])
         self.base = base
 
-    def get_next_state(self, x, u, v_dc, t, Ts):
-        """
-        Calculate the next state of the grid using discrete state-space model.
-
-        Parameters
-        ----------
-        x : 1 x 2 ndarray of floats
-            Current state of the grid [pu].
-        u : 1 x 3 ndarray of ints
-            Converter three-phase switch position.
-        v_dc : float
-            Converter dc-link voltage [pu].
-        t : float
-            Current time [s].
-        Ts : float
-            Sampling interval [s].
-
-        Returns
-        -------
-        1 x 2 ndarray of floats
-            Next state of the grid [pu].
-        """
-
-        matrices = self.get_state_space(v_dc, Ts)
-
-        vg = self.get_grid_voltage(t)
-
-        return np.dot(matrices['A'], x) + np.dot(matrices['B1'], u) + np.dot(
-            matrices['B2'], vg)
-
-    def get_state_space(self, v_dc, Ts):
+    def get_discrete_state_space(self, v_dc, Ts):
         """
         Get the discrete state-space model of the grid in alpha-beta frame.
         Discretization is done using the forward Euler method.
@@ -129,8 +99,11 @@ class RLGrid:
         """
 
         theta = self.wg * (t * self.base.w)
-        vg_abc = np.sqrt(2 / 3) * self.Vgr * np.sin(theta + 2 * np.pi / 3 *
-                                                    np.array([0, -1, 1]))
+
+        # Grid peak voltage
+        Vg = np.sqrt(2 / 3) * self.Vgr
+
+        vg_abc = Vg * np.sin(theta + 2 * np.pi / 3 * np.array([0, -1, 1]))
 
         vg = abc_2_alpha_beta(vg_abc)
         return vg

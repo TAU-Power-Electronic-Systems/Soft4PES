@@ -47,14 +47,7 @@ def dq_2_alpha_beta(dq, theta):
         Data in alpha-beta frame.
     """
 
-    n = len(dq)
-    ab = np.zeros((n, 2))
+    R = np.array([[np.cos(theta), -np.sin(theta)],
+                  [np.sin(theta), np.cos(theta)]])
 
-    for i in range(n):
-        angle = theta[i]
-        R = np.array([[np.cos(angle), -np.sin(angle)],
-                      [np.sin(angle), np.cos(angle)]])
-
-        ab[i, :] = np.dot(R, dq[i, :].T)
-
-    return ab
+    return np.dot(R, dq)
