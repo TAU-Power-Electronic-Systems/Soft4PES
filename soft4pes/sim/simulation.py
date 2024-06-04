@@ -73,8 +73,8 @@ class Simulation:
                 self.conv.v_dc, self.ctr.Ts)
             vg = self.sys.get_grid_voltage(t)
 
-            x_kp1 = np.dot(matrices['A'], self.sys.x) + np.dot(
-                matrices['B1'], u) + np.dot(matrices['B2'], vg)
+            x_kp1 = np.dot(matrices.A, self.sys.x) + np.dot(
+                matrices.B1, u) + np.dot(matrices.B2, vg)
 
             self.sys.update_state(x_kp1)
 
