@@ -1,5 +1,6 @@
 """ Enumeration based finite-control set model-predictive controller"""
 
+from types import SimpleNamespace
 import numpy as np
 from soft4pes.utils.conversions import dq_2_alpha_beta
 
@@ -18,8 +19,8 @@ class CurrCtrMpcEnum:
         Sampling time [s].
     i_ref_seq_dq : Sequence
         Current reference sequence instance in dq-frame [pu].
-    state_space : dict
-        Dictionary containing the discrete state-space model of the system.
+    state_space : SimpleNamespace
+        Discrete state-space model of the system.
     """
 
     def __init__(self, lambda_u, Np, Ts, i_ref_seq_dq):
@@ -42,7 +43,7 @@ class CurrCtrMpcEnum:
         self.Ts = Ts
         self.u_km1 = np.array([0, 0, 0])
         self.i_ref_seq_dq = i_ref_seq_dq
-        self.state_space = dict()
+        self.state_space = SimpleNamespace()
 
     def __call__(self, sys, conv, t):
         """
@@ -151,9 +152,9 @@ class CurrCtrMpcEnum:
                 x_kp1 = xk
             else:
                 # Compute the next state
-                x_kp1 = np.dot(self.state_space['A'], xk) + \
-                        np.dot(self.state_space['B1'], u_k) + \
-                        np.dot(self.state_space['B2'], vg)
+                x_kp1 = np.dot(self.state_space.A, xk) + \
+                        np.dot(self.state_space.B1, u_k) + \
+                        np.dot(self.state_space.B2, vg)
 
                 # Calculate the cost of reference tracking and control effort
                 i_error = np.sum((i_ref_kp1 - sys.get_current(x_kp1))**2)

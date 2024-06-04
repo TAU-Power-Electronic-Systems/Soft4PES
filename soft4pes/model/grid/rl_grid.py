@@ -1,5 +1,6 @@
 """ Model of a grid with stiff voltage source and RL-load in alpha-beta frame"""
 
+from types import SimpleNamespace
 import numpy as np
 from soft4pes.utils.conversions import abc_2_alpha_beta
 
@@ -61,8 +62,9 @@ class RLGrid:
 
         Returns
         -------
-        dict
-            A dictionary containing matrices A, B1, B2, and C of the state-space model.
+        SimpleNamespace
+            A SimpleNamespace object containing matrices A, B1, B2, and C of the 
+            state-space model. 
         """
         Rg = self.Rg
         Xg = self.Xg
@@ -81,7 +83,7 @@ class RLGrid:
         B2 = G2 * Ts
         C = np.array([[1, 0], [0, 1]])
 
-        return {'A': A, 'B1': B1, 'B2': B2, 'C': C}
+        return SimpleNamespace(A=A, B1=B1, B2=B2, C=C)
 
     def get_grid_voltage(self, t):
         """
