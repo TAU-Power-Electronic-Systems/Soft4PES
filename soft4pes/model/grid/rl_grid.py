@@ -12,15 +12,15 @@ class RLGrid:
     Attributes
     ----------
     Vgr : float
-        Grid rated voltage [pu] (line-to-line rms voltage).
+        Grid rated voltage [p.u.] (line-to-line rms voltage).
     wg : float
-        Grid angular frequency [pu].
+        Grid angular frequency [p.u.].
     Rg : float
-        Resistance [pu].
+        Resistance [p.u.].
     Xg : float
-        Reactance [pu].
+        Reactance [p.u.].
     x : 1 x 2 ndarray of floats
-        Current state of the grid [pu]. The grid state is represented by the 
+        Current state of the grid [p.u.]. The grid state is represented by the 
         grid current in alpha-beta frame.
     """
 
@@ -56,7 +56,7 @@ class RLGrid:
         Parameters
         ----------
         v_dc : float
-            Converter dc-link voltage [pu].
+            Converter dc-link voltage [p.u.].
         Ts : float
             Time step [s].
 
@@ -97,7 +97,7 @@ class RLGrid:
         Returns
         -------
         1 x 2 ndarray of floats
-            Grid voltage in alpha-beta frame [pu].
+            Grid voltage in alpha-beta frame [p.u.].
         """
 
         theta = self.wg * (t * self.base.w)
@@ -117,7 +117,7 @@ class RLGrid:
         Parameters
         ----------
         x : 1 x 2 ndarray of floats
-            New state of the grid [pu].
+            New state of the grid [p.u.].
         """
         self.x = x
 
@@ -128,11 +128,11 @@ class RLGrid:
         Parameters
         ----------
         x : 1 x 2 ndarray of floats
-            Current state of the grid [pu].
+            Current state of the grid [p.u.].
 
         Returns
         -------
         1 x 2 ndarray of floats
-            Grid current [pu].
+            Grid current [p.u.].
         """
         return x
