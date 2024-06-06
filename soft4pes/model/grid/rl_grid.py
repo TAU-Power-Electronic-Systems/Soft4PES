@@ -8,6 +8,9 @@ from soft4pes.utils.conversions import abc_2_alpha_beta
 class RLGrid:
     """
     Model of a grid with stiff voltage source and RL-load in alpha-beta frame. 
+    The state of the system is the grid current in the alpha-beta frame.
+    The system input is the converter 3-phase switch position.
+    The grid voltage is considered to be a disturbance.
 
     Attributes
     ----------
@@ -20,8 +23,7 @@ class RLGrid:
     Xg : float
         Reactance [p.u.].
     x : 1 x 2 ndarray of floats
-        Current state of the grid [p.u.]. The grid state is represented by the 
-        grid current in alpha-beta frame.
+        Current state of the grid [p.u.].
     """
 
     def __init__(self, Vgr, fgr, Rg, Lg, base):
@@ -58,7 +60,7 @@ class RLGrid:
         v_dc : float
             Converter dc-link voltage [p.u.].
         Ts : float
-            Time step [s].
+            Sampling interval [s].
 
         Returns
         -------

@@ -18,7 +18,8 @@ parent_dir = os.path.dirname(current_dir)
 system.path.append(parent_dir)
 ## ---------------------------------- ##
 
-from soft4pes import model, control
+from soft4pes import model
+from soft4pes.control import mpc
 from soft4pes.utils import Sequence
 from soft4pes.sim import Simulation
 
@@ -29,10 +30,12 @@ conv = model.conv.Converter(v_dc=5200, nl=3, base=base)
 
 i_ref_dq = Sequence(np.array([0, 1]), np.array([[1, 0], [1, 0]]), base.w)
 
-ctr = control.mpc.CurrCtrMpcEnum(lambda_u=10e-3,
-                                 Np=1,
-                                 Ts=100e-6,
-                                 i_ref_seq_dq=i_ref_dq)
+solver = mpc.solvers.MpcEnum(conv=conv)
+ctr = mpc.controllers.RLGridMpcCurrCtr(solver,
+                                       lambda_u=10e-3,
+                                       Np=1,
+                                       Ts=100e-6,
+                                       i_ref_seq_dq=i_ref_dq)
 
 sim = Simulation(sys=sys, conv=conv, ctr=ctr)
 

@@ -1,5 +1,7 @@
-from soft4pes.control.mpc.mpc_enum import CurrCtrMpcEnum
+from soft4pes.control.mpc import controllers
+from soft4pes.control.mpc import solvers
 
 __all__ = [
-    "CurrCtrMpcEnum",
+    "controllers",
+    "solvers",
 ]
