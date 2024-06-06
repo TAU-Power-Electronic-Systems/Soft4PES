@@ -18,7 +18,7 @@ class CurrCtrMpcEnum:
     Ts : float
         Sampling time [s].
     i_ref_seq_dq : Sequence
-        Current reference sequence instance in dq-frame [pu].
+        Current reference sequence instance in dq-frame [p.u.].
     state_space : SimpleNamespace
         Discrete state-space model of the system.
     """
@@ -36,7 +36,7 @@ class CurrCtrMpcEnum:
         Ts : float
             Sampling time.
         curr_ref_seq_dq : Sequence
-            Reference sequence instance in dq-frame [pu].
+            Reference sequence instance in dq-frame [p.u.].
         """
         self.lambda_u = lambda_u
         self.Np = Np
@@ -103,7 +103,7 @@ class CurrCtrMpcEnum:
         xk : ndarray of floats
             Current state vector.
         vg : float
-            Grid voltage [pu].
+            Grid voltage [p.u.].
         i_ref_kpNp : Np x 2 ndarray of floats
             Current reference for Np timesteps.
         u_seq : 1 x 3*Np ndarray of ints

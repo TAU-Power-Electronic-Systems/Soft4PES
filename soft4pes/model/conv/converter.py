@@ -13,7 +13,7 @@ class Converter:
     Attributes
     ----------
     v_dc : float
-        Dc_link voltage [pu]
+        Dc_link voltage [p.u.]
     nl : int
         Number of voltage levels in the converter.
     SW_COMB : 3^nl x 3 ndarray of ints
