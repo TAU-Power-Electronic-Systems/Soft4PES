@@ -58,7 +58,7 @@ class RLGrid:
         v_dc : float
             Converter dc-link voltage [p.u.].
         Ts : float
-            Time step [s].
+            Sampling interval [s].
 
         Returns
         -------
