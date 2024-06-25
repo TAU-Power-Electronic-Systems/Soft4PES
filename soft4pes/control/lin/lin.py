@@ -20,13 +20,6 @@ class LinearGridCurrentControl:
         i_dq = np.dot(transformation_matrix, i_alpha_beta)
         return i_dq
 
-    def alpha_beta_2_abc(self, u_alpha_beta):
-        # Convert alpha-beta to abc frame
-        u_a = u_alpha_beta[0]
-        u_b = -0.5 * u_alpha_beta[0] + (np.sqrt(3) / 2) * u_alpha_beta[1]
-        u_c = -0.5 * u_alpha_beta[0] - (np.sqrt(3) / 2) * u_alpha_beta[1]
-        return np.array([u_a, u_b, u_c])
-
     def pi_controller(self, i_dq, i_ref_seq_dq):
         # PI controller in dq frame
         error_d = i_ref_seq_dq[0] - i_dq[0]
