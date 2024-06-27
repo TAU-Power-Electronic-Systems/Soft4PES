@@ -1,5 +1,5 @@
-from soft4pes.control.lin_curr_ctr.lin_curr_ctr import CurrCtrMpcEnum
+from soft4pes.control.lin_curr_ctr.lin_curr_ctr import CurrentControlPI
 
 __all__ = [
-    "CurrCtrMpcEnum",
+    "CurrentControlPI",
 ]
