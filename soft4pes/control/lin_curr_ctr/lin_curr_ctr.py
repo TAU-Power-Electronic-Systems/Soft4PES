@@ -154,6 +154,6 @@ class CurrentControlPI:
                 x_kp1_best = x_kp1
 
         # Update the system state to the best next state
-        sys.x = x_kp1_best
+        x_kp1 = x_kp1_best
 
         return best_u_k
