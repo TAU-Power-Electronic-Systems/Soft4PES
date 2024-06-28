@@ -19,8 +19,8 @@ class CurrentControlPI:
     """
     
     def __init__(self, sys, base, Ts, i_ref_seq_dq):
-        self.L = sys.L  # Inductance
-        self.R = sys.R  # Resistance
+        self.L = sys.Xg   # Inductance
+        self.R = sys.Rg  # Resistance
         self.Ts = Ts  # Sampling time
         self.alpha_c = (2 * np.pi * 10) / Ts / base.w  # Controller bandwidth (10x crossover frequency)
         self.k_p = self.alpha_c * self.L  # Proportional gain
@@ -154,6 +154,6 @@ class CurrentControlPI:
                 x_kp1_best = x_kp1
 
         # Update the system state to the best next state
-        sys.x = x_kp1_best
+        x_kp1 = x_kp1_best
 
         return best_u_k
