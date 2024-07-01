@@ -1,6 +1,7 @@
 from types import SimpleNamespace
 import numpy as np
-from soft4pes.utils.conversions import alpha_beta_2_dq, dq_2_alpha_beta, dq_2_abc
+from soft4pes.utils.conversions import alpha_beta_2_dq, dq_2_abc
+
 
 class CurrentControlPI:
     """
@@ -17,12 +18,15 @@ class CurrentControlPI:
     i_ref_seq_dq : Sequence
         Current reference sequence instance in dq-frame [p.u.].
     """
-    
+
     def __init__(self, sys, base, Ts, i_ref_seq_dq):
-        self.L = sys.Xg   # Inductance
+        self.L = sys.Xg  # Inductance
         self.R = sys.Rg  # Resistance
-        self.Ts = Ts  # Sampling time
-        self.alpha_c = (2 * np.pi * 10) / Ts / base.w  # Controller bandwidth (10x crossover frequency)
+        self.Ts = Ts
+        self.Ts_pu = (Ts * base.w) / (2 * np.pi)  # Sampling time
+        self.alpha_c = (
+            2 * np.pi /
+            10) / self.Ts_pu  # Controller bandwidth (10x crossover frequency)
         self.k_p = self.alpha_c * self.L  # Proportional gain
         self.k_i = self.alpha_c * self.R  # Integral gain
         self.integral_error_d = 0.0
@@ -71,13 +75,9 @@ class CurrentControlPI:
         # Transform the control effort back to abc frame
         u_c_abc = dq_2_abc(u_c_dq, theta)
 
-        # Check for allowed switch positions considering constraints
-        u_k = self.select_allowed_switch_position(u_c_abc, conv, vg, sys.x)
+        u_k = u_c_abc / (conv.v_dc / 2)
 
-        # Update the previous control effort
-        self.u_km1 = u_k
-
-        return u_k
+        return np.clip(u_k, -1, 1)  # Ensure switching state within -1 and 1
 
     def pi_controller(self, i_meas_dq, i_ref_dq):
         """
@@ -95,65 +95,15 @@ class CurrentControlPI:
         ndarray
             Control effort in dq frame [p.u.].
         """
-        
+
         # PI controller in dq frame
         error_d = i_ref_dq[0] - i_meas_dq[0]
         error_q = i_ref_dq[1] - i_meas_dq[1]
 
-        self.integral_error_d += error_d * self.Ts
-        self.integral_error_q += error_q * self.Ts
+        self.integral_error_d += error_d * self.Ts_pu
+        self.integral_error_q += error_q * self.Ts_pu
 
         u_c_d = self.k_p * error_d + self.k_i * self.integral_error_d
         u_c_q = self.k_p * error_q + self.k_i * self.integral_error_q
 
         return np.array([u_c_d, u_c_q])
-
-    def select_allowed_switch_position(self, u_c_abc, conv, vg, xk):
-        """
-        Select the allowed switch position closest to the control effort and update the state space.
-
-        Parameters
-        ----------
-        u_c_abc : ndarray
-            Control effort in abc frame [p.u.].
-        conv : Converter
-            Converter object.
-        vg : ndarray
-            Grid voltage [p.u.].
-        xk : ndarray
-            Current state vector [p.u.].
-        Returns
-        -------
-        ndarray
-            Allowed switch position [p.u.].
-        """
-        
-        # Get all possible switch positions
-        allowed_switch_positions = []
-        for u_k in conv.SW_COMB:
-            if not conv.switching_constraint_violated(u_k, self.u_km1):
-                allowed_switch_positions.append(u_k)
-
-        # Initialize variables for the best switch position and the next state
-        best_u_k = allowed_switch_positions[0]
-        min_distance = np.inf
-        x_kp1_best = xk
-
-        # Evaluate each allowed switch position
-        for u_k in allowed_switch_positions:
-            # Compute the next state
-            x_kp1 = np.dot(self.state_space.A, xk) + \
-                    np.dot(self.state_space.B1, u_k) + \
-                    np.dot(self.state_space.B2, vg)
-
-            # Calculate the distance to the desired control effort
-            distance = np.linalg.norm(u_c_abc - u_k)
-            if distance < min_distance:
-                min_distance = distance
-                best_u_k = u_k
-                x_kp1_best = x_kp1
-
-        # Update the system state to the best next state
-        x_kp1 = x_kp1_best
-
-        return best_u_k
