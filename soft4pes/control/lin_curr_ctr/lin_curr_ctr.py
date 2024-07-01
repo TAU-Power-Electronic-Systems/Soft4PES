@@ -23,7 +23,7 @@ class CurrentControlPI:
         self.L = sys.Xg  # Inductance
         self.R = sys.Rg  # Resistance
         self.Ts = Ts
-        self.Ts_pu = (Ts * base.w) / (2 * np.pi)  # Sampling time
+        self.Ts_pu = (Ts * base.w)  # Sampling time
         self.alpha_c = (
             2 * np.pi /
             10) / self.Ts_pu  # Controller bandwidth (10x crossover frequency)
