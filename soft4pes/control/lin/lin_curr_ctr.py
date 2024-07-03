@@ -1,3 +1,5 @@
+""" PI current controller for grid-connected converter with RL load """
+
 import numpy as np
 from soft4pes.utils.conversions import alpha_beta_2_dq, dq_2_abc
 
@@ -96,6 +98,7 @@ class RLGridPICurrCtr:
         # Transform the converter voltage reference back to abc frame
         u_c_abc = dq_2_abc(u_c_dq, theta)
 
+        # Normalize converter voltage reference for modulation
         u_k = u_c_abc / (conv.v_dc / 2)
 
         return np.clip(u_k, -1, 1)  # Ensure modulating signal within -1 and 1
@@ -106,14 +109,15 @@ class RLGridPICurrCtr:
         
         Parameters
         ----------
-        i_dq : ndarray
-            Measured current in dq frame [p.u.].
-        i_ref_dq : ndarray
+        i_dq : 1 x 2 ndarray of floats
+            Grid Current in dq frame [p.u.].
+
+        i_ref_dq : 1 x 2 ndarray of floats
             Reference current in dq frame [p.u.].
 
         Returns
         -------
-        ndarray
+        1 x 2 ndarray of floats
             Converter voltage reference in dq frame [p.u.].
         """
 
