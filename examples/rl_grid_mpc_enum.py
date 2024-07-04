@@ -37,7 +37,7 @@ ctr = mpc.controllers.RLGridMpcCurrCtr(solver,
                                        Ts=100e-6,
                                        i_ref_seq_dq=i_ref_dq)
 
-sim = Simulation(sys=sys, conv=conv, ctr=ctr)
+sim = Simulation(sys=sys, conv=conv, ctr=ctr, Ts=5e-6)
 
 start_time = time.time()
 

@@ -112,9 +112,9 @@ class RLGridMpcCurrCtr:
         self.u_km1 = uk
         return uk
 
-    def get_next_state(self, sys, xk, uk, k):
+    def predict_next_state(self, sys, xk, uk, k):
         """
-        Calculate the next state of the system.
+        Predict the next state of the system.
 
         Parameters
         ----------
