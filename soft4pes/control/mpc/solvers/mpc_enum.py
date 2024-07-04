@@ -113,7 +113,7 @@ class MpcEnum:
                 x_kp1 = xk
             else:
                 # Compute the next state
-                x_kp1 = ctr.predict_next_state(sys, xk, uk, k)
+                x_kp1 = ctr.get_next_state(sys, xk, uk, k)
 
                 # Calculate the cost of reference tracking and control effort
                 ref_error = np.linalg.norm(y_ref[k] - np.dot(ctr.C, x_kp1))**2

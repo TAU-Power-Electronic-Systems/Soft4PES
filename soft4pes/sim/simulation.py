@@ -3,7 +3,6 @@ Simulation environment for power electronic systems.
 """
 
 import numpy as np
-import matplotlib.pyplot as plt
 from scipy.io import savemat
 
 
@@ -36,7 +35,7 @@ class ProgressPrinter:
         Parameters
         ----------
         current_step : int
-            The current step in the process.
+            The number of the current step in the process.
         """
         current_percent = int(np.round(current_step / self.total_steps * 100))
         if current_percent > self.last_printed_percent + 4:
@@ -62,6 +61,8 @@ class Simulation:
         Simulation stop time [s].
     matrices : SimpleNamespace
         Discrete state-space matrices of the simulated system.
+    simulation_data : dict
+        Data from the simulation.
     """
 
     def __init__(self, sys, conv, ctr, Ts_sim):
@@ -86,8 +87,9 @@ class Simulation:
         self.t_stop = 0
         self.matrices = self.sys.get_discrete_state_space(
             self.conv.v_dc, self.Ts_sim)
+        self.simulation_data = None
 
-        # Check if self.ctr.Ts/Ts is an integer. Use tolerance to prevent
+        # Check if self.ctr.Ts/Ts_sim is an integer. Use tolerance to prevent
         # floating point errors
         Ts_rat = self.ctr.Ts / self.Ts_sim
         if abs(Ts_rat - round(Ts_rat)) > 1e-10:
@@ -102,17 +104,13 @@ class Simulation:
         Parameters
         ----------
         t_stop : float
-            Simulation stop time [s]. Simulation start time is always 0 s.
+            Simulation length [s]. Simulation start time is always 0 s.
         """
 
         progress_printer = ProgressPrinter(int(t_stop / self.ctr.Ts))
-
-        data = np.empty((0, 2))
-        time = np.empty((0, 1))
-        u_data = np.empty((0, 3))
         self.t_stop = t_stop
-
         t = 0
+
         for i in range(int(self.t_stop / self.ctr.Ts)):
 
             # Execute the controller
@@ -120,25 +118,22 @@ class Simulation:
 
             for _ in range(int(self.ctr.Ts / self.Ts_sim)):
 
-            for _ in range(int(self.ctr.Ts / self.Ts)):
-
-                # Save data
-                data = np.vstack((data, self.sys.x))
-                time = np.vstack((time, t))
-                u_data = np.vstack((u_data, u))
-
                 self.sys.update_state(u, self.matrices, t)
 
                 t = t + self.Ts_sim
 
             progress_printer(i)
 
-        # Plot data
-        plt.plot(time, data)
-        plt.show()
+        self.simulation_data = {
+            'ctr': self.ctr.sim_data,
+            'sys': self.sys.sim_data
+        }
 
-        # Create a dictionary to store data
-        data_to_save = {'time': time, 'data': data, 'u': u_data}
+        # The data is stored as lists, as they offer faster appending of values.
+        # Convert lists to numpy arrays for easier post-processing.
+        for _, value1 in self.simulation_data.items():
+            for key2, value2 in value1.items():
+                value1[key2] = np.array(value2)
 
-        # Save to a .mat file
-        savemat('examples/sim.mat', data_to_save)
+        # Save the simulation data to a .mat file
+        savemat('examples/sim.mat', self.simulation_data)
