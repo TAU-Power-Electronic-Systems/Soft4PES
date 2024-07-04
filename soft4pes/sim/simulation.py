@@ -120,6 +120,8 @@ class Simulation:
 
             for _ in range(int(self.ctr.Ts / self.Ts_sim)):
 
+            for _ in range(int(self.ctr.Ts / self.Ts)):
+
                 # Save data
                 data = np.vstack((data, self.sys.x))
                 time = np.vstack((time, t))
