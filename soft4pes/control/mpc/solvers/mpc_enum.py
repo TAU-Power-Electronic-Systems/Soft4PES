@@ -2,6 +2,7 @@
 
 from itertools import product
 import numpy as np
+from soft4pes.control.mpc.solvers.utils import switching_constraint_violated
 
 
 class MpcEnum:
@@ -60,7 +61,7 @@ class MpcEnum:
         Returns
         -------
         uk : 1 x 3 ndarray of ints
-            The 3-phase switch position sequence with the lowest cost.
+            The 3-phase switch position with the lowest cost.
         """
 
         # Initialize array for costs and 3-phase switch position sequences
@@ -105,7 +106,7 @@ class MpcEnum:
         # Iterate over all possible 3-phase switch position
         for uk in self.SW_COMB:
             # Check if switching constraint is violated or cost is infinite
-            if self.switching_constraint_violated(
+            if switching_constraint_violated(
                     conv.nl, uk, u_km1) or self.J[self.i] == np.inf:
                 # Set the cost to infinity and use the current state for the next
                 # prediction step
@@ -136,30 +137,3 @@ class MpcEnum:
                 # If at the last prediction step, store the 3-phase switch position
                 self.u_seq[self.i, u_col_range_start:u_col_range_end] = uk
                 self.i = self.i + 1
-
-    def switching_constraint_violated(self, nl, uk, u_km1):
-        """
-        Check if the converter violates a switching constraint. 
-        A three-level converter is not allowed to change directly between switch positions -1 and 1. 
-
-        Parameters
-        ----------
-        nl : int
-            Number of converter voltage levels.
-        uk : 1 x 3 ndarray of ints
-            3-phase switch position.
-        u_km1 : 1 x 3 ndarray of ints
-            Previously applied 3-phase switch position.
-
-        Returns
-        -------
-        bool
-            Constraint violated.
-        """
-
-        if nl == 2:
-            res = 0
-        elif nl == 3:
-            res = np.linalg.norm(uk - u_km1, np.inf) >= 2
-
-        return res
