@@ -12,24 +12,26 @@ class RLGridMpcCurrCtr:
 
     Attributes
     ----------
-    solver : solver object
-        Solver for model-predictive control.
     lambda_u : float
         Weighting factor for the control effort.
     Np : int
         Prediction horizon.
     Ts : float
         Sampling time [s].
-    i_ref_seq_dq : Sequence
-        Current reference sequence in dq-frame [p.u.].
     u_km1 : 1 x 3 ndarray of ints
         Previous 3-phase switch position.
+    i_ref_seq_dq : Sequence
+        Current reference sequence in dq-frame [p.u.].
     state_space : SimpleNamespace 
         The state-space model of the system.
+    solver : solver object
+        Solver for model-predictive control.
     vg : 1 x 2 ndarray of floats
         Grid voltage.
     C : 2 x 2 ndarray of ints
         Output matrix.
+    data_sim : dict
+        Controller data.
     """
 
     def __init__(self, solver, lambda_u, Np, Ts, i_ref_seq_dq):
@@ -61,9 +63,15 @@ class RLGridMpcCurrCtr:
         # Output matrix
         self.C = np.array([[1, 0], [0, 1]])
 
+        self.sim_data = {
+            'ig_ref': [],
+            'u': [],
+            't': [],
+        }
+
     def __call__(self, sys, conv, t):
         """
-        Perform MPC.
+        Perform MPC and save the controller data.
 
         Parameters
         ----------
@@ -91,7 +99,7 @@ class RLGridMpcCurrCtr:
 
         # Get the grid-voltage angle and calculate the reference in alpha-beta frame
         theta = np.arctan2(self.vg[1], self.vg[0])
-        i_ref = dq_2_alpha_beta(i_ref_dq, theta)
+        ig_ref = dq_2_alpha_beta(i_ref_dq, theta)
 
         # Predict the current reference over the prediction horizon
         # Make a rotation matrix
@@ -102,7 +110,7 @@ class RLGridMpcCurrCtr:
 
         # Predict the reference by rotating the current reference
         y_ref = np.zeros((self.Np, 2))
-        i_ref_temp = i_ref
+        i_ref_temp = ig_ref
         for k in range(self.Np):
             y_ref[k, :] = np.dot(R_ref, i_ref_temp)
             i_ref_temp = y_ref[k, :]
@@ -110,11 +118,14 @@ class RLGridMpcCurrCtr:
         # Solve the control problem
         uk = self.solver(sys, conv, self, y_ref)
         self.u_km1 = uk
+
+        self.save_data(ig_ref, uk, t)
+
         return uk
 
-    def predict_next_state(self, sys, xk, uk, k):
+    def get_next_state(self, sys, xk, uk, k):
         """
-        Predict the next state of the system.
+        Get the next state of the system.
 
         Parameters
         ----------
@@ -143,3 +154,20 @@ class RLGridMpcCurrCtr:
 
         return np.dot(self.state_space.A, xk) + np.dot(
             self.state_space.B1, uk) + np.dot(self.state_space.B2, vg_k)
+
+    def save_data(self, ig_ref, u_k, t):
+        """
+        Save controller data.
+
+        Parameters
+        ----------
+        ig_ref : 1 x 2 ndarray of floats
+            Current reference in alpha-beta frame.
+        u_k : 1 x 3 ndarray of ints
+            Converter 3-phase switch position.
+        t : float
+            Current time [s].
+        """
+        self.sim_data['ig_ref'].append(ig_ref)
+        self.sim_data['u'].append(u_k)
+        self.sim_data['t'].append(t)

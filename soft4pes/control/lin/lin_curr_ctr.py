@@ -1,7 +1,7 @@
 """ PI current controller for grid-connected converter with RL load """
 
 import numpy as np
-from soft4pes.utils.conversions import alpha_beta_2_dq, dq_2_abc
+from soft4pes.utils.conversions import alpha_beta_2_dq, dq_2_abc, dq_2_alpha_beta
 
 
 class RLGridPICurrCtr:
@@ -32,6 +32,8 @@ class RLGridPICurrCtr:
         Current error instance in q-frame [p.u.].                               
     i_ref_seq_dq : Sequence
         Current reference sequence instance in dq-frame [p.u.].   
+    sim_data : dict
+        Controller data.
     """
 
     def __init__(self, sys, base, Ts, i_ref_seq_dq):
@@ -60,6 +62,12 @@ class RLGridPICurrCtr:
         self.integral_error_d = 0
         self.integral_error_q = 0
         self.i_ref_seq_dq = i_ref_seq_dq
+
+        self.sim_data = {
+            'ig_ref': [],
+            'u': [],
+            't': [],
+        }
 
     def __call__(self, sys, conv, t):
         """
@@ -101,6 +109,9 @@ class RLGridPICurrCtr:
         # Normalize converter voltage reference for modulation
         u_k = u_c_abc / (conv.v_dc / 2)
 
+        # Save controller data
+        ig_ref = dq_2_alpha_beta(i_ref_dq, theta)
+        self.save_data(ig_ref, u_k, t)
         return np.clip(u_k, -1, 1)  # Ensure modulating signal within -1 and 1
 
     def pi_controller(self, i_dq, i_ref_dq):
@@ -132,3 +143,20 @@ class RLGridPICurrCtr:
         u_c_q = self.k_p * error_q + self.k_i * self.integral_error_q
 
         return np.array([u_c_d, u_c_q])
+
+    def save_data(self, ig_ref, u_k, t):
+        """
+        Save controller data.
+
+        Parameters
+        ----------
+        ig_ref : 1 x 2 ndarray of floats
+            Current reference in alpha-beta frame.
+        u_k : 1 x 3 ndarray of ints
+            Converter 3-phase switch position.
+        t : float
+            Current time [s].
+        """
+        self.sim_data['ig_ref'].append(ig_ref)
+        self.sim_data['u'].append(u_k)
+        self.sim_data['t'].append(t)
