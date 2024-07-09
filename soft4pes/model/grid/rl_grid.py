@@ -24,6 +24,10 @@ class RLGrid:
         Reactance [p.u.].
     x : 1 x 2 ndarray of floats
         Current state of the grid [p.u.].
+    base : base value object
+        Base values.
+    data_sim : dict
+        System data.
     """
 
     def __init__(self, Vgr, fgr, Rg, Lg, base):
@@ -49,6 +53,11 @@ class RLGrid:
         self.Xg = Lg / base.L
         self.x = np.array([0, 0])
         self.base = base
+        self.sim_data = {
+            'x': [],
+            'vg': [],
+            't': [],
+        }
 
     def get_discrete_state_space(self, v_dc, Ts):
         """
@@ -65,7 +74,7 @@ class RLGrid:
         Returns
         -------
         SimpleNamespace
-            A SimpleNamespace object containing matrices A, B1, B2, and C of the 
+            A SimpleNamespace object containing matrices A, B1 and B2 of the 
             state-space model. 
         """
         Rg = self.Rg
@@ -83,9 +92,8 @@ class RLGrid:
         A = np.eye(2) + F * Ts
         B1 = G1 * Ts
         B2 = G2 * Ts
-        C = np.array([[1, 0], [0, 1]])
 
-        return SimpleNamespace(A=A, B1=B1, B2=B2, C=C)
+        return SimpleNamespace(A=A, B1=B1, B2=B2)
 
     def get_grid_voltage(self, t):
         """
@@ -112,29 +120,42 @@ class RLGrid:
         vg = abc_2_alpha_beta(vg_abc)
         return vg
 
-    def update_state(self, x):
+    def update_state(self, u, matrices, t):
         """
-        Update the current state of the grid.
+        Get the next state of the grid.
 
         Parameters
         ----------
-        x : 1 x 2 ndarray of floats
-            New state of the grid [p.u.].
-        """
-        self.x = x
-
-    def get_current(self, x):
-        """
-        Get the grid current from the state.
-
-        Parameters
-        ----------
-        x : 1 x 2 ndarray of floats
-            Current state of the grid [p.u.].
+        u : 1 x 3 ndarray of floats
+            Converter 3-phase switch position.
+        matrices : SimpleNamespace
+            A SimpleNamespace object containing matrices A, B1 and B2 of the 
+            state-space model.
 
         Returns
         -------
         1 x 2 ndarray of floats
-            Grid current [p.u.].
+            Next state of the grid [p.u.].
         """
-        return x
+
+        vg = self.get_grid_voltage(t)
+        self.save_data(vg, t)
+        x_kp1 = np.dot(matrices.A, self.x) + np.dot(matrices.B1, u) + np.dot(
+            matrices.B2, vg)
+        self.x = x_kp1
+
+    def save_data(self, vg, t):
+        """
+        Save system data.
+
+        Parameters
+        ----------
+        vg : 1 x 2 ndarray of floats
+            Grid voltage in alpha-beta frame [p.u.].
+        t : float
+            Current time [s].
+        """
+
+        self.sim_data['x'].append(self.x)
+        self.sim_data['vg'].append(vg)
+        self.sim_data['t'].append(t)

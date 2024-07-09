@@ -3,8 +3,44 @@ Simulation environment for power electronic systems.
 """
 
 import numpy as np
-import matplotlib.pyplot as plt
 from scipy.io import savemat
+
+
+class ProgressPrinter:
+    """
+    A class used to print the progress of the simulation process.
+
+    Attributes
+    ----------
+    total_steps : int
+        The total number of steps in the process.
+    last_printed_percent : int
+        The last printed percentage of progress.
+    """
+
+    def __init__(self, total_steps):
+        """
+        Parameters
+        ----------
+        total_steps : int
+            The total number of steps in the process.
+        """
+        self.total_steps = total_steps
+        self.last_printed_percent = -5
+
+    def __call__(self, current_step):
+        """
+        Prints the current progress with steps of 5 percent.
+
+        Parameters
+        ----------
+        current_step : int
+            The number of the current step in the process.
+        """
+        current_percent = int(np.round(current_step / self.total_steps * 100))
+        if current_percent > self.last_printed_percent + 4:
+            print(f"{current_percent}%")
+            self.last_printed_percent = current_percent
 
 
 class Simulation:
@@ -19,11 +55,17 @@ class Simulation:
         Converter model.
     ctr : controller object.
         Control system.
+    Ts_sim : float
+        Simulation sampling interval [s].
     t_stop : float
         Simulation stop time [s].
+    matrices : SimpleNamespace
+        Discrete state-space matrices of the simulated system.
+    simulation_data : dict
+        Data from the simulation.
     """
 
-    def __init__(self, sys, conv, ctr):
+    def __init__(self, sys, conv, ctr, Ts_sim):
         """
         Initialize a Simulation instance.
 
@@ -35,11 +77,25 @@ class Simulation:
             Converter model.
         ctr : controller object
             Control system.
+        Ts_sim : float
+            Simulation sampling interval [s].
         """
         self.sys = sys
         self.conv = conv
         self.ctr = ctr
+        self.Ts_sim = Ts_sim
         self.t_stop = 0
+        self.matrices = self.sys.get_discrete_state_space(
+            self.conv.v_dc, self.Ts_sim)
+        self.simulation_data = None
+
+        # Check if self.ctr.Ts/Ts_sim is an integer. Use tolerance to prevent
+        # floating point errors
+        Ts_rat = self.ctr.Ts / self.Ts_sim
+        if abs(Ts_rat - round(Ts_rat)) > 1e-10:
+            raise ValueError(
+                "The ratio of control system sampling interval to "
+                "simulation sampling interval must be an integer.")
 
     def simulate(self, t_stop):
         """
@@ -48,46 +104,36 @@ class Simulation:
         Parameters
         ----------
         t_stop : float
-            Simulation stop time [s]. Simulation start time is always 0 s.
+            Simulation length [s]. Simulation start time is always 0 s.
         """
 
-        # For saving data, should be done in a better way
-        data = np.empty((0, 2))
-        time = np.empty((0, 1))
-        u_data = np.empty((0, 3))
+        progress_printer = ProgressPrinter(int(t_stop / self.ctr.Ts))
         self.t_stop = t_stop
-
         t = 0
-        # This expects that t_stop/Ts is an integer
+
         for i in range(int(self.t_stop / self.ctr.Ts)):
 
             # Execute the controller
             u = self.ctr(self.sys, self.conv, t)
 
-            # Save data, for debugging and verification, will be removed later
-            data = np.vstack((data, self.sys.x))
-            time = np.vstack((time, t))
-            u_data = np.vstack((u_data, u))
+            for _ in range(int(self.ctr.Ts / self.Ts_sim)):
 
-            matrices = self.sys.get_discrete_state_space(
-                self.conv.v_dc, self.ctr.Ts)
-            vg = self.sys.get_grid_voltage(t)
+                self.sys.update_state(u, self.matrices, t)
 
-            x_kp1 = np.dot(matrices.A, self.sys.x) + np.dot(
-                matrices.B1, u) + np.dot(matrices.B2, vg)
+                t = t + self.Ts_sim
 
-            self.sys.update_state(x_kp1)
+            progress_printer(i)
 
-            t = t + self.ctr.Ts
+        self.simulation_data = {
+            'ctr': self.ctr.sim_data,
+            'sys': self.sys.sim_data
+        }
 
-            print("{}%".format(np.round(i / (t_stop / self.ctr.Ts) * 100, 1)))
+        # The data is stored as lists, as they offer faster appending of values.
+        # Convert lists to numpy arrays for easier post-processing.
+        for _, value1 in self.simulation_data.items():
+            for key2, value2 in value1.items():
+                value1[key2] = np.array(value2)
 
-        # Plot data, debugging
-        plt.plot(time, data)
-        plt.show()
-
-        # Create a dictionary to store your data
-        data_to_save = {'time': time, 'data': data, 'u': u_data}
-
-        # Save to a .mat file, debugging
-        savemat('examples/sim.mat', data_to_save)
+        # Save the simulation data to a .mat file
+        savemat('examples/sim.mat', self.simulation_data)

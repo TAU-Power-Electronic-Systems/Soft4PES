@@ -33,7 +33,7 @@ ctr = control.lin.RLGridPICurrCtr(sys=sys,
                                   base=base,
                                   Ts=100e-6,
                                   i_ref_seq_dq=i_ref_dq)
-sim = Simulation(sys=sys, conv=conv, ctr=ctr)
+sim = Simulation(sys=sys, conv=conv, ctr=ctr, Ts_sim=5e-6)
 
 start_time = time.time()
 
