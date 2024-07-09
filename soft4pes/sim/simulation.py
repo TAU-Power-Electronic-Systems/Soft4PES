@@ -56,11 +56,15 @@ class Simulation:
         Converter model.
     ctr : controller object.
         Control system.
+    Ts_sim : float
+        Simulation sampling interval [s].
     t_stop : float
         Simulation stop time [s].
+    matrices : SimpleNamespace
+        Discrete state-space matrices of the simulated system.
     """
 
-    def __init__(self, sys, conv, ctr, Ts):
+    def __init__(self, sys, conv, ctr, Ts_sim):
         """
         Initialize a Simulation instance.
 
@@ -72,20 +76,20 @@ class Simulation:
             Converter model.
         ctr : controller object
             Control system.
-        Ts : float
+        Ts_sim : float
             Simulation sampling interval [s].
         """
         self.sys = sys
         self.conv = conv
         self.ctr = ctr
-        self.Ts = Ts
+        self.Ts_sim = Ts_sim
         self.t_stop = 0
         self.matrices = self.sys.get_discrete_state_space(
-            self.conv.v_dc, self.Ts)
+            self.conv.v_dc, self.Ts_sim)
 
         # Check if self.ctr.Ts/Ts is an integer. Use tolerance to prevent
         # floating point errors
-        Ts_rat = self.ctr.Ts / self.Ts
+        Ts_rat = self.ctr.Ts / self.Ts_sim
         if abs(Ts_rat - round(Ts_rat)) > 1e-10:
             raise ValueError(
                 "The ratio of control system sampling interval to "
@@ -114,7 +118,7 @@ class Simulation:
             # Execute the controller
             u = self.ctr(self.sys, self.conv, t)
 
-            for _ in range(int(self.ctr.Ts / self.Ts)):
+            for _ in range(int(self.ctr.Ts / self.Ts_sim)):
 
                 # Save data
                 data = np.vstack((data, self.sys.x))
@@ -123,7 +127,7 @@ class Simulation:
 
                 self.sys.update_state(u, self.matrices, t)
 
-                t = t + self.Ts
+                t = t + self.Ts_sim
 
             progress_printer(i)
 
