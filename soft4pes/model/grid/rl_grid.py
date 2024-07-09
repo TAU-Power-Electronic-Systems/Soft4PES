@@ -112,29 +112,25 @@ class RLGrid:
         vg = abc_2_alpha_beta(vg_abc)
         return vg
 
-    def update_state(self, x):
+    def update_state(self, u, matrices, t):
         """
-        Update the current state of the grid.
+        Get the next state of the grid.
 
         Parameters
         ----------
-        x : 1 x 2 ndarray of floats
-            New state of the grid [p.u.].
-        """
-        self.x = x
-
-    def get_current(self, x):
-        """
-        Get the grid current from the state.
-
-        Parameters
-        ----------
-        x : 1 x 2 ndarray of floats
-            Current state of the grid [p.u.].
+        u : 1 x 3 ndarray of floats
+            Converter 3-phase switch position.
+        matrices : SimpleNamespace
+            A SimpleNamespace object containing matrices A, B1, B2, and C of the 
+            state-space model.
 
         Returns
         -------
         1 x 2 ndarray of floats
-            Grid current [p.u.].
+            Next state of the grid [p.u.].
         """
-        return x
+
+        vg = self.get_grid_voltage(t)
+        x_kp1 = np.dot(matrices.A, self.x) + np.dot(matrices.B1, u) + np.dot(
+            matrices.B2, vg)
+        self.x = x_kp1
