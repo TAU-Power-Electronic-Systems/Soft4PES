@@ -67,17 +67,18 @@ class RLGridStateSpaceCurrCtr:
         i_ref_seq_dq : Sequence
            Current reference sequence instance in dq-frame [p.u.].
         """
-
-        self.Xf = sys.Xg  # Consider the filter inductane equals to the grid inductance
-        self.Rf = sys.Rg  # Consider the filter resitance equals to the grid resitance
+        self.V = base.V
+        self.I = base.I
+        self.Xf = sys.Xg * base.L  # Consider the filter inductane equals to the grid inductance
+        self.Rf = sys.Rg * base.Z  # Consider the filter resitance equals to the grid resitance
         self.Ts = Ts
-        self.Ts_pu = self.Ts * base.w
-        self.alpha_c = 2 * np.pi / 10 / self.Ts_pu  # Closed-loop controller bandwidth (10x crossover frequency)
+        #self.Ts_pu = self.Ts * base.w
+        self.alpha_c = 2 * np.pi / 10 / self.Ts  # Closed-loop controller bandwidth (10x crossover frequency)
         self.delta = 1  # Consider delta equals to one due to not considering delay
-        self.phi = np.exp((-self.Rf / self.Xf) * self.Ts_pu) * self.delta
+        self.phi = np.exp((-self.Rf / self.Xf) * self.Ts) * self.delta
         self.landa = (self.delta - self.phi) / self.Rf
         self.p_1 = 0
-        self.p_2 = np.exp(-self.alpha_c * self.Ts_pu)
+        self.p_2 = np.exp(-self.alpha_c * self.Ts)
         self.p_3 = self.p_2
         self.k_2 = -self.p_1 - self.p_2 - self.p_3 + self.phi + 1
         self.k_1 = (self.p_1 * self.p_2 + self.p_1 * self.p_3 +
@@ -123,17 +124,18 @@ class RLGridStateSpaceCurrCtr:
         vg = sys.get_grid_voltage(t)
 
         # Get the reference for current step
-        i_ref_dq = self.i_ref_seq_dq(t)
+        i_ref_dq = self.i_ref_seq_dq(t) * self.I
 
         # Calculate the transformation angle
         theta = np.arctan2(vg[1], vg[0])
 
         # Get the current in dq frame
-        i_dq = alpha_beta_2_dq(sys.x, theta)
+        i_dq = alpha_beta_2_dq(sys.x, theta) * self.I
 
-        u_max = conv.v_dc / 2
+        u_max = self.V * (conv.v_dc / 2)
+
         # Compute the converter voltage reference in dq frame using the state space controller with anti-windup
-        u_c_dq = self.state_space_controller(i_dq, i_ref_dq, u_max)
+        u_c_dq = self.state_space_controller(i_dq, i_ref_dq, u_max) / self.V
 
         # Transform the converter voltage reference back to abc frame
         u_c_abc = dq_2_abc(u_c_dq, theta)
@@ -141,7 +143,7 @@ class RLGridStateSpaceCurrCtr:
         u_k = u_c_abc / (conv.v_dc / 2)
 
         # Save controller data
-        ig_ref = dq_2_alpha_beta(i_ref_dq, theta)
+        ig_ref = dq_2_alpha_beta(i_ref_dq / self.I, theta)
         self.save_data(ig_ref, u_k, t)
         return np.clip(u_k, -1, 1)  # Ensure modulating signal within -1 and 1
 
@@ -166,6 +168,9 @@ class RLGridStateSpaceCurrCtr:
         """
 
         # State space controller with anti-windup in dq frame
+        u_c_ref_unsat = (self.k_ti * i_ref_dq) - (self.k_1 * i_dq) + (
+            self.k_ii * self.integral_u_ii)
+
         self.i_error = i_ref_dq - i_dq
 
         self.u_c_error = (self.u_c_ref_sat - self.u_c_ref_unsat) / self.k_ti
@@ -174,8 +179,6 @@ class RLGridStateSpaceCurrCtr:
 
         self.integral_u_ii += self.u_ii
 
-        u_c_ref_unsat = (self.k_ti * i_ref_dq) - (self.k_1 * i_dq) + (
-            self.k_ii * self.integral_u_ii)
         self.u_c_ref_unsat = u_c_ref_unsat
 
         # Check for saturation
