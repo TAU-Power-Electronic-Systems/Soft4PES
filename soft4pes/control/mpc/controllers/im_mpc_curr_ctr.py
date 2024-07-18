@@ -93,11 +93,11 @@ class IMMpcCurrCtr:
         psiR_mag_ref = np.linalg.norm(np.array([sys.x0[2], sys.x0[3]]))
         T_ref = self.T_ref_seq(t)
         T_ref = T_ref[0]
-        is_dq_ref = sys.calc_stator_current(psiR_mag_ref, T_ref)
+        is_ref_dq = sys.calc_stator_current(psiR_mag_ref, T_ref)
 
         # Get the grid-voltage angle and calculate the reference in alpha-beta frame
         theta = np.arctan2(sys.x[3], sys.x[2])
-        i_ref = dq_2_alpha_beta(is_dq_ref, theta)
+        i_ref = dq_2_alpha_beta(is_ref_dq, theta)
 
         # Predict the current reference over the prediction horizon
         # Make a rotation matrix
@@ -128,9 +128,9 @@ class IMMpcCurrCtr:
         Parameters
         ----------
         sys : system object
-            The system model, not used in this method.
+            The system object, not used in this method.
         xk : 1 x 2 ndarray of floats
-            The current state of the system.
+            The current state of the system [p.u.].
         uk : 1 x 3 ndarray of ints
             Converter 3-phase switch position.
         k : int
@@ -139,7 +139,7 @@ class IMMpcCurrCtr:
         Returns
         -------
         1 x 2 ndarray of floats
-            The next state of the system.
+            The next state of the system [p.u.].
         """
 
         return np.dot(self.state_space.A, xk) + np.dot(self.state_space.B, uk)
@@ -151,7 +151,7 @@ class IMMpcCurrCtr:
         Parameters
         ----------
         iS_ref : 1 x 2 ndarray of floats
-            Current reference in alpha-beta frame.
+            Current reference in alpha-beta frame [p.u.].
         u_k : 1 x 3 ndarray of ints
             Converter 3-phase switch position.
         t : float

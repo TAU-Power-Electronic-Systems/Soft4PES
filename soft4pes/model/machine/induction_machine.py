@@ -1,5 +1,5 @@
 """
-Induction machine model. The machine operates at constant electrical angular rotor speed.
+Induction machine model. The machine operates at a constant electrical angular rotor speed.
 """
 
 from types import SimpleNamespace
@@ -9,7 +9,7 @@ from soft4pes.utils.conversions import dq_2_alpha_beta
 
 class InductionMachine:
     """
-    Induction machine model operating at constant electrical angular rotor speed.
+    Induction machine model operating at a constant electrical angular rotor speed.
     The state of the system is the stator current and rotor flux in the alpha-beta frame, i.e. 
     [iS_alpha, iS_beta, psiR_alpha, psiR_beta]^T. The system input is the converter 3-phase 
     switch position.
@@ -46,7 +46,8 @@ class InductionMachine:
         System data.
     """
 
-    def __init__(self, f, pf, Rs, Rr, Lls, Llr, Lm, base, psiS_mag_ref, T_ref):
+    def __init__(self, f, pf, Rs, Rr, Lls, Llr, Lm, base, psiS_mag_ref,
+                 T_ref_init):
         """
         Initialize an InductionMachine instance. Set initial state based on the 
         stator flux magnitude reference and torque reference.
@@ -71,8 +72,8 @@ class InductionMachine:
             Base values.
         psiS_mag_ref : float
             Stator flux magnitude reference [p.u.].
-        T_ref : float
-            Torque reference [p.u.].
+        T_ref_init : float
+            Initial torque reference [p.u.].
         """
 
         self.w = 2 * np.pi * f / base.w
@@ -86,7 +87,7 @@ class InductionMachine:
         self.D = self.Xs * self.Xr - self.Xm**2
         self.kT = 1 / pf
 
-        self.x0 = self.get_initial_state(psiS_mag_ref, T_ref)
+        self.x0 = self.get_initial_state(psiS_mag_ref, T_ref_init)
         self.x = self.x0
         self.base = base
 
@@ -95,7 +96,7 @@ class InductionMachine:
             't': [],
         }
 
-    def get_initial_state(self, psiS_mag_ref, T_ref):
+    def get_initial_state(self, psiS_mag_ref, T_ref_init):
         """
         Calculates the initial state of the machine based on the torque reference and 
         stator flux magnitude reference.
@@ -103,32 +104,31 @@ class InductionMachine:
         Parameters
         ----------
         psiS_mag_ref : float
-            The stator flux magnitude reference.
-        T_ref : float
-            The torque reference.
+            The stator flux magnitude reference [p.u.].
+        T_ref_init : float
+            The initial torque reference [p.u.].
 
         Returns
         -------
         numpy.ndarray
-            The initial state of the machine.
+            The initial state of the machine [p.u.].
         """
 
         # Based on torque reference and stator flux magnitude reference, the rotor
         # flux and rotor speed are calculated
-        psiR_dq, self.wr = self.get_steady_state_psir(psiS_mag_ref, T_ref)
+        psiR_dq, self.wr = self.get_steady_state_psir(psiS_mag_ref, T_ref_init)
 
         # Get the initial angle and aling the rotor flux vector with d-axis
         theta = np.arctan2(psiR_dq[1], psiR_dq[0])
         psiR_dq = np.array([np.linalg.norm(psiR_dq), 0])
 
         # Calculate the stator current
-        is_dq = self.calc_stator_current(psiR_dq, T_ref)
+        is_dq = self.calc_stator_current(psiR_dq, T_ref_init)
 
-        # Transform the currents to alpha-beta frame
         iS = dq_2_alpha_beta(is_dq, theta - np.pi / 2)
         psiR = dq_2_alpha_beta(psiR_dq, theta - np.pi / 2)
 
-        return np.array([iS[0], iS[1], psiR[0], psiR[1]])
+        return np.concatenate((iS, psiR))
 
     def get_steady_state_psir(self, psiS_mag_ref, T_ref):
         """
@@ -137,9 +137,9 @@ class InductionMachine:
         Parameters
         ----------
         psiS_mag_ref : float
-            The stator flux magnitude reference.
+            The stator flux magnitude reference [p.u.].
         T_ref : float
-            The torque reference.
+            The torque reference [p.u.].
 
         Returns
         -------
@@ -148,6 +148,7 @@ class InductionMachine:
         wr : float
             The steady state (electrical angular) rotor speed [p.u.].
         """
+
         D = self.D
         kT = self.kT
         Xm = self.Xm
@@ -180,7 +181,7 @@ class InductionMachine:
         psiR_dq : 1 x 2 ndarray
             The rotor flux in dq frame [p.u.].
         T_ref : float
-            The torque reference.
+            The torque reference [p.u.].
 
         Returns
         -------
@@ -208,7 +209,7 @@ class InductionMachine:
         Returns
         -------
         SimpleNamespace
-            The discrete state space of the machine.
+            The discrete state-space model of the machine.
         """
 
         wr = self.wr
@@ -246,7 +247,7 @@ class InductionMachine:
         u : 1 x 3 ndarray of floats
             Converter 3-phase switch position.
         matrices : SimpleNamespace
-            A SimpleNamespace object containing matrices A, B of the state-space model.
+            A SimpleNamespace object containing matrices A and B of the state-space model.
         t : float
             Current time [s].
         """
