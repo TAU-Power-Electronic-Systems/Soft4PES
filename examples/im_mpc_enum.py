@@ -23,10 +23,10 @@ from soft4pes.control import mpc
 from soft4pes.utils import Sequence
 from soft4pes.sim import Simulation
 
-base = model.machine.BaseMachine(Vr=400, Ir=4.4, fr=50, npp=1)
+base = model.machine.BaseMachine(Vr=400, Ir=4.4, fr=50, npp=1, pf=0.85)
 
 # The torque reference has two columns, as the Sequence class does not yet support n-dimensional
-# sequences. Th ereference is saved at the first column.
+# sequences. The reference is saved at the first column.
 T_ref_seq = Sequence(np.array([0, 0.1, 0.1, 0.2]),
                      np.array([[1, 0], [1, 0], [0.5, 0], [0.5, 0]]), base.w)
 
@@ -39,7 +39,7 @@ sys = model.machine.InductionMachine(f=50,
                                      Lm=394.704e-3,
                                      base=base,
                                      psiS_mag_ref=1,
-                                     T_ref=1)
+                                     T_ref_init=T_ref_seq(0)[0])
 
 conv = model.conv.Converter(v_dc=600, nl=3, base=base)
 

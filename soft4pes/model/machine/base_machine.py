@@ -2,11 +2,9 @@
 Base values for a machine.
 """
 
-from dataclasses import dataclass
 import numpy as np
 
 
-@dataclass
 class BaseMachine:
     """
     Base values for a machine.
@@ -32,26 +30,39 @@ class BaseMachine:
 
     Parameters
     ----------
-    Vr: float
+    Vr : float
         Rated voltage of the machine [V] (line-to-line rms voltage).
     Ir : float
-        rated current of the machine [A] (line rms current).
+        Rated current of the machine [A] (line rms current).
     fr : float
-        Machine rated frequency [Hz].
+        Rated frequency [Hz].
     npp : int
         Number of pole pairs.
+    pf : float
+        Power factor.
     """
 
-    Vr: float
-    Ir: float
-    fr: float
-    npp: int
+    def __init__(self, Vr, Ir, fr, npp, pf):
+        """
+        Initialize a BaseMachine instance.
 
-    def __post_init__(self):
-        self.V = np.sqrt(2 / 3) * self.Vr
-        self.I = np.sqrt(2) * self.Ir
-        self.w = 2 * np.pi * self.fr
+        Parameters
+        ----------
+        Vr : float
+            Rated voltage of the machine [V] (line-to-line rms voltage).
+        Ir : float
+            Rated current of the machine [A] (line rms current).
+        fr : float
+            Rated frequency [Hz].
+        npp : int
+            Number of pole pairs.
+        pf : float
+            Power factor.
+        """
+        self.V = np.sqrt(2 / 3) * Vr
+        self.I = np.sqrt(2) * Ir
+        self.w = 2 * np.pi * fr
         self.S = 3 / 2 * self.V * self.I
         self.Z = self.V / self.I
         self.L = self.Z / self.w
-        self.T = self.npp * self.S / self.w
+        self.T = pf * npp * self.S / self.w
