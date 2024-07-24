@@ -16,15 +16,11 @@ class Sequence:
     ----------
     times : n x 1 ndarray of floats
         Time values is seconds.
-    values : n x 2 ndarray of floats
+    values : n x m ndarray of floats
         Output values.
-    wb : float
-        Base angular frequency [rad/s].
-    periodic : bool, optional
-        Enables periodicity. The default is False.
     """
 
-    def __init__(self, times, values, wb, periodic=False):
+    def __init__(self, times, values):
         """
         Initialize a Sequence instance.
 
@@ -32,21 +28,12 @@ class Sequence:
         ----------
         times : n x 1 ndarray of floats
             Time values is seconds.
-        values : n x 2 ndarray of floats
+        values : n x m ndarray of floats
             Output values.
-        wb : float
-            Base angular frequency [rad/s].
-        periodic : bool, optional
-            Enables periodicity. The default is False.
         """
 
         self.times = times
         self.values = values
-        self.wb = wb
-        if periodic is True:
-            self._period = times[-1] - times[0]
-        else:
-            self._period = None
 
     def __call__(self, t):
         """
@@ -59,11 +46,19 @@ class Sequence:
 
         Returns
         -------
-        1 x 2 ndarray of floats
+        1 x m ndarray of floats
             Interpolated output.
 
         """
-        return np.array([
-            np.interp(t, self.times, self.values[:, 0], period=self._period),
-            np.interp(t, self.times, self.values[:, 1], period=self._period)
-        ])
+        # Define the dimensions of columns to iterate over
+        dim = range(self.values.shape[1])
+
+        #Initialize a list to hold the interpolated values
+        interpolated_values = []
+
+        # Perform interpolation for each dimension
+        for m in dim:
+            inter_value = np.interp(t, self.times, self.values[:, m])
+            interpolated_values.append(inter_value)
+
+        return np.array(interpolated_values)
