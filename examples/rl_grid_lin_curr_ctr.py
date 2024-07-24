@@ -27,17 +27,17 @@ sys = model.grid.RLGrid(Vgr=3300, fgr=50, Rg=0.01815, Lg=5.7773e-4, base=base)
 
 conv = model.conv.Converter(v_dc=5200, nl=3, base=base)
 
-i_ref_dq = Sequence(np.array([0, 1]), np.array([[1, 0], [1, 0]]), base.w)
+i_ref_dq = Sequence(np.array([0, 1]), np.array([[1, 0], [1, 0]]))
 
 ctr = control.lin.RLGridPICurrCtr(sys=sys,
                                   base=base,
-                                  Ts=100e-6,
+                                  Ts=10e-6,
                                   i_ref_seq_dq=i_ref_dq)
-sim = Simulation(sys=sys, conv=conv, ctr=ctr, Ts_sim=5e-6)
+sim = Simulation(sys=sys, conv=conv, ctr=ctr, Ts_sim=10e-6)
 
 start_time = time.time()
 
-sim.simulate(t_stop=0.1)
+sim.simulate(t_stop=0.2)
 
 end_time = time.time()
 execution_time = end_time - start_time
