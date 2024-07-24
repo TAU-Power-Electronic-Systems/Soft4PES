@@ -50,14 +50,10 @@ class Sequence:
             Interpolated output.
 
         """
-        # Define the dimensions of columns to iterate over
-        dim = range(self.values.shape[1])
-
-        #Initialize a list to hold the interpolated values
         interpolated_values = []
 
-        # Perform interpolation for each dimension
-        for m in dim:
+        # Perform interpolation for each column
+        for m in range(self.values.shape[1]):
             inter_value = np.interp(t, self.times, self.values[:, m])
             interpolated_values.append(inter_value)
 
