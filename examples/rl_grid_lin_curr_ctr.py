@@ -37,7 +37,7 @@ sim = Simulation(sys=sys, conv=conv, ctr=ctr, Ts_sim=10e-6)
 
 start_time = time.time()
 
-sim.simulate(t_stop=0.1)
+sim.simulate(t_stop=0.2)
 
 end_time = time.time()
 execution_time = end_time - start_time
