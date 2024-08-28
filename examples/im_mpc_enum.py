@@ -28,7 +28,7 @@ base = model.machine.BaseMachine(Vr=400, Ir=4.4, fr=50, npp=1, pf=0.85)
 # The torque reference has two columns, as the Sequence class does not yet support n-dimensional
 # sequences. The reference is saved at the first column.
 T_ref_seq = Sequence(np.array([0, 0.1, 0.1, 0.2]),
-                     np.array([[1, 0], [1, 0], [0.5, 0], [0.5, 0]]), base.w)
+                     np.array([[1, 0], [1, 0], [0.5, 0], [0.5, 0]]))
 
 sys = model.machine.InductionMachine(f=50,
                                      pf=0.85,
