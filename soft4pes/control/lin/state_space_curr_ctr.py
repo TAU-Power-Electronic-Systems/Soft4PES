@@ -1,5 +1,5 @@
 """ State-space current controller with anti-windup scheme 
-                 for grid-connected converter with RL load """
+    for grid-connected converter with RL load """
 
 from types import SimpleNamespace
 import numpy as np
@@ -25,7 +25,7 @@ class RLGridStateSpaceCurrCtr:
     uc_ii_dq : 1 x 2 ndarray of floats
         Converter voltage reference after current controller integrator in dq frame [p.u.].
     uc_km1_dq : 1 x 2 ndarray of floats
-        Pervious converter voltage reference in dq frame [p.u.].                                    
+        Previous converter voltage reference in dq frame [p.u.].                                    
     i_ref_seq_dq : Sequence
         Current reference sequence instance in dq-frame [p.u.].   
     sim_data : dict
@@ -54,6 +54,7 @@ class RLGridStateSpaceCurrCtr:
         self.Ts_pu = self.Ts * base.w
         self.ctr_pars = self.get_state_space_ctr_pars()
         self.u_ii_dq = np.zeros(2)
+        #In this controller uc_km1 is not considered due to not applying delay of PWM in the state-space model
         self.uc_km1_dq = np.zeros(2)
         self.i_ref_seq_dq = i_ref_seq_dq
 
@@ -82,7 +83,6 @@ class RLGridStateSpaceCurrCtr:
             Modulating signal.
         """
 
-        # Get the grid voltage
         vg = sys.get_grid_voltage(t)
 
         # Get the reference for current step
@@ -91,7 +91,7 @@ class RLGridStateSpaceCurrCtr:
         # Calculate the transformation angle
         theta = np.arctan2(vg[1], vg[0])
 
-        # Get the current in dq frame
+        # Get the current in the dq frame (the converter current is the same as the grid current because no filter is used in the system)
         ic_dq = alpha_beta_2_dq(sys.x, theta)
 
         # Maximum converter output voltage
@@ -112,7 +112,6 @@ class RLGridStateSpaceCurrCtr:
         ig_ref = dq_2_alpha_beta(ic_ref_dq, theta)
         self.save_data(ig_ref, u_k, t)
 
-        # Ensure modulating signal within -1 and 1
         return u_k
 
     def get_state_space_ctr_pars(self):
@@ -179,30 +178,27 @@ class RLGridStateSpaceCurrCtr:
         1 x 2 ndarray of floats
             Converter voltage reference in dq frame [p.u.].
         """
-        #In this controller uc_km1 is not considered due to not applying delay of PWM in the state-space model
-        uc_km1_dq = self.uc_km1_dq
 
-        X_LC = np.array([ic_dq, uf_dq, uc_km1_dq])
+        X_LC = np.array([ic_dq, uf_dq, self.uc_km1_dq])
 
         # State space controller with anti-windup in dq frame
         uc_ref_dq_unlim = (self.ctr_pars.k_ti * ic_ref_dq) - np.dot(
             self.ctr_pars.K_i, X_LC) + self.u_ii_dq
 
-        # Check for limiting of the converter voltage reference
-        uc_ref_dq = self.uc_limiting_check(u_max, uc_ref_dq_unlim)
+        # Limiting the converter voltage reference
+        uc_ref_dq = self.voltage_reference_limiter(u_max, uc_ref_dq_unlim)
 
-        u_ii_dq_ = self.ctr_pars.k_ii * ((
+        self.u_ii_dq += self.ctr_pars.k_ii * ((
             (uc_ref_dq - uc_ref_dq_unlim) / self.ctr_pars.k_ti) +
-                                         (ic_ref_dq - ic_dq))
-        self.u_ii_dq += u_ii_dq_
+                                              (ic_ref_dq - ic_dq))
 
         self.uc_km1_dq = self.ctr_pars.delta * uc_ref_dq
 
         return uc_ref_dq
 
-    def uc_limiting_check(self, u_max, uc_ref_dq_unlim):
+    def voltage_reference_limiter(self, u_max, uc_ref_dq_unlim):
         """
-        Check and limit the converter voltage reference.
+        limit the converter voltage reference.
 
         Parameters
         ----------
