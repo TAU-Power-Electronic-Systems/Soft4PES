@@ -8,7 +8,8 @@ from soft4pes.utils.conversions import alpha_beta_2_dq, dq_2_abc, dq_2_alpha_bet
 
 class RLGridStateSpaceCurrCtr:
     """
-    State-space current controller with anti-windup scheme for grid-connected converter with RL load.
+    State-space current controller with anti-windup scheme 
+    for grid-connected converter with RL load.
     
     Attributes
     ----------
@@ -48,13 +49,12 @@ class RLGridStateSpaceCurrCtr:
            Current reference sequence instance in dq-frame [p.u.].
         """
 
-        self.Xf = sys.Xg  # Consider the filter inductane equals to the grid inductance
-        self.Rf = sys.Rg  # Consider the filter resitance equals to the grid resitance
+        self.Xf = sys.Xg  # Assume the inductances are equal
+        self.Rf = sys.Rg  # Assume the resitances are equal
         self.Ts = Ts
         self.Ts_pu = self.Ts * base.w
         self.ctr_pars = self.get_state_space_ctr_pars()
         self.u_ii_dq = np.zeros(2)
-        #In this controller uc_km1 is not considered due to not applying delay of PWM in the state-space model
         self.uc_km1_dq = np.zeros(2)
         self.i_ref_seq_dq = i_ref_seq_dq
 
@@ -91,16 +91,16 @@ class RLGridStateSpaceCurrCtr:
         # Calculate the transformation angle
         theta = np.arctan2(vg[1], vg[0])
 
-        # Get the current in the dq frame (the converter current is the same as the grid current because no filter is used in the system)
+        # Get dq frame current (converter current equals grid current due to lack of a filter)
         ic_dq = alpha_beta_2_dq(sys.x, theta)
 
         # Maximum converter output voltage
         u_max = conv.v_dc / 2
 
-        #Consider the filter capacitor voltage equals to the grid voltage (In case: Without considering the filter)
+        # Assume filter capacitor voltage equals grid voltage (No filter considered)
         uf_dq = vg
 
-        # Compute the converter voltage reference in dq frame using the state space controller with anti-windup
+        # Compute the converter voltage reference using the state space controller with anti-windup
         uc_dq = self.state_space_controller(ic_dq, ic_ref_dq, uf_dq, u_max)
 
         # Transform the converter voltage reference back to abc frame
