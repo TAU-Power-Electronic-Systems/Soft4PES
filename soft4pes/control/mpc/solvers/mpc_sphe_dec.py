@@ -1,4 +1,4 @@
-"""Sphere decoder based solver for model-predictive control"""
+"""Sphere decoder based solver for model predictive control"""
 
 from types import SimpleNamespace
 import numpy as np
@@ -6,16 +6,16 @@ import numpy as np
 
 class MpcSpheDec:
     """
-    Sphere decoder based solver for model-predictive control
+    Sphere decoder based solver for model predictive control
 
     Attributes
     ----------
     Q : ndarray of floats
         Weights for reference tracking.
     U_km1 : 3*Np x 1 ndarray of ints
-        Previous 3-phase switch position sequence.
+        Previous three-phase switch position sequence.
     matrices : SimpleNamespace
-        Matrices for the sphere-decoder algorithm.
+        Matrices for the sphere decoder algorithm.
     initialized : bool
         Initialization flag for the matrices.
     """
@@ -124,9 +124,9 @@ class MpcSpheDec:
         ctr : object
             Control object.
         U : 1 x 3*Np ndarray of ints
-            3-phase switch position sequence being optimized.
+            Three-phase switch position sequence being optimized.
         U_opt : 1 x 3*Np ndarray of ints
-            3-phase switch position sequence with the lowest cost.
+            Three-phase switch position sequence with the lowest cost.
         dist : float
             Current distance to unconstrained optimal solution.
         i : int
@@ -136,14 +136,14 @@ class MpcSpheDec:
         U_bar_unc : 1 x 3*Np ndarray of floats
             Unconstrained optimal solution.
         u_km1 : 1 x 3 ndarray
-            Previosuly applied 3-phase switch position.
+            Previosuly applied three-phase switch position.
 
         Returns
         -------
         U : 1 x 3*Np ndarray of ints
-            3-phase switch position sequence being optimized.
+            Three-phase switch position sequence being optimized.
         U_opt : 1 x 3*Np ndarray of ints
-            3-phase switch position sequence with the lowest cost.
+            Three-phase switch position sequence with the lowest cost.
         rho : float
             Minimum distance to unconstrained optimal solution.
         """
@@ -291,18 +291,19 @@ class MpcSpheDec:
 
     def get_allowed_switch_positions(self, conv, u_km1):
         """
-        Get allowed 1-phase switch positions based on the previously applied position. 
-        A three-level converter is not allowed to change directly between positions -1 and 1. 
+        Get allowed one-phase switch positions based on the previously applied position.  
+        A three-level converter is not allowed to directly switch from -1 and 1 (and vice versa) on 
+        one phase. 
 
         Parameters
         ----------
         u_km1 : int
-            Previously applied 1-phase switch position.
+            Previously applied one-phase switch position.
 
         Returns
         -------
         1 x n ndarray of ints (n is the number of allowed switch positions)
-            Allowed 1-phase switch positions.
+            Allowed one-phase switch positions.
         """
 
         if conv.nl == 2:
