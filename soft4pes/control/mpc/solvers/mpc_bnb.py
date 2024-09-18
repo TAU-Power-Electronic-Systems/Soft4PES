@@ -13,11 +13,11 @@ class MpcBnB:
     ----------
     J_min : float
         Minimum cost.
-    U_seq : 1 x 3*Np ndarray
-        Array for sequences of three-phase switch positions (switching sequences) with the lowest cost.
-    U_temp : 1 x 3*Np ndarray
+    U_seq : 1 x 3*Np ndarray of ints
+        Sequence of three-phase switch positions (switching sequence) with the lowest cost.
+    U_temp : 1 x 3*Np ndarray of ints
         Temporary array for incumbent swithing sequence.
-    SW_COMB : 1 x conv.nl^3 ndarray
+    SW_COMB : 1 x conv.nl^3 ndarray of ints
         All possible three-phase switch positions.
     """
 
@@ -54,8 +54,8 @@ class MpcBnB:
         conv : converter object
             Converter model.
         ctr : controller object
-            Controller model.
-        y_ref : 1 x _ ndarray of floats
+            Controller object.
+        y_ref : ndarray of floats
             Reference vector [p.u.].
 
         Returns
@@ -65,17 +65,15 @@ class MpcBnB:
         """
 
         self.J_min = np.inf
-        J_prev = 0
         self.U_seq = np.zeros(3 * ctr.Np)
         self.U_temp = np.zeros(3 * ctr.Np)
-        k = 0
 
-        self.solve(sys, conv, ctr, sys.x, y_ref, ctr.u_km1, k, J_prev)
+        self.solve(sys, conv, ctr, sys.x, y_ref, ctr.u_km1)
 
         uk = self.U_seq[0:3]
         return uk
 
-    def solve(self, sys, conv, ctr, xk, y_ref, u_km1, k, J_prev):
+    def solve(self, sys, conv, ctr, x_ell, y_ref, u_ell_prev, ell=0, J_prev=0):
         """
         Recursively compute the cost for different switching sequences.
 
@@ -86,44 +84,45 @@ class MpcBnB:
         conv : object
             Converter model.
         ctr : object
-            Controller model.
-        xk : 1 x _ ndarray
-            Current state vector [p.u.].
-        y_ref : 1 x _ ndarray
+            Controller object.
+        x_ell : ndarray of floats
+            State vector [p.u.].
+        y_ref : ndarray of floats
             Reference vector [p.u.].
-        u_km1 : ndarray
+        u_ell_prev : 1 x 3 ndarray of ints
             Previous three-phase switch position.
-        k : int
-            Prediction step.
+        ell : int
+            Prediction step. The default is 0.
         J_prev : float
-            Previous cost.
+            Previous cost. The default is 0.
         """
 
         # Iterate over all possible three-phase switch positions
-        for uk in self.SW_COMB:
+        for u_ell in self.SW_COMB:
 
             # Check if switching constraint is violated or cost is infinite
-            if not switching_constraint_violated(conv.nl, uk, u_km1):
+            if not switching_constraint_violated(conv.nl, u_ell, u_ell_prev):
 
                 # Compute the next state
-                x_kp1 = ctr.get_next_state(sys, xk, uk, k)
+                x_ell_next = ctr.get_next_state(sys, x_ell, u_ell, ell)
 
                 # Calculate the cost of reference tracking and control effort
-                y_error = np.linalg.norm(y_ref[k] - np.dot(ctr.C, x_kp1))**2
-                delta_u = ctr.lambda_u * np.linalg.norm(uk - u_km1, ord=1)
-                J_temp = J_prev + y_error + delta_u
+                y_ell_next = np.dot(ctr.C, x_ell_next)
+                y_error = np.linalg.norm(y_ref[ell + 1] - y_ell_next)**2
+                delta_u = np.linalg.norm(u_ell - u_ell_prev, ord=1)
+                J_temp = J_prev + y_error + ctr.lambda_u * delta_u
 
                 # if the cost is smaller than the current minimum cost, continue
                 if J_temp < self.J_min:
 
                     # If not at the last prediction step, move to the next prediction step
-                    if k < ctr.Np - 1:
-                        self.U_temp[3 * k:3 * (k + 1)] = uk
-                        self.solve(sys, conv, ctr, x_kp1, y_ref, uk, k + 1,
-                                   J_temp)
+                    if ell < ctr.Np - 1:
+                        self.U_temp[3 * ell:3 * (ell + 1)] = u_ell
+                        self.solve(sys, conv, ctr, x_ell_next, y_ref, u_ell,
+                                   ell + 1, J_temp)
                     else:
                         # If at the last prediction step, store the three-phase switch position and
                         # update the minimum cost
-                        self.U_temp[3 * k:3 * (k + 1)] = uk
+                        self.U_temp[3 * ell:3 * (ell + 1)] = u_ell
                         self.U_seq = np.copy(self.U_temp)
                         self.J_min = J_temp

@@ -27,7 +27,7 @@ class RLGridMpcCurrCtr:
     solver : solver object
         Solver for model-predictive control.
     vg : 1 x 2 ndarray of floats
-        Grid voltage.
+        Grid voltage [p.u.].
     C : 2 x 2 ndarray of ints
         Output matrix.
     data_sim : dict
@@ -109,11 +109,10 @@ class RLGridMpcCurrCtr:
                           [np.sin(delta_theta), np.cos(delta_theta)]])
 
         # Predict the reference by rotating the current reference
-        y_ref = np.zeros((self.Np, 2))
-        i_ref_temp = ig_ref
-        for k in range(self.Np):
-            y_ref[k, :] = np.dot(R_ref, i_ref_temp)
-            i_ref_temp = y_ref[k, :]
+        y_ref = np.zeros((self.Np + 1, 2))
+        y_ref[0, :] = ig_ref
+        for ell in range(self.Np):
+            y_ref[ell + 1, :] = np.dot(R_ref, y_ref[ell, :])
 
         # Solve the control problem
         uk = self.solver(sys, conv, self, y_ref)
