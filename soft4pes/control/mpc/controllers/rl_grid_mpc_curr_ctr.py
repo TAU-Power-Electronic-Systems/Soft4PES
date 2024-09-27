@@ -1,4 +1,4 @@
-""" Model-predictive control for RL grid."""
+""" Model predictive control for RL grid."""
 
 from types import SimpleNamespace
 import numpy as np
@@ -7,7 +7,7 @@ from soft4pes.utils.conversions import dq_2_alpha_beta
 
 class RLGridMpcCurrCtr:
     """
-    Model-predictive control for RL grid. The controller aims to track
+    Model predictive control (MPC) for RL grid. The controller aims to track
     the grid current in the alpha-beta frame.
 
     Attributes
@@ -17,17 +17,17 @@ class RLGridMpcCurrCtr:
     Np : int
         Prediction horizon.
     Ts : float
-        Sampling time [s].
+        Sampling interval [s].
     u_km1 : 1 x 3 ndarray of ints
-        Previous 3-phase switch position.
+        Previous three-phase switch position.
     i_ref_seq_dq : Sequence
         Current reference sequence in dq-frame [p.u.].
     state_space : SimpleNamespace 
         The state-space model of the system.
     solver : solver object
-        Solver for model-predictive control.
+        Solver for MPC.
     vg : 1 x 2 ndarray of floats
-        Grid voltage.
+        Grid voltage [p.u.].
     C : 2 x 2 ndarray of ints
         Output matrix.
     data_sim : dict
@@ -45,7 +45,7 @@ class RLGridMpcCurrCtr:
         lambda_u : float
             Weighting factor for the control effort.
         Np : int
-            Prediction horizon.
+            Prediction horizon steps.
         Ts : float
             Sampling interval [s].
         i_ref_seq_dq : Sequence
@@ -85,7 +85,7 @@ class RLGridMpcCurrCtr:
         Returns
         -------
         1 x 3 ndarray of floats
-            3-phase switch position or modulating signals.
+            three-phase switch position or modulating signals.
         """
 
         # Get the discrete state-space model of the system
@@ -109,11 +109,10 @@ class RLGridMpcCurrCtr:
                           [np.sin(delta_theta), np.cos(delta_theta)]])
 
         # Predict the reference by rotating the current reference
-        y_ref = np.zeros((self.Np, 2))
-        i_ref_temp = ig_ref
-        for k in range(self.Np):
-            y_ref[k, :] = np.dot(R_ref, i_ref_temp)
-            i_ref_temp = y_ref[k, :]
+        y_ref = np.zeros((self.Np + 1, 2))
+        y_ref[0, :] = ig_ref
+        for ell in range(self.Np):
+            y_ref[ell + 1, :] = np.dot(R_ref, y_ref[ell, :])
 
         # Solve the control problem
         uk = self.solver(sys, conv, self, y_ref)
@@ -134,7 +133,7 @@ class RLGridMpcCurrCtr:
         xk : 1 x 2 ndarray of floats
             The current state of the system.
         uk : 1 x 3 ndarray of ints
-            Converter 3-phase switch position.
+            Converter three-phase switch position.
         k : int
             The solver prediction step.
 
@@ -164,7 +163,7 @@ class RLGridMpcCurrCtr:
         ig_ref : 1 x 2 ndarray of floats
             Current reference in alpha-beta frame.
         u_k : 1 x 3 ndarray of ints
-            Converter 3-phase switch position.
+            Converter three-phase switch position.
         t : float
             Current time [s].
         """
