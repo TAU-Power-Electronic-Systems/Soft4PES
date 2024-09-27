@@ -84,7 +84,7 @@ class MpcEnum:
         y_ref : ndarray of floats
             Reference vector [p.u.].
         u_km1 : 1 x 3 ndarray of ints
-            Three-phase switch position applied at step u(k-1).
+            Three-phase switch position applied at step k-1.
 
 
         Returns
