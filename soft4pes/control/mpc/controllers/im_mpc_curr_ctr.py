@@ -93,31 +93,30 @@ class IMMpcCurrCtr:
         psiR_mag_ref = np.linalg.norm(np.array([sys.x0[2], sys.x0[3]]))
         T_ref = self.T_ref_seq(t)
         T_ref = T_ref[0]
-        is_ref_dq = sys.calc_stator_current(psiR_mag_ref, T_ref)
+        iS_ref_dq = sys.calc_stator_current(psiR_mag_ref, T_ref)
 
         # Get the rotor flux angle and calculate the reference in alpha-beta frame
         theta = np.arctan2(sys.x[3], sys.x[2])
-        i_ref = dq_2_alpha_beta(is_ref_dq, theta)
+        iS_ref = dq_2_alpha_beta(iS_ref_dq, theta)
 
         # Predict the current reference over the prediction horizon
         # Make a rotation matrix
         Ts_pu = self.Ts * sys.base.w
-        delta_theta = sys.wr * Ts_pu
+        delta_theta = sys.w * Ts_pu
         R_ref = np.array([[np.cos(delta_theta), -np.sin(delta_theta)], \
                           [np.sin(delta_theta), np.cos(delta_theta)]])
 
         # Predict the reference by rotating the current reference
-        y_ref = np.zeros((self.Np, 2))
-        i_ref_temp = i_ref
-        for k in range(self.Np):
-            y_ref[k, :] = np.dot(R_ref, i_ref_temp)
-            i_ref_temp = y_ref[k, :]
+        y_ref = np.zeros((self.Np + 1, 2))
+        y_ref[0, :] = iS_ref
+        for ell in range(self.Np):
+            y_ref[ell + 1, :] = np.dot(R_ref, y_ref[ell, :])
 
         # Solve the control problem
         uk = self.solver(sys, conv, self, y_ref)
         self.u_km1 = uk
 
-        self.save_data(i_ref, uk, T_ref, t)
+        self.save_data(iS_ref, uk, T_ref, t)
 
         return uk
 
