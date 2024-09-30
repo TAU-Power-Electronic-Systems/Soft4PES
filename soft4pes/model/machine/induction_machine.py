@@ -123,9 +123,9 @@ class InductionMachine:
         psiR_dq = np.array([np.linalg.norm(psiR_dq), 0])
 
         # Calculate the stator current
-        is_dq = self.calc_stator_current(psiR_dq, T_ref_init)
+        iS_dq = self.calc_stator_current(psiR_dq, T_ref_init)
 
-        iS = dq_2_alpha_beta(is_dq, theta)
+        iS = dq_2_alpha_beta(iS_dq, theta)
         psiR = dq_2_alpha_beta(psiR_dq, theta)
 
         return np.concatenate((iS, psiR))
