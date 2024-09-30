@@ -1,3 +1,8 @@
+"""
+Simulation environment.
+
+"""
+
 from soft4pes.sim.simulation import Simulation
 
 __all__ = [

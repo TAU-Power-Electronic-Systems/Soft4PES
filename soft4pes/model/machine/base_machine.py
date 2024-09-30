@@ -11,6 +11,19 @@ class BaseMachine:
 
     The class computes the base values for a machine based on the rated values.
 
+    Parameters
+    ----------
+    Vr : float
+        Rated voltage of the machine [V] (line-to-line rms voltage).
+    Ir : float
+        Rated current of the machine [A] (line rms current).
+    fr : float
+        Rated frequency [Hz].
+    npp : int
+        Number of pole pairs.
+    pf : float
+        Power factor.
+
     Attributes
     ----------
     V : float
@@ -28,37 +41,9 @@ class BaseMachine:
     T : float
         Base torque [Nm].
 
-    Parameters
-    ----------
-    Vr : float
-        Rated voltage of the machine [V] (line-to-line rms voltage).
-    Ir : float
-        Rated current of the machine [A] (line rms current).
-    fr : float
-        Rated frequency [Hz].
-    npp : int
-        Number of pole pairs.
-    pf : float
-        Power factor.
     """
 
     def __init__(self, Vr, Ir, fr, npp, pf):
-        """
-        Initialize a BaseMachine instance.
-
-        Parameters
-        ----------
-        Vr : float
-            Rated voltage of the machine [V] (line-to-line rms voltage).
-        Ir : float
-            Rated current of the machine [A] (line rms current).
-        fr : float
-            Rated frequency [Hz].
-        npp : int
-            Number of pole pairs.
-        pf : float
-            Power factor.
-        """
         self.V = np.sqrt(2 / 3) * Vr
         self.I = np.sqrt(2) * Ir
         self.w = 2 * np.pi * fr

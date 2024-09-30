@@ -1,12 +1,23 @@
 """ PI current controller for grid-connected converter with RL load """
 
 import numpy as np
-from soft4pes.utils.conversions import alpha_beta_2_dq, dq_2_abc, dq_2_alpha_beta
+from soft4pes.utils import alpha_beta_2_dq, dq_2_abc, dq_2_alpha_beta
 
 
 class RLGridPICurrCtr:
     """
-    PI current controller for grid-connected converter with RL load.
+    PI current controller for grid-connected converter with RL load
+    
+    Parameters
+    ----------
+    sys : system object
+        System model.
+    base : base-value object
+        Base values.
+    Ts : float
+        Sampling interval [s].
+    i_ref_seq_dq : Sequence object
+        Current reference sequence instance in dq-frame [p.u.].
     
     Attributes
     ----------
@@ -30,28 +41,13 @@ class RLGridPICurrCtr:
         Current error instance in d-frame [p.u.].
     integral_error_q : float
         Current error instance in q-frame [p.u.].                               
-    i_ref_seq_dq : Sequence
+    i_ref_seq_dq : Sequence object
         Current reference sequence instance in dq-frame [p.u.].   
     sim_data : dict
         Controller data.
     """
 
     def __init__(self, sys, base, Ts, i_ref_seq_dq):
-        """
-        Initialize a PICurrCtr.
-
-        Parameters
-        ----------
-        sys : system object
-           System model.
-        base : base-value object
-           Base values.
-        Ts : float
-           Sampling interval [s].
-        i_ref_seq_dq : Sequence
-           Current reference sequence instance in dq-frame [p.u.].
-        """
-
         self.Xg = sys.Xg
         self.Rg = sys.Rg
         self.Ts = Ts

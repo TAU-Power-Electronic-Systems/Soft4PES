@@ -1,16 +1,27 @@
-""" State-space current controller with anti-windup scheme 
-    for grid-connected converter with RL load """
+""" State-space current controller with anti-windup scheme for grid-connected converter with 
+    RL load """
 
 from types import SimpleNamespace
 import numpy as np
-from soft4pes.utils.conversions import alpha_beta_2_dq, dq_2_abc, dq_2_alpha_beta
+from soft4pes.utils import alpha_beta_2_dq, dq_2_abc, dq_2_alpha_beta
 
 
 class RLGridStateSpaceCurrCtr:
     """
-    State-space current controller with anti-windup scheme 
-    for grid-connected converter with RL load.
+    State-space current controller with anti-windup scheme for grid-connected converter with 
+    RL load.
     
+    Parameters
+    ----------
+    sys : system object
+        System model.
+    base : base-value object
+        Base values.
+    Ts : float
+        Sampling interval [s].
+    i_ref_seq_dq : Sequence object
+        Current reference sequence instance in dq-frame [p.u.].
+
     Attributes
     ----------
     Rf : float
@@ -27,28 +38,13 @@ class RLGridStateSpaceCurrCtr:
         Converter voltage reference after current controller integrator in dq frame [p.u.].
     uc_km1_dq : 1 x 2 ndarray of floats
         Previous converter voltage reference in dq frame [p.u.].                                    
-    i_ref_seq_dq : Sequence
+    i_ref_seq_dq : Sequence object
         Current reference sequence instance in dq-frame [p.u.].   
     sim_data : dict
         Controller data.
     """
 
     def __init__(self, sys, base, Ts, i_ref_seq_dq):
-        """
-        Initialize a RLGridStateSpaceCurrCtr.
-
-        Parameters
-        ----------
-        sys : system object
-           System model.
-        base : base-value object
-           Base values.
-        Ts : float
-           Sampling interval [s].
-        i_ref_seq_dq : Sequence
-           Current reference sequence instance in dq-frame [p.u.].
-        """
-
         self.Xf = sys.Xg  # Assume the inductances are equal
         self.Rf = sys.Rg  # Assume the resitances are equal
         self.Ts = Ts

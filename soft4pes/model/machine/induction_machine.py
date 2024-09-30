@@ -4,7 +4,7 @@ Induction machine model. The machine operates at a constant electrical angular r
 
 from types import SimpleNamespace
 import numpy as np
-from soft4pes.utils.conversions import dq_2_alpha_beta
+from soft4pes.utils import dq_2_alpha_beta
 
 
 class InductionMachine:
@@ -12,7 +12,31 @@ class InductionMachine:
     Induction machine model operating at a constant electrical angular rotor speed.
     The state of the system is the stator current and rotor flux in the alpha-beta frame, i.e., 
     [iS_alpha, iS_beta, psiR_alpha, psiR_beta]^T. The system input is the converter three-phase 
-    switch position.
+    switch position. The initial state of the model is based on the stator flux magnitude reference 
+    and torque reference.
+
+    Parameters
+    ----------
+    f : float
+        Rated frequency [Hz].
+    pf : float
+        Power factor.
+    Rs : float
+        Stator resistance [Ohm].
+    Rr : float
+        Rotor resistance [Ohm].
+    Lls : float
+        Stator leakage inductance [H].
+    Llr : float
+        Rotor leakage inductance [H].
+    Lm : float
+        Mutual inductance [H].
+    base : base value object
+        Base values.
+    psiS_mag_ref : float
+        Stator flux magnitude reference [p.u.].
+    T_ref_init : float
+        Initial torque reference [p.u.].
 
     Attributes
     ----------
@@ -48,34 +72,6 @@ class InductionMachine:
 
     def __init__(self, f, pf, Rs, Rr, Lls, Llr, Lm, base, psiS_mag_ref,
                  T_ref_init):
-        """
-        Initialize an InductionMachine instance. Set initial state based on the 
-        stator flux magnitude reference and torque reference.
-
-        Parameters
-        ----------
-        f : float
-            Rated frequency [Hz].
-        pf : float
-            Power factor.
-        Rs : float
-            Stator resistance [Ohm].
-        Rr : float
-            Rotor resistance [Ohm].
-        Lls : float
-            Stator leakage inductance [H].
-        Llr : float
-            Rotor leakage inductance [H].
-        Lm : float
-            Mutual inductance [H].
-        base : base value object
-            Base values.
-        psiS_mag_ref : float
-            Stator flux magnitude reference [p.u.].
-        T_ref_init : float
-            Initial torque reference [p.u.].
-        """
-
         self.w = 2 * np.pi * f / base.w
         self.Rs = Rs / base.Z
         self.Rr = Rr / base.Z

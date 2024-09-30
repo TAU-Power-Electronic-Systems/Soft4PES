@@ -4,6 +4,7 @@ __pycache__/
 
 # Environments
 .venv
+.conda
 
 # IDE
 .vscode
@@ -11,3 +12,5 @@ __pycache__/
 # Exclude .mat files made for testing
 *.mat
 
+# Exclude documenation
+docs/build

@@ -2,7 +2,7 @@
 
 from types import SimpleNamespace
 import numpy as np
-from soft4pes.utils.conversions import abc_2_alpha_beta
+from soft4pes.utils import abc_2_alpha_beta
 
 
 class RLGrid:
@@ -11,6 +11,19 @@ class RLGrid:
     The state of the system is the grid current in the alpha-beta frame.
     The system input is the converter 3-phase switch position.
     The grid voltage is considered to be a disturbance.
+
+    Parameters
+    ----------
+    Vgr : float
+        Grid rated voltage [V] (line-to-line rms voltage).
+    fgr : float
+        Grid rated frequency [Hz].
+    Rg : float
+        Resistance [Ohm].
+    Lg : float
+        Inductance [H].
+    base : base value object
+        Base values.
 
     Attributes
     ----------
@@ -31,22 +44,6 @@ class RLGrid:
     """
 
     def __init__(self, Vgr, fgr, Rg, Lg, base):
-        """
-        Initialize a RLGrid instance. Set inital state to zero.
-
-        Parameters
-        ----------
-        Vgr : float
-            Grid rated voltage [V] (line-to-line rms voltage).
-        fgr : float
-            Grid rated frequency [Hz].
-        Rg : float
-            Resistance [Ohm].
-        Lg : float
-            Inductance [H].
-        base : base value object
-            Base values.
-        """
         self.Vgr = Vgr / base.V
         self.wg = 2 * np.pi * fgr / base.w
         self.Rg = Rg / base.Z

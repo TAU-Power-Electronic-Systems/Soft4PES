@@ -9,6 +9,11 @@ class MpcEnum:
     """
     Enumeration-based solver for model predictive control (MPC).
 
+    Parameters
+    ----------
+    conv : converter object
+        Converter model.
+
     Attributes
     ----------
     U_seq : 3*Np x conv.nl^(3*Np) ndarray of ints
@@ -18,15 +23,6 @@ class MpcEnum:
     """
 
     def __init__(self, conv):
-        """
-        Initialize an MpcEnum instance.
-
-        Parameters
-        ----------
-        conv : converter object
-            Converter model.
-        """
-
         self.U_seq = None
         if conv.nl == 2:
             self.sw_pos_3ph = np.array([-1, 1])

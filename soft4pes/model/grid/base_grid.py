@@ -11,6 +11,15 @@ class BaseGrid:
 
     The class computes the base values for a grid based on the rated values.
 
+    Parameters
+    ----------
+    Vgr : float
+        Rated voltage [V] (line-to-line rms voltage).
+    Igr : float
+        Rated current [A] (line rms current).
+    fgr : float
+        Rated frequency [Hz].
+
     Attributes
     ----------
     V : float
@@ -30,19 +39,6 @@ class BaseGrid:
     """
 
     def __init__(self, Vgr: float, Igr: float, fgr: float):
-        """
-        Initialize a BaseGrid instance.
-
-        Parameters
-        ----------
-        Vgr : float
-            Rated voltage [V] (line-to-line rms voltage).
-        Igr : float
-            Rated current [A] (line rms current).
-        fgr : float
-            Rated frequency [Hz].
-        """
-
         self.V = np.sqrt(2 / 3) * Vgr
         self.I = np.sqrt(2) * Igr
         self.w = 2 * np.pi * fgr
