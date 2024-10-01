@@ -25,7 +25,7 @@ class Converter:
     nl : int
         Number of voltage levels in the converter.
     SW_COMB : 3^nl x 3 ndarray of ints
-        Possible converter 3-phase switch positions.
+        Possible converter three-phase switch positions.
     """
 
     def __init__(self, v_dc, nl, base):

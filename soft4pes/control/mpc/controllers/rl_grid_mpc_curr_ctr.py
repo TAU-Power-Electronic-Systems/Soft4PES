@@ -1,4 +1,4 @@
-""" Model predictive control for RL grid."""
+""" Model predictive control (MPC) for RL grid."""
 
 from types import SimpleNamespace
 import numpy as np

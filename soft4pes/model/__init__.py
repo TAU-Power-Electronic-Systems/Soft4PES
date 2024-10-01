@@ -1,5 +1,5 @@
 """
-System models of power electronic systems.
+Models of power electronic systems.
 
 """
 

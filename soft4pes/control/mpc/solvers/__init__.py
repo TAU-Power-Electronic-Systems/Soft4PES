@@ -1,5 +1,5 @@
 """
-Solvers for model predictive control algorithms.
+Solvers for model predictive control (MPC) algorithms.
 
 """
 

@@ -33,7 +33,7 @@ class IMMpcCurrCtr:
     Np : int
         Prediction horizon steps.
     Ts : float
-        Sampling time [s].
+        Sampling interval [s].
     T_ref_seq : Sequence object
         Torque reference sequence [p.u.].
     u_km1 : 1 x 3 ndarray of ints

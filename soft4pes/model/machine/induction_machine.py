@@ -241,7 +241,7 @@ class InductionMachine:
         Parameters
         ----------
         u : 1 x 3 ndarray of floats
-            Converter 3-phase switch position.
+            Converter three-phase switch position.
         matrices : SimpleNamespace
             A SimpleNamespace object containing matrices A and B of the state-space model.
         t : float

@@ -1,5 +1,5 @@
 """
-Model predictive control algorithms and solvers for power electronic systems.
+Model predictive control (MPC) algorithms and solvers for power electronic systems.
 
 """
 

@@ -1,5 +1,5 @@
 """
-Model predictive control for power electronic systems.
+Model predictive control (MPC) for power electronic systems.
 
 """
 

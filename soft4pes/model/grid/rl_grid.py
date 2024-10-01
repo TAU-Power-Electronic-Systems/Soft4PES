@@ -9,7 +9,7 @@ class RLGrid:
     """
     Model of a grid with stiff voltage source and RL-load in alpha-beta frame. 
     The state of the system is the grid current in the alpha-beta frame.
-    The system input is the converter 3-phase switch position.
+    The system input is the converter three-phase switch position.
     The grid voltage is considered to be a disturbance.
 
     Parameters
@@ -124,7 +124,7 @@ class RLGrid:
         Parameters
         ----------
         u : 1 x 3 ndarray of floats
-            Converter 3-phase switch position.
+            Converter three-phase switch position.
         matrices : SimpleNamespace
             A SimpleNamespace object containing matrices A, B1 and B2 of the 
             state-space model.

@@ -227,7 +227,7 @@ class RLGridStateSpaceCurrCtr:
         ig_ref : 1 x 2 ndarray of floats
             Current reference in alpha-beta frame.
         u_k : 1 x 3 ndarray of ints
-            Converter 3-phase switch position.
+            Converter three-phase switch position.
         t : float
             Current time [s].
         """
