@@ -9,6 +9,11 @@ class MpcBnB:
     """
     Branch-and-bound (BnB) solver for model predictive control (MPC).
 
+    Parameters
+    ----------
+    conv : converter object
+        Converter model.
+
     Attributes
     ----------
     J_min : float
@@ -22,14 +27,6 @@ class MpcBnB:
     """
 
     def __init__(self, conv):
-        """
-        Initialize an MpcBnB instance.
-
-        Parameters
-        ----------
-        conv : converter object
-            Converter model.
-        """
         self.J_min = np.inf
         self.U_seq = None
         self.U_temp = None

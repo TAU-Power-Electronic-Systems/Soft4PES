@@ -6,7 +6,8 @@ import numpy as np
 def switching_constraint_violated(nl, uk, u_km1):
     """
     Check if a candidate three-phase switch position violates a switching constraint. 
-    A three-level converter is not allowed to directly switch from -1 and 1 (and vice versa) on one phase. 
+    A three-level converter is not allowed to directly switch from -1 and 1 (and vice versa) 
+    on one phase. 
 
     Parameters
     ----------

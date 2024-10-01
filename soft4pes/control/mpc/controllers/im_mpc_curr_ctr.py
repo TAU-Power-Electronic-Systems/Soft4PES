@@ -2,7 +2,7 @@
 
 from types import SimpleNamespace
 import numpy as np
-from soft4pes.utils.conversions import dq_2_alpha_beta
+from soft4pes.utils import dq_2_alpha_beta
 
 
 class IMMpcCurrCtr:
@@ -10,6 +10,19 @@ class IMMpcCurrCtr:
     Model predictive current control for an induction machine. The controller aims to track
     the stator current in the alpha-beta frame. The current reference is calculated based on the
     torque reference.
+
+    Parameters
+    ----------
+    solver : solver object
+        Solver for an MPC algorithm.
+    lambda_u : float
+        Weighting factor for the control effort.
+    Np : int
+        Prediction horizon.
+    Ts : float
+        Sampling interval [s].
+    T_ref_seq : Sequence object
+        Torque reference sequence [p.u.].
 
     Attributes
     ----------
@@ -20,8 +33,8 @@ class IMMpcCurrCtr:
     Np : int
         Prediction horizon steps.
     Ts : float
-        Sampling time [s].
-    T_ref_seq : Sequence
+        Sampling interval [s].
+    T_ref_seq : Sequence object
         Torque reference sequence [p.u.].
     u_km1 : 1 x 3 ndarray of ints
         Previous three-phase switch position (step k-1).
@@ -34,22 +47,6 @@ class IMMpcCurrCtr:
     """
 
     def __init__(self, solver, lambda_u, Np, Ts, T_ref):
-        """
-        Initialize an IMMpcCurrCtr instance.
-
-        Parameters
-        ----------
-        solver : solver object
-            Solver for an MPC algorithm.
-        lambda_u : float
-            Weighting factor for the control effort.
-        Np : int
-            Prediction horizon.
-        Ts : float
-            Sampling interval [s].
-        T_ref_seq : Sequence
-            Torque reference sequence [p.u.].
-        """
         self.lambda_u = lambda_u
         self.Np = Np
         self.Ts = Ts

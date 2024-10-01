@@ -1,14 +1,27 @@
-""" Model predictive control for RL grid."""
+""" Model predictive control (MPC) for RL grid."""
 
 from types import SimpleNamespace
 import numpy as np
-from soft4pes.utils.conversions import dq_2_alpha_beta
+from soft4pes.utils import dq_2_alpha_beta
 
 
 class RLGridMpcCurrCtr:
     """
     Model predictive control (MPC) for RL grid. The controller aims to track
     the grid current in the alpha-beta frame.
+
+    Parameters
+    ----------
+    solver : solver object
+        Solver for an MPC algorithm.
+    lambda_u : float
+        Weighting factor for the control effort.
+    Np : int
+        Prediction horizon steps.
+    Ts : float
+        Sampling interval [s].
+    i_ref_seq_dq : Sequence object
+        Current reference sequence in dq-frame [p.u.].
 
     Attributes
     ----------
@@ -20,7 +33,7 @@ class RLGridMpcCurrCtr:
         Sampling interval [s].
     u_km1 : 1 x 3 ndarray of ints
         Previous three-phase switch position.
-    i_ref_seq_dq : Sequence
+    i_ref_seq_dq : Sequence object
         Current reference sequence in dq-frame [p.u.].
     state_space : SimpleNamespace 
         The state-space model of the system.
@@ -35,22 +48,6 @@ class RLGridMpcCurrCtr:
     """
 
     def __init__(self, solver, lambda_u, Np, Ts, i_ref_seq_dq):
-        """
-        Initialize an RLGridMpcCurrCtr instance.
-
-        Parameters
-        ----------
-        solver : solver object
-            Solver for an MPC algorithm.
-        lambda_u : float
-            Weighting factor for the control effort.
-        Np : int
-            Prediction horizon steps.
-        Ts : float
-            Sampling interval [s].
-        i_ref_seq_dq : Sequence
-            Current reference sequence in dq-frame [p.u.].
-        """
         self.lambda_u = lambda_u
         self.Np = Np
         self.Ts = Ts

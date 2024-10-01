@@ -1,3 +1,8 @@
+"""
+Software library for power electronic systems.
+
+"""
+
 from soft4pes import control
 from soft4pes import model
 from soft4pes import sim

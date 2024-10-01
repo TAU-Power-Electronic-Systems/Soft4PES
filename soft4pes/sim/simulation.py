@@ -1,5 +1,6 @@
 """
 Simulation environment for power electronic systems. 
+
 """
 
 import numpy as np
@@ -10,6 +11,11 @@ class ProgressPrinter:
     """
     A class used to print the progress of the simulation process.
 
+    Parameters
+    ----------
+    total_steps : int
+        The total number of steps in the process.
+
     Attributes
     ----------
     total_steps : int
@@ -19,12 +25,6 @@ class ProgressPrinter:
     """
 
     def __init__(self, total_steps):
-        """
-        Parameters
-        ----------
-        total_steps : int
-            The total number of steps in the process.
-        """
         self.total_steps = total_steps
         self.last_printed_percent = -5
 
@@ -47,6 +47,17 @@ class Simulation:
     """
     Simulation environment.
 
+    Parameters
+    ----------
+    sys : system object
+        System model.
+    conv : converter object
+        Converter model.
+    ctr : controller object
+        Control system.
+    Ts_sim : float
+        Simulation sampling interval [s].
+
     Attributes
     ----------
     sys : system object
@@ -66,20 +77,6 @@ class Simulation:
     """
 
     def __init__(self, sys, conv, ctr, Ts_sim):
-        """
-        Initialize a Simulation instance.
-
-        Parameters
-        ----------
-        sys : system object
-            System model.
-        conv : converter object
-            Converter model.
-        ctr : controller object
-            Control system.
-        Ts_sim : float
-            Simulation sampling interval [s].
-        """
         self.sys = sys
         self.conv = conv
         self.ctr = ctr

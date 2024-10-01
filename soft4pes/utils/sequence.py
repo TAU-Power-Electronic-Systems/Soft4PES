@@ -1,5 +1,5 @@
 """
-This module contains the Sequence class which is used to generate a sequence of values over time.
+Sequence class can be used to generate a sequence of values over time.
 """
 
 import numpy as np
@@ -7,10 +7,17 @@ import numpy as np
 
 class Sequence:
     """
-    Sequence generator.
+    Sequence class can be used to generate a sequence of values over time.
 
     The time array must be increasing. The output values are interpolated
     between the data points.
+
+    Parameters
+    ----------
+    times : n x 1 ndarray of floats
+        Time values is seconds.
+    values : n x m ndarray of floats
+        Output values.
 
     Attributes
     ----------
@@ -21,17 +28,6 @@ class Sequence:
     """
 
     def __init__(self, times, values):
-        """
-        Initialize a Sequence instance.
-
-        Parameters
-        ----------
-        times : n x 1 ndarray of floats
-            Time values is seconds.
-        values : n x m ndarray of floats
-            Output values.
-        """
-
         self.times = times
         self.values = values
 
