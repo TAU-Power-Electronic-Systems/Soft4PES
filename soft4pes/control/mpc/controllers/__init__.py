@@ -1,5 +1,5 @@
 """
-Model predictive control (MPC) controllers.
+Model predictive control for power electronic systems.
 
 """
 

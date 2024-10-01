@@ -1,5 +1,5 @@
 """
-Utility functions.
+Reference frame transformations and reference sequence generation.
 
 """
 

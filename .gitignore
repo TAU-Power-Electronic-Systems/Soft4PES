@@ -12,5 +12,5 @@ __pycache__/
 # Exclude .mat files made for testing
 *.mat
 
-# Exclude documenation
+# Exclude documentation build
 docs/build

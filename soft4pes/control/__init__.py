@@ -1,5 +1,5 @@
 """
-Model predictive and linear control algorithms for power electronic systems.
+Linear and model predictive control algorithms for power electronic systems.
 
 """
 

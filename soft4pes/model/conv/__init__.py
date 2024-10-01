@@ -1,5 +1,5 @@
 """
-Converter models for power electronic systems.
+Converter model.
 """
 
 from soft4pes.model.conv.converter import Converter

@@ -1,5 +1,5 @@
 """
-Machine models.s
+Machine models.
 """
 
 from soft4pes.model.machine.base_machine import BaseMachine
