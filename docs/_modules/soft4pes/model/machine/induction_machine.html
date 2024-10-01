@@ -1,0 +1,632 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>soft4pes.model.machine.induction_machine &#8212; Soft4PES  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../_static/clipboard.min.js"></script>
+    <script src="../../../../_static/copybutton.js"></script>
+    <script src="../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/soft4pes/model/machine/induction_machine';</script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Soft4PES  documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/index.html">API</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/control/index.html">soft4pes.control</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/index.html">soft4pes.control.lin</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lin_curr_ctr/index.html">soft4pes.control.lin.lin_curr_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/control/mpc/index.html">soft4pes.control.mpc</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/mpc/controllers/index.html">soft4pes.control.mpc.controllers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/mpc/solvers/index.html">soft4pes.control.mpc.solvers</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/model/index.html">soft4pes.model</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/model/conv/index.html">soft4pes.model.conv</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/conv/converter/index.html">soft4pes.model.conv.converter</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/index.html">soft4pes.model.grid</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/base_grid/index.html">soft4pes.model.grid.base_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html">soft4pes.model.grid.rl_grid</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/model/machine/index.html">soft4pes.model.machine</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/machine/base_machine/index.html">soft4pes.model.machine.base_machine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html">soft4pes.model.machine.induction_machine</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/sim/index.html">soft4pes.sim</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../autoapi/soft4pes/sim/simulation/index.html">soft4pes.sim.simulation</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/utils/index.html">soft4pes.utils</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../autoapi/soft4pes/utils/conversions/index.html">soft4pes.utils.conversions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../autoapi/soft4pes/utils/sequence/index.html">soft4pes.utils.sequence</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/TAU-Power-Electronic-Systems/Soft4PES" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for soft4pes.model.machine.induction_machine</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Induction machine model. The machine operates at a constant electrical angular rotor speed.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">SimpleNamespace</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">soft4pes.utils</span> <span class="kn">import</span> <span class="n">dq_2_alpha_beta</span>
+
+
+<div class="viewcode-block" id="InductionMachine"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine">[docs]</a><span class="k">class</span> <span class="nc">InductionMachine</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Induction machine model operating at a constant electrical angular rotor speed.</span>
+<span class="sd">    The state of the system is the stator current and rotor flux in the alpha-beta frame, i.e., </span>
+<span class="sd">    [iS_alpha, iS_beta, psiR_alpha, psiR_beta]^T. The system input is the converter three-phase </span>
+<span class="sd">    switch position. The initial state of the model is based on the stator flux magnitude reference </span>
+<span class="sd">    and torque reference.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    f : float</span>
+<span class="sd">        Rated frequency [Hz].</span>
+<span class="sd">    pf : float</span>
+<span class="sd">        Power factor.</span>
+<span class="sd">    Rs : float</span>
+<span class="sd">        Stator resistance [Ohm].</span>
+<span class="sd">    Rr : float</span>
+<span class="sd">        Rotor resistance [Ohm].</span>
+<span class="sd">    Lls : float</span>
+<span class="sd">        Stator leakage inductance [H].</span>
+<span class="sd">    Llr : float</span>
+<span class="sd">        Rotor leakage inductance [H].</span>
+<span class="sd">    Lm : float</span>
+<span class="sd">        Mutual inductance [H].</span>
+<span class="sd">    base : base value object</span>
+<span class="sd">        Base values.</span>
+<span class="sd">    psiS_mag_ref : float</span>
+<span class="sd">        Stator flux magnitude reference [p.u.].</span>
+<span class="sd">    T_ref_init : float</span>
+<span class="sd">        Initial torque reference [p.u.].</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    w : float</span>
+<span class="sd">        Rated angular frequency [p.u.].</span>
+<span class="sd">    Rs : float</span>
+<span class="sd">        Stator resistance [p.u.].</span>
+<span class="sd">    Rr : float</span>
+<span class="sd">        Rotor resistance [p.u.].</span>
+<span class="sd">    Xls : float</span>
+<span class="sd">        Stator leakage reactance [p.u.].</span>
+<span class="sd">    Xlr : float</span>
+<span class="sd">        Rotor leakage reactance [p.u.].</span>
+<span class="sd">    Xm : float</span>
+<span class="sd">        Mutual reactance [p.u.].</span>
+<span class="sd">    Xs : float</span>
+<span class="sd">        Stator self-reactance [p.u.].</span>
+<span class="sd">    Xr : float</span>
+<span class="sd">        Rotor self-reactance [p.u.].</span>
+<span class="sd">    D : float</span>
+<span class="sd">        Determinant.</span>
+<span class="sd">    kT : float</span>
+<span class="sd">        Torque correction factor (needed to have 1 p.u. nominal torque).</span>
+<span class="sd">    x0 : 1 x 4 ndarray of floats</span>
+<span class="sd">        Initial state of the machine [p.u.].</span>
+<span class="sd">    x : 1 x 4 ndarray of floats</span>
+<span class="sd">        Current state of the machine [p.u.].</span>
+<span class="sd">    base : base value object</span>
+<span class="sd">        Base values.</span>
+<span class="sd">    sim_data : dict</span>
+<span class="sd">        System data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">pf</span><span class="p">,</span> <span class="n">Rs</span><span class="p">,</span> <span class="n">Rr</span><span class="p">,</span> <span class="n">Lls</span><span class="p">,</span> <span class="n">Llr</span><span class="p">,</span> <span class="n">Lm</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">psiS_mag_ref</span><span class="p">,</span>
+                 <span class="n">T_ref_init</span><span class="p">):</span>
+<div class="viewcode-block" id="InductionMachine.w"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.w">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">w</span></div>
+<div class="viewcode-block" id="InductionMachine.Rs"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.Rs">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Rs</span> <span class="o">=</span> <span class="n">Rs</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">Z</span></div>
+<div class="viewcode-block" id="InductionMachine.Rr"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.Rr">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Rr</span> <span class="o">=</span> <span class="n">Rr</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">Z</span></div>
+<div class="viewcode-block" id="InductionMachine.Xls"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.Xls">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Xls</span> <span class="o">=</span> <span class="n">Lls</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">L</span></div>
+<div class="viewcode-block" id="InductionMachine.Xlr"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.Xlr">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Xlr</span> <span class="o">=</span> <span class="n">Llr</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">L</span></div>
+<div class="viewcode-block" id="InductionMachine.Xm"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.Xm">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Xm</span> <span class="o">=</span> <span class="n">Lm</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">L</span></div>
+<div class="viewcode-block" id="InductionMachine.Xs"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.Xs">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Xs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xls</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xm</span></div>
+<div class="viewcode-block" id="InductionMachine.Xr"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.Xr">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Xr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xlr</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xm</span></div>
+<div class="viewcode-block" id="InductionMachine.D"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.D">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">D</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xs</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xr</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xm</span><span class="o">**</span><span class="mi">2</span></div>
+<div class="viewcode-block" id="InductionMachine.kT"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.kT">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">kT</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">pf</span></div>
+
+<div class="viewcode-block" id="InductionMachine.x0"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.x0">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">x0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_initial_state</span><span class="p">(</span><span class="n">psiS_mag_ref</span><span class="p">,</span> <span class="n">T_ref_init</span><span class="p">)</span></div>
+<div class="viewcode-block" id="InductionMachine.x"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.x">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x0</span></div>
+<div class="viewcode-block" id="InductionMachine.base"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.base">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">base</span> <span class="o">=</span> <span class="n">base</span></div>
+
+<div class="viewcode-block" id="InductionMachine.sim_data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.sim_data">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">sim_data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="p">}</span></div>
+
+<div class="viewcode-block" id="InductionMachine.get_initial_state"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.get_initial_state">[docs]</a>    <span class="k">def</span> <span class="nf">get_initial_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">psiS_mag_ref</span><span class="p">,</span> <span class="n">T_ref_init</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates the initial state of the machine based on the torque reference and </span>
+<span class="sd">        stator flux magnitude reference.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        psiS_mag_ref : float</span>
+<span class="sd">            The stator flux magnitude reference [p.u.].</span>
+<span class="sd">        T_ref_init : float</span>
+<span class="sd">            The initial torque reference [p.u.].</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        1 x 4 ndarray</span>
+<span class="sd">            The initial state {iS, psiR} of the machine [p.u.].</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Based on torque reference and stator flux magnitude reference, the rotor</span>
+        <span class="c1"># flux and rotor speed are calculated</span>
+        <span class="n">psiR_dq</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">wr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_steady_state_psir</span><span class="p">(</span><span class="n">psiS_mag_ref</span><span class="p">,</span> <span class="n">T_ref_init</span><span class="p">)</span>
+
+        <span class="c1"># Get the initial angle and align the rotor flux vector with d-axis</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">psiR_dq</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">psiR_dq</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">psiR_dq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">psiR_dq</span><span class="p">),</span> <span class="mi">0</span><span class="p">])</span>
+
+        <span class="c1"># Calculate the stator current</span>
+        <span class="n">iS_dq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calc_stator_current</span><span class="p">(</span><span class="n">psiR_dq</span><span class="p">,</span> <span class="n">T_ref_init</span><span class="p">)</span>
+
+        <span class="n">iS</span> <span class="o">=</span> <span class="n">dq_2_alpha_beta</span><span class="p">(</span><span class="n">iS_dq</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+        <span class="n">psiR</span> <span class="o">=</span> <span class="n">dq_2_alpha_beta</span><span class="p">(</span><span class="n">psiR_dq</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">iS</span><span class="p">,</span> <span class="n">psiR</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="InductionMachine.get_steady_state_psir"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.get_steady_state_psir">[docs]</a>    <span class="k">def</span> <span class="nf">get_steady_state_psir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">psiS_mag_ref</span><span class="p">,</span> <span class="n">T_ref</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates the steady-state rotor flux and rotor speed.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        psiS_mag_ref : float</span>
+<span class="sd">            The stator flux magnitude reference [p.u.].</span>
+<span class="sd">        T_ref : float</span>
+<span class="sd">            The torque reference [p.u.].</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        psiR_dq : 1 x 2 ndarray</span>
+<span class="sd">            The steady-state rotor flux in the dq frame [p.u.].</span>
+<span class="sd">        wr : float</span>
+<span class="sd">            The steady-state (electrical angular) rotor speed [p.u.].</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">D</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">D</span>
+        <span class="n">kT</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kT</span>
+        <span class="n">Xm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xm</span>
+        <span class="n">Xs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xs</span>
+        <span class="n">Rr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Rr</span>
+
+        <span class="c1"># The stator flux is aligned with the d-axis, q-component is zero</span>
+        <span class="n">psiS_d</span> <span class="o">=</span> <span class="n">psiS_mag_ref</span>
+
+        <span class="c1"># Rotor flux in d/q</span>
+        <span class="n">psiR_q</span> <span class="o">=</span> <span class="o">-</span><span class="n">T_ref</span> <span class="o">*</span> <span class="n">D</span> <span class="o">/</span> <span class="p">(</span><span class="n">kT</span> <span class="o">*</span> <span class="n">Xm</span> <span class="o">*</span> <span class="n">psiS_mag_ref</span><span class="p">)</span>
+        <span class="n">Delta</span> <span class="o">=</span> <span class="n">Xm</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">psiS_d</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">Xs</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">psiR_q</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">psiR_d</span> <span class="o">=</span> <span class="p">(</span><span class="n">Xm</span> <span class="o">*</span> <span class="n">psiS_d</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Delta</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">Xs</span><span class="p">)</span>
+        <span class="n">psiR_dq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">psiR_d</span><span class="p">,</span> <span class="n">psiR_q</span><span class="p">])</span>
+
+        <span class="c1"># Slip frequency</span>
+        <span class="n">ws</span> <span class="o">=</span> <span class="o">-</span><span class="n">Rr</span> <span class="o">*</span> <span class="n">Xs</span> <span class="o">*</span> <span class="n">psiR_q</span> <span class="o">/</span> <span class="p">(</span><span class="n">D</span> <span class="o">*</span> <span class="n">psiR_d</span><span class="p">)</span>
+
+        <span class="c1"># (Electrical angular) speed of the rotor</span>
+        <span class="n">wr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">-</span> <span class="n">ws</span>
+
+        <span class="k">return</span> <span class="n">psiR_dq</span><span class="p">,</span> <span class="n">wr</span></div>
+
+<div class="viewcode-block" id="InductionMachine.calc_stator_current"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.calc_stator_current">[docs]</a>    <span class="k">def</span> <span class="nf">calc_stator_current</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">psiR_dq</span><span class="p">,</span> <span class="n">T_ref</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the steady-state stator current.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        psiR_dq : 1 x 2 ndarray</span>
+<span class="sd">            The rotor flux in the dq frame [p.u.].</span>
+<span class="sd">        T_ref : float</span>
+<span class="sd">            The torque reference [p.u.].</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        1 x 2 ndarray</span>
+<span class="sd">            The stator current in the dq frame [p.u.].</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">psiR_mag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">psiR_dq</span><span class="p">)</span>
+
+        <span class="n">iS_d</span> <span class="o">=</span> <span class="n">psiR_mag</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xm</span>
+        <span class="n">iS_q</span> <span class="o">=</span> <span class="n">T_ref</span> <span class="o">/</span> <span class="n">psiR_mag</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xr</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xm</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">kT</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">iS_d</span><span class="p">,</span> <span class="n">iS_q</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="InductionMachine.get_discrete_state_space"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.get_discrete_state_space">[docs]</a>    <span class="k">def</span> <span class="nf">get_discrete_state_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v_dc</span><span class="p">,</span> <span class="n">Ts</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates the discrete-time state-space model of the machine.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        v_dc : float</span>
+<span class="sd">            The converter dc-link voltage [p.u.].</span>
+<span class="sd">        Ts : float</span>
+<span class="sd">            Sampling interval [s].</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        SimpleNamespace</span>
+<span class="sd">            The discrete-time state-space model of the machine.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">wr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wr</span>
+        <span class="n">Rs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Rs</span>
+        <span class="n">Rr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Rr</span>
+        <span class="n">Xr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xr</span>
+        <span class="n">Xm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xm</span>
+        <span class="n">D</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">D</span>
+        <span class="n">tauS</span> <span class="o">=</span> <span class="n">Xr</span> <span class="o">*</span> <span class="n">D</span> <span class="o">/</span> <span class="p">(</span><span class="n">Rs</span> <span class="o">*</span> <span class="n">Xr</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Rr</span> <span class="o">*</span> <span class="n">Xm</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">tauR</span> <span class="o">=</span> <span class="n">Xr</span> <span class="o">/</span> <span class="n">Rr</span>
+
+        <span class="n">Ts_pu</span> <span class="o">=</span> <span class="n">Ts</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">w</span>
+
+        <span class="n">K</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">],</span>
+                                <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]])</span>
+
+        <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">tauS</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Xm</span> <span class="o">/</span> <span class="p">(</span><span class="n">tauR</span> <span class="o">*</span> <span class="n">D</span><span class="p">),</span> <span class="n">wr</span> <span class="o">*</span> <span class="n">Xm</span> <span class="o">/</span> <span class="n">D</span><span class="p">],</span>
+                      <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">tauS</span><span class="p">,</span> <span class="o">-</span><span class="n">wr</span> <span class="o">*</span> <span class="n">Xm</span> <span class="o">/</span> <span class="n">D</span><span class="p">,</span> <span class="n">Xm</span> <span class="o">/</span> <span class="p">(</span><span class="n">tauR</span> <span class="o">*</span> <span class="n">D</span><span class="p">)],</span>
+                      <span class="p">[</span><span class="n">Xm</span> <span class="o">/</span> <span class="n">tauR</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">tauR</span><span class="p">,</span> <span class="o">-</span><span class="n">wr</span><span class="p">],</span>
+                      <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">Xm</span> <span class="o">/</span> <span class="n">tauR</span><span class="p">,</span> <span class="n">wr</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">tauR</span><span class="p">]])</span>
+
+        <span class="n">G</span> <span class="o">=</span> <span class="n">Xr</span> <span class="o">/</span> <span class="n">D</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]),</span>
+                            <span class="n">K</span><span class="p">)</span> <span class="o">*</span> <span class="n">v_dc</span> <span class="o">/</span> <span class="mi">2</span>
+
+        <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="n">F</span> <span class="o">*</span> <span class="n">Ts_pu</span>
+        <span class="n">B</span> <span class="o">=</span> <span class="n">G</span> <span class="o">*</span> <span class="n">Ts_pu</span>
+        <span class="k">return</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">A</span><span class="o">=</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="n">B</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InductionMachine.update_state"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.update_state">[docs]</a>    <span class="k">def</span> <span class="nf">update_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">matrices</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the next state of the machine.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        u : 1 x 3 ndarray of floats</span>
+<span class="sd">            Converter three-phase switch position.</span>
+<span class="sd">        matrices : SimpleNamespace</span>
+<span class="sd">            A SimpleNamespace object containing matrices A and B of the state-space model.</span>
+<span class="sd">        t : float</span>
+<span class="sd">            Current time [s].</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_data</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="n">x_kp1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">matrices</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">matrices</span><span class="o">.</span><span class="n">B</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x_kp1</span></div>
+
+<div class="viewcode-block" id="InductionMachine.save_data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.save_data">[docs]</a>    <span class="k">def</span> <span class="nf">save_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Save system data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        t : float</span>
+<span class="sd">            Current time [s].</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim_data</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim_data</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span></div></div>
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By TAU Power Electronic Systems
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024 TAU Power Electronic Systems.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
