@@ -6,13 +6,15 @@ on:
       - main
   workflow_dispatch:
 
+permissions: write-all
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
       # Checkout the repository
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
 
       # Build the Sphinx documentation
       - name: Build Sphinx documentation
@@ -23,10 +25,11 @@ jobs:
       # Commit documentation changes
       - name: Commit documentation changes
         run: |
-          git clone https://github.com/TAU-Power-Electronic-Systems/Soft4PES.git --branch gh-pages --single-branch gh-pages
-          cp -r docs/build/html* gh-pages/
+          git clone https://github.com/artturuusila/Soft4PES.git --branch gh-pages --single-branch gh-pages
+          mkdir -p gh-pages/docs/
+          cp -r docs/build/html/* gh-pages/docs/
           cd gh-pages
-          touch .nojekyll
+          touch docs/.nojekyll
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add .
