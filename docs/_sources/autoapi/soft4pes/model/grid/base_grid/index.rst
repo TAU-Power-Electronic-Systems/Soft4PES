@@ -5,7 +5,7 @@ soft4pes.model.grid.base_grid
 
 .. autoapi-nested-parse::
 
-   Base values for a grid
+   Base values for a grid.
 
    ..
        !! processed by numpydoc !!
