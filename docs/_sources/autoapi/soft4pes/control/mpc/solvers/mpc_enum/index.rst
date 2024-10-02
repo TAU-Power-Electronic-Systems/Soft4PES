@@ -5,7 +5,7 @@ soft4pes.control.mpc.solvers.mpc_enum
 
 .. autoapi-nested-parse::
 
-   Enumeration based solver for model predictive control (MPC).
+   Enumeration based solver for Model Predictive Control (MPC).
 
    ..
        !! processed by numpydoc !!
