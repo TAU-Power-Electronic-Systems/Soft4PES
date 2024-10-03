@@ -89,7 +89,6 @@ class IMMpcCurrCtr:
         # Get the stator current reference for the current step
         psiR_mag_ref = np.linalg.norm(np.array([sys.x0[2], sys.x0[3]]))
         T_ref = self.T_ref_seq(t)
-        T_ref = T_ref[0]
         iS_ref_dq = sys.calc_stator_current(psiR_mag_ref, T_ref)
 
         # Get the rotor flux angle and calculate the reference in alpha-beta frame
