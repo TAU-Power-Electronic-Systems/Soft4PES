@@ -65,7 +65,7 @@ class RLGridPICurrCtr:
             't': [],
         }
 
-    def __call__(self, sys, conv, t):
+    def __call__(self, sys, conv, kTs):
         """
         Perform control.
 
@@ -75,7 +75,7 @@ class RLGridPICurrCtr:
             System model.
         conv : converter object
             Converter model.
-        t : float
+        kTs : float
             Current time [s].
 
         Returns
@@ -85,10 +85,10 @@ class RLGridPICurrCtr:
         """
 
         # Get the grid voltage
-        vg = sys.get_grid_voltage(t)
+        vg = sys.get_grid_voltage(kTs)
 
         # Get the reference for current step
-        i_ref_dq = self.i_ref_seq_dq(t)
+        i_ref_dq = self.i_ref_seq_dq(kTs)
 
         # Calculate the transformation angle
         theta = np.arctan2(vg[1], vg[0])
@@ -107,7 +107,7 @@ class RLGridPICurrCtr:
 
         # Save controller data
         ig_ref = dq_2_alpha_beta(i_ref_dq, theta)
-        self.save_data(ig_ref, u_k, t)
+        self.save_data(ig_ref, u_k, kTs)
         return np.clip(u_k, -1, 1)  # Ensure modulating signal within -1 and 1
 
     def pi_controller(self, i_dq, i_ref_dq):
@@ -140,7 +140,7 @@ class RLGridPICurrCtr:
 
         return np.array([u_c_d, u_c_q])
 
-    def save_data(self, ig_ref, u_k, t):
+    def save_data(self, ig_ref, u_k, kTs):
         """
         Save controller data.
 
@@ -150,9 +150,9 @@ class RLGridPICurrCtr:
             Current reference in alpha-beta frame.
         u_k : 1 x 3 ndarray of ints
             Converter three-phase switch position.
-        t : float
+        kTs : float
             Current time [s].
         """
         self.sim_data['ig_ref'].append(ig_ref)
         self.sim_data['u'].append(u_k)
-        self.sim_data['t'].append(t)
+        self.sim_data['t'].append(kTs)

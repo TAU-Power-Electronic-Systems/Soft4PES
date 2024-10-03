@@ -92,13 +92,13 @@ class RLGrid:
 
         return SimpleNamespace(A=A, B1=B1, B2=B2)
 
-    def get_grid_voltage(self, t):
+    def get_grid_voltage(self, kTs):
         """
         Get the grid voltage at a specific time instant.
 
         Parameters
         ----------
-        t : float
+        kTs : float
             Current time [s].
 
         Returns
@@ -107,7 +107,7 @@ class RLGrid:
             Grid voltage in alpha-beta frame [p.u.].
         """
 
-        theta = self.wg * (t * self.base.w)
+        theta = self.wg * (kTs * self.base.w)
 
         # Grid peak voltage
         Vg = np.sqrt(2 / 3) * self.Vgr
@@ -117,7 +117,7 @@ class RLGrid:
         vg = abc_2_alpha_beta(vg_abc)
         return vg
 
-    def update_state(self, u, matrices, t):
+    def update_state(self, u, matrices, kTs):
         """
         Get the next state of the grid.
 
@@ -128,6 +128,8 @@ class RLGrid:
         matrices : SimpleNamespace
             A SimpleNamespace object containing matrices A, B1 and B2 of the 
             state-space model.
+        kTs : float
+            Current time [s].
 
         Returns
         -------
@@ -135,13 +137,13 @@ class RLGrid:
             Next state of the grid [p.u.].
         """
 
-        vg = self.get_grid_voltage(t)
-        self.save_data(vg, t)
+        vg = self.get_grid_voltage(kTs)
+        self.save_data(vg, kTs)
         x_kp1 = np.dot(matrices.A, self.x) + np.dot(matrices.B1, u) + np.dot(
             matrices.B2, vg)
         self.x = x_kp1
 
-    def save_data(self, vg, t):
+    def save_data(self, vg, kTs):
         """
         Save system data.
 
@@ -149,10 +151,10 @@ class RLGrid:
         ----------
         vg : 1 x 2 ndarray of floats
             Grid voltage in alpha-beta frame [p.u.].
-        t : float
+        kTs : float
             Current time [s].
         """
 
         self.sim_data['x'].append(self.x)
         self.sim_data['vg'].append(vg)
-        self.sim_data['t'].append(t)
+        self.sim_data['t'].append(kTs)
