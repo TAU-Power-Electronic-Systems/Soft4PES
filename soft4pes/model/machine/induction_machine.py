@@ -234,7 +234,7 @@ class InductionMachine:
         B = G * Ts_pu
         return SimpleNamespace(A=A, B=B)
 
-    def update_state(self, u, matrices, t):
+    def update_state(self, u, matrices, kTs):
         """
         Get the next state of the machine.
 
@@ -244,22 +244,22 @@ class InductionMachine:
             Converter three-phase switch position.
         matrices : SimpleNamespace
             A SimpleNamespace object containing matrices A and B of the state-space model.
-        t : float
+        kTs : float
             Current time [s].
         """
 
-        self.save_data(t)
+        self.save_data(kTs)
         x_kp1 = np.dot(matrices.A, self.x) + np.dot(matrices.B, u)
         self.x = x_kp1
 
-    def save_data(self, t):
+    def save_data(self, kTs):
         """
         Save system data.
 
         Parameters
         ----------
-        t : float
+        kTs : float
             Current time [s].
         """
         self.sim_data['x'].append(self.x)
-        self.sim_data['t'].append(t)
+        self.sim_data['t'].append(kTs)

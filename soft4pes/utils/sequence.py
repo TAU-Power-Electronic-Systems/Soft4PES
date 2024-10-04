@@ -31,14 +31,14 @@ class Sequence:
         self.times = times
         self.values = values
 
-    def __call__(self, t):
+    def __call__(self, kTs):
         """
         Interpolate the output.
 
         Parameters
         ----------
-        t : float
-            Time [s].
+        kTs : float
+            Current time [s].
 
         Returns
         -------
@@ -54,7 +54,7 @@ class Sequence:
         # Perform interpolation for each column
         interpolated_values = []
         for m in range(self.values.shape[1]):
-            inter_value = np.interp(t, self.times, self.values[:, m])
+            inter_value = np.interp(kTs, self.times, self.values[:, m])
             interpolated_values.append(inter_value)
 
         return np.array(interpolated_values)
