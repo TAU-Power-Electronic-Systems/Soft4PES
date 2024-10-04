@@ -1,6 +1,7 @@
 """
-Example of controlling grid current of a resistive inductive grid with direct model predictive 
-control (MPC). The controller aims to track the grid current reference. 
+Example of direct model predictive control (MPC) for a grid-connected power converter. MPC is 
+designed as a current controller, thus the main objective is to track the reference of the grid 
+current.
 """
 
 #pylint: disable=wrong-import-position
@@ -36,7 +37,7 @@ i_ref_dq = Sequence(np.array([0, 0.1, 0.1, 1]),
 # Define solver to be enumeration based
 solver = mpc.solvers.MpcEnum(conv=conv)
 
-# Comment in to use Branch and Bound solver
+# Uncomment to use Branch-and-Bound solver
 # solver = mpc.solvers.MpcBnB(conv=conv)
 
 # Define controller

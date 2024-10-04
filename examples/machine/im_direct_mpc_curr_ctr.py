@@ -1,8 +1,7 @@
 """
-Example of controlling an induction machine with direct model predictive control MPC.
-The controller aims to track the stator current reference. The current reference is calculated based
-on a constant stator flux magnitude reference and a torque reference sequence. The machine operates 
-at a constant (nominal) speed.
+Example of direct model predictive control (MPC) for an induction machine drive system. The 
+controller aims to track the stator current reference calculated based on the reference values of 
+the stator flux magnitude and torque. The machine operates at a constant (nominal) speed.
 """
 
 #pylint: disable=wrong-import-position
@@ -30,7 +29,7 @@ base = model.machine.BaseMachine(Vr=400, Ir=4.4, fr=50, npp=1, pf=0.85)
 # Define torque reference sequence
 T_ref_seq = Sequence(
     np.array([0, 0.1, 0.1, 0.2]),
-    np.array([1, 1, 0.5, 0.5]),
+    np.array([1, 1, 0, 0]),
 )
 
 # Define system models
@@ -50,7 +49,7 @@ conv = model.conv.Converter(v_dc=600, nl=3, base=base)
 # Define solver to be enumeration based
 solver = mpc.solvers.MpcEnum(conv=conv)
 
-# Comment in to use Branch and Bound solver
+# Uncomment to use Branch-and-Bound solver
 # solver = mpc.solvers.MpcBnB(conv=conv)
 
 # Define controller

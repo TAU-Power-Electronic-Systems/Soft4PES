@@ -15,14 +15,14 @@ class Sequence:
     Parameters
     ----------
     times : n x 1 ndarray of floats
-        Time values is seconds.
+        Time instants is seconds.
     values : n x m ndarray of floats
         Output values.
 
     Attributes
     ----------
     times : n x 1 ndarray of floats
-        Time values is seconds.
+        Time instants is seconds.
     values : n x m ndarray of floats
         Output values.
     """
@@ -47,7 +47,7 @@ class Sequence:
 
         """
 
-        # Check if values is one-dimensional
+        # Check if the "values" attribute is one dimensional
         if self.values.ndim == 1:
             return np.interp(t, self.times, self.values)
 

@@ -1,6 +1,6 @@
 """
-Example of controlling grid current of a resistive inductive grid with a linear state-space 
-controller. The controller aims to track the grid current reference.
+Example of state-space control for a grid-connected power converter. The controllers objective is to
+track the reference of the grid current.
 """
 
 #pylint: disable=wrong-import-position
@@ -35,9 +35,9 @@ i_ref_dq = Sequence(np.array([0, 1]), np.array([[1, 0], [1, 0]]))
 # Define controller
 ctr = RLGridStateSpaceCurrCtr(sys=sys,
                               base=base,
-                              Ts=10e-6,
+                              Ts=100e-6,
                               i_ref_seq_dq=i_ref_dq)
 
 # Simulate the system
-sim = Simulation(sys=sys, conv=conv, ctr=ctr, Ts_sim=10e-6)
+sim = Simulation(sys=sys, conv=conv, ctr=ctr, Ts_sim=5e-6)
 sim.simulate(t_stop=0.2)
