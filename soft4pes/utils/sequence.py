@@ -15,14 +15,14 @@ class Sequence:
     Parameters
     ----------
     times : n x 1 ndarray of floats
-        Time values is seconds.
+        Time instants is seconds.
     values : n x m ndarray of floats
         Output values.
 
     Attributes
     ----------
     times : n x 1 ndarray of floats
-        Time values is seconds.
+        Time instants is seconds.
     values : n x m ndarray of floats
         Output values.
     """
@@ -46,9 +46,13 @@ class Sequence:
             Interpolated output.
 
         """
-        interpolated_values = []
+
+        # Check if the "values" attribute is one dimensional
+        if self.values.ndim == 1:
+            return np.interp(t, self.times, self.values)
 
         # Perform interpolation for each column
+        interpolated_values = []
         for m in range(self.values.shape[1]):
             inter_value = np.interp(kTs, self.times, self.values[:, m])
             interpolated_values.append(inter_value)
