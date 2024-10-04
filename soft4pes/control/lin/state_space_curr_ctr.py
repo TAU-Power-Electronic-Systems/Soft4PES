@@ -60,7 +60,7 @@ class RLGridStateSpaceCurrCtr:
             't': [],
         }
 
-    def __call__(self, sys, conv, t):
+    def __call__(self, sys, conv, kTs):
         """
         Perform control.
 
@@ -70,7 +70,7 @@ class RLGridStateSpaceCurrCtr:
             System model.
         conv : converter object
             Converter model.
-        t : float
+        kTs : float
             Current time [s].
 
         Returns
@@ -79,10 +79,10 @@ class RLGridStateSpaceCurrCtr:
             Modulating signal.
         """
 
-        vg = sys.get_grid_voltage(t)
+        vg = sys.get_grid_voltage(kTs)
 
         # Get the reference for current step
-        ic_ref_dq = self.i_ref_seq_dq(t)
+        ic_ref_dq = self.i_ref_seq_dq(kTs)
 
         # Calculate the transformation angle
         theta = np.arctan2(vg[1], vg[0])
@@ -106,7 +106,7 @@ class RLGridStateSpaceCurrCtr:
 
         # Save controller data
         ig_ref = dq_2_alpha_beta(ic_ref_dq, theta)
-        self.save_data(ig_ref, u_k, t)
+        self.save_data(ig_ref, u_k, kTs)
 
         return u_k
 
@@ -218,7 +218,7 @@ class RLGridStateSpaceCurrCtr:
 
         return uc_ref_dq
 
-    def save_data(self, ig_ref, u_k, t):
+    def save_data(self, ig_ref, u_k, kTs):
         """
         Save controller data.
 
@@ -228,9 +228,9 @@ class RLGridStateSpaceCurrCtr:
             Current reference in alpha-beta frame.
         u_k : 1 x 3 ndarray of ints
             Converter three-phase switch position.
-        t : float
+        kTs : float
             Current time [s].
         """
         self.sim_data['ig_ref'].append(ig_ref)
         self.sim_data['u'].append(u_k)
-        self.sim_data['t'].append(t)
+        self.sim_data['t'].append(kTs)

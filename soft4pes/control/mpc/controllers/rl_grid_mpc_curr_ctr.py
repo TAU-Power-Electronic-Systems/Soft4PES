@@ -66,7 +66,7 @@ class RLGridMpcCurrCtr:
             't': [],
         }
 
-    def __call__(self, sys, conv, t):
+    def __call__(self, sys, conv, kTs):
         """
         Perform MPC and save the controller data.
 
@@ -76,7 +76,7 @@ class RLGridMpcCurrCtr:
             System model.
         conv : converter object
             Converter model.
-        t : float
+        kTs : float
             Current time [s].
 
         Returns
@@ -89,10 +89,10 @@ class RLGridMpcCurrCtr:
         self.state_space = sys.get_discrete_state_space(conv.v_dc, self.Ts)
 
         # Get the grid voltage and save it for future use
-        self.vg = sys.get_grid_voltage(t)
+        self.vg = sys.get_grid_voltage(kTs)
 
         # Get the reference for current step
-        i_ref_dq = self.i_ref_seq_dq(t)
+        i_ref_dq = self.i_ref_seq_dq(kTs)
 
         # Get the grid-voltage angle and calculate the reference in alpha-beta frame
         theta = np.arctan2(self.vg[1], self.vg[0])
@@ -115,7 +115,7 @@ class RLGridMpcCurrCtr:
         uk = self.solver(sys, conv, self, y_ref)
         self.u_km1 = uk
 
-        self.save_data(ig_ref, uk, t)
+        self.save_data(ig_ref, uk, kTs)
 
         return uk
 
@@ -151,7 +151,7 @@ class RLGridMpcCurrCtr:
         return np.dot(self.state_space.A, xk) + np.dot(
             self.state_space.B1, uk) + np.dot(self.state_space.B2, vg_k)
 
-    def save_data(self, ig_ref, u_k, t):
+    def save_data(self, ig_ref, u_k, kTs):
         """
         Save controller data.
 
@@ -161,9 +161,9 @@ class RLGridMpcCurrCtr:
             Current reference in alpha-beta frame.
         u_k : 1 x 3 ndarray of ints
             Converter three-phase switch position.
-        t : float
+        kTs : float
             Current time [s].
         """
         self.sim_data['ig_ref'].append(ig_ref)
         self.sim_data['u'].append(u_k)
-        self.sim_data['t'].append(t)
+        self.sim_data['t'].append(kTs)

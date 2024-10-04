@@ -101,25 +101,24 @@ class Simulation:
         Parameters
         ----------
         t_stop : float
-            Simulation length [s]. Simulation start time is always 0 s.
+            Simulation length [s]. Simulation start time is always 0 s, i.e. kTs = 0.
         """
 
         progress_printer = ProgressPrinter(int(t_stop / self.ctr.Ts))
         self.t_stop = t_stop
-        t = 0
 
-        for i in range(int(self.t_stop / self.ctr.Ts)):
+        for k in range(int(self.t_stop / self.ctr.Ts)):
 
             # Execute the controller
-            u = self.ctr(self.sys, self.conv, t)
+            kTs = k * self.ctr.Ts
+            u = self.ctr(self.sys, self.conv, kTs)
 
-            for _ in range(int(self.ctr.Ts / self.Ts_sim)):
+            for k_sim in range(int(self.ctr.Ts / self.Ts_sim)):
 
-                self.sys.update_state(u, self.matrices, t)
+                kTs_sim = kTs + k_sim * self.Ts_sim
+                self.sys.update_state(u, self.matrices, kTs_sim)
 
-                t = t + self.Ts_sim
-
-            progress_printer(i)
+            progress_printer(k)
 
         self.simulation_data = {
             'ctr': self.ctr.sim_data,

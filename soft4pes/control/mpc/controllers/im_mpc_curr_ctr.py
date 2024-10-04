@@ -65,7 +65,7 @@ class IMMpcCurrCtr:
             'T_ref': [],
         }
 
-    def __call__(self, sys, conv, t):
+    def __call__(self, sys, conv, kTs):
         """
         Perform MPC.
 
@@ -75,7 +75,7 @@ class IMMpcCurrCtr:
             System model.
         conv : converter object
             Converter model.
-        t : float
+        kTs : float
             Current time [s].
 
         Returns
@@ -88,7 +88,7 @@ class IMMpcCurrCtr:
 
         # Get the stator current reference for the current step
         psiR_mag_ref = np.linalg.norm(np.array([sys.x0[2], sys.x0[3]]))
-        T_ref = self.T_ref_seq(t)
+        T_ref = self.T_ref_seq(kTs)
         T_ref = T_ref[0]
         iS_ref_dq = sys.calc_stator_current(psiR_mag_ref, T_ref)
 
@@ -113,7 +113,7 @@ class IMMpcCurrCtr:
         uk = self.solver(sys, conv, self, y_ref)
         self.u_km1 = uk
 
-        self.save_data(iS_ref, uk, T_ref, t)
+        self.save_data(iS_ref, uk, T_ref, kTs)
 
         return uk
 
@@ -140,7 +140,7 @@ class IMMpcCurrCtr:
 
         return np.dot(self.state_space.A, xk) + np.dot(self.state_space.B, uk)
 
-    def save_data(self, iS_ref, u_k, T_ref, t):
+    def save_data(self, iS_ref, u_k, T_ref, kTs):
         """
         Save controller data.
 
@@ -150,10 +150,10 @@ class IMMpcCurrCtr:
             Current reference in alpha-beta frame [p.u.].
         u_k : 1 x 3 ndarray of ints
             Converter three-phase switch position.
-        t : float
+        kTs : float
             Current time [s].
         """
         self.sim_data['iS_ref'].append(iS_ref)
         self.sim_data['u'].append(u_k)
         self.sim_data['T_ref'].append(T_ref)
-        self.sim_data['t'].append(t)
+        self.sim_data['t'].append(kTs)
