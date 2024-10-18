@@ -36,8 +36,8 @@ class IMMpcCurrCtr:
         Sampling interval [s].
     T_ref_seq : Sequence object
         Torque reference sequence [p.u.].
-    u_km1 : 1 x 3 ndarray of ints
-        Previous three-phase switch position (step k-1).
+    u_km1_abc : 1 x 3 ndarray of floats
+        Previous (step k-1) three-phase switch position or modulating signal.
     state_space : SimpleNamespace 
         The state-space model of the system.
     C : 2 x 4 ndarray of ints
@@ -50,7 +50,7 @@ class IMMpcCurrCtr:
         self.lambda_u = lambda_u
         self.Np = Np
         self.Ts = Ts
-        self.u_km1 = np.array([0, 0, 0])
+        self.u_km1_abc = np.array([0, 0, 0])
         self.T_ref_seq = T_ref
         self.state_space = SimpleNamespace()
         self.solver = solver
@@ -76,7 +76,7 @@ class IMMpcCurrCtr:
         conv : converter object
             Converter model.
         kTs : float
-            Current time [s].
+            Current discrete time instant [s].
 
         Returns
         -------
@@ -86,12 +86,9 @@ class IMMpcCurrCtr:
 
         self.state_space = sys.get_discrete_state_space(conv.v_dc, self.Ts)
 
-        # Get the stator current reference for the current step
-        psiR_mag_ref = np.linalg.norm(np.array([sys.x0[2], sys.x0[3]]))
-
         T_ref = self.T_ref_seq(kTs)
-        
-        iS_ref_dq = sys.calc_stator_current(psiR_mag_ref, T_ref)
+
+        iS_ref_dq = sys.calc_stator_current(sys.psiR_mag_ref, T_ref)
 
         # Get the rotor flux angle and calculate the reference in alpha-beta frame
         theta = np.arctan2(sys.x[3], sys.x[2])
@@ -111,14 +108,14 @@ class IMMpcCurrCtr:
             y_ref[ell + 1, :] = np.dot(R_ref, y_ref[ell, :])
 
         # Solve the control problem
-        uk = self.solver(sys, conv, self, y_ref)
-        self.u_km1 = uk
+        uk_abc = self.solver(sys, conv, self, y_ref)
+        self.u_km1_abc = uk_abc
 
-        self.save_data(iS_ref, uk, T_ref, kTs)
+        self.save_data(iS_ref, uk_abc, T_ref, kTs)
 
-        return uk
+        return uk_abc
 
-    def get_next_state(self, sys, xk, uk, k):
+    def get_next_state(self, sys, xk, uk_abc, k):
         """
         Calculate the next state of the system.
 
@@ -128,8 +125,8 @@ class IMMpcCurrCtr:
             The system object, not used in this method.
         xk : 1 x 2 ndarray of floats
             The current state of the system [p.u.] (step k).
-        uk : 1 x 3 ndarray of ints
-            Converter three-phase switch position.
+        uk_abc : 1 x 3 ndarray of floats
+            Converter three-phase switch position or modulating signal.
         k : int
             The solver prediction step. Not used in this method.
 
@@ -139,9 +136,10 @@ class IMMpcCurrCtr:
             The next state of the system [p.u.] (step k+1).
         """
 
-        return np.dot(self.state_space.A, xk) + np.dot(self.state_space.B, uk)
+        return np.dot(self.state_space.A, xk) + np.dot(self.state_space.B,
+                                                       uk_abc)
 
-    def save_data(self, iS_ref, u_k, T_ref, kTs):
+    def save_data(self, iS_ref, uk_abc, T_ref, kTs):
         """
         Save controller data.
 
@@ -149,12 +147,12 @@ class IMMpcCurrCtr:
         ----------
         iS_ref : 1 x 2 ndarray of floats
             Current reference in alpha-beta frame [p.u.].
-        u_k : 1 x 3 ndarray of ints
-            Converter three-phase switch position.
+        uk_abc : 1 x 3 ndarray of floats
+            Converter three-phase switch position or modulating signal.
         kTs : float
-            Current time [s].
+            Current discrete time instant [s].
         """
         self.sim_data['iS_ref'].append(iS_ref)
-        self.sim_data['u'].append(u_k)
+        self.sim_data['u'].append(uk_abc)
         self.sim_data['T_ref'].append(T_ref)
         self.sim_data['t'].append(kTs)

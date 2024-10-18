@@ -111,25 +111,16 @@ class Simulation:
 
             # Execute the controller
             kTs = k * self.ctr.Ts
-            u = self.ctr(self.sys, self.conv, kTs)
+            uk_abc = self.ctr(self.sys, self.conv, kTs)
 
             for k_sim in range(int(self.ctr.Ts / self.Ts_sim)):
 
                 kTs_sim = kTs + k_sim * self.Ts_sim
-                self.sys.update_state(u, self.matrices, kTs_sim)
+                self.sys.update_state(self.matrices, uk_abc, kTs_sim)
 
             progress_printer(k)
 
-        self.simulation_data = {
-            'ctr': self.ctr.sim_data,
-            'sys': self.sys.sim_data
-        }
-
-        # The data is stored as lists, as they offer faster appending of values.
-        # Convert lists to numpy arrays for easier post-processing.
-        for _, value1 in self.simulation_data.items():
-            for key2, value2 in value1.items():
-                value1[key2] = np.array(value2)
+        self.simulation_data = {'ctr': self.ctr.sim_data, 'sys': self.sys.data}
 
         # Save the simulation data to a .mat file
         savemat('examples/sim.mat', self.simulation_data)

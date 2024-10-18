@@ -3,14 +3,16 @@
 from types import SimpleNamespace
 import numpy as np
 from soft4pes.utils import abc_2_alpha_beta
+from soft4pes.model.common.system_model import SystemModel
+from soft4pes.utils.conversions import dq_2_alpha_beta
 
 
-class RLGrid:
+class RLGrid(SystemModel):
     """
-    Model of a grid with stiff voltage source and RL-load in alpha-beta frame. 
-    The state of the system is the grid current in the alpha-beta frame.
-    The system input is the converter three-phase switch position.
-    The grid voltage is considered to be a disturbance.
+    Model of a grid with stiff voltage source and RL-load in alpha-beta frame. The state of the 
+    system is the grid current in the alpha-beta frame. The system input is the converter 
+    three-phase switch position or modulating signal. The grid voltage is considered to be a 
+    disturbance.
 
     Parameters
     ----------
@@ -24,6 +26,8 @@ class RLGrid:
         Inductance [H].
     base : base value object
         Base values.
+    ig_ref_init : 1 x 2 ndarray of floats, optional
+        Reference at discrete time instant kTs = 0 for starting simulation from steady state.
 
     Attributes
     ----------
@@ -39,41 +43,36 @@ class RLGrid:
         Current state of the grid [p.u.].
     base : base value object
         Base values.
-    data_sim : dict
-        System data.
     """
 
-    def __init__(self, Vgr, fgr, Rg, Lg, base):
+    def __init__(self, Vgr, fgr, Rg, Lg, base, ig_ref_init=None):
+        super().__init__()
         self.Vgr = Vgr / base.V
         self.wg = 2 * np.pi * fgr / base.w
         self.Rg = Rg / base.Z
         self.Xg = Lg / base.L
-        self.x = np.array([0, 0])
         self.base = base
-        self.sim_data = {
-            'x': [],
-            'vg': [],
-            't': [],
-        }
+        self.set_initial_state(ig_ref_init=ig_ref_init)
 
-    def get_discrete_state_space(self, v_dc, Ts):
+    def set_initial_state(self, **kwargs):
         """
-        Get the discrete state-space model of the grid in alpha-beta frame.
-        Discretization is done using the forward Euler method.
+        Set the initial state of the system based on the grid current reference, if provided.
 
         Parameters
         ----------
-        v_dc : float
-            Converter dc-link voltage [p.u.].
-        Ts : float
-            Sampling interval [s].
-
-        Returns
-        -------
-        SimpleNamespace
-            A SimpleNamespace object containing matrices A, B1 and B2 of the 
-            state-space model. 
+        ig_ref_init : 1 x 2 ndarray of floats, optional
+            Reference at discrete time instant kTs = 0 for starting simulation from steady state.
         """
+
+        ig_ref_init = kwargs.get('ig_ref_init')
+        if ig_ref_init is not None:
+            vg = self.get_grid_voltage(0)
+            theta = np.arctan2(vg[1], vg[0])
+            self.x = dq_2_alpha_beta(ig_ref_init, theta)
+        else:
+            self.x = np.zeros(2)
+
+    def get_discrete_state_space(self, v_dc, Ts):
         Rg = self.Rg
         Xg = self.Xg
         Ts = Ts * self.base.w
@@ -94,12 +93,12 @@ class RLGrid:
 
     def get_grid_voltage(self, kTs):
         """
-        Get the grid voltage at a specific time instant.
+        Get the grid voltage at a specific discrete time instant.
 
         Parameters
         ----------
         kTs : float
-            Current time [s].
+            Current discrete time instant [s].
 
         Returns
         -------
@@ -117,44 +116,9 @@ class RLGrid:
         vg = abc_2_alpha_beta(vg_abc)
         return vg
 
-    def update_state(self, u, matrices, kTs):
-        """
-        Get the next state of the grid.
-
-        Parameters
-        ----------
-        u : 1 x 3 ndarray of floats
-            Converter three-phase switch position.
-        matrices : SimpleNamespace
-            A SimpleNamespace object containing matrices A, B1 and B2 of the 
-            state-space model.
-        kTs : float
-            Current time [s].
-
-        Returns
-        -------
-        1 x 2 ndarray of floats
-            Next state of the grid [p.u.].
-        """
-
+    def update_state(self, matrices, uk_abc, kTs):
         vg = self.get_grid_voltage(kTs)
-        self.save_data(vg, kTs)
-        x_kp1 = np.dot(matrices.A, self.x) + np.dot(matrices.B1, u) + np.dot(
-            matrices.B2, vg)
-        self.x = x_kp1
-
-    def save_data(self, vg, kTs):
-        """
-        Save system data.
-
-        Parameters
-        ----------
-        vg : 1 x 2 ndarray of floats
-            Grid voltage in alpha-beta frame [p.u.].
-        kTs : float
-            Current time [s].
-        """
-
-        self.sim_data['x'].append(self.x)
-        self.sim_data['vg'].append(vg)
-        self.sim_data['t'].append(kTs)
+        x_kp1 = np.dot(matrices.A, self.x) + np.dot(
+            matrices.B1, uk_abc) + np.dot(matrices.B2, vg)
+        meas = SimpleNamespace(vg=vg)
+        super().update(x_kp1, uk_abc, kTs, meas)

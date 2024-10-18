@@ -38,7 +38,7 @@ class Sequence:
         Parameters
         ----------
         kTs : float
-            Current time [s].
+            Current discrete time instant [s].
 
         Returns
         -------
@@ -49,7 +49,7 @@ class Sequence:
 
         # Check if the "values" attribute is one dimensional
         if self.values.ndim == 1:
-            return np.interp(t, self.times, self.values)
+            return np.interp(kTs, self.times, self.values)
 
         # Perform interpolation for each column
         interpolated_values = []

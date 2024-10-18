@@ -47,7 +47,7 @@ class MpcEnum:
 
         Returns
         -------
-        uk : 1 x 3 ndarray of ints
+        uk_abc : 1 x 3 ndarray of ints
             The three-phase switch position with the lowest cost.
         """
 
@@ -56,14 +56,14 @@ class MpcEnum:
             self.U_seq = np.array(
                 list(product(self.sw_pos_3ph, repeat=3 * ctr.Np)))
 
-        J = self.solve(sys, conv, ctr, sys.x, y_ref, ctr.u_km1)
+        J = self.solve(sys, conv, ctr, sys.x, y_ref, ctr.u_km1_abc)
 
         # Find the switching sequences with the lowest cost
         min_index = np.argmin(J)
-        uk = self.U_seq[min_index, 0:3]
-        return uk
+        uk_abc = self.U_seq[min_index, 0:3]
+        return uk_abc
 
-    def solve(self, sys, conv, ctr, xk, y_ref, u_km1):
+    def solve(self, sys, conv, ctr, xk, y_ref, u_km1_abc):
         """
         Recursively compute the cost for different switching sequences
 
@@ -79,7 +79,7 @@ class MpcEnum:
             Current state vector [p.u.].
         y_ref : ndarray of floats
             Reference vector [p.u.].
-        u_km1 : 1 x 3 ndarray of ints
+        u_km1_abc : 1 x 3 ndarray of ints
             Three-phase switch position applied at step k-1.
 
 
@@ -95,30 +95,30 @@ class MpcEnum:
         # Iterate over all possible switching sequences and three-phase switch positionss
         for i, u_seq in enumerate(self.U_seq):
             for ell in range(ctr.Np):
-                u_ell = u_seq[3 * ell:3 * (ell + 1)]
+                u_ell_abc = u_seq[3 * ell:3 * (ell + 1)]
 
                 # Update the state and the previous three-phase switch position
                 if ell == 0:
-                    u_ell_prev = u_km1
+                    u_ell_abc_prev = u_km1_abc
                     x_ell = xk
                 else:
                     x_ell = x_ell_next
-                    u_ell_prev = u_seq[3 * (ell - 1):3 * ell]
+                    u_ell_abc_prev = u_seq[3 * (ell - 1):3 * ell]
 
                 # Check if switching constraint is violated or the cost is already infinite
-                if switching_constraint_violated(conv.nl, u_ell,
-                                                 u_ell_prev) or J[i] == np.inf:
+                if switching_constraint_violated(
+                        conv.nl, u_ell_abc, u_ell_abc_prev) or J[i] == np.inf:
                     # Set the cost to infinity and the next state to infinity
                     J[i] = np.inf
                     x_ell_next = np.full_like(x_ell, np.inf)
                 else:
                     # Compute the next state
-                    x_ell_next = ctr.get_next_state(sys, x_ell, u_ell, ell)
+                    x_ell_next = ctr.get_next_state(sys, x_ell, u_ell_abc, ell)
 
                     # Calculate the cost of the reference tracking and the control effort
                     y_ell_next = np.dot(ctr.C, x_ell_next)
                     y_error = np.linalg.norm(y_ref[ell + 1] - y_ell_next)**2
-                    delta_u = np.linalg.norm(u_ell - u_ell_prev, ord=1)
+                    delta_u = np.linalg.norm(u_ell_abc - u_ell_abc_prev, ord=1)
                     J[i] += y_error + ctr.lambda_u * delta_u
 
         return J
