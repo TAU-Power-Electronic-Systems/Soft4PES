@@ -18,20 +18,8 @@ class InductionMachine(SystemModel):
 
     Parameters
     ----------
-    f : float
-        Rated frequency [Hz].
-    pf : float
-        Power factor.
-    Rs : float
-        Stator resistance [Ohm].
-    Rr : float
-        Rotor resistance [Ohm].
-    Lls : float
-        Stator leakage inductance [H].
-    Llr : float
-        Rotor leakage inductance [H].
-    Lm : float
-        Mutual inductance [H].
+    par : InductionMachineParameters
+        Induction machine parameters in p.u..
     base : base value object
         Base values.
     psiS_mag_ref : float
@@ -41,26 +29,8 @@ class InductionMachine(SystemModel):
 
     Attributes
     ----------
-    w : float
-        Rated angular frequency [p.u.].
-    Rs : float
-        Stator resistance [p.u.].
-    Rr : float
-        Rotor resistance [p.u.].
-    Xls : float
-        Stator leakage reactance [p.u.].
-    Xlr : float
-        Rotor leakage reactance [p.u.].
-    Xm : float
-        Mutual reactance [p.u.].
-    Xs : float
-        Stator self-reactance [p.u.].
-    Xr : float
-        Rotor self-reactance [p.u.].
-    D : float
-        Determinant.
-    kT : float
-        Torque correction factor (needed to have 1 p.u. nominal torque).
+    par : InductionMachineParameters
+        Induction machine parameters in p.u..
     base : base value object
         Base values.
     x : 1 x 4 ndarray of floats
@@ -69,19 +39,9 @@ class InductionMachine(SystemModel):
         Rotor flux magnitude reference [p.u.].
     """
 
-    def __init__(self, f, pf, Rs, Rr, Lls, Llr, Lm, base, psiS_mag_ref,
-                 T_ref_init):
+    def __init__(self, par, base, psiS_mag_ref, T_ref_init):
         super().__init__()
-        self.w = 2 * np.pi * f / base.w
-        self.Rs = Rs / base.Z
-        self.Rr = Rr / base.Z
-        self.Xls = Lls / base.L
-        self.Xlr = Llr / base.L
-        self.Xm = Lm / base.L
-        self.Xs = self.Xls + self.Xm
-        self.Xr = self.Xlr + self.Xm
-        self.D = self.Xs * self.Xr - self.Xm**2
-        self.kT = 1 / pf
+        self.par = par
         self.base = base
         self.set_initial_state(psiS_mag_ref=psiS_mag_ref,
                                T_ref_init=T_ref_init)
@@ -138,11 +98,11 @@ class InductionMachine(SystemModel):
             The steady-state (electrical angular) rotor speed [p.u.].
         """
 
-        D = self.D
-        kT = self.kT
-        Xm = self.Xm
-        Xs = self.Xs
-        Rr = self.Rr
+        D = self.par.D
+        kT = self.par.kT
+        Xm = self.par.Xm
+        Xs = self.par.Xs
+        Rr = self.par.Rr
 
         # The stator flux is aligned with the d-axis, q-component is zero
         psiS_d = psiS_mag_ref
@@ -157,7 +117,7 @@ class InductionMachine(SystemModel):
         ws = -Rr * Xs * psiR_q / (D * psiR_d)
 
         # (Electrical angular) speed of the rotor
-        wr = self.w - ws
+        wr = self.par.w - ws
 
         return psiR_dq, wr
 
@@ -180,17 +140,17 @@ class InductionMachine(SystemModel):
 
         psiR_mag = np.linalg.norm(psiR_dq)
 
-        iS_d = psiR_mag / self.Xm
-        iS_q = T_ref / psiR_mag * self.Xr / self.Xm / self.kT
+        iS_d = psiR_mag / self.par.Xm
+        iS_q = T_ref / psiR_mag * self.par.Xr / self.par.Xm / self.par.kT
         return np.array([iS_d, iS_q])
 
     def get_discrete_state_space(self, v_dc, Ts):
         wr = self.wr
-        Rs = self.Rs
-        Rr = self.Rr
-        Xr = self.Xr
-        Xm = self.Xm
-        D = self.D
+        Rs = self.par.Rs
+        Rr = self.par.Rr
+        Xr = self.par.Xr
+        Xm = self.par.Xm
+        D = self.par.D
         tauS = Xr * D / (Rs * Xr**2 + Rr * Xm**2)
         tauR = Xr / Rr
 
@@ -215,7 +175,7 @@ class InductionMachine(SystemModel):
     def Te(self):
         iS = self.x[0:2]
         psiR = self.x[2:4]
-        return self.kT * (self.Xm / self.Xr) * np.cross(psiR, iS)
+        return self.par.kT * (self.par.Xm / self.par.Xr) * np.cross(psiR, iS)
 
     def update_state(self, matrices, uk_abc, kTs):
         meas = SimpleNamespace(Te=self.Te)
