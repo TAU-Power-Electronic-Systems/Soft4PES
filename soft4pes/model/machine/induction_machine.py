@@ -40,9 +40,7 @@ class InductionMachine(SystemModel):
     """
 
     def __init__(self, par, base, psiS_mag_ref, T_ref_init):
-        super().__init__()
-        self.par = par
-        self.base = base
+        super().__init__(par=par, base=base)
         self.set_initial_state(psiS_mag_ref=psiS_mag_ref,
                                T_ref_init=T_ref_init)
         self.psiR_mag_ref = np.linalg.norm(self.x[2:4])

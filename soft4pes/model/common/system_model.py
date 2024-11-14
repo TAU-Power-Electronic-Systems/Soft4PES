@@ -12,14 +12,20 @@ class SystemModel(ABC):
 
     Attributes
     ----------
+    base : base value object
+        Base values.
     data : SimpleNamespace
         Namespace for storing simulation data.
+    par : system parameters
+        System parameters in p.u..
     x : ndarray
         Current state of the system.
     """
 
-    def __init__(self):
+    def __init__(self, par, base):
+        self.base = base
         self.data = SimpleNamespace(x=[], t=[], uk_abc=[])
+        self.par = par
         self.x = 0
 
     @abstractmethod

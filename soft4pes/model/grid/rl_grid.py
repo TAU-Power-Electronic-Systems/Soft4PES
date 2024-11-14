@@ -34,9 +34,7 @@ class RLGrid(SystemModel):
     """
 
     def __init__(self, par, base, ig_ref_init=None):
-        super().__init__()
-        self.par = par
-        self.base = base
+        super().__init__(par=par, base=base)
         self.set_initial_state(ig_ref_init=ig_ref_init)
 
     def set_initial_state(self, **kwargs):
