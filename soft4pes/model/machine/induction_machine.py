@@ -5,15 +5,16 @@ Induction machine model. The machine operates at a constant electrical angular r
 from types import SimpleNamespace
 import numpy as np
 from soft4pes.utils import dq_2_alpha_beta
+from soft4pes.model.common.system_model import SystemModel
 
 
-class InductionMachine:
+class InductionMachine(SystemModel):
     """
     Induction machine model operating at a constant electrical angular rotor speed.
     The state of the system is the stator current and rotor flux in the alpha-beta frame, i.e., 
-    [iS_alpha, iS_beta, psiR_alpha, psiR_beta]^T. The system input is the converter three-phase 
-    switch position. The initial state of the model is based on the stator flux magnitude reference 
-    and torque reference.
+    [iS_alpha, iS_beta, psiR_alpha, psiR_beta]^T. The machine is modelled with rotor flux alignment.
+    The system input is the converter three-phase switch position or modulating signal. The initial 
+    state of the model is based on the stator flux magnitude reference and torque reference.
 
     Parameters
     ----------
@@ -60,18 +61,17 @@ class InductionMachine:
         Determinant.
     kT : float
         Torque correction factor (needed to have 1 p.u. nominal torque).
-    x0 : 1 x 4 ndarray of floats
-        Initial state of the machine [p.u.].
-    x : 1 x 4 ndarray of floats
-        Current state of the machine [p.u.].
     base : base value object
         Base values.
-    sim_data : dict
-        System data.
+    x : 1 x 4 ndarray of floats
+        Current state of the machine [p.u.].
+    psiR_mag_ref : float
+        Rotor flux magnitude reference [p.u.].
     """
 
     def __init__(self, f, pf, Rs, Rr, Lls, Llr, Lm, base, psiS_mag_ref,
                  T_ref_init):
+        super().__init__()
         self.w = 2 * np.pi * f / base.w
         self.Rs = Rs / base.Z
         self.Rr = Rr / base.Z
@@ -82,17 +82,12 @@ class InductionMachine:
         self.Xr = self.Xlr + self.Xm
         self.D = self.Xs * self.Xr - self.Xm**2
         self.kT = 1 / pf
-
-        self.x0 = self.get_initial_state(psiS_mag_ref, T_ref_init)
-        self.x = self.x0
         self.base = base
+        self.set_initial_state(psiS_mag_ref=psiS_mag_ref,
+                               T_ref_init=T_ref_init)
+        self.psiR_mag_ref = np.linalg.norm(self.x[2:4])
 
-        self.sim_data = {
-            'x': [],
-            't': [],
-        }
-
-    def get_initial_state(self, psiS_mag_ref, T_ref_init):
+    def set_initial_state(self, **kwargs):
         """
         Calculates the initial state of the machine based on the torque reference and 
         stator flux magnitude reference.
@@ -103,12 +98,10 @@ class InductionMachine:
             The stator flux magnitude reference [p.u.].
         T_ref_init : float
             The initial torque reference [p.u.].
-
-        Returns
-        -------
-        1 x 4 ndarray
-            The initial state {iS, psiR} of the machine [p.u.].
         """
+
+        psiS_mag_ref = kwargs.get('psiS_mag_ref')
+        T_ref_init = kwargs.get('T_ref_init')
 
         # Based on torque reference and stator flux magnitude reference, the rotor
         # flux and rotor speed are calculated
@@ -124,7 +117,7 @@ class InductionMachine:
         iS = dq_2_alpha_beta(iS_dq, theta)
         psiR = dq_2_alpha_beta(psiR_dq, theta)
 
-        return np.concatenate((iS, psiR))
+        self.x = np.concatenate((iS, psiR))
 
     def get_steady_state_psir(self, psiS_mag_ref, T_ref):
         """
@@ -155,7 +148,7 @@ class InductionMachine:
         psiS_d = psiS_mag_ref
 
         # Rotor flux in d/q
-        psiR_q = -T_ref * D / (kT * Xm * psiS_mag_ref)
+        psiR_q = -T_ref * D / (kT * Xm * psiS_d)
         Delta = Xm**2 * psiS_d**2 - 4 * Xs**2 * psiR_q**2
         psiR_d = (Xm * psiS_d + np.sqrt(Delta)) / (2 * Xs)
         psiR_dq = np.array([psiR_d, psiR_q])
@@ -192,22 +185,6 @@ class InductionMachine:
         return np.array([iS_d, iS_q])
 
     def get_discrete_state_space(self, v_dc, Ts):
-        """
-        Calculates the discrete-time state-space model of the machine.
-
-        Parameters
-        ----------
-        v_dc : float
-            The converter dc-link voltage [p.u.].
-        Ts : float
-            Sampling interval [s].
-
-        Returns
-        -------
-        SimpleNamespace
-            The discrete-time state-space model of the machine.
-        """
-
         wr = self.wr
         Rs = self.Rs
         Rr = self.Rr
@@ -234,32 +211,13 @@ class InductionMachine:
         B = G * Ts_pu
         return SimpleNamespace(A=A, B=B)
 
-    def update_state(self, u, matrices, kTs):
-        """
-        Get the next state of the machine.
+    @property
+    def Te(self):
+        iS = self.x[0:2]
+        psiR = self.x[2:4]
+        return self.kT * (self.Xm / self.Xr) * np.cross(psiR, iS)
 
-        Parameters
-        ----------
-        u : 1 x 3 ndarray of floats
-            Converter three-phase switch position.
-        matrices : SimpleNamespace
-            A SimpleNamespace object containing matrices A and B of the state-space model.
-        kTs : float
-            Current time [s].
-        """
-
-        self.save_data(kTs)
-        x_kp1 = np.dot(matrices.A, self.x) + np.dot(matrices.B, u)
-        self.x = x_kp1
-
-    def save_data(self, kTs):
-        """
-        Save system data.
-
-        Parameters
-        ----------
-        kTs : float
-            Current time [s].
-        """
-        self.sim_data['x'].append(self.x)
-        self.sim_data['t'].append(kTs)
+    def update_state(self, matrices, uk_abc, kTs):
+        meas = SimpleNamespace(Te=self.Te)
+        x_kp1 = np.dot(matrices.A, self.x) + np.dot(matrices.B, uk_abc)
+        super().update(x_kp1, uk_abc, kTs, meas)

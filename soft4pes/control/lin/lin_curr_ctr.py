@@ -76,7 +76,7 @@ class RLGridPICurrCtr:
         conv : converter object
             Converter model.
         kTs : float
-            Current time [s].
+            Current discrete time instant [s].
 
         Returns
         -------
@@ -103,12 +103,12 @@ class RLGridPICurrCtr:
         u_c_abc = dq_2_abc(u_c_dq, theta)
 
         # Normalize converter voltage reference for modulation
-        u_k = u_c_abc / (conv.v_dc / 2)
+        uk_abc = u_c_abc / (conv.v_dc / 2)
 
         # Save controller data
         ig_ref = dq_2_alpha_beta(i_ref_dq, theta)
-        self.save_data(ig_ref, u_k, kTs)
-        return np.clip(u_k, -1, 1)  # Ensure modulating signal within -1 and 1
+        self.save_data(ig_ref, uk_abc, kTs)
+        return uk_abc
 
     def pi_controller(self, i_dq, i_ref_dq):
         """
@@ -140,7 +140,7 @@ class RLGridPICurrCtr:
 
         return np.array([u_c_d, u_c_q])
 
-    def save_data(self, ig_ref, u_k, kTs):
+    def save_data(self, ig_ref, uk_abc, kTs):
         """
         Save controller data.
 
@@ -148,11 +148,11 @@ class RLGridPICurrCtr:
         ----------
         ig_ref : 1 x 2 ndarray of floats
             Current reference in alpha-beta frame.
-        u_k : 1 x 3 ndarray of ints
-            Converter three-phase switch position.
+        uk_abc : 1 x 3 ndarray of floats
+            Converter three-phase switch position or modulating signal.
         kTs : float
-            Current time [s].
+            Current discrete time instant [s].
         """
         self.sim_data['ig_ref'].append(ig_ref)
-        self.sim_data['u'].append(u_k)
+        self.sim_data['u'].append(uk_abc)
         self.sim_data['t'].append(kTs)

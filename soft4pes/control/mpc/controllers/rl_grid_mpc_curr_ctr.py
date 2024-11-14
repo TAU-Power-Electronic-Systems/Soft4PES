@@ -31,8 +31,8 @@ class RLGridMpcCurrCtr:
         Prediction horizon.
     Ts : float
         Sampling interval [s].
-    u_km1 : 1 x 3 ndarray of ints
-        Previous three-phase switch position.
+    u_km1_abc : 1 x 3 ndarray of floats
+        Previous (step k-1) three-phase switch position or modulating signal.
     i_ref_seq_dq : Sequence object
         Current reference sequence in dq-frame [p.u.].
     state_space : SimpleNamespace 
@@ -51,7 +51,7 @@ class RLGridMpcCurrCtr:
         self.lambda_u = lambda_u
         self.Np = Np
         self.Ts = Ts
-        self.u_km1 = np.array([0, 0, 0])
+        self.u_km1_abc = np.array([0, 0, 0])
         self.i_ref_seq_dq = i_ref_seq_dq
         self.state_space = SimpleNamespace()
         self.solver = solver
@@ -77,12 +77,12 @@ class RLGridMpcCurrCtr:
         conv : converter object
             Converter model.
         kTs : float
-            Current time [s].
+            Current discrete time instant [s].
 
         Returns
         -------
         1 x 3 ndarray of floats
-            three-phase switch position or modulating signals.
+            Three-phase switch position or modulating signals.
         """
 
         # Get the discrete state-space model of the system
@@ -112,14 +112,14 @@ class RLGridMpcCurrCtr:
             y_ref[ell + 1, :] = np.dot(R_ref, y_ref[ell, :])
 
         # Solve the control problem
-        uk = self.solver(sys, conv, self, y_ref)
-        self.u_km1 = uk
+        uk_abc = self.solver(sys, conv, self, y_ref)
+        self.u_km1_abc = uk_abc
 
-        self.save_data(ig_ref, uk, kTs)
+        self.save_data(ig_ref, uk_abc, kTs)
 
-        return uk
+        return uk_abc
 
-    def get_next_state(self, sys, xk, uk, k):
+    def get_next_state(self, sys, xk, uk_abc, k):
         """
         Get the next state of the system.
 
@@ -129,8 +129,8 @@ class RLGridMpcCurrCtr:
             The system model.
         xk : 1 x 2 ndarray of floats
             The current state of the system.
-        uk : 1 x 3 ndarray of ints
-            Converter three-phase switch position.
+        uk_abc : 1 x 3 ndarray of floats
+            Converter three-phase switch position or modulating signal.
         k : int
             The solver prediction step.
 
@@ -149,9 +149,9 @@ class RLGridMpcCurrCtr:
         vg_k = np.dot(R, self.vg)
 
         return np.dot(self.state_space.A, xk) + np.dot(
-            self.state_space.B1, uk) + np.dot(self.state_space.B2, vg_k)
+            self.state_space.B1, uk_abc) + np.dot(self.state_space.B2, vg_k)
 
-    def save_data(self, ig_ref, u_k, kTs):
+    def save_data(self, ig_ref, uk_abc, kTs):
         """
         Save controller data.
 
@@ -159,11 +159,11 @@ class RLGridMpcCurrCtr:
         ----------
         ig_ref : 1 x 2 ndarray of floats
             Current reference in alpha-beta frame.
-        u_k : 1 x 3 ndarray of ints
-            Converter three-phase switch position.
+        uk_abc : 1 x 3 ndarray of floats
+            Converter three-phase switch position or modulating signal.
         kTs : float
-            Current time [s].
+            Current discrete time instant [s].
         """
         self.sim_data['ig_ref'].append(ig_ref)
-        self.sim_data['u'].append(u_k)
+        self.sim_data['u'].append(uk_abc)
         self.sim_data['t'].append(kTs)

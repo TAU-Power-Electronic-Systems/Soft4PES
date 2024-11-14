@@ -57,7 +57,7 @@ class MpcBnB:
 
         Returns
         -------
-        uk : 1 x 3 ndarray of ints
+        uk_abc : 1 x 3 ndarray of ints
             The three-phase switch position.
         """
 
@@ -65,12 +65,20 @@ class MpcBnB:
         self.U_seq = np.zeros(3 * ctr.Np)
         self.U_temp = np.zeros(3 * ctr.Np)
 
-        self.solve(sys, conv, ctr, sys.x, y_ref, ctr.u_km1)
+        self.solve(sys, conv, ctr, sys.x, y_ref, ctr.u_km1_abc)
 
-        uk = self.U_seq[0:3]
-        return uk
+        uk_abc = self.U_seq[0:3]
+        return uk_abc
 
-    def solve(self, sys, conv, ctr, x_ell, y_ref, u_ell_prev, ell=0, J_prev=0):
+    def solve(self,
+              sys,
+              conv,
+              ctr,
+              x_ell,
+              y_ref,
+              u_ell_abc_prev,
+              ell=0,
+              J_prev=0):
         """
         Recursively compute the cost for different switching sequences.
 
@@ -86,7 +94,7 @@ class MpcBnB:
             State vector [p.u.].
         y_ref : ndarray of floats
             Reference vector [p.u.].
-        u_ell_prev : 1 x 3 ndarray of ints
+        u_ell_abc_prev : 1 x 3 ndarray of ints
             Previous three-phase switch position.
         ell : int
             Prediction step. The default is 0.
@@ -95,18 +103,19 @@ class MpcBnB:
         """
 
         # Iterate over all possible three-phase switch positions
-        for u_ell in self.SW_COMB:
+        for u_ell_abc in self.SW_COMB:
 
             # Check if switching constraint is violated or cost is infinite
-            if not switching_constraint_violated(conv.nl, u_ell, u_ell_prev):
+            if not switching_constraint_violated(conv.nl, u_ell_abc,
+                                                 u_ell_abc_prev):
 
                 # Compute the next state
-                x_ell_next = ctr.get_next_state(sys, x_ell, u_ell, ell)
+                x_ell_next = ctr.get_next_state(sys, x_ell, u_ell_abc, ell)
 
                 # Calculate the cost of reference tracking and control effort
                 y_ell_next = np.dot(ctr.C, x_ell_next)
                 y_error = np.linalg.norm(y_ref[ell + 1] - y_ell_next)**2
-                delta_u = np.linalg.norm(u_ell - u_ell_prev, ord=1)
+                delta_u = np.linalg.norm(u_ell_abc - u_ell_abc_prev, ord=1)
                 J_temp = J_prev + y_error + ctr.lambda_u * delta_u
 
                 # if the cost is smaller than the current minimum cost, continue
@@ -114,12 +123,12 @@ class MpcBnB:
 
                     # If not at the last prediction step, move to the next prediction step
                     if ell < ctr.Np - 1:
-                        self.U_temp[3 * ell:3 * (ell + 1)] = u_ell
-                        self.solve(sys, conv, ctr, x_ell_next, y_ref, u_ell,
-                                   ell + 1, J_temp)
+                        self.U_temp[3 * ell:3 * (ell + 1)] = u_ell_abc
+                        self.solve(sys, conv, ctr, x_ell_next, y_ref,
+                                   u_ell_abc, ell + 1, J_temp)
                     else:
                         # If at the last prediction step, store the three-phase switch position and
                         # update the minimum cost
-                        self.U_temp[3 * ell:3 * (ell + 1)] = u_ell
+                        self.U_temp[3 * ell:3 * (ell + 1)] = u_ell_abc
                         self.U_seq = np.copy(self.U_temp)
                         self.J_min = J_temp
