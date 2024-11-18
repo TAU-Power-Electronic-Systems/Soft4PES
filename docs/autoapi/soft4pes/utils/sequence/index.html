@@ -388,7 +388,7 @@ between the data points.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>times</strong> (<em>n x 1 ndarray</em><em> of </em><em>floats</em>) – Time values is seconds.</p></li>
+<li><p><strong>times</strong> (<em>n x 1 ndarray</em><em> of </em><em>floats</em>) – Time instants is seconds.</p></li>
 <li><p><strong>values</strong> (<em>n x m ndarray</em><em> of </em><em>floats</em>) – Output values.</p></li>
 </ul>
 </dd>
@@ -396,7 +396,7 @@ between the data points.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="soft4pes.utils.sequence.Sequence.times">
 <span class="sig-name descname"><span class="pre">times</span></span><a class="reference internal" href="../../../../_modules/soft4pes/utils/sequence.html#Sequence.times"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.utils.sequence.Sequence.times" title="Permalink to this definition">#</a></dt>
-<dd><p>Time values is seconds.</p>
+<dd><p>Time instants is seconds.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>n x 1 ndarray of floats</p>
@@ -417,11 +417,11 @@ between the data points.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.utils.sequence.Sequence.__call__">
-<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/utils/sequence.html#Sequence.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.utils.sequence.Sequence.__call__" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/utils/sequence.html#Sequence.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.utils.sequence.Sequence.__call__" title="Permalink to this definition">#</a></dt>
 <dd><p>Interpolate the output.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>t</strong> (<em>float</em>) – Time [s].</p>
+<dd class="field-odd"><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Interpolated output.</p>

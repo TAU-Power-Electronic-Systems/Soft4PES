@@ -84,11 +84,11 @@ Package Contents
 
       :type: float
 
-   .. attribute:: u_km1
+   .. attribute:: u_km1_abc
 
-      Previous three-phase switch position.
+      Previous (step k-1) three-phase switch position or modulating signal.
 
-      :type: 1 x 3 ndarray of ints
+      :type: 1 x 3 ndarray of floats
 
    .. attribute:: i_ref_seq_dq
 
@@ -143,7 +143,7 @@ Package Contents
    ..
        !! processed by numpydoc !!
 
-   .. py:method:: __call__(sys, conv, t)
+   .. py:method:: __call__(sys, conv, kTs)
 
       
       Perform MPC and save the controller data.
@@ -152,10 +152,10 @@ Package Contents
       :type sys: system object
       :param conv: Converter model.
       :type conv: converter object
-      :param t: Current time [s].
-      :type t: float
+      :param kTs: Current discrete time instant [s].
+      :type kTs: float
 
-      :returns: three-phase switch position or modulating signals.
+      :returns: Three-phase switch position or modulating signals.
       :rtype: 1 x 3 ndarray of floats
 
 
@@ -176,7 +176,7 @@ Package Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: get_next_state(sys, xk, uk, k)
+   .. py:method:: get_next_state(sys, xk, uk_abc, k)
 
       
       Get the next state of the system.
@@ -185,8 +185,8 @@ Package Contents
       :type sys: system object
       :param xk: The current state of the system.
       :type xk: 1 x 2 ndarray of floats
-      :param uk: Converter three-phase switch position.
-      :type uk: 1 x 3 ndarray of ints
+      :param uk_abc: Converter three-phase switch position or modulating signal.
+      :type uk_abc: 1 x 3 ndarray of floats
       :param k: The solver prediction step.
       :type k: int
 
@@ -211,17 +211,17 @@ Package Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: save_data(ig_ref, u_k, t)
+   .. py:method:: save_data(ig_ref, uk_abc, kTs)
 
       
       Save controller data.
 
       :param ig_ref: Current reference in alpha-beta frame.
       :type ig_ref: 1 x 2 ndarray of floats
-      :param u_k: Converter three-phase switch position.
-      :type u_k: 1 x 3 ndarray of ints
-      :param t: Current time [s].
-      :type t: float
+      :param uk_abc: Converter three-phase switch position or modulating signal.
+      :type uk_abc: 1 x 3 ndarray of floats
+      :param kTs: Current discrete time instant [s].
+      :type kTs: float
 
 
 
@@ -289,11 +289,11 @@ Package Contents
 
       :type: Sequence object
 
-   .. attribute:: u_km1
+   .. attribute:: u_km1_abc
 
-      Previous three-phase switch position (step k-1).
+      Previous (step k-1) three-phase switch position or modulating signal.
 
-      :type: 1 x 3 ndarray of ints
+      :type: 1 x 3 ndarray of floats
 
    .. attribute:: state_space
 
@@ -330,7 +330,7 @@ Package Contents
    ..
        !! processed by numpydoc !!
 
-   .. py:method:: __call__(sys, conv, t)
+   .. py:method:: __call__(sys, conv, kTs)
 
       
       Perform MPC.
@@ -339,8 +339,8 @@ Package Contents
       :type sys: system object
       :param conv: Converter model.
       :type conv: converter object
-      :param t: Current time [s].
-      :type t: float
+      :param kTs: Current discrete time instant [s].
+      :type kTs: float
 
       :returns: Three-phase switch position or modulating signals.
       :rtype: 1 x 3 ndarray of floats
@@ -363,7 +363,7 @@ Package Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: get_next_state(sys, xk, uk, k)
+   .. py:method:: get_next_state(sys, xk, uk_abc, k)
 
       
       Calculate the next state of the system.
@@ -372,8 +372,8 @@ Package Contents
       :type sys: system object
       :param xk: The current state of the system [p.u.] (step k).
       :type xk: 1 x 2 ndarray of floats
-      :param uk: Converter three-phase switch position.
-      :type uk: 1 x 3 ndarray of ints
+      :param uk_abc: Converter three-phase switch position or modulating signal.
+      :type uk_abc: 1 x 3 ndarray of floats
       :param k: The solver prediction step. Not used in this method.
       :type k: int
 
@@ -398,17 +398,17 @@ Package Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: save_data(iS_ref, u_k, T_ref, t)
+   .. py:method:: save_data(iS_ref, uk_abc, T_ref, kTs)
 
       
       Save controller data.
 
       :param iS_ref: Current reference in alpha-beta frame [p.u.].
       :type iS_ref: 1 x 2 ndarray of floats
-      :param u_k: Converter three-phase switch position.
-      :type u_k: 1 x 3 ndarray of ints
-      :param t: Current time [s].
-      :type t: float
+      :param uk_abc: Converter three-phase switch position or modulating signal.
+      :type uk_abc: 1 x 3 ndarray of floats
+      :param kTs: Current discrete time instant [s].
+      :type kTs: float
 
 
 

@@ -128,12 +128,15 @@ Package Contents
 
 .. py:class:: InductionMachine(f, pf, Rs, Rr, Lls, Llr, Lm, base, psiS_mag_ref, T_ref_init)
 
+   Bases: :py:obj:`soft4pes.model.common.system_model.SystemModel`
+
+
    
    Induction machine model operating at a constant electrical angular rotor speed.
    The state of the system is the stator current and rotor flux in the alpha-beta frame, i.e.,
-   [iS_alpha, iS_beta, psiR_alpha, psiR_beta]^T. The system input is the converter three-phase
-   switch position. The initial state of the model is based on the stator flux magnitude reference
-   and torque reference.
+   [iS_alpha, iS_beta, psiR_alpha, psiR_beta]^T. The machine is modelled with rotor flux alignment.
+   The system input is the converter three-phase switch position or modulating signal. The initial
+   state of the model is based on the stator flux magnitude reference and torque reference.
 
    :param f: Rated frequency [Hz].
    :type f: float
@@ -216,11 +219,11 @@ Package Contents
 
       :type: float
 
-   .. attribute:: x0
+   .. attribute:: base
 
-      Initial state of the machine [p.u.].
+      Base values.
 
-      :type: 1 x 4 ndarray of floats
+      :type: base value object
 
    .. attribute:: x
 
@@ -228,17 +231,11 @@ Package Contents
 
       :type: 1 x 4 ndarray of floats
 
-   .. attribute:: base
+   .. attribute:: psiR_mag_ref
 
-      Base values.
+      Rotor flux magnitude reference [p.u.].
 
-      :type: base value object
-
-   .. attribute:: sim_data
-
-      System data.
-
-      :type: dict
+      :type: float
 
 
 
@@ -257,7 +254,7 @@ Package Contents
    ..
        !! processed by numpydoc !!
 
-   .. py:method:: get_initial_state(psiS_mag_ref, T_ref_init)
+   .. py:method:: set_initial_state(**kwargs)
 
       
       Calculates the initial state of the machine based on the torque reference and
@@ -267,9 +264,6 @@ Package Contents
       :type psiS_mag_ref: float
       :param T_ref_init: The initial torque reference [p.u.].
       :type T_ref_init: float
-
-      :returns: The initial state {iS, psiR} of the machine [p.u.].
-      :rtype: 1 x 4 ndarray
 
 
 
@@ -354,14 +348,14 @@ Package Contents
    .. py:method:: get_discrete_state_space(v_dc, Ts)
 
       
-      Calculates the discrete-time state-space model of the machine.
+      Calculates the discrete-time state-space model of the system.
 
       :param v_dc: The converter dc-link voltage [p.u.].
       :type v_dc: float
       :param Ts: Sampling interval [s].
       :type Ts: float
 
-      :returns: The discrete-time state-space model of the machine.
+      :returns: The discrete-time state-space model of the system.
       :rtype: SimpleNamespace
 
 
@@ -382,43 +376,17 @@ Package Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: update_state(u, matrices, t)
+   .. py:method:: update_state(matrices, uk_abc, kTs)
 
       
-      Get the next state of the machine.
+      Get the next state of the system.
 
-      :param u: Converter three-phase switch position.
-      :type u: 1 x 3 ndarray of floats
-      :param matrices: A SimpleNamespace object containing matrices A and B of the state-space model.
+      :param uk_abc: Converter three-phase switch position or modulating signal.
+      :type uk_abc: 1 x 3 ndarray of floats
+      :param matrices: A SimpleNamespace object containing the state-space model matrices.
       :type matrices: SimpleNamespace
-      :param t: Current time [s].
-      :type t: float
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      ..
-          !! processed by numpydoc !!
-
-
-   .. py:method:: save_data(t)
-
-      
-      Save system data.
-
-      :param t: Current time [s].
-      :type t: float
+      :param kTs: Current discrete time instant [s].
+      :type kTs: float
 
 
 

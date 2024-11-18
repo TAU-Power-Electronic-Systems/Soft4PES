@@ -355,7 +355,7 @@ document.write(`
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        uk : 1 x 3 ndarray of ints</span>
+<span class="sd">        uk_abc : 1 x 3 ndarray of ints</span>
 <span class="sd">            The three-phase switch position.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -363,12 +363,20 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">U_seq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">ctr</span><span class="o">.</span><span class="n">Np</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">U_temp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">ctr</span><span class="o">.</span><span class="n">Np</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">ctr</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y_ref</span><span class="p">,</span> <span class="n">ctr</span><span class="o">.</span><span class="n">u_km1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">ctr</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y_ref</span><span class="p">,</span> <span class="n">ctr</span><span class="o">.</span><span class="n">u_km1_abc</span><span class="p">)</span>
 
-        <span class="n">uk</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">U_seq</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">uk</span></div>
+        <span class="n">uk_abc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">U_seq</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">uk_abc</span></div>
 
-<div class="viewcode-block" id="MpcBnB.solve"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/mpc_bnb/index.html#soft4pes.control.mpc.solvers.MpcBnB.solve">[docs]</a>    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">ctr</span><span class="p">,</span> <span class="n">x_ell</span><span class="p">,</span> <span class="n">y_ref</span><span class="p">,</span> <span class="n">u_ell_prev</span><span class="p">,</span> <span class="n">ell</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">J_prev</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<div class="viewcode-block" id="MpcBnB.solve"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/mpc_bnb/index.html#soft4pes.control.mpc.solvers.MpcBnB.solve">[docs]</a>    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+              <span class="n">sys</span><span class="p">,</span>
+              <span class="n">conv</span><span class="p">,</span>
+              <span class="n">ctr</span><span class="p">,</span>
+              <span class="n">x_ell</span><span class="p">,</span>
+              <span class="n">y_ref</span><span class="p">,</span>
+              <span class="n">u_ell_abc_prev</span><span class="p">,</span>
+              <span class="n">ell</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+              <span class="n">J_prev</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Recursively compute the cost for different switching sequences.</span>
 
@@ -384,7 +392,7 @@ document.write(`
 <span class="sd">            State vector [p.u.].</span>
 <span class="sd">        y_ref : ndarray of floats</span>
 <span class="sd">            Reference vector [p.u.].</span>
-<span class="sd">        u_ell_prev : 1 x 3 ndarray of ints</span>
+<span class="sd">        u_ell_abc_prev : 1 x 3 ndarray of ints</span>
 <span class="sd">            Previous three-phase switch position.</span>
 <span class="sd">        ell : int</span>
 <span class="sd">            Prediction step. The default is 0.</span>
@@ -393,18 +401,19 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Iterate over all possible three-phase switch positions</span>
-        <span class="k">for</span> <span class="n">u_ell</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">SW_COMB</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">u_ell_abc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">SW_COMB</span><span class="p">:</span>
 
             <span class="c1"># Check if switching constraint is violated or cost is infinite</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">switching_constraint_violated</span><span class="p">(</span><span class="n">conv</span><span class="o">.</span><span class="n">nl</span><span class="p">,</span> <span class="n">u_ell</span><span class="p">,</span> <span class="n">u_ell_prev</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">switching_constraint_violated</span><span class="p">(</span><span class="n">conv</span><span class="o">.</span><span class="n">nl</span><span class="p">,</span> <span class="n">u_ell_abc</span><span class="p">,</span>
+                                                 <span class="n">u_ell_abc_prev</span><span class="p">):</span>
 
                 <span class="c1"># Compute the next state</span>
-                <span class="n">x_ell_next</span> <span class="o">=</span> <span class="n">ctr</span><span class="o">.</span><span class="n">get_next_state</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="n">x_ell</span><span class="p">,</span> <span class="n">u_ell</span><span class="p">,</span> <span class="n">ell</span><span class="p">)</span>
+                <span class="n">x_ell_next</span> <span class="o">=</span> <span class="n">ctr</span><span class="o">.</span><span class="n">get_next_state</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="n">x_ell</span><span class="p">,</span> <span class="n">u_ell_abc</span><span class="p">,</span> <span class="n">ell</span><span class="p">)</span>
 
                 <span class="c1"># Calculate the cost of reference tracking and control effort</span>
                 <span class="n">y_ell_next</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ctr</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">x_ell_next</span><span class="p">)</span>
                 <span class="n">y_error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">y_ref</span><span class="p">[</span><span class="n">ell</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_ell_next</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
-                <span class="n">delta_u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">u_ell</span> <span class="o">-</span> <span class="n">u_ell_prev</span><span class="p">,</span> <span class="nb">ord</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">delta_u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">u_ell_abc</span> <span class="o">-</span> <span class="n">u_ell_abc_prev</span><span class="p">,</span> <span class="nb">ord</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
                 <span class="n">J_temp</span> <span class="o">=</span> <span class="n">J_prev</span> <span class="o">+</span> <span class="n">y_error</span> <span class="o">+</span> <span class="n">ctr</span><span class="o">.</span><span class="n">lambda_u</span> <span class="o">*</span> <span class="n">delta_u</span>
 
                 <span class="c1"># if the cost is smaller than the current minimum cost, continue</span>
@@ -412,13 +421,13 @@ document.write(`
 
                     <span class="c1"># If not at the last prediction step, move to the next prediction step</span>
                     <span class="k">if</span> <span class="n">ell</span> <span class="o">&lt;</span> <span class="n">ctr</span><span class="o">.</span><span class="n">Np</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">U_temp</span><span class="p">[</span><span class="mi">3</span> <span class="o">*</span> <span class="n">ell</span><span class="p">:</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">ell</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="n">u_ell</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">ctr</span><span class="p">,</span> <span class="n">x_ell_next</span><span class="p">,</span> <span class="n">y_ref</span><span class="p">,</span> <span class="n">u_ell</span><span class="p">,</span>
-                                   <span class="n">ell</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">J_temp</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">U_temp</span><span class="p">[</span><span class="mi">3</span> <span class="o">*</span> <span class="n">ell</span><span class="p">:</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">ell</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="n">u_ell_abc</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">ctr</span><span class="p">,</span> <span class="n">x_ell_next</span><span class="p">,</span> <span class="n">y_ref</span><span class="p">,</span>
+                                   <span class="n">u_ell_abc</span><span class="p">,</span> <span class="n">ell</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">J_temp</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="c1"># If at the last prediction step, store the three-phase switch position and</span>
                         <span class="c1"># update the minimum cost</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">U_temp</span><span class="p">[</span><span class="mi">3</span> <span class="o">*</span> <span class="n">ell</span><span class="p">:</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">ell</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="n">u_ell</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">U_temp</span><span class="p">[</span><span class="mi">3</span> <span class="o">*</span> <span class="n">ell</span><span class="p">:</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">ell</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="n">u_ell_abc</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">U_seq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">U_temp</span><span class="p">)</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">J_min</span> <span class="o">=</span> <span class="n">J_temp</span></div></div>
 </pre></div>

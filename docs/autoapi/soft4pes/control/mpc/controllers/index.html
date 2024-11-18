@@ -351,7 +351,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.lambda_u"><code class="docutils literal notranslate"><span class="pre">RLGridMpcCurrCtr.lambda_u</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.Np"><code class="docutils literal notranslate"><span class="pre">RLGridMpcCurrCtr.Np</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.Ts"><code class="docutils literal notranslate"><span class="pre">RLGridMpcCurrCtr.Ts</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.u_km1"><code class="docutils literal notranslate"><span class="pre">RLGridMpcCurrCtr.u_km1</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.u_km1_abc"><code class="docutils literal notranslate"><span class="pre">RLGridMpcCurrCtr.u_km1_abc</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.i_ref_seq_dq"><code class="docutils literal notranslate"><span class="pre">RLGridMpcCurrCtr.i_ref_seq_dq</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.state_space"><code class="docutils literal notranslate"><span class="pre">RLGridMpcCurrCtr.state_space</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.solver"><code class="docutils literal notranslate"><span class="pre">RLGridMpcCurrCtr.solver</span></code></a></li>
@@ -369,7 +369,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.IMMpcCurrCtr.Np"><code class="docutils literal notranslate"><span class="pre">IMMpcCurrCtr.Np</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.IMMpcCurrCtr.Ts"><code class="docutils literal notranslate"><span class="pre">IMMpcCurrCtr.Ts</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.IMMpcCurrCtr.T_ref_seq"><code class="docutils literal notranslate"><span class="pre">IMMpcCurrCtr.T_ref_seq</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.IMMpcCurrCtr.u_km1"><code class="docutils literal notranslate"><span class="pre">IMMpcCurrCtr.u_km1</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.IMMpcCurrCtr.u_km1_abc"><code class="docutils literal notranslate"><span class="pre">IMMpcCurrCtr.u_km1_abc</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.IMMpcCurrCtr.state_space"><code class="docutils literal notranslate"><span class="pre">IMMpcCurrCtr.state_space</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.IMMpcCurrCtr.C"><code class="docutils literal notranslate"><span class="pre">IMMpcCurrCtr.C</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.IMMpcCurrCtr.sim_data"><code class="docutils literal notranslate"><span class="pre">IMMpcCurrCtr.sim_data</span></code></a></li>
@@ -468,12 +468,12 @@ the grid current in the alpha-beta frame.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.u_km1">
-<span class="sig-name descname"><span class="pre">u_km1</span></span><a class="headerlink" href="#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.u_km1" title="Permalink to this definition">#</a></dt>
-<dd><p>Previous three-phase switch position.</p>
+<dt class="sig sig-object py" id="soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.u_km1_abc">
+<span class="sig-name descname"><span class="pre">u_km1_abc</span></span><a class="headerlink" href="#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.u_km1_abc" title="Permalink to this definition">#</a></dt>
+<dd><p>Previous (step k-1) three-phase switch position or modulating signal.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>1 x 3 ndarray of ints</p>
+<dd class="field-odd"><p>1 x 3 ndarray of floats</p>
 </dd>
 </dl>
 </dd></dl>
@@ -546,18 +546,18 @@ the grid current in the alpha-beta frame.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.__call__">
-<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr.html#RLGridMpcCurrCtr.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.__call__" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr.html#RLGridMpcCurrCtr.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.__call__" title="Permalink to this definition">#</a></dt>
 <dd><p>Perform MPC and save the controller data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sys</strong> (<em>system object</em>) – System model.</p></li>
 <li><p><strong>conv</strong> (<em>converter object</em>) – Converter model.</p></li>
-<li><p><strong>t</strong> (<em>float</em>) – Current time [s].</p></li>
+<li><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>three-phase switch position or modulating signals.</p>
+<dd class="field-even"><p>Three-phase switch position or modulating signals.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>1 x 3 ndarray of floats</p>
@@ -567,14 +567,14 @@ the grid current in the alpha-beta frame.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.get_next_state">
-<span class="sig-name descname"><span class="pre">get_next_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr.html#RLGridMpcCurrCtr.get_next_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.get_next_state" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_next_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uk_abc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr.html#RLGridMpcCurrCtr.get_next_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.get_next_state" title="Permalink to this definition">#</a></dt>
 <dd><p>Get the next state of the system.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sys</strong> (<em>system object</em>) – The system model.</p></li>
 <li><p><strong>xk</strong> (<em>1 x 2 ndarray</em><em> of </em><em>floats</em>) – The current state of the system.</p></li>
-<li><p><strong>uk</strong> (<em>1 x 3 ndarray</em><em> of </em><em>ints</em>) – Converter three-phase switch position.</p></li>
+<li><p><strong>uk_abc</strong> (<em>1 x 3 ndarray</em><em> of </em><em>floats</em>) – Converter three-phase switch position or modulating signal.</p></li>
 <li><p><strong>k</strong> (<em>int</em>) – The solver prediction step.</p></li>
 </ul>
 </dd>
@@ -589,14 +589,14 @@ the grid current in the alpha-beta frame.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.save_data">
-<span class="sig-name descname"><span class="pre">save_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ig_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr.html#RLGridMpcCurrCtr.save_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.save_data" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">save_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ig_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uk_abc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr.html#RLGridMpcCurrCtr.save_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.save_data" title="Permalink to this definition">#</a></dt>
 <dd><p>Save controller data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ig_ref</strong> (<em>1 x 2 ndarray</em><em> of </em><em>floats</em>) – Current reference in alpha-beta frame.</p></li>
-<li><p><strong>u_k</strong> (<em>1 x 3 ndarray</em><em> of </em><em>ints</em>) – Converter three-phase switch position.</p></li>
-<li><p><strong>t</strong> (<em>float</em>) – Current time [s].</p></li>
+<li><p><strong>uk_abc</strong> (<em>1 x 3 ndarray</em><em> of </em><em>floats</em>) – Converter three-phase switch position or modulating signal.</p></li>
+<li><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p></li>
 </ul>
 </dd>
 </dl>
@@ -677,12 +677,12 @@ torque reference.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.control.mpc.controllers.IMMpcCurrCtr.u_km1">
-<span class="sig-name descname"><span class="pre">u_km1</span></span><a class="headerlink" href="#soft4pes.control.mpc.controllers.IMMpcCurrCtr.u_km1" title="Permalink to this definition">#</a></dt>
-<dd><p>Previous three-phase switch position (step k-1).</p>
+<dt class="sig sig-object py" id="soft4pes.control.mpc.controllers.IMMpcCurrCtr.u_km1_abc">
+<span class="sig-name descname"><span class="pre">u_km1_abc</span></span><a class="headerlink" href="#soft4pes.control.mpc.controllers.IMMpcCurrCtr.u_km1_abc" title="Permalink to this definition">#</a></dt>
+<dd><p>Previous (step k-1) three-phase switch position or modulating signal.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>1 x 3 ndarray of ints</p>
+<dd class="field-odd"><p>1 x 3 ndarray of floats</p>
 </dd>
 </dl>
 </dd></dl>
@@ -722,14 +722,14 @@ torque reference.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.control.mpc.controllers.IMMpcCurrCtr.__call__">
-<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/controllers/im_mpc_curr_ctr.html#IMMpcCurrCtr.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.controllers.IMMpcCurrCtr.__call__" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/controllers/im_mpc_curr_ctr.html#IMMpcCurrCtr.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.controllers.IMMpcCurrCtr.__call__" title="Permalink to this definition">#</a></dt>
 <dd><p>Perform MPC.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sys</strong> (<em>system object</em>) – System model.</p></li>
 <li><p><strong>conv</strong> (<em>converter object</em>) – Converter model.</p></li>
-<li><p><strong>t</strong> (<em>float</em>) – Current time [s].</p></li>
+<li><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -743,14 +743,14 @@ torque reference.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.control.mpc.controllers.IMMpcCurrCtr.get_next_state">
-<span class="sig-name descname"><span class="pre">get_next_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/controllers/im_mpc_curr_ctr.html#IMMpcCurrCtr.get_next_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.controllers.IMMpcCurrCtr.get_next_state" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_next_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uk_abc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/controllers/im_mpc_curr_ctr.html#IMMpcCurrCtr.get_next_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.controllers.IMMpcCurrCtr.get_next_state" title="Permalink to this definition">#</a></dt>
 <dd><p>Calculate the next state of the system.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sys</strong> (<em>system object</em>) – The system object, not used in this method.</p></li>
 <li><p><strong>xk</strong> (<em>1 x 2 ndarray</em><em> of </em><em>floats</em>) – The current state of the system [p.u.] (step k).</p></li>
-<li><p><strong>uk</strong> (<em>1 x 3 ndarray</em><em> of </em><em>ints</em>) – Converter three-phase switch position.</p></li>
+<li><p><strong>uk_abc</strong> (<em>1 x 3 ndarray</em><em> of </em><em>floats</em>) – Converter three-phase switch position or modulating signal.</p></li>
 <li><p><strong>k</strong> (<em>int</em>) – The solver prediction step. Not used in this method.</p></li>
 </ul>
 </dd>
@@ -765,14 +765,14 @@ torque reference.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.control.mpc.controllers.IMMpcCurrCtr.save_data">
-<span class="sig-name descname"><span class="pre">save_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iS_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/controllers/im_mpc_curr_ctr.html#IMMpcCurrCtr.save_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.controllers.IMMpcCurrCtr.save_data" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">save_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iS_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uk_abc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/controllers/im_mpc_curr_ctr.html#IMMpcCurrCtr.save_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.controllers.IMMpcCurrCtr.save_data" title="Permalink to this definition">#</a></dt>
 <dd><p>Save controller data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>iS_ref</strong> (<em>1 x 2 ndarray</em><em> of </em><em>floats</em>) – Current reference in alpha-beta frame [p.u.].</p></li>
-<li><p><strong>u_k</strong> (<em>1 x 3 ndarray</em><em> of </em><em>ints</em>) – Converter three-phase switch position.</p></li>
-<li><p><strong>t</strong> (<em>float</em>) – Current time [s].</p></li>
+<li><p><strong>uk_abc</strong> (<em>1 x 3 ndarray</em><em> of </em><em>floats</em>) – Converter three-phase switch position or modulating signal.</p></li>
+<li><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p></li>
 </ul>
 </dd>
 </dl>
@@ -834,7 +834,7 @@ torque reference.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.lambda_u"><code class="docutils literal notranslate"><span class="pre">RLGridMpcCurrCtr.lambda_u</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.Np"><code class="docutils literal notranslate"><span class="pre">RLGridMpcCurrCtr.Np</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.Ts"><code class="docutils literal notranslate"><span class="pre">RLGridMpcCurrCtr.Ts</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.u_km1"><code class="docutils literal notranslate"><span class="pre">RLGridMpcCurrCtr.u_km1</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.u_km1_abc"><code class="docutils literal notranslate"><span class="pre">RLGridMpcCurrCtr.u_km1_abc</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.i_ref_seq_dq"><code class="docutils literal notranslate"><span class="pre">RLGridMpcCurrCtr.i_ref_seq_dq</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.state_space"><code class="docutils literal notranslate"><span class="pre">RLGridMpcCurrCtr.state_space</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.solver"><code class="docutils literal notranslate"><span class="pre">RLGridMpcCurrCtr.solver</span></code></a></li>
@@ -852,7 +852,7 @@ torque reference.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.IMMpcCurrCtr.Np"><code class="docutils literal notranslate"><span class="pre">IMMpcCurrCtr.Np</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.IMMpcCurrCtr.Ts"><code class="docutils literal notranslate"><span class="pre">IMMpcCurrCtr.Ts</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.IMMpcCurrCtr.T_ref_seq"><code class="docutils literal notranslate"><span class="pre">IMMpcCurrCtr.T_ref_seq</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.IMMpcCurrCtr.u_km1"><code class="docutils literal notranslate"><span class="pre">IMMpcCurrCtr.u_km1</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.IMMpcCurrCtr.u_km1_abc"><code class="docutils literal notranslate"><span class="pre">IMMpcCurrCtr.u_km1_abc</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.IMMpcCurrCtr.state_space"><code class="docutils literal notranslate"><span class="pre">IMMpcCurrCtr.state_space</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.IMMpcCurrCtr.C"><code class="docutils literal notranslate"><span class="pre">IMMpcCurrCtr.C</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.controllers.IMMpcCurrCtr.sim_data"><code class="docutils literal notranslate"><span class="pre">IMMpcCurrCtr.sim_data</span></code></a></li>

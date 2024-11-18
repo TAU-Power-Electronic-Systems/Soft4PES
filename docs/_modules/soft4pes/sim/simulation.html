@@ -399,36 +399,26 @@ document.write(`
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        t_stop : float</span>
-<span class="sd">            Simulation length [s]. Simulation start time is always 0 s.</span>
+<span class="sd">            Simulation length [s]. Simulation start time is always 0 s, i.e. kTs = 0.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">progress_printer</span> <span class="o">=</span> <span class="n">ProgressPrinter</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">t_stop</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr</span><span class="o">.</span><span class="n">Ts</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">t_stop</span> <span class="o">=</span> <span class="n">t_stop</span>
-        <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span>
 
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t_stop</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr</span><span class="o">.</span><span class="n">Ts</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t_stop</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr</span><span class="o">.</span><span class="n">Ts</span><span class="p">)):</span>
 
             <span class="c1"># Execute the controller</span>
-            <span class="n">u</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+            <span class="n">kTs</span> <span class="o">=</span> <span class="n">k</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr</span><span class="o">.</span><span class="n">Ts</span>
+            <span class="n">uk_abc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="p">,</span> <span class="n">kTs</span><span class="p">)</span>
 
-            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ctr</span><span class="o">.</span><span class="n">Ts</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ts_sim</span><span class="p">)):</span>
+            <span class="k">for</span> <span class="n">k_sim</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ctr</span><span class="o">.</span><span class="n">Ts</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ts_sim</span><span class="p">)):</span>
 
-                <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">update_state</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">matrices</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+                <span class="n">kTs_sim</span> <span class="o">=</span> <span class="n">kTs</span> <span class="o">+</span> <span class="n">k_sim</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ts_sim</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">update_state</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">matrices</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">,</span> <span class="n">kTs_sim</span><span class="p">)</span>
 
-                <span class="n">t</span> <span class="o">=</span> <span class="n">t</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ts_sim</span>
+            <span class="n">progress_printer</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
 
-            <span class="n">progress_printer</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">simulation_data</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;ctr&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr</span><span class="o">.</span><span class="n">sim_data</span><span class="p">,</span>
-            <span class="s1">&#39;sys&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">sim_data</span>
-        <span class="p">}</span>
-
-        <span class="c1"># The data is stored as lists, as they offer faster appending of values.</span>
-        <span class="c1"># Convert lists to numpy arrays for easier post-processing.</span>
-        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">value1</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulation_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">for</span> <span class="n">key2</span><span class="p">,</span> <span class="n">value2</span> <span class="ow">in</span> <span class="n">value1</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="n">value1</span><span class="p">[</span><span class="n">key2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">simulation_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ctr&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr</span><span class="o">.</span><span class="n">sim_data</span><span class="p">,</span> <span class="s1">&#39;sys&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">data</span><span class="p">}</span>
 
         <span class="c1"># Save the simulation data to a .mat file</span>
         <span class="n">savemat</span><span class="p">(</span><span class="s1">&#39;examples/sim.mat&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulation_data</span><span class="p">)</span></div></div>

@@ -113,7 +113,7 @@ Package Contents
       :param y_ref: Reference vector [p.u.].
       :type y_ref: ndarray of floats
 
-      :returns: **uk** -- The three-phase switch position.
+      :returns: **uk_abc** -- The three-phase switch position.
       :rtype: 1 x 3 ndarray of ints
 
 
@@ -134,7 +134,7 @@ Package Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: solve(sys, conv, ctr, x_ell, y_ref, u_ell_prev, ell=0, J_prev=0)
+   .. py:method:: solve(sys, conv, ctr, x_ell, y_ref, u_ell_abc_prev, ell=0, J_prev=0)
 
       
       Recursively compute the cost for different switching sequences.
@@ -149,8 +149,8 @@ Package Contents
       :type x_ell: ndarray of floats
       :param y_ref: Reference vector [p.u.].
       :type y_ref: ndarray of floats
-      :param u_ell_prev: Previous three-phase switch position.
-      :type u_ell_prev: 1 x 3 ndarray of ints
+      :param u_ell_abc_prev: Previous three-phase switch position.
+      :type u_ell_abc_prev: 1 x 3 ndarray of ints
       :param ell: Prediction step. The default is 0.
       :type ell: int
       :param J_prev: Previous cost. The default is 0.
@@ -225,7 +225,7 @@ Package Contents
       :param y_ref: Reference vector [p.u.].
       :type y_ref: ndarray of floats
 
-      :returns: **uk** -- The three-phase switch position with the lowest cost.
+      :returns: **uk_abc** -- The three-phase switch position with the lowest cost.
       :rtype: 1 x 3 ndarray of ints
 
 
@@ -246,7 +246,7 @@ Package Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: solve(sys, conv, ctr, xk, y_ref, u_km1)
+   .. py:method:: solve(sys, conv, ctr, xk, y_ref, u_km1_abc)
 
       
       Recursively compute the cost for different switching sequences
@@ -261,8 +261,8 @@ Package Contents
       :type xk: ndarray of floats
       :param y_ref: Reference vector [p.u.].
       :type y_ref: ndarray of floats
-      :param u_km1: Three-phase switch position applied at step k-1.
-      :type u_km1: 1 x 3 ndarray of ints
+      :param u_km1_abc: Three-phase switch position applied at step k-1.
+      :type u_km1_abc: 1 x 3 ndarray of ints
 
       :returns: **J** -- Cost array.
       :rtype: 1 x nl^(3*Np) ndarray of floats

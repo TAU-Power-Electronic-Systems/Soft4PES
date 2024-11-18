@@ -164,7 +164,7 @@ Module Contents
       
       Simulate the system.
 
-      :param t_stop: Simulation length [s]. Simulation start time is always 0 s.
+      :param t_stop: Simulation length [s]. Simulation start time is always 0 s, i.e. kTs = 0.
       :type t_stop: float
 
 

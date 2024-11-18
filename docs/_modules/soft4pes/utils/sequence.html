@@ -313,14 +313,14 @@ document.write(`
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    times : n x 1 ndarray of floats</span>
-<span class="sd">        Time values is seconds.</span>
+<span class="sd">        Time instants is seconds.</span>
 <span class="sd">    values : n x m ndarray of floats</span>
 <span class="sd">        Output values.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    times : n x 1 ndarray of floats</span>
-<span class="sd">        Time values is seconds.</span>
+<span class="sd">        Time instants is seconds.</span>
 <span class="sd">    values : n x m ndarray of floats</span>
 <span class="sd">        Output values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -329,14 +329,14 @@ document.write(`
 <div class="viewcode-block" id="Sequence.times"><a class="viewcode-back" href="../../../autoapi/soft4pes/utils/sequence/index.html#soft4pes.utils.Sequence.times">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">times</span> <span class="o">=</span> <span class="n">times</span></div>
 <div class="viewcode-block" id="Sequence.values"><a class="viewcode-back" href="../../../autoapi/soft4pes/utils/sequence/index.html#soft4pes.utils.Sequence.values">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">values</span></div>
 
-<div class="viewcode-block" id="Sequence.__call__"><a class="viewcode-back" href="../../../autoapi/soft4pes/utils/sequence/index.html#soft4pes.utils.Sequence.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+<div class="viewcode-block" id="Sequence.__call__"><a class="viewcode-back" href="../../../autoapi/soft4pes/utils/sequence/index.html#soft4pes.utils.Sequence.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Interpolate the output.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        t : float</span>
-<span class="sd">            Time [s].</span>
+<span class="sd">        kTs : float</span>
+<span class="sd">            Current discrete time instant [s].</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -344,11 +344,15 @@ document.write(`
 <span class="sd">            Interpolated output.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">interpolated_values</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Check if the &quot;values&quot; attribute is one dimensional</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">kTs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">times</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
 
         <span class="c1"># Perform interpolation for each column</span>
+        <span class="n">interpolated_values</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
-            <span class="n">inter_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">times</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span> <span class="n">m</span><span class="p">])</span>
+            <span class="n">inter_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">kTs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">times</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span> <span class="n">m</span><span class="p">])</span>
             <span class="n">interpolated_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">inter_value</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">interpolated_values</span><span class="p">)</span></div></div>

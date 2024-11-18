@@ -301,7 +301,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 
-<div class="viewcode-block" id="switching_constraint_violated"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/utils/index.html#soft4pes.control.mpc.solvers.utils.switching_constraint_violated">[docs]</a><span class="k">def</span> <span class="nf">switching_constraint_violated</span><span class="p">(</span><span class="n">nl</span><span class="p">,</span> <span class="n">uk</span><span class="p">,</span> <span class="n">u_km1</span><span class="p">):</span>
+<div class="viewcode-block" id="switching_constraint_violated"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/utils/index.html#soft4pes.control.mpc.solvers.utils.switching_constraint_violated">[docs]</a><span class="k">def</span> <span class="nf">switching_constraint_violated</span><span class="p">(</span><span class="n">nl</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">,</span> <span class="n">u_km1_abc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check if a candidate three-phase switch position violates a switching constraint. </span>
 <span class="sd">    A three-level converter is not allowed to directly switch from -1 and 1 (and vice versa) </span>
@@ -311,9 +311,9 @@ document.write(`
 <span class="sd">    ----------</span>
 <span class="sd">    nl : int</span>
 <span class="sd">        Number of converter voltage levels.</span>
-<span class="sd">    uk : 1 x 3 ndarray of ints</span>
+<span class="sd">    uk_abc : 1 x 3 ndarray of ints</span>
 <span class="sd">        three-phase switch position.</span>
-<span class="sd">    u_km1 : 1 x 3 ndarray of ints</span>
+<span class="sd">    u_km1_abc : 1 x 3 ndarray of ints</span>
 <span class="sd">        Previously applied three-phase switch position.</span>
 
 <span class="sd">    Returns</span>
@@ -325,7 +325,7 @@ document.write(`
     <span class="k">if</span> <span class="n">nl</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
         <span class="n">res</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="k">elif</span> <span class="n">nl</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">uk</span> <span class="o">-</span> <span class="n">u_km1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">uk_abc</span> <span class="o">-</span> <span class="n">u_km1_abc</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span>
 
     <span class="k">return</span> <span class="n">res</span></div>
 </pre></div>

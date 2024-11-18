@@ -122,13 +122,16 @@ Package Contents
    ..
        !! processed by numpydoc !!
 
-.. py:class:: RLGrid(Vgr, fgr, Rg, Lg, base)
+.. py:class:: RLGrid(Vgr, fgr, Rg, Lg, base, ig_ref_init=None)
+
+   Bases: :py:obj:`soft4pes.model.common.system_model.SystemModel`
+
 
    
-   Model of a grid with stiff voltage source and RL-load in alpha-beta frame.
-   The state of the system is the grid current in the alpha-beta frame.
-   The system input is the converter three-phase switch position.
-   The grid voltage is considered to be a disturbance.
+   Model of a grid with stiff voltage source and RL-load in alpha-beta frame. The state of the
+   system is the grid current in the alpha-beta frame. The system input is the converter
+   three-phase switch position or modulating signal. The grid voltage is considered to be a
+   disturbance.
 
    :param Vgr: Grid rated voltage [V] (line-to-line rms voltage).
    :type Vgr: float
@@ -140,6 +143,8 @@ Package Contents
    :type Lg: float
    :param base: Base values.
    :type base: base value object
+   :param ig_ref_init: Reference at discrete time instant kTs = 0 for starting simulation from steady state.
+   :type ig_ref_init: 1 x 2 ndarray of floats, optional
 
    .. attribute:: Vgr
 
@@ -177,12 +182,6 @@ Package Contents
 
       :type: base value object
 
-   .. attribute:: data_sim
-
-      System data.
-
-      :type: dict
-
 
 
 
@@ -200,19 +199,43 @@ Package Contents
    ..
        !! processed by numpydoc !!
 
+   .. py:method:: set_initial_state(**kwargs)
+
+      
+      Set the initial state of the system based on the grid current reference, if provided.
+
+      :param ig_ref_init: Reference at discrete time instant kTs = 0 for starting simulation from steady state.
+      :type ig_ref_init: 1 x 2 ndarray of floats, optional
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
    .. py:method:: get_discrete_state_space(v_dc, Ts)
 
       
-      Get the discrete state-space model of the grid in alpha-beta frame.
-      Discretization is done using the forward Euler method.
+      Calculates the discrete-time state-space model of the system.
 
-      :param v_dc: Converter dc-link voltage [p.u.].
+      :param v_dc: The converter dc-link voltage [p.u.].
       :type v_dc: float
       :param Ts: Sampling interval [s].
       :type Ts: float
 
-      :returns: A SimpleNamespace object containing matrices A, B1 and B2 of the
-                state-space model.
+      :returns: The discrete-time state-space model of the system.
       :rtype: SimpleNamespace
 
 
@@ -233,13 +256,13 @@ Package Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: get_grid_voltage(t)
+   .. py:method:: get_grid_voltage(kTs)
 
       
-      Get the grid voltage at a specific time instant.
+      Get the grid voltage at a specific discrete time instant.
 
-      :param t: Current time [s].
-      :type t: float
+      :param kTs: Current discrete time instant [s].
+      :type kTs: float
 
       :returns: Grid voltage in alpha-beta frame [p.u.].
       :rtype: 1 x 2 ndarray of floats
@@ -262,47 +285,17 @@ Package Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: update_state(u, matrices, t)
+   .. py:method:: update_state(matrices, uk_abc, kTs)
 
       
-      Get the next state of the grid.
+      Get the next state of the system.
 
-      :param u: Converter three-phase switch position.
-      :type u: 1 x 3 ndarray of floats
-      :param matrices: A SimpleNamespace object containing matrices A, B1 and B2 of the
-                       state-space model.
+      :param uk_abc: Converter three-phase switch position or modulating signal.
+      :type uk_abc: 1 x 3 ndarray of floats
+      :param matrices: A SimpleNamespace object containing the state-space model matrices.
       :type matrices: SimpleNamespace
-
-      :returns: Next state of the grid [p.u.].
-      :rtype: 1 x 2 ndarray of floats
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      ..
-          !! processed by numpydoc !!
-
-
-   .. py:method:: save_data(vg, t)
-
-      
-      Save system data.
-
-      :param vg: Grid voltage in alpha-beta frame [p.u.].
-      :type vg: 1 x 2 ndarray of floats
-      :param t: Current time [s].
-      :type t: float
+      :param kTs: Current discrete time instant [s].
+      :type kTs: float
 
 
 

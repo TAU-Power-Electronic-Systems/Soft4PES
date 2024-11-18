@@ -30,14 +30,14 @@ Module Contents
    The time array must be increasing. The output values are interpolated
    between the data points.
 
-   :param times: Time values is seconds.
+   :param times: Time instants is seconds.
    :type times: n x 1 ndarray of floats
    :param values: Output values.
    :type values: n x m ndarray of floats
 
    .. attribute:: times
 
-      Time values is seconds.
+      Time instants is seconds.
 
       :type: n x 1 ndarray of floats
 
@@ -64,13 +64,13 @@ Module Contents
    ..
        !! processed by numpydoc !!
 
-   .. py:method:: __call__(t)
+   .. py:method:: __call__(kTs)
 
       
       Interpolate the output.
 
-      :param t: Time [s].
-      :type t: float
+      :param kTs: Current discrete time instant [s].
+      :type kTs: float
 
       :returns: Interpolated output.
       :rtype: 1 x m ndarray of floats

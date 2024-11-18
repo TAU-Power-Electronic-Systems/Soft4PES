@@ -301,14 +301,16 @@ document.write(`
 <span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">SimpleNamespace</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">soft4pes.utils</span> <span class="kn">import</span> <span class="n">abc_2_alpha_beta</span>
+<span class="kn">from</span> <span class="nn">soft4pes.model.common.system_model</span> <span class="kn">import</span> <span class="n">SystemModel</span>
+<span class="kn">from</span> <span class="nn">soft4pes.utils.conversions</span> <span class="kn">import</span> <span class="n">dq_2_alpha_beta</span>
 
 
-<div class="viewcode-block" id="RLGrid"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid">[docs]</a><span class="k">class</span> <span class="nc">RLGrid</span><span class="p">:</span>
+<div class="viewcode-block" id="RLGrid"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid">[docs]</a><span class="k">class</span> <span class="nc">RLGrid</span><span class="p">(</span><span class="n">SystemModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Model of a grid with stiff voltage source and RL-load in alpha-beta frame. </span>
-<span class="sd">    The state of the system is the grid current in the alpha-beta frame.</span>
-<span class="sd">    The system input is the converter three-phase switch position.</span>
-<span class="sd">    The grid voltage is considered to be a disturbance.</span>
+<span class="sd">    Model of a grid with stiff voltage source and RL-load in alpha-beta frame. The state of the </span>
+<span class="sd">    system is the grid current in the alpha-beta frame. The system input is the converter </span>
+<span class="sd">    three-phase switch position or modulating signal. The grid voltage is considered to be a </span>
+<span class="sd">    disturbance.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -316,12 +318,14 @@ document.write(`
 <span class="sd">        Grid rated voltage [V] (line-to-line rms voltage).</span>
 <span class="sd">    fgr : float</span>
 <span class="sd">        Grid rated frequency [Hz].</span>
-<span class="sd">    Rg : float</span>
+<div class="viewcode-block" id="RLGrid.x"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.x">[docs]</a><span class="sd">    Rg : float</span></div>
 <span class="sd">        Resistance [Ohm].</span>
 <span class="sd">    Lg : float</span>
 <span class="sd">        Inductance [H].</span>
 <span class="sd">    base : base value object</span>
 <span class="sd">        Base values.</span>
+<span class="sd">    ig_ref_init : 1 x 2 ndarray of floats, optional</span>
+<span class="sd">        Reference at discrete time instant kTs = 0 for starting simulation from steady state.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
@@ -337,41 +341,36 @@ document.write(`
 <span class="sd">        Current state of the grid [p.u.].</span>
 <span class="sd">    base : base value object</span>
 <span class="sd">        Base values.</span>
-<span class="sd">    data_sim : dict</span>
-<span class="sd">        System data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Vgr</span><span class="p">,</span> <span class="n">fgr</span><span class="p">,</span> <span class="n">Rg</span><span class="p">,</span> <span class="n">Lg</span><span class="p">,</span> <span class="n">base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Vgr</span><span class="p">,</span> <span class="n">fgr</span><span class="p">,</span> <span class="n">Rg</span><span class="p">,</span> <span class="n">Lg</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">ig_ref_init</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 <div class="viewcode-block" id="RLGrid.Vgr"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.Vgr">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Vgr</span> <span class="o">=</span> <span class="n">Vgr</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">V</span></div>
 <div class="viewcode-block" id="RLGrid.wg"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.wg">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">wg</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">fgr</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">w</span></div>
 <div class="viewcode-block" id="RLGrid.Rg"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.Rg">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Rg</span> <span class="o">=</span> <span class="n">Rg</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">Z</span></div>
 <div class="viewcode-block" id="RLGrid.Xg"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.Xg">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Xg</span> <span class="o">=</span> <span class="n">Lg</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">L</span></div>
-<div class="viewcode-block" id="RLGrid.x"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.x">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span></div>
 <div class="viewcode-block" id="RLGrid.base"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.base">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">base</span> <span class="o">=</span> <span class="n">base</span></div>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sim_data</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">[],</span>
-            <span class="s1">&#39;vg&#39;</span><span class="p">:</span> <span class="p">[],</span>
-            <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="p">[],</span>
-        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_initial_state</span><span class="p">(</span><span class="n">ig_ref_init</span><span class="o">=</span><span class="n">ig_ref_init</span><span class="p">)</span>
 
-<div class="viewcode-block" id="RLGrid.get_discrete_state_space"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.get_discrete_state_space">[docs]</a>    <span class="k">def</span> <span class="nf">get_discrete_state_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v_dc</span><span class="p">,</span> <span class="n">Ts</span><span class="p">):</span>
+<div class="viewcode-block" id="RLGrid.set_initial_state"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.set_initial_state">[docs]</a>    <span class="k">def</span> <span class="nf">set_initial_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the discrete state-space model of the grid in alpha-beta frame.</span>
-<span class="sd">        Discretization is done using the forward Euler method.</span>
+<span class="sd">        Set the initial state of the system based on the grid current reference, if provided.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        v_dc : float</span>
-<span class="sd">            Converter dc-link voltage [p.u.].</span>
-<span class="sd">        Ts : float</span>
-<span class="sd">            Sampling interval [s].</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        SimpleNamespace</span>
-<span class="sd">            A SimpleNamespace object containing matrices A, B1 and B2 of the </span>
-<span class="sd">            state-space model. </span>
+<span class="sd">        ig_ref_init : 1 x 2 ndarray of floats, optional</span>
+<span class="sd">            Reference at discrete time instant kTs = 0 for starting simulation from steady state.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">ig_ref_init</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ig_ref_init&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ig_ref_init</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">vg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_grid_voltage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">vg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">vg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">dq_2_alpha_beta</span><span class="p">(</span><span class="n">ig_ref_init</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RLGrid.get_discrete_state_space"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.get_discrete_state_space">[docs]</a>    <span class="k">def</span> <span class="nf">get_discrete_state_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v_dc</span><span class="p">,</span> <span class="n">Ts</span><span class="p">):</span>
         <span class="n">Rg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Rg</span>
         <span class="n">Xg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xg</span>
         <span class="n">Ts</span> <span class="o">=</span> <span class="n">Ts</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">w</span>
@@ -390,14 +389,14 @@ document.write(`
 
         <span class="k">return</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">A</span><span class="o">=</span><span class="n">A</span><span class="p">,</span> <span class="n">B1</span><span class="o">=</span><span class="n">B1</span><span class="p">,</span> <span class="n">B2</span><span class="o">=</span><span class="n">B2</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RLGrid.get_grid_voltage"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.get_grid_voltage">[docs]</a>    <span class="k">def</span> <span class="nf">get_grid_voltage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+<div class="viewcode-block" id="RLGrid.get_grid_voltage"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.get_grid_voltage">[docs]</a>    <span class="k">def</span> <span class="nf">get_grid_voltage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the grid voltage at a specific time instant.</span>
+<span class="sd">        Get the grid voltage at a specific discrete time instant.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        t : float</span>
-<span class="sd">            Current time [s].</span>
+<span class="sd">        kTs : float</span>
+<span class="sd">            Current discrete time instant [s].</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -405,7 +404,7 @@ document.write(`
 <span class="sd">            Grid voltage in alpha-beta frame [p.u.].</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">theta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wg</span> <span class="o">*</span> <span class="p">(</span><span class="n">t</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">w</span><span class="p">)</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wg</span> <span class="o">*</span> <span class="p">(</span><span class="n">kTs</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">w</span><span class="p">)</span>
 
         <span class="c1"># Grid peak voltage</span>
         <span class="n">Vg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vgr</span>
@@ -415,45 +414,12 @@ document.write(`
         <span class="n">vg</span> <span class="o">=</span> <span class="n">abc_2_alpha_beta</span><span class="p">(</span><span class="n">vg_abc</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">vg</span></div>
 
-<div class="viewcode-block" id="RLGrid.update_state"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.update_state">[docs]</a>    <span class="k">def</span> <span class="nf">update_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">matrices</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the next state of the grid.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        u : 1 x 3 ndarray of floats</span>
-<span class="sd">            Converter three-phase switch position.</span>
-<span class="sd">        matrices : SimpleNamespace</span>
-<span class="sd">            A SimpleNamespace object containing matrices A, B1 and B2 of the </span>
-<span class="sd">            state-space model.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        1 x 2 ndarray of floats</span>
-<span class="sd">            Next state of the grid [p.u.].</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">vg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_grid_voltage</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">save_data</span><span class="p">(</span><span class="n">vg</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
-        <span class="n">x_kp1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">matrices</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">matrices</span><span class="o">.</span><span class="n">B1</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
-            <span class="n">matrices</span><span class="o">.</span><span class="n">B2</span><span class="p">,</span> <span class="n">vg</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x_kp1</span></div>
-
-<div class="viewcode-block" id="RLGrid.save_data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.save_data">[docs]</a>    <span class="k">def</span> <span class="nf">save_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vg</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Save system data.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        vg : 1 x 2 ndarray of floats</span>
-<span class="sd">            Grid voltage in alpha-beta frame [p.u.].</span>
-<span class="sd">        t : float</span>
-<span class="sd">            Current time [s].</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">sim_data</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sim_data</span><span class="p">[</span><span class="s1">&#39;vg&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vg</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sim_data</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span></div></div>
+<div class="viewcode-block" id="RLGrid.update_state"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.update_state">[docs]</a>    <span class="k">def</span> <span class="nf">update_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matrices</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
+        <span class="n">vg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_grid_voltage</span><span class="p">(</span><span class="n">kTs</span><span class="p">)</span>
+        <span class="n">x_kp1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">matrices</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+            <span class="n">matrices</span><span class="o">.</span><span class="n">B1</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">matrices</span><span class="o">.</span><span class="n">B2</span><span class="p">,</span> <span class="n">vg</span><span class="p">)</span>
+        <span class="n">meas</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">vg</span><span class="o">=</span><span class="n">vg</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">x_kp1</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">,</span> <span class="n">kTs</span><span class="p">,</span> <span class="n">meas</span><span class="p">)</span></div></div>
 </pre></div>
 
                 </article>

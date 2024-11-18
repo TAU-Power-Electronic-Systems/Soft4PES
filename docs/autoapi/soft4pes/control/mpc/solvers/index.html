@@ -471,7 +471,7 @@ document.write(`
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>uk</strong> – The three-phase switch position.</p>
+<dd class="field-even"><p><strong>uk_abc</strong> – The three-phase switch position.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>1 x 3 ndarray of ints</p>
@@ -481,7 +481,7 @@ document.write(`
 
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.MpcBnB.solve">
-<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_ell</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_ell_prev</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">J_prev</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/mpc_bnb.html#MpcBnB.solve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.MpcBnB.solve" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_ell</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_ell_abc_prev</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">J_prev</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/mpc_bnb.html#MpcBnB.solve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.MpcBnB.solve" title="Permalink to this definition">#</a></dt>
 <dd><p>Recursively compute the cost for different switching sequences.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -491,7 +491,7 @@ document.write(`
 <li><p><strong>ctr</strong> (<em>object</em>) – Controller object.</p></li>
 <li><p><strong>x_ell</strong> (<em>ndarray</em><em> of </em><em>floats</em>) – State vector [p.u.].</p></li>
 <li><p><strong>y_ref</strong> (<em>ndarray</em><em> of </em><em>floats</em>) – Reference vector [p.u.].</p></li>
-<li><p><strong>u_ell_prev</strong> (<em>1 x 3 ndarray</em><em> of </em><em>ints</em>) – Previous three-phase switch position.</p></li>
+<li><p><strong>u_ell_abc_prev</strong> (<em>1 x 3 ndarray</em><em> of </em><em>ints</em>) – Previous three-phase switch position.</p></li>
 <li><p><strong>ell</strong> (<em>int</em>) – Prediction step. The default is 0.</p></li>
 <li><p><strong>J_prev</strong> (<em>float</em>) – Previous cost. The default is 0.</p></li>
 </ul>
@@ -546,7 +546,7 @@ document.write(`
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>uk</strong> – The three-phase switch position with the lowest cost.</p>
+<dd class="field-even"><p><strong>uk_abc</strong> – The three-phase switch position with the lowest cost.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>1 x 3 ndarray of ints</p>
@@ -556,7 +556,7 @@ document.write(`
 
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.MpcEnum.solve">
-<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_km1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/mpc_enum.html#MpcEnum.solve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.MpcEnum.solve" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_km1_abc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/mpc_enum.html#MpcEnum.solve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.MpcEnum.solve" title="Permalink to this definition">#</a></dt>
 <dd><p>Recursively compute the cost for different switching sequences</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -566,7 +566,7 @@ document.write(`
 <li><p><strong>ctr</strong> (<em>controller object.</em>) – Controller object.</p></li>
 <li><p><strong>xk</strong> (<em>ndarray</em><em> of </em><em>floats</em>) – Current state vector [p.u.].</p></li>
 <li><p><strong>y_ref</strong> (<em>ndarray</em><em> of </em><em>floats</em>) – Reference vector [p.u.].</p></li>
-<li><p><strong>u_km1</strong> (<em>1 x 3 ndarray</em><em> of </em><em>ints</em>) – Three-phase switch position applied at step k-1.</p></li>
+<li><p><strong>u_km1_abc</strong> (<em>1 x 3 ndarray</em><em> of </em><em>ints</em>) – Three-phase switch position applied at step k-1.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>

@@ -27,8 +27,8 @@ soft4pes.control
        !! processed by numpydoc !!
 
 
-Subpackages
------------
+Submodules
+----------
 
 .. toctree::
    :maxdepth: 1

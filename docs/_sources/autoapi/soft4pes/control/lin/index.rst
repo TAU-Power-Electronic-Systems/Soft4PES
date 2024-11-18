@@ -152,7 +152,7 @@ Package Contents
    ..
        !! processed by numpydoc !!
 
-   .. py:method:: __call__(sys, conv, t)
+   .. py:method:: __call__(sys, conv, kTs)
 
       
       Perform control.
@@ -161,8 +161,8 @@ Package Contents
       :type sys: system object
       :param conv: Converter model.
       :type conv: converter object
-      :param t: Current time [s].
-      :type t: float
+      :param kTs: Current discrete time instant [s].
+      :type kTs: float
 
       :returns: Modulating signal.
       :rtype: 1 x 3 ndarray of floats
@@ -216,17 +216,17 @@ Package Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: save_data(ig_ref, u_k, t)
+   .. py:method:: save_data(ig_ref, uk_abc, kTs)
 
       
       Save controller data.
 
       :param ig_ref: Current reference in alpha-beta frame.
       :type ig_ref: 1 x 2 ndarray of floats
-      :param u_k: Converter three-phase switch position.
-      :type u_k: 1 x 3 ndarray of ints
-      :param t: Current time [s].
-      :type t: float
+      :param uk_abc: Converter three-phase switch position or modulating signal.
+      :type uk_abc: 1 x 3 ndarray of floats
+      :param kTs: Current discrete time instant [s].
+      :type kTs: float
 
 
 
@@ -332,7 +332,7 @@ Package Contents
    ..
        !! processed by numpydoc !!
 
-   .. py:method:: __call__(sys, conv, t)
+   .. py:method:: __call__(sys, conv, kTs)
 
       
       Perform control.
@@ -341,8 +341,8 @@ Package Contents
       :type sys: system object
       :param conv: Converter model.
       :type conv: converter object
-      :param t: Current time [s].
-      :type t: float
+      :param kTs: Current discrete time instant [s].
+      :type kTs: float
 
       :returns: Modulating signal.
       :rtype: 1 x 3 ndarray of floats
@@ -457,17 +457,17 @@ Package Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: save_data(ig_ref, u_k, t)
+   .. py:method:: save_data(ig_ref, uk_abc, kTs)
 
       
       Save controller data.
 
       :param ig_ref: Current reference in alpha-beta frame.
       :type ig_ref: 1 x 2 ndarray of floats
-      :param u_k: Converter three-phase switch position.
-      :type u_k: 1 x 3 ndarray of ints
-      :param t: Current time [s].
-      :type t: float
+      :param uk_abc: Converter three-phase switch position or modulating signal.
+      :type uk_abc: 1 x 3 ndarray of floats
+      :param kTs: Current discrete time instant [s].
+      :type kTs: float
 
 
 

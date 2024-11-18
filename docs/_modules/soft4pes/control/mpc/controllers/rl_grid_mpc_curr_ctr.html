@@ -329,8 +329,8 @@ document.write(`
 <span class="sd">        Prediction horizon.</span>
 <span class="sd">    Ts : float</span>
 <span class="sd">        Sampling interval [s].</span>
-<span class="sd">    u_km1 : 1 x 3 ndarray of ints</span>
-<span class="sd">        Previous three-phase switch position.</span>
+<span class="sd">    u_km1_abc : 1 x 3 ndarray of floats</span>
+<span class="sd">        Previous (step k-1) three-phase switch position or modulating signal.</span>
 <span class="sd">    i_ref_seq_dq : Sequence object</span>
 <span class="sd">        Current reference sequence in dq-frame [p.u.].</span>
 <span class="sd">    state_space : SimpleNamespace </span>
@@ -349,7 +349,7 @@ document.write(`
 <div class="viewcode-block" id="RLGridMpcCurrCtr.lambda_u"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.lambda_u">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">lambda_u</span> <span class="o">=</span> <span class="n">lambda_u</span></div>
 <div class="viewcode-block" id="RLGridMpcCurrCtr.Np"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.Np">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Np</span> <span class="o">=</span> <span class="n">Np</span></div>
 <div class="viewcode-block" id="RLGridMpcCurrCtr.Ts"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.Ts">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Ts</span> <span class="o">=</span> <span class="n">Ts</span></div>
-<div class="viewcode-block" id="RLGridMpcCurrCtr.u_km1"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.u_km1">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">u_km1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span></div>
+<div class="viewcode-block" id="RLGridMpcCurrCtr.u_km1_abc"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.u_km1_abc">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">u_km1_abc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span></div>
 <div class="viewcode-block" id="RLGridMpcCurrCtr.i_ref_seq_dq"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.i_ref_seq_dq">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">i_ref_seq_dq</span> <span class="o">=</span> <span class="n">i_ref_seq_dq</span></div>
 <div class="viewcode-block" id="RLGridMpcCurrCtr.state_space"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.state_space">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">state_space</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">()</span></div>
 <div class="viewcode-block" id="RLGridMpcCurrCtr.solver"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.solver">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="o">=</span> <span class="n">solver</span></div>
@@ -364,7 +364,7 @@ document.write(`
             <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="p">[],</span>
         <span class="p">}</span>
 
-<div class="viewcode-block" id="RLGridMpcCurrCtr.__call__"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+<div class="viewcode-block" id="RLGridMpcCurrCtr.__call__"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Perform MPC and save the controller data.</span>
 
@@ -374,23 +374,23 @@ document.write(`
 <span class="sd">            System model.</span>
 <span class="sd">        conv : converter object</span>
 <span class="sd">            Converter model.</span>
-<span class="sd">        t : float</span>
-<span class="sd">            Current time [s].</span>
+<span class="sd">        kTs : float</span>
+<span class="sd">            Current discrete time instant [s].</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        1 x 3 ndarray of floats</span>
-<span class="sd">            three-phase switch position or modulating signals.</span>
+<span class="sd">            Three-phase switch position or modulating signals.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Get the discrete state-space model of the system</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state_space</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">get_discrete_state_space</span><span class="p">(</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ts</span><span class="p">)</span>
 
         <span class="c1"># Get the grid voltage and save it for future use</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">vg</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">get_grid_voltage</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vg</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">get_grid_voltage</span><span class="p">(</span><span class="n">kTs</span><span class="p">)</span>
 
         <span class="c1"># Get the reference for current step</span>
-        <span class="n">i_ref_dq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">i_ref_seq_dq</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="n">i_ref_dq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">i_ref_seq_dq</span><span class="p">(</span><span class="n">kTs</span><span class="p">)</span>
 
         <span class="c1"># Get the grid-voltage angle and calculate the reference in alpha-beta frame</span>
         <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">vg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -410,14 +410,14 @@ document.write(`
             <span class="n">y_ref</span><span class="p">[</span><span class="n">ell</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R_ref</span><span class="p">,</span> <span class="n">y_ref</span><span class="p">[</span><span class="n">ell</span><span class="p">,</span> <span class="p">:])</span>
 
         <span class="c1"># Solve the control problem</span>
-        <span class="n">uk</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">y_ref</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">u_km1</span> <span class="o">=</span> <span class="n">uk</span>
+        <span class="n">uk_abc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">y_ref</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">u_km1_abc</span> <span class="o">=</span> <span class="n">uk_abc</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">save_data</span><span class="p">(</span><span class="n">ig_ref</span><span class="p">,</span> <span class="n">uk</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_data</span><span class="p">(</span><span class="n">ig_ref</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">,</span> <span class="n">kTs</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">uk</span></div>
+        <span class="k">return</span> <span class="n">uk_abc</span></div>
 
-<div class="viewcode-block" id="RLGridMpcCurrCtr.get_next_state"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.get_next_state">[docs]</a>    <span class="k">def</span> <span class="nf">get_next_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">xk</span><span class="p">,</span> <span class="n">uk</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<div class="viewcode-block" id="RLGridMpcCurrCtr.get_next_state"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.get_next_state">[docs]</a>    <span class="k">def</span> <span class="nf">get_next_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">xk</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the next state of the system.</span>
 
@@ -427,8 +427,8 @@ document.write(`
 <span class="sd">            The system model.</span>
 <span class="sd">        xk : 1 x 2 ndarray of floats</span>
 <span class="sd">            The current state of the system.</span>
-<span class="sd">        uk : 1 x 3 ndarray of ints</span>
-<span class="sd">            Converter three-phase switch position.</span>
+<span class="sd">        uk_abc : 1 x 3 ndarray of floats</span>
+<span class="sd">            Converter three-phase switch position or modulating signal.</span>
 <span class="sd">        k : int</span>
 <span class="sd">            The solver prediction step.</span>
 
@@ -447,9 +447,9 @@ document.write(`
         <span class="n">vg_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vg</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_space</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">xk</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">state_space</span><span class="o">.</span><span class="n">B1</span><span class="p">,</span> <span class="n">uk</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_space</span><span class="o">.</span><span class="n">B2</span><span class="p">,</span> <span class="n">vg_k</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state_space</span><span class="o">.</span><span class="n">B1</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_space</span><span class="o">.</span><span class="n">B2</span><span class="p">,</span> <span class="n">vg_k</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RLGridMpcCurrCtr.save_data"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.save_data">[docs]</a>    <span class="k">def</span> <span class="nf">save_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ig_ref</span><span class="p">,</span> <span class="n">u_k</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+<div class="viewcode-block" id="RLGridMpcCurrCtr.save_data"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.save_data">[docs]</a>    <span class="k">def</span> <span class="nf">save_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ig_ref</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Save controller data.</span>
 
@@ -457,14 +457,14 @@ document.write(`
 <span class="sd">        ----------</span>
 <span class="sd">        ig_ref : 1 x 2 ndarray of floats</span>
 <span class="sd">            Current reference in alpha-beta frame.</span>
-<span class="sd">        u_k : 1 x 3 ndarray of ints</span>
-<span class="sd">            Converter three-phase switch position.</span>
-<span class="sd">        t : float</span>
-<span class="sd">            Current time [s].</span>
+<span class="sd">        uk_abc : 1 x 3 ndarray of floats</span>
+<span class="sd">            Converter three-phase switch position or modulating signal.</span>
+<span class="sd">        kTs : float</span>
+<span class="sd">            Current discrete time instant [s].</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sim_data</span><span class="p">[</span><span class="s1">&#39;ig_ref&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ig_ref</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sim_data</span><span class="p">[</span><span class="s1">&#39;u&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">u_k</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sim_data</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim_data</span><span class="p">[</span><span class="s1">&#39;u&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">uk_abc</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim_data</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kTs</span><span class="p">)</span></div></div>
 </pre></div>
 
                 </article>

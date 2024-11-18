@@ -22,7 +22,7 @@ Functions
 Module Contents
 ---------------
 
-.. py:function:: switching_constraint_violated(nl, uk, u_km1)
+.. py:function:: switching_constraint_violated(nl, uk_abc, u_km1_abc)
 
    
    Check if a candidate three-phase switch position violates a switching constraint.
@@ -31,10 +31,10 @@ Module Contents
 
    :param nl: Number of converter voltage levels.
    :type nl: int
-   :param uk: three-phase switch position.
-   :type uk: 1 x 3 ndarray of ints
-   :param u_km1: Previously applied three-phase switch position.
-   :type u_km1: 1 x 3 ndarray of ints
+   :param uk_abc: three-phase switch position.
+   :type uk_abc: 1 x 3 ndarray of ints
+   :param u_km1_abc: Previously applied three-phase switch position.
+   :type u_km1_abc: 1 x 3 ndarray of ints
 
    :returns: Constraint violated.
    :rtype: bool

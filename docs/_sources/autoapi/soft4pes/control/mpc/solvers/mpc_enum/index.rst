@@ -73,7 +73,7 @@ Module Contents
       :param y_ref: Reference vector [p.u.].
       :type y_ref: ndarray of floats
 
-      :returns: **uk** -- The three-phase switch position with the lowest cost.
+      :returns: **uk_abc** -- The three-phase switch position with the lowest cost.
       :rtype: 1 x 3 ndarray of ints
 
 
@@ -94,7 +94,7 @@ Module Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: solve(sys, conv, ctr, xk, y_ref, u_km1)
+   .. py:method:: solve(sys, conv, ctr, xk, y_ref, u_km1_abc)
 
       
       Recursively compute the cost for different switching sequences
@@ -109,8 +109,8 @@ Module Contents
       :type xk: ndarray of floats
       :param y_ref: Reference vector [p.u.].
       :type y_ref: ndarray of floats
-      :param u_km1: Three-phase switch position applied at step k-1.
-      :type u_km1: 1 x 3 ndarray of ints
+      :param u_km1_abc: Three-phase switch position applied at step k-1.
+      :type u_km1_abc: 1 x 3 ndarray of ints
 
       :returns: **J** -- Cost array.
       :rtype: 1 x nl^(3*Np) ndarray of floats

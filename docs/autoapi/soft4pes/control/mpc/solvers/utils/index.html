@@ -367,7 +367,7 @@ document.write(`
 <h2>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h2>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.utils.switching_constraint_violated" title="soft4pes.control.mpc.solvers.utils.switching_constraint_violated"><code class="xref py py-obj docutils literal notranslate"><span class="pre">switching_constraint_violated</span></code></a>(nl, uk, u_km1)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.utils.switching_constraint_violated" title="soft4pes.control.mpc.solvers.utils.switching_constraint_violated"><code class="xref py py-obj docutils literal notranslate"><span class="pre">switching_constraint_violated</span></code></a>(nl, uk_abc, u_km1_abc)</p></td>
 <td><p>Check if a candidate three-phase switch position violates a switching constraint.</p></td>
 </tr>
 </tbody>
@@ -377,7 +377,7 @@ document.write(`
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.utils.switching_constraint_violated">
-<span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.utils.</span></span><span class="sig-name descname"><span class="pre">switching_constraint_violated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_km1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/soft4pes/control/mpc/solvers/utils.html#switching_constraint_violated"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.utils.switching_constraint_violated" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.utils.</span></span><span class="sig-name descname"><span class="pre">switching_constraint_violated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uk_abc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_km1_abc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/soft4pes/control/mpc/solvers/utils.html#switching_constraint_violated"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.utils.switching_constraint_violated" title="Permalink to this definition">#</a></dt>
 <dd><p>Check if a candidate three-phase switch position violates a switching constraint.
 A three-level converter is not allowed to directly switch from -1 and 1 (and vice versa)
 on one phase.</p>
@@ -385,8 +385,8 @@ on one phase.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>nl</strong> (<em>int</em>) – Number of converter voltage levels.</p></li>
-<li><p><strong>uk</strong> (<em>1 x 3 ndarray</em><em> of </em><em>ints</em>) – three-phase switch position.</p></li>
-<li><p><strong>u_km1</strong> (<em>1 x 3 ndarray</em><em> of </em><em>ints</em>) – Previously applied three-phase switch position.</p></li>
+<li><p><strong>uk_abc</strong> (<em>1 x 3 ndarray</em><em> of </em><em>ints</em>) – three-phase switch position.</p></li>
+<li><p><strong>u_km1_abc</strong> (<em>1 x 3 ndarray</em><em> of </em><em>ints</em>) – Previously applied three-phase switch position.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
