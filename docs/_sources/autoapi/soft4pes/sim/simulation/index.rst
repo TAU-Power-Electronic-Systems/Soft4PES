@@ -28,7 +28,7 @@ Module Contents
    
    A class used to print the progress of the simulation process.
 
-   :param total_steps: The total number of steps in the process.
+   :param total_steps: The total number of steps in the process. Counts from zero.
    :type total_steps: int
 
    .. attribute:: total_steps
