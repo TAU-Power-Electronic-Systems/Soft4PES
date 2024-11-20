@@ -16,14 +16,8 @@ class RLGrid(SystemModel):
 
     Parameters
     ----------
-    Vgr : float
-        Grid rated voltage [V] (line-to-line rms voltage).
-    fgr : float
-        Grid rated frequency [Hz].
-    Rg : float
-        Resistance [Ohm].
-    Lg : float
-        Inductance [H].
+    par : RLGridParameters
+        Grid parameters in p.u..
     base : base value object
         Base values.
     ig_ref_init : 1 x 2 ndarray of floats, optional
@@ -31,27 +25,16 @@ class RLGrid(SystemModel):
 
     Attributes
     ----------
-    Vgr : float
-        Grid rated voltage [p.u.] (line-to-line rms voltage).
-    wg : float
-        Grid angular frequency [p.u.].
-    Rg : float
-        Resistance [p.u.].
-    Xg : float
-        Reactance [p.u.].
+    par : RLGridParameters
+        Grid parameters in p.u..
     x : 1 x 2 ndarray of floats
         Current state of the grid [p.u.].
     base : base value object
         Base values.
     """
 
-    def __init__(self, Vgr, fgr, Rg, Lg, base, ig_ref_init=None):
-        super().__init__()
-        self.Vgr = Vgr / base.V
-        self.wg = 2 * np.pi * fgr / base.w
-        self.Rg = Rg / base.Z
-        self.Xg = Lg / base.L
-        self.base = base
+    def __init__(self, par, base, ig_ref_init=None):
+        super().__init__(par=par, base=base)
         self.set_initial_state(ig_ref_init=ig_ref_init)
 
     def set_initial_state(self, **kwargs):
@@ -73,8 +56,8 @@ class RLGrid(SystemModel):
             self.x = np.zeros(2)
 
     def get_discrete_state_space(self, v_dc, Ts):
-        Rg = self.Rg
-        Xg = self.Xg
+        Rg = self.par.Rg
+        Xg = self.par.Xg
         Ts = Ts * self.base.w
 
         # Clarke transformation matrix
@@ -106,10 +89,10 @@ class RLGrid(SystemModel):
             Grid voltage in alpha-beta frame [p.u.].
         """
 
-        theta = self.wg * (kTs * self.base.w)
+        theta = self.par.wg * (kTs * self.base.w)
 
         # Grid peak voltage
-        Vg = np.sqrt(2 / 3) * self.Vgr
+        Vg = np.sqrt(2 / 3) * self.par.Vgr
 
         vg_abc = Vg * np.sin(theta + 2 * np.pi / 3 * np.array([0, -1, 1]))
 

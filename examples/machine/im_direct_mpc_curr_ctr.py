@@ -32,14 +32,18 @@ T_ref_seq = Sequence(
     np.array([1, 1, 0, 0]),
 )
 
+# Define induction machine parameters
+im_params = model.machine.InductionMachineParameters(f_SI=50,
+                                                     pf=0.85,
+                                                     Rs_SI=2.7,
+                                                     Rr_SI=2.4,
+                                                     Lls_SI=9.868e-3,
+                                                     Llr_SI=11.777e-3,
+                                                     Lm_SI=394.704e-3,
+                                                     base=base)
+
 # Define system models
-sys = model.machine.InductionMachine(f=50,
-                                     pf=0.85,
-                                     Rs=2.7,
-                                     Rr=2.4,
-                                     Lls=9.868e-3,
-                                     Llr=11.777e-3,
-                                     Lm=394.704e-3,
+sys = model.machine.InductionMachine(par=im_params,
                                      base=base,
                                      psiS_mag_ref=1,
                                      T_ref_init=T_ref_seq(0))
