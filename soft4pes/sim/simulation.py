@@ -3,6 +3,7 @@ Simulation environment for power electronic systems.
 
 """
 
+import os
 import numpy as np
 from scipy.io import savemat
 
@@ -122,5 +123,26 @@ class Simulation:
 
         self.simulation_data = {'ctr': self.ctr.sim_data, 'sys': self.sys.data}
 
-        # Save the simulation data to a .mat file
-        savemat('examples/sim.mat', self.simulation_data)
+    def save_data(self, filename='sim_data.mat', path=''):
+        """
+        Save the simulation data to a .mat file.
+
+        Parameters
+        ----------
+        filename : str, optional
+            Name of the file to save the data to. The default filename is 'sim_data.mat'.
+        path : str, optional
+            Directory path to save the file to. The path can be absolute or relative to the current 
+            directory. The default saving directory is the current directory. 
+        """
+
+        # Ensure the filename ends with .mat
+        if not filename.endswith('.mat'):
+            filename += '.mat'
+
+        # Ensure the directory exists
+        if path and not os.path.exists(path):
+            os.makedirs(path)
+
+        full_path = os.path.join(path, filename)
+        savemat(full_path, self.simulation_data)
