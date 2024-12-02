@@ -55,3 +55,4 @@ ctr = mpc.controllers.RLGridMpcCurrCtr(solver,
 # Simulate the system
 sim = Simulation(sys=sys, conv=conv, ctr=ctr, Ts_sim=5e-6)
 sim.simulate(t_stop=0.2)
+sim.save_data()
