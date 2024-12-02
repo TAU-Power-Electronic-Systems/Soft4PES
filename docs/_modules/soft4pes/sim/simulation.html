@@ -301,6 +301,7 @@ document.write(`
 
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy.io</span> <span class="kn">import</span> <span class="n">savemat</span>
 
@@ -418,10 +419,31 @@ document.write(`
 
             <span class="n">progress_printer</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">simulation_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ctr&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr</span><span class="o">.</span><span class="n">sim_data</span><span class="p">,</span> <span class="s1">&#39;sys&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">data</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">simulation_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ctr&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr</span><span class="o">.</span><span class="n">sim_data</span><span class="p">,</span> <span class="s1">&#39;sys&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">data</span><span class="p">}</span></div>
 
-        <span class="c1"># Save the simulation data to a .mat file</span>
-        <span class="n">savemat</span><span class="p">(</span><span class="s1">&#39;examples/sim.mat&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulation_data</span><span class="p">)</span></div></div>
+<div class="viewcode-block" id="Simulation.save_data"><a class="viewcode-back" href="../../../autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.Simulation.save_data">[docs]</a>    <span class="k">def</span> <span class="nf">save_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;sim_data.mat&#39;</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Save the simulation data to a .mat file.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : str, optional</span>
+<span class="sd">            Name of the file to save the data to. The default filename is &#39;sim_data.mat&#39;.</span>
+<span class="sd">        path : str, optional</span>
+<span class="sd">            Directory path to save the file to. The path can be absolute or relative to the current </span>
+<span class="sd">            directory. The default saving directory is the current directory. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Ensure the filename ends with .mat</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.mat&#39;</span><span class="p">):</span>
+            <span class="n">filename</span> <span class="o">+=</span> <span class="s1">&#39;.mat&#39;</span>
+
+        <span class="c1"># Ensure the directory exists</span>
+        <span class="k">if</span> <span class="n">path</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+        <span class="n">full_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="n">savemat</span><span class="p">(</span><span class="n">full_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulation_data</span><span class="p">)</span></div></div>
 </pre></div>
 
                 </article>

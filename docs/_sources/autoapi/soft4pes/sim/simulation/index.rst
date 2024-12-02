@@ -185,3 +185,32 @@ Module Contents
           !! processed by numpydoc !!
 
 
+   .. py:method:: save_data(filename='sim_data.mat', path='')
+
+      
+      Save the simulation data to a .mat file.
+
+      :param filename: Name of the file to save the data to. The default filename is 'sim_data.mat'.
+      :type filename: str, optional
+      :param path: Directory path to save the file to. The path can be absolute or relative to the current
+                   directory. The default saving directory is the current directory.
+      :type path: str, optional
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
