@@ -11,7 +11,7 @@ class Converter:
 
     Parameters
     ----------
-    v_dc : float
+    v_dc_SI : float
         Dc-link voltage [V].
     nl : int
         Number of voltage levels in the converter.
@@ -21,13 +21,13 @@ class Converter:
     Attributes
     ----------
     v_dc : float
-        Dc_link voltage [p.u.]
+        Dc-link voltage [p.u.]
     nl : int
         Number of voltage levels in the converter.
     SW_COMB : 3^nl x 3 ndarray of ints
         Possible converter three-phase switch positions.
     """
 
-    def __init__(self, v_dc, nl, base):
-        self.v_dc = v_dc / base.V
+    def __init__(self, v_dc_SI, nl, base):
+        self.v_dc = v_dc_SI / base.V
         self.nl = nl

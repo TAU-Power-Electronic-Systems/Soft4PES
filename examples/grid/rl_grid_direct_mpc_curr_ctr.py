@@ -24,7 +24,7 @@ from soft4pes.utils import Sequence
 from soft4pes.sim import Simulation
 
 # Define base values
-base = model.grid.BaseGrid(Vgr=3300, Igr=1575, fgr=50)
+base = model.grid.BaseGrid(Vgr_SI=3300, Igr_SI=1575, fgr_SI=50)
 
 # Define current reference sequence
 i_ref_dq = Sequence(np.array([0, 0.1, 0.1, 1]),
@@ -38,7 +38,7 @@ grid_params = model.grid.RLGridParameters(Vgr_SI=3300,
                                           base=base)
 # Define system models
 sys = model.grid.RLGrid(par=grid_params, base=base, ig_ref_init=i_ref_dq(0))
-conv = model.conv.Converter(v_dc=5200, nl=3, base=base)
+conv = model.conv.Converter(v_dc_SI=5200, nl=3, base=base)
 
 # Define solver to be enumeration based
 solver = mpc.solvers.MpcEnum(conv=conv)

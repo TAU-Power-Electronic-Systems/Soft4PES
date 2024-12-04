@@ -24,7 +24,11 @@ from soft4pes.utils import Sequence
 from soft4pes.sim import Simulation
 
 # Define base values
-base = model.machine.BaseMachine(Vr=400, Ir=4.4, fr=50, npp=1, pf=0.85)
+base = model.machine.BaseMachine(Vr_SI=400,
+                                 Ir_SI=4.4,
+                                 fr_SI=50,
+                                 npp=1,
+                                 pf=0.85)
 
 # Define torque reference sequence
 T_ref_seq = Sequence(
@@ -48,7 +52,7 @@ sys = model.machine.InductionMachine(par=im_params,
                                      psiS_mag_ref=1,
                                      T_ref_init=T_ref_seq(0))
 
-conv = model.conv.Converter(v_dc=600, nl=3, base=base)
+conv = model.conv.Converter(v_dc_SI=600, nl=3, base=base)
 
 # Define solver to be enumeration based
 solver = mpc.solvers.MpcEnum(conv=conv)
