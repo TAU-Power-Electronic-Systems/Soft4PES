@@ -101,7 +101,7 @@ class RLGridMpcCurrCtr:
         # Predict the current reference over the prediction horizon
         # Make a rotation matrix
         Ts_pu = self.Ts * sys.base.w
-        delta_theta = sys.wg * Ts_pu
+        delta_theta = sys.par.wg * Ts_pu
         R_ref = np.array([[np.cos(delta_theta), -np.sin(delta_theta)], \
                           [np.sin(delta_theta), np.cos(delta_theta)]])
 
@@ -142,7 +142,7 @@ class RLGridMpcCurrCtr:
 
         # Get the grid voltage at step k by rotating it
         Ts_pu = self.Ts * sys.base.w
-        delta_theta = k * sys.wg * Ts_pu
+        delta_theta = k * sys.par.wg * Ts_pu
         R = np.array([[np.cos(delta_theta), -np.sin(delta_theta)], \
                         [np.sin(delta_theta), np.cos(delta_theta)]])
 

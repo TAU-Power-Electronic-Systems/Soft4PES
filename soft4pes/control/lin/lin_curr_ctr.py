@@ -48,8 +48,8 @@ class RLGridPICurrCtr:
     """
 
     def __init__(self, sys, base, Ts, i_ref_seq_dq):
-        self.Xg = sys.Xg
-        self.Rg = sys.Rg
+        self.Xg = sys.par.Xg
+        self.Rg = sys.par.Rg
         self.Ts = Ts
         self.Ts_pu = self.Ts * base.w
         self.alpha_c = 2 * np.pi / 10 / self.Ts_pu  # Controller bandwidth (10x crossover frequency)
