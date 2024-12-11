@@ -23,7 +23,7 @@ from soft4pes.utils import Sequence
 from soft4pes.sim import Simulation
 
 # Define base values
-base = model.grid.BaseGrid(Vgr_SI=3300, Igr_SI=1575, fgr_SI=50)
+base = model.grid.BaseGrid(Vg_R_SI=3300, Ig_R_SI=1575, fg_R_SI=50)
 
 # Define current reference sequence
 i_ref_dq = Sequence(np.array([0, 1]), np.array([[1, 0], [1, 0]]))

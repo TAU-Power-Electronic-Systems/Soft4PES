@@ -13,11 +13,11 @@ class BaseGrid:
 
     Parameters
     ----------
-    Vgr_SI : float
+    Vg_R_SI : float
         Rated voltage [V] (line-to-line rms voltage).
-    Igr_SI : float
+    Ig_R_SI : float
         Rated current [A] (line rms current).
-    fgr_SI : float
+    fg_R_SI : float
         Rated frequency [Hz].
 
     Attributes
@@ -38,10 +38,10 @@ class BaseGrid:
         Base capacitance [F].
     """
 
-    def __init__(self, Vgr_SI: float, Igr_SI: float, fgr_SI: float):
-        self.V = np.sqrt(2 / 3) * Vgr_SI
-        self.I = np.sqrt(2) * Igr_SI
-        self.w = 2 * np.pi * fgr_SI
+    def __init__(self, Vg_R_SI: float, Ig_R_SI: float, fg_R_SI: float):
+        self.V = np.sqrt(2 / 3) * Vg_R_SI
+        self.I = np.sqrt(2) * Ig_R_SI
+        self.w = 2 * np.pi * fg_R_SI
         self.S = 3 / 2 * self.V * self.I
         self.Z = self.V / self.I
         self.L = self.Z / self.w

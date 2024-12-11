@@ -24,9 +24,9 @@ from soft4pes.utils import Sequence
 from soft4pes.sim import Simulation
 
 # Define base values
-base = model.machine.BaseMachine(Vr_SI=400,
-                                 Ir_SI=4.4,
-                                 fr_SI=50,
+base = model.machine.BaseMachine(V_R_SI=400,
+                                 I_R_SI=4.4,
+                                 f_R_SI=50,
                                  npp=1,
                                  pf=0.85)
 
