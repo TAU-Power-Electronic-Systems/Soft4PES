@@ -11,8 +11,8 @@ class InductionMachineParameters:
 
     Parameters
     ----------
-    f_SI : float
-        Rated frequency [Hz].
+    fs_SI : float
+        Synchronous (stator) electrical frequency [Hz].
     pf_SI : float
         Power factor.
     Rs_SI : float
@@ -30,8 +30,8 @@ class InductionMachineParameters:
 
     Attributes
     ----------
-    f : float
-        Rated frequency [p.u.].
+    ws : float
+        Synchronous (stator) electrical angular frequency [p.u.].
     pf : float
         Power factor.
     Rs : float
@@ -46,8 +46,8 @@ class InductionMachineParameters:
         Mutual inductance [p.u.].
     """
 
-    def __init__(self, f_SI, pf, Rs_SI, Rr_SI, Lls_SI, Llr_SI, Lm_SI, base):
-        self.w = 2 * np.pi * f_SI / base.w
+    def __init__(self, fs_SI, pf, Rs_SI, Rr_SI, Lls_SI, Llr_SI, Lm_SI, base):
+        self.ws = 2 * np.pi * fs_SI / base.w
         self.pf = pf
         self.Rs = Rs_SI / base.Z
         self.Rr = Rr_SI / base.Z

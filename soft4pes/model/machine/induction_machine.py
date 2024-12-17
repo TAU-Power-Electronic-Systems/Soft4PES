@@ -111,11 +111,11 @@ class InductionMachine(SystemModel):
         psiR_d = (Xm * psiS_d + np.sqrt(Delta)) / (2 * Xs)
         psiR_dq = np.array([psiR_d, psiR_q])
 
-        # Slip frequency
-        ws = -Rr * Xs * psiR_q / (D * psiR_d)
+        # Slip angular frequency
+        w_sl = -Rr * Xs * psiR_q / (D * psiR_d)
 
-        # (Electrical angular) speed of the rotor
-        wr = self.par.w - ws
+        # Rotor electrical angular frequency
+        wr = self.par.ws - w_sl
 
         return psiR_dq, wr
 

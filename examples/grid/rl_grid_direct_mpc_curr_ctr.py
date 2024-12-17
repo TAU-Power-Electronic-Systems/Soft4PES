@@ -31,8 +31,8 @@ i_ref_dq = Sequence(np.array([0, 0.1, 0.1, 1]),
                     np.array([[1, 0], [1, 0], [0.3, 0.3], [0.3, 0.3]]))
 
 # Define grid parameters
-grid_params = model.grid.RLGridParameters(Vgr_SI=3300,
-                                          fgr_SI=50,
+grid_params = model.grid.RLGridParameters(Vg_SI=3300,
+                                          fg_SI=50,
                                           Rg_SI=0.01815,
                                           Lg_SI=5.7773e-4,
                                           base=base)

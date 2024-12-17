@@ -29,8 +29,8 @@ base = model.grid.BaseGrid(Vg_R_SI=3300, Ig_R_SI=1575, fg_R_SI=50)
 i_ref_dq = Sequence(np.array([0, 1]), np.array([[1, 0], [1, 0]]))
 
 # Define grid parameters
-grid_params = model.grid.RLGridParameters(Vgr_SI=3300,
-                                          fgr_SI=50,
+grid_params = model.grid.RLGridParameters(Vg_SI=3300,
+                                          fg_SI=50,
                                           Rg_SI=0.01815,
                                           Lg_SI=5.7773e-4,
                                           base=base)

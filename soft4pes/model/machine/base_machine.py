@@ -13,11 +13,11 @@ class BaseMachine:
 
     Parameters
     ----------
-    V_R_SI : float
+    Vm_R_SI : float
         Rated voltage of the machine [V] (line-to-line rms voltage).
-    I_R_SI : float
+    Im_R_SI : float
         Rated current of the machine [A] (line rms current).
-    f_R_SI : float
+    fm_R_SI : float
         Rated frequency [Hz].
     npp : int
         Number of pole pairs.
@@ -43,10 +43,10 @@ class BaseMachine:
 
     """
 
-    def __init__(self, V_R_SI, I_R_SI, f_R_SI, npp, pf):
-        self.V = np.sqrt(2 / 3) * V_R_SI
-        self.I = np.sqrt(2) * I_R_SI
-        self.w = 2 * np.pi * f_R_SI
+    def __init__(self, Vm_R_SI, Im_R_SI, fm_R_SI, npp, pf):
+        self.V = np.sqrt(2 / 3) * Vm_R_SI
+        self.I = np.sqrt(2) * Im_R_SI
+        self.w = 2 * np.pi * fm_R_SI
         self.S = 3 / 2 * self.V * self.I
         self.Z = self.V / self.I
         self.L = self.Z / self.w

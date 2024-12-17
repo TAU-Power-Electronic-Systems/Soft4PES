@@ -24,9 +24,9 @@ from soft4pes.utils import Sequence
 from soft4pes.sim import Simulation
 
 # Define base values
-base = model.machine.BaseMachine(V_R_SI=400,
-                                 I_R_SI=4.4,
-                                 f_R_SI=50,
+base = model.machine.BaseMachine(Vm_R_SI=400,
+                                 Im_R_SI=4.4,
+                                 fm_R_SI=50,
                                  npp=1,
                                  pf=0.85)
 
@@ -37,7 +37,7 @@ T_ref_seq = Sequence(
 )
 
 # Define induction machine parameters
-im_params = model.machine.InductionMachineParameters(f_SI=50,
+im_params = model.machine.InductionMachineParameters(fs_SI=50,
                                                      pf=0.85,
                                                      Rs_SI=2.7,
                                                      Rr_SI=2.4,
