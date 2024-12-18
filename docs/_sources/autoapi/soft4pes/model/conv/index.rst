@@ -47,15 +47,15 @@ Classes
 Package Contents
 ----------------
 
-.. py:class:: Converter(v_dc, nl, base)
+.. py:class:: Converter(v_dc_SI, nl, base)
 
    
    Class representing a 2- or 3-level converter with constant dc-link voltage.
 
    Initialize a Converter instance.
 
-   :param v_dc: Dc-link voltage [V].
-   :type v_dc: float
+   :param v_dc_SI: Dc-link voltage [V].
+   :type v_dc_SI: float
    :param nl: Number of voltage levels in the converter.
    :type nl: int
    :param base: Base values.
@@ -63,7 +63,7 @@ Package Contents
 
    .. attribute:: v_dc
 
-      Dc_link voltage [p.u.]
+      Dc-link voltage [p.u.]
 
       :type: float
 

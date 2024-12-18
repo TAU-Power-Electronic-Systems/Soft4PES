@@ -35,6 +35,7 @@ Submodules
 
    /autoapi/soft4pes/model/grid/base_grid/index
    /autoapi/soft4pes/model/grid/rl_grid/index
+   /autoapi/soft4pes/model/grid/rl_grid_param/index
 
 
 Classes
@@ -44,24 +45,25 @@ Classes
 
    soft4pes.model.grid.BaseGrid
    soft4pes.model.grid.RLGrid
+   soft4pes.model.grid.RLGridParameters
 
 
 Package Contents
 ----------------
 
-.. py:class:: BaseGrid(Vgr, Igr, fgr)
+.. py:class:: BaseGrid(Vg_R_SI, Ig_R_SI, fg_R_SI)
 
    
    Base values for a grid.
 
    The class computes the base values for a grid based on the rated values.
 
-   :param Vgr: Rated voltage [V] (line-to-line rms voltage).
-   :type Vgr: float
-   :param Igr: Rated current [A] (line rms current).
-   :type Igr: float
-   :param fgr: Rated frequency [Hz].
-   :type fgr: float
+   :param Vg_R_SI: Rated voltage [V] (line-to-line rms voltage).
+   :type Vg_R_SI: float
+   :param Ig_R_SI: Rated current [A] (line rms current).
+   :type Ig_R_SI: float
+   :param fg_R_SI: Rated frequency [Hz].
+   :type fg_R_SI: float
 
    .. attribute:: V
 
@@ -122,7 +124,7 @@ Package Contents
    ..
        !! processed by numpydoc !!
 
-.. py:class:: RLGrid(Vgr, fgr, Rg, Lg, base, ig_ref_init=None)
+.. py:class:: RLGrid(par, base, ig_ref_init=None)
 
    Bases: :py:obj:`soft4pes.model.common.system_model.SystemModel`
 
@@ -133,42 +135,18 @@ Package Contents
    three-phase switch position or modulating signal. The grid voltage is considered to be a
    disturbance.
 
-   :param Vgr: Grid rated voltage [V] (line-to-line rms voltage).
-   :type Vgr: float
-   :param fgr: Grid rated frequency [Hz].
-   :type fgr: float
-   :param Rg: Resistance [Ohm].
-   :type Rg: float
-   :param Lg: Inductance [H].
-   :type Lg: float
+   :param par: Grid parameters in p.u..
+   :type par: RLGridParameters
    :param base: Base values.
    :type base: base value object
    :param ig_ref_init: Reference at discrete time instant kTs = 0 for starting simulation from steady state.
    :type ig_ref_init: 1 x 2 ndarray of floats, optional
 
-   .. attribute:: Vgr
+   .. attribute:: par
 
-      Grid rated voltage [p.u.] (line-to-line rms voltage).
+      Grid parameters in p.u..
 
-      :type: float
-
-   .. attribute:: wg
-
-      Grid angular frequency [p.u.].
-
-      :type: float
-
-   .. attribute:: Rg
-
-      Resistance [p.u.].
-
-      :type: float
-
-   .. attribute:: Xg
-
-      Reactance [p.u.].
-
-      :type: float
+      :type: RLGridParameters
 
    .. attribute:: x
 
@@ -314,4 +292,61 @@ Package Contents
       ..
           !! processed by numpydoc !!
 
+
+.. py:class:: RLGridParameters(Vg_SI, fg_SI, Rg_SI, Lg_SI, base)
+
+   
+   Parameters for a grid with a stiff voltage source and RL-load.
+
+   :param Vg_SI: Grid voltage [V] (line-to-line rms voltage).
+   :type Vg_SI: float
+   :param fg_SI: Grid frequency [Hz].
+   :type fg_SI: float
+   :param Rg_SI: Resistance [Ohm].
+   :type Rg_SI: float
+   :param Lg_SI: Inductance [H].
+   :type Lg_SI: float
+   :param base: Base values.
+   :type base: base value object
+
+   .. attribute:: Vg
+
+      Grid voltage [p.u.] (line-to-line rms voltage).
+
+      :type: float
+
+   .. attribute:: wg
+
+      Angular frequency [p.u.].
+
+      :type: float
+
+   .. attribute:: Rg
+
+      Resistance [p.u.].
+
+      :type: float
+
+   .. attribute:: Xg
+
+      Reactance [p.u.].
+
+      :type: float
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
 

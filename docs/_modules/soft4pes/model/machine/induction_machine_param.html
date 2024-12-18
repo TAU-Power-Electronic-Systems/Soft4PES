@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>soft4pes.model.machine.base_machine &#8212; Soft4PES  documentation</title>
+    <title>soft4pes.model.machine.induction_machine_param &#8212; Soft4PES  documentation</title>
   
   
   
@@ -44,7 +44,7 @@
     <script src="../../../../_static/clipboard.min.js"></script>
     <script src="../../../../_static/copybutton.js"></script>
     <script src="../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/soft4pes/model/machine/base_machine';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/soft4pes/model/machine/induction_machine_param';</script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -297,60 +297,67 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <h1>Source code for soft4pes.model.machine.base_machine</h1><div class="highlight"><pre>
+  <h1>Source code for soft4pes.model.machine.induction_machine_param</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Base values for a machine.</span>
+<span class="sd">Parameters for an induction machine.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 
-<div class="viewcode-block" id="BaseMachine"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/index.html#soft4pes.model.machine.base_machine.BaseMachine">[docs]</a><span class="k">class</span> <span class="nc">BaseMachine</span><span class="p">:</span>
+<div class="viewcode-block" id="InductionMachineParameters"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine_param/index.html#soft4pes.model.machine.InductionMachineParameters">[docs]</a><span class="k">class</span> <span class="nc">InductionMachineParameters</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Base values for a machine.</span>
-
-<span class="sd">    The class computes the base values for a machine based on the rated values.</span>
+<span class="sd">    Parameters for the InductionMachine.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    Vm_R_SI : float</span>
-<span class="sd">        Rated voltage of the machine [V] (line-to-line rms voltage).</span>
-<span class="sd">    Im_R_SI : float</span>
-<span class="sd">        Rated current of the machine [A] (line rms current).</span>
-<span class="sd">    fm_R_SI : float</span>
-<span class="sd">        Rated frequency [Hz].</span>
-<span class="sd">    npp : int</span>
-<span class="sd">        Number of pole pairs.</span>
-<span class="sd">    pf : float</span>
+<span class="sd">    fs_SI : float</span>
+<span class="sd">        Synchronous (stator) electrical frequency [Hz].</span>
+<span class="sd">    pf_SI : float</span>
 <span class="sd">        Power factor.</span>
+<span class="sd">    Rs_SI : float</span>
+<span class="sd">        Stator resistance [Ohm].</span>
+<span class="sd">    Rr_SI : float</span>
+<span class="sd">        Rotor resistance [Ohm].</span>
+<span class="sd">    Lls_SI : float</span>
+<span class="sd">        Stator leakage inductance [H].</span>
+<span class="sd">    Llr_SI : float</span>
+<span class="sd">        Rotor leakage inductance [H].</span>
+<span class="sd">    Lm_SI : float</span>
+<span class="sd">        Mutual inductance [H].</span>
+<span class="sd">    base : base value object</span>
+<span class="sd">        Base values.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">    V : float</span>
-<span class="sd">        Base voltage [V].</span>
-<span class="sd">    I : float</span>
-<span class="sd">        Base current [A].</span>
-<span class="sd">    w : float</span>
-<span class="sd">        Base angular frequency [rad/s].</span>
-<span class="sd">    S : float</span>
-<span class="sd">        Base apparent power [VA].</span>
-<span class="sd">    Z : float</span>
-<span class="sd">        Base impedance [Ohm].</span>
-<span class="sd">    L : float</span>
-<span class="sd">        Base inductance [H].</span>
-<span class="sd">    T : float</span>
-<span class="sd">        Base torque [Nm].</span>
-
+<span class="sd">    ws : float</span>
+<span class="sd">        Synchronous (stator) electrical angular frequency [p.u.].</span>
+<span class="sd">    pf : float</span>
+<span class="sd">        Power factor.</span>
+<span class="sd">    Rs : float</span>
+<span class="sd">        Stator resistance [p.u.].</span>
+<span class="sd">    Rr : float</span>
+<span class="sd">        Rotor resistance [p.u.].</span>
+<span class="sd">    Lls : float</span>
+<span class="sd">        Stator leakage inductance [p.u.].</span>
+<span class="sd">    Llr : float</span>
+<span class="sd">        Rotor leakage inductance [p.u.].</span>
+<span class="sd">    Lm : float</span>
+<span class="sd">        Mutual inductance [p.u.].</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Vm_R_SI</span><span class="p">,</span> <span class="n">Im_R_SI</span><span class="p">,</span> <span class="n">fm_R_SI</span><span class="p">,</span> <span class="n">npp</span><span class="p">,</span> <span class="n">pf</span><span class="p">):</span>
-<div class="viewcode-block" id="BaseMachine.V"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/base_machine/index.html#soft4pes.model.machine.base_machine.BaseMachine.V">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">Vm_R_SI</span></div>
-<div class="viewcode-block" id="BaseMachine.I"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/base_machine/index.html#soft4pes.model.machine.base_machine.BaseMachine.I">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">I</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">Im_R_SI</span></div>
-<div class="viewcode-block" id="BaseMachine.w"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/base_machine/index.html#soft4pes.model.machine.base_machine.BaseMachine.w">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">fm_R_SI</span></div>
-<div class="viewcode-block" id="BaseMachine.S"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/base_machine/index.html#soft4pes.model.machine.base_machine.BaseMachine.S">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">S</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">V</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">I</span></div>
-<div class="viewcode-block" id="BaseMachine.Z"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/base_machine/index.html#soft4pes.model.machine.base_machine.BaseMachine.Z">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">V</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">I</span></div>
-<div class="viewcode-block" id="BaseMachine.L"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/base_machine/index.html#soft4pes.model.machine.base_machine.BaseMachine.L">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Z</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span></div>
-<div class="viewcode-block" id="BaseMachine.T"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/base_machine/index.html#soft4pes.model.machine.base_machine.BaseMachine.T">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="n">pf</span> <span class="o">*</span> <span class="n">npp</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">S</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span></div></div>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fs_SI</span><span class="p">,</span> <span class="n">pf</span><span class="p">,</span> <span class="n">Rs_SI</span><span class="p">,</span> <span class="n">Rr_SI</span><span class="p">,</span> <span class="n">Lls_SI</span><span class="p">,</span> <span class="n">Llr_SI</span><span class="p">,</span> <span class="n">Lm_SI</span><span class="p">,</span> <span class="n">base</span><span class="p">):</span>
+<div class="viewcode-block" id="InductionMachineParameters.ws"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine_param/index.html#soft4pes.model.machine.InductionMachineParameters.ws">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">fs_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">w</span></div>
+<div class="viewcode-block" id="InductionMachineParameters.pf"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine_param/index.html#soft4pes.model.machine.InductionMachineParameters.pf">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">pf</span> <span class="o">=</span> <span class="n">pf</span></div>
+<div class="viewcode-block" id="InductionMachineParameters.Rs"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine_param/index.html#soft4pes.model.machine.InductionMachineParameters.Rs">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Rs</span> <span class="o">=</span> <span class="n">Rs_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">Z</span></div>
+<div class="viewcode-block" id="InductionMachineParameters.Rr"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine_param/index.html#soft4pes.model.machine.InductionMachineParameters.Rr">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Rr</span> <span class="o">=</span> <span class="n">Rr_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">Z</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Xls</span> <span class="o">=</span> <span class="n">Lls_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">L</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Xlr</span> <span class="o">=</span> <span class="n">Llr_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">L</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Xm</span> <span class="o">=</span> <span class="n">Lm_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">L</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Xs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xls</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xm</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Xr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xlr</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xm</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">D</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xs</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xr</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">Xm</span><span class="o">**</span><span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kT</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">pf</span></div>
 </pre></div>
 
                 </article>

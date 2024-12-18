@@ -35,6 +35,7 @@ Submodules
 
    /autoapi/soft4pes/model/machine/base_machine/index
    /autoapi/soft4pes/model/machine/induction_machine/index
+   /autoapi/soft4pes/model/machine/induction_machine_param/index
 
 
 Classes
@@ -44,24 +45,25 @@ Classes
 
    soft4pes.model.machine.BaseMachine
    soft4pes.model.machine.InductionMachine
+   soft4pes.model.machine.InductionMachineParameters
 
 
 Package Contents
 ----------------
 
-.. py:class:: BaseMachine(Vr, Ir, fr, npp, pf)
+.. py:class:: BaseMachine(Vm_R_SI, Im_R_SI, fm_R_SI, npp, pf)
 
    
    Base values for a machine.
 
    The class computes the base values for a machine based on the rated values.
 
-   :param Vr: Rated voltage of the machine [V] (line-to-line rms voltage).
-   :type Vr: float
-   :param Ir: Rated current of the machine [A] (line rms current).
-   :type Ir: float
-   :param fr: Rated frequency [Hz].
-   :type fr: float
+   :param Vm_R_SI: Rated voltage of the machine [V] (line-to-line rms voltage).
+   :type Vm_R_SI: float
+   :param Im_R_SI: Rated current of the machine [A] (line rms current).
+   :type Im_R_SI: float
+   :param fm_R_SI: Rated frequency [Hz].
+   :type fm_R_SI: float
    :param npp: Number of pole pairs.
    :type npp: int
    :param pf: Power factor.
@@ -126,7 +128,7 @@ Package Contents
    ..
        !! processed by numpydoc !!
 
-.. py:class:: InductionMachine(f, pf, Rs, Rr, Lls, Llr, Lm, base, psiS_mag_ref, T_ref_init)
+.. py:class:: InductionMachine(par, base, psiS_mag_ref, T_ref_init)
 
    Bases: :py:obj:`soft4pes.model.common.system_model.SystemModel`
 
@@ -138,20 +140,8 @@ Package Contents
    The system input is the converter three-phase switch position or modulating signal. The initial
    state of the model is based on the stator flux magnitude reference and torque reference.
 
-   :param f: Rated frequency [Hz].
-   :type f: float
-   :param pf: Power factor.
-   :type pf: float
-   :param Rs: Stator resistance [Ohm].
-   :type Rs: float
-   :param Rr: Rotor resistance [Ohm].
-   :type Rr: float
-   :param Lls: Stator leakage inductance [H].
-   :type Lls: float
-   :param Llr: Rotor leakage inductance [H].
-   :type Llr: float
-   :param Lm: Mutual inductance [H].
-   :type Lm: float
+   :param par: Induction machine parameters in p.u..
+   :type par: InductionMachineParameters
    :param base: Base values.
    :type base: base value object
    :param psiS_mag_ref: Stator flux magnitude reference [p.u.].
@@ -159,65 +149,11 @@ Package Contents
    :param T_ref_init: Initial torque reference [p.u.].
    :type T_ref_init: float
 
-   .. attribute:: w
+   .. attribute:: par
 
-      Rated angular frequency [p.u.].
+      Induction machine parameters in p.u..
 
-      :type: float
-
-   .. attribute:: Rs
-
-      Stator resistance [p.u.].
-
-      :type: float
-
-   .. attribute:: Rr
-
-      Rotor resistance [p.u.].
-
-      :type: float
-
-   .. attribute:: Xls
-
-      Stator leakage reactance [p.u.].
-
-      :type: float
-
-   .. attribute:: Xlr
-
-      Rotor leakage reactance [p.u.].
-
-      :type: float
-
-   .. attribute:: Xm
-
-      Mutual reactance [p.u.].
-
-      :type: float
-
-   .. attribute:: Xs
-
-      Stator self-reactance [p.u.].
-
-      :type: float
-
-   .. attribute:: Xr
-
-      Rotor self-reactance [p.u.].
-
-      :type: float
-
-   .. attribute:: D
-
-      Determinant.
-
-      :type: float
-
-   .. attribute:: kT
-
-      Torque correction factor (needed to have 1 p.u. nominal torque).
-
-      :type: float
+      :type: InductionMachineParameters
 
    .. attribute:: base
 
@@ -405,4 +341,85 @@ Package Contents
       ..
           !! processed by numpydoc !!
 
+
+.. py:class:: InductionMachineParameters(fs_SI, pf, Rs_SI, Rr_SI, Lls_SI, Llr_SI, Lm_SI, base)
+
+   
+   Parameters for the InductionMachine.
+
+   :param fs_SI: Synchronous (stator) electrical frequency [Hz].
+   :type fs_SI: float
+   :param pf_SI: Power factor.
+   :type pf_SI: float
+   :param Rs_SI: Stator resistance [Ohm].
+   :type Rs_SI: float
+   :param Rr_SI: Rotor resistance [Ohm].
+   :type Rr_SI: float
+   :param Lls_SI: Stator leakage inductance [H].
+   :type Lls_SI: float
+   :param Llr_SI: Rotor leakage inductance [H].
+   :type Llr_SI: float
+   :param Lm_SI: Mutual inductance [H].
+   :type Lm_SI: float
+   :param base: Base values.
+   :type base: base value object
+
+   .. attribute:: ws
+
+      Synchronous (stator) electrical angular frequency [p.u.].
+
+      :type: float
+
+   .. attribute:: pf
+
+      Power factor.
+
+      :type: float
+
+   .. attribute:: Rs
+
+      Stator resistance [p.u.].
+
+      :type: float
+
+   .. attribute:: Rr
+
+      Rotor resistance [p.u.].
+
+      :type: float
+
+   .. attribute:: Lls
+
+      Stator leakage inductance [p.u.].
+
+      :type: float
+
+   .. attribute:: Llr
+
+      Rotor leakage inductance [p.u.].
+
+      :type: float
+
+   .. attribute:: Lm
+
+      Mutual inductance [p.u.].
+
+      :type: float
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
 

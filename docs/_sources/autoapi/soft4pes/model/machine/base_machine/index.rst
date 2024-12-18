@@ -22,19 +22,19 @@ Classes
 Module Contents
 ---------------
 
-.. py:class:: BaseMachine(Vr, Ir, fr, npp, pf)
+.. py:class:: BaseMachine(Vm_R_SI, Im_R_SI, fm_R_SI, npp, pf)
 
    
    Base values for a machine.
 
    The class computes the base values for a machine based on the rated values.
 
-   :param Vr: Rated voltage of the machine [V] (line-to-line rms voltage).
-   :type Vr: float
-   :param Ir: Rated current of the machine [A] (line rms current).
-   :type Ir: float
-   :param fr: Rated frequency [Hz].
-   :type fr: float
+   :param Vm_R_SI: Rated voltage of the machine [V] (line-to-line rms voltage).
+   :type Vm_R_SI: float
+   :param Im_R_SI: Rated current of the machine [A] (line rms current).
+   :type Im_R_SI: float
+   :param fm_R_SI: Rated frequency [Hz].
+   :type fm_R_SI: float
    :param npp: Number of pole pairs.
    :type npp: int
    :param pf: Power factor.

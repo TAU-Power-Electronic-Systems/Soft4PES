@@ -161,11 +161,13 @@
 <li class="toctree-l3 current active has-children"><a class="reference internal" href="../index.html">soft4pes.model.grid</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l4 current active"><a class="current reference internal" href="#">soft4pes.model.grid.base_grid</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../rl_grid/index.html">soft4pes.model.grid.rl_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../rl_grid_param/index.html">soft4pes.model.grid.rl_grid_param</a></li>
 </ul>
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../machine/index.html">soft4pes.model.machine</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../machine/base_machine/index.html">soft4pes.model.machine.base_machine</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../machine/induction_machine/index.html">soft4pes.model.machine.induction_machine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../machine/induction_machine_param/index.html">soft4pes.model.machine.induction_machine_param</a></li>
 </ul>
 </li>
 </ul>
@@ -386,15 +388,15 @@ document.write(`
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="soft4pes.model.grid.base_grid.BaseGrid">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.model.grid.base_grid.</span></span><span class="sig-name descname"><span class="pre">BaseGrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Vgr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Igr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fgr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/model/grid/base_grid.html#BaseGrid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.base_grid.BaseGrid" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.model.grid.base_grid.</span></span><span class="sig-name descname"><span class="pre">BaseGrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Vg_R_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ig_R_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fg_R_SI</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/model/grid/base_grid.html#BaseGrid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.base_grid.BaseGrid" title="Permalink to this definition">#</a></dt>
 <dd><p>Base values for a grid.</p>
 <p>The class computes the base values for a grid based on the rated values.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>Vgr</strong> (<em>float</em>) – Rated voltage [V] (line-to-line rms voltage).</p></li>
-<li><p><strong>Igr</strong> (<em>float</em>) – Rated current [A] (line rms current).</p></li>
-<li><p><strong>fgr</strong> (<em>float</em>) – Rated frequency [Hz].</p></li>
+<li><p><strong>Vg_R_SI</strong> (<em>float</em>) – Rated voltage [V] (line-to-line rms voltage).</p></li>
+<li><p><strong>Ig_R_SI</strong> (<em>float</em>) – Rated current [A] (line rms current).</p></li>
+<li><p><strong>fg_R_SI</strong> (<em>float</em>) – Rated frequency [Hz].</p></li>
 </ul>
 </dd>
 </dl>

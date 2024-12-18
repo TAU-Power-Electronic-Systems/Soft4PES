@@ -158,11 +158,13 @@
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/index.html">soft4pes.model.grid</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/base_grid/index.html">soft4pes.model.grid.base_grid</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html">soft4pes.model.grid.rl_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/rl_grid_param/index.html">soft4pes.model.grid.rl_grid_param</a></li>
 </ul>
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/model/machine/index.html">soft4pes.model.machine</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/machine/base_machine/index.html">soft4pes.model.machine.base_machine</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html">soft4pes.model.machine.induction_machine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/machine/induction_machine_param/index.html">soft4pes.model.machine.induction_machine_param</a></li>
 </ul>
 </li>
 </ul>
@@ -311,11 +313,11 @@ document.write(`
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    Vgr : float</span>
+<span class="sd">    Vg_R_SI : float</span>
 <span class="sd">        Rated voltage [V] (line-to-line rms voltage).</span>
-<span class="sd">    Igr : float</span>
+<span class="sd">    Ig_R_SI : float</span>
 <span class="sd">        Rated current [A] (line rms current).</span>
-<span class="sd">    fgr : float</span>
+<span class="sd">    fg_R_SI : float</span>
 <span class="sd">        Rated frequency [Hz].</span>
 
 <span class="sd">    Attributes</span>
@@ -336,10 +338,10 @@ document.write(`
 <span class="sd">        Base capacitance [F].</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Vgr</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">Igr</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">fgr</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
-<div class="viewcode-block" id="BaseGrid.V"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/base_grid/index.html#soft4pes.model.grid.base_grid.BaseGrid.V">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">Vgr</span></div>
-<div class="viewcode-block" id="BaseGrid.I"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/base_grid/index.html#soft4pes.model.grid.base_grid.BaseGrid.I">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">I</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">Igr</span></div>
-<div class="viewcode-block" id="BaseGrid.w"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/base_grid/index.html#soft4pes.model.grid.base_grid.BaseGrid.w">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">fgr</span></div>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Vg_R_SI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">Ig_R_SI</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">fg_R_SI</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<div class="viewcode-block" id="BaseGrid.V"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/base_grid/index.html#soft4pes.model.grid.base_grid.BaseGrid.V">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">Vg_R_SI</span></div>
+<div class="viewcode-block" id="BaseGrid.I"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/base_grid/index.html#soft4pes.model.grid.base_grid.BaseGrid.I">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">I</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">Ig_R_SI</span></div>
+<div class="viewcode-block" id="BaseGrid.w"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/base_grid/index.html#soft4pes.model.grid.base_grid.BaseGrid.w">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">fg_R_SI</span></div>
 <div class="viewcode-block" id="BaseGrid.S"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/base_grid/index.html#soft4pes.model.grid.base_grid.BaseGrid.S">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">S</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">V</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">I</span></div>
 <div class="viewcode-block" id="BaseGrid.Z"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/base_grid/index.html#soft4pes.model.grid.base_grid.BaseGrid.Z">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">V</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">I</span></div>
 <div class="viewcode-block" id="BaseGrid.L"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/base_grid/index.html#soft4pes.model.grid.base_grid.BaseGrid.L">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Z</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span></div>

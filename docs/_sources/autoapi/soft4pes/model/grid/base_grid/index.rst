@@ -22,19 +22,19 @@ Classes
 Module Contents
 ---------------
 
-.. py:class:: BaseGrid(Vgr, Igr, fgr)
+.. py:class:: BaseGrid(Vg_R_SI, Ig_R_SI, fg_R_SI)
 
    
    Base values for a grid.
 
    The class computes the base values for a grid based on the rated values.
 
-   :param Vgr: Rated voltage [V] (line-to-line rms voltage).
-   :type Vgr: float
-   :param Igr: Rated current [A] (line rms current).
-   :type Igr: float
-   :param fgr: Rated frequency [Hz].
-   :type fgr: float
+   :param Vg_R_SI: Rated voltage [V] (line-to-line rms voltage).
+   :type Vg_R_SI: float
+   :param Ig_R_SI: Rated current [A] (line rms current).
+   :type Ig_R_SI: float
+   :param fg_R_SI: Rated frequency [Hz].
+   :type fg_R_SI: float
 
    .. attribute:: V
 

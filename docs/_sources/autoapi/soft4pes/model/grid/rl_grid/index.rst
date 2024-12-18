@@ -22,7 +22,7 @@ Classes
 Module Contents
 ---------------
 
-.. py:class:: RLGrid(Vgr, fgr, Rg, Lg, base, ig_ref_init=None)
+.. py:class:: RLGrid(par, base, ig_ref_init=None)
 
    Bases: :py:obj:`soft4pes.model.common.system_model.SystemModel`
 
@@ -33,42 +33,18 @@ Module Contents
    three-phase switch position or modulating signal. The grid voltage is considered to be a
    disturbance.
 
-   :param Vgr: Grid rated voltage [V] (line-to-line rms voltage).
-   :type Vgr: float
-   :param fgr: Grid rated frequency [Hz].
-   :type fgr: float
-   :param Rg: Resistance [Ohm].
-   :type Rg: float
-   :param Lg: Inductance [H].
-   :type Lg: float
+   :param par: Grid parameters in p.u..
+   :type par: RLGridParameters
    :param base: Base values.
    :type base: base value object
    :param ig_ref_init: Reference at discrete time instant kTs = 0 for starting simulation from steady state.
    :type ig_ref_init: 1 x 2 ndarray of floats, optional
 
-   .. attribute:: Vgr
+   .. attribute:: par
 
-      Grid rated voltage [p.u.] (line-to-line rms voltage).
+      Grid parameters in p.u..
 
-      :type: float
-
-   .. attribute:: wg
-
-      Grid angular frequency [p.u.].
-
-      :type: float
-
-   .. attribute:: Rg
-
-      Resistance [p.u.].
-
-      :type: float
-
-   .. attribute:: Xg
-
-      Reactance [p.u.].
-
-      :type: float
+      :type: RLGridParameters
 
    .. attribute:: x
 

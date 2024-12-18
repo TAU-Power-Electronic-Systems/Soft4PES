@@ -158,11 +158,13 @@
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../../../autoapi/soft4pes/model/grid/index.html">soft4pes.model.grid</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../../autoapi/soft4pes/model/grid/base_grid/index.html">soft4pes.model.grid.base_grid</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../../autoapi/soft4pes/model/grid/rl_grid/index.html">soft4pes.model.grid.rl_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../autoapi/soft4pes/model/grid/rl_grid_param/index.html">soft4pes.model.grid.rl_grid_param</a></li>
 </ul>
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../../../autoapi/soft4pes/model/machine/index.html">soft4pes.model.machine</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../../autoapi/soft4pes/model/machine/base_machine/index.html">soft4pes.model.machine.base_machine</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../../autoapi/soft4pes/model/machine/induction_machine/index.html">soft4pes.model.machine.induction_machine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../autoapi/soft4pes/model/machine/induction_machine_param/index.html">soft4pes.model.machine.induction_machine_param</a></li>
 </ul>
 </li>
 </ul>
@@ -399,7 +401,7 @@ document.write(`
         <span class="c1"># Predict the current reference over the prediction horizon</span>
         <span class="c1"># Make a rotation matrix</span>
         <span class="n">Ts_pu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ts</span> <span class="o">*</span> <span class="n">sys</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">w</span>
-        <span class="n">delta_theta</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">wg</span> <span class="o">*</span> <span class="n">Ts_pu</span>
+        <span class="n">delta_theta</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">wg</span> <span class="o">*</span> <span class="n">Ts_pu</span>
         <span class="n">R_ref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">delta_theta</span><span class="p">),</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">delta_theta</span><span class="p">)],</span> \
                           <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">delta_theta</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">delta_theta</span><span class="p">)]])</span>
 
@@ -440,7 +442,7 @@ document.write(`
 
         <span class="c1"># Get the grid voltage at step k by rotating it</span>
         <span class="n">Ts_pu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ts</span> <span class="o">*</span> <span class="n">sys</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">w</span>
-        <span class="n">delta_theta</span> <span class="o">=</span> <span class="n">k</span> <span class="o">*</span> <span class="n">sys</span><span class="o">.</span><span class="n">wg</span> <span class="o">*</span> <span class="n">Ts_pu</span>
+        <span class="n">delta_theta</span> <span class="o">=</span> <span class="n">k</span> <span class="o">*</span> <span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">wg</span> <span class="o">*</span> <span class="n">Ts_pu</span>
         <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">delta_theta</span><span class="p">),</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">delta_theta</span><span class="p">)],</span> \
                         <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">delta_theta</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">delta_theta</span><span class="p">)]])</span>
 

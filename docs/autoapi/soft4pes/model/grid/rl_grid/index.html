@@ -48,7 +48,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'autoapi/soft4pes/model/grid/rl_grid/index';</script>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
-    <link rel="next" title="soft4pes.model.machine" href="../../machine/index.html" />
+    <link rel="next" title="soft4pes.model.grid.rl_grid_param" href="../rl_grid_param/index.html" />
     <link rel="prev" title="soft4pes.model.grid.base_grid" href="../base_grid/index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -161,11 +161,13 @@
 <li class="toctree-l3 current active has-children"><a class="reference internal" href="../index.html">soft4pes.model.grid</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="../base_grid/index.html">soft4pes.model.grid.base_grid</a></li>
 <li class="toctree-l4 current active"><a class="current reference internal" href="#">soft4pes.model.grid.rl_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../rl_grid_param/index.html">soft4pes.model.grid.rl_grid_param</a></li>
 </ul>
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../machine/index.html">soft4pes.model.machine</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../machine/base_machine/index.html">soft4pes.model.machine.base_machine</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../machine/induction_machine/index.html">soft4pes.model.machine.induction_machine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../machine/induction_machine_param/index.html">soft4pes.model.machine.induction_machine_param</a></li>
 </ul>
 </li>
 </ul>
@@ -347,10 +349,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid"><code class="docutils literal notranslate"><span class="pre">RLGrid</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.Vgr"><code class="docutils literal notranslate"><span class="pre">RLGrid.Vgr</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.wg"><code class="docutils literal notranslate"><span class="pre">RLGrid.wg</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.Rg"><code class="docutils literal notranslate"><span class="pre">RLGrid.Rg</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.Xg"><code class="docutils literal notranslate"><span class="pre">RLGrid.Xg</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.par"><code class="docutils literal notranslate"><span class="pre">RLGrid.par</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.x"><code class="docutils literal notranslate"><span class="pre">RLGrid.x</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.base"><code class="docutils literal notranslate"><span class="pre">RLGrid.base</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.set_initial_state"><code class="docutils literal notranslate"><span class="pre">RLGrid.set_initial_state()</span></code></a></li>
@@ -389,7 +388,7 @@ document.write(`
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="soft4pes.model.grid.rl_grid.RLGrid">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.model.grid.rl_grid.</span></span><span class="sig-name descname"><span class="pre">RLGrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Vgr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fgr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Rg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Lg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ig_ref_init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/model/grid/rl_grid.html#RLGrid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.rl_grid.RLGrid" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.model.grid.rl_grid.</span></span><span class="sig-name descname"><span class="pre">RLGrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">par</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ig_ref_init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/model/grid/rl_grid.html#RLGrid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.rl_grid.RLGrid" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.model.common.system_model.SystemModel</span></code></p>
 <p>Model of a grid with stiff voltage source and RL-load in alpha-beta frame. The state of the
 system is the grid current in the alpha-beta frame. The system input is the converter
@@ -398,55 +397,19 @@ disturbance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>Vgr</strong> (<em>float</em>) – Grid rated voltage [V] (line-to-line rms voltage).</p></li>
-<li><p><strong>fgr</strong> (<em>float</em>) – Grid rated frequency [Hz].</p></li>
-<li><p><strong>Rg</strong> (<em>float</em>) – Resistance [Ohm].</p></li>
-<li><p><strong>Lg</strong> (<em>float</em>) – Inductance [H].</p></li>
+<li><p><strong>par</strong> (<a class="reference internal" href="../index.html#soft4pes.model.grid.RLGridParameters" title="soft4pes.model.grid.RLGridParameters"><em>RLGridParameters</em></a>) – Grid parameters in p.u..</p></li>
 <li><p><strong>base</strong> (<em>base value object</em>) – Base values.</p></li>
 <li><p><strong>ig_ref_init</strong> (<em>1 x 2 ndarray</em><em> of </em><em>floats</em><em>, </em><em>optional</em>) – Reference at discrete time instant kTs = 0 for starting simulation from steady state.</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.model.grid.rl_grid.RLGrid.Vgr">
-<span class="sig-name descname"><span class="pre">Vgr</span></span><a class="reference internal" href="../../../../../_modules/soft4pes/model/grid/rl_grid.html#RLGrid.Vgr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.rl_grid.RLGrid.Vgr" title="Permalink to this definition">#</a></dt>
-<dd><p>Grid rated voltage [p.u.] (line-to-line rms voltage).</p>
+<dt class="sig sig-object py" id="soft4pes.model.grid.rl_grid.RLGrid.par">
+<span class="sig-name descname"><span class="pre">par</span></span><a class="reference internal" href="../../../../../_modules/soft4pes/model/grid/rl_grid.html#RLGrid.par"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.rl_grid.RLGrid.par" title="Permalink to this definition">#</a></dt>
+<dd><p>Grid parameters in p.u..</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.model.grid.rl_grid.RLGrid.wg">
-<span class="sig-name descname"><span class="pre">wg</span></span><a class="reference internal" href="../../../../../_modules/soft4pes/model/grid/rl_grid.html#RLGrid.wg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.rl_grid.RLGrid.wg" title="Permalink to this definition">#</a></dt>
-<dd><p>Grid angular frequency [p.u.].</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.model.grid.rl_grid.RLGrid.Rg">
-<span class="sig-name descname"><span class="pre">Rg</span></span><a class="reference internal" href="../../../../../_modules/soft4pes/model/grid/rl_grid.html#RLGrid.Rg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.rl_grid.RLGrid.Rg" title="Permalink to this definition">#</a></dt>
-<dd><p>Resistance [p.u.].</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.model.grid.rl_grid.RLGrid.Xg">
-<span class="sig-name descname"><span class="pre">Xg</span></span><a class="reference internal" href="../../../../../_modules/soft4pes/model/grid/rl_grid.html#RLGrid.Xg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.rl_grid.RLGrid.Xg" title="Permalink to this definition">#</a></dt>
-<dd><p>Reactance [p.u.].</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
+<dd class="field-odd"><p><a class="reference internal" href="../index.html#soft4pes.model.grid.RLGridParameters" title="soft4pes.model.grid.RLGridParameters">RLGridParameters</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -562,11 +525,11 @@ disturbance.</p>
       </div>
     </a>
     <a class="right-next"
-       href="../../machine/index.html"
+       href="../rl_grid_param/index.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">soft4pes.model.machine</p>
+        <p class="prev-next-title">soft4pes.model.grid.rl_grid_param</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -588,10 +551,7 @@ disturbance.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid"><code class="docutils literal notranslate"><span class="pre">RLGrid</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.Vgr"><code class="docutils literal notranslate"><span class="pre">RLGrid.Vgr</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.wg"><code class="docutils literal notranslate"><span class="pre">RLGrid.wg</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.Rg"><code class="docutils literal notranslate"><span class="pre">RLGrid.Rg</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.Xg"><code class="docutils literal notranslate"><span class="pre">RLGrid.Xg</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.par"><code class="docutils literal notranslate"><span class="pre">RLGrid.par</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.x"><code class="docutils literal notranslate"><span class="pre">RLGrid.x</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.base"><code class="docutils literal notranslate"><span class="pre">RLGrid.base</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.set_initial_state"><code class="docutils literal notranslate"><span class="pre">RLGrid.set_initial_state()</span></code></a></li>

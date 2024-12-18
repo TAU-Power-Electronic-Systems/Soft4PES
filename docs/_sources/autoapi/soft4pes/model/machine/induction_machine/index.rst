@@ -22,7 +22,7 @@ Classes
 Module Contents
 ---------------
 
-.. py:class:: InductionMachine(f, pf, Rs, Rr, Lls, Llr, Lm, base, psiS_mag_ref, T_ref_init)
+.. py:class:: InductionMachine(par, base, psiS_mag_ref, T_ref_init)
 
    Bases: :py:obj:`soft4pes.model.common.system_model.SystemModel`
 
@@ -34,20 +34,8 @@ Module Contents
    The system input is the converter three-phase switch position or modulating signal. The initial
    state of the model is based on the stator flux magnitude reference and torque reference.
 
-   :param f: Rated frequency [Hz].
-   :type f: float
-   :param pf: Power factor.
-   :type pf: float
-   :param Rs: Stator resistance [Ohm].
-   :type Rs: float
-   :param Rr: Rotor resistance [Ohm].
-   :type Rr: float
-   :param Lls: Stator leakage inductance [H].
-   :type Lls: float
-   :param Llr: Rotor leakage inductance [H].
-   :type Llr: float
-   :param Lm: Mutual inductance [H].
-   :type Lm: float
+   :param par: Induction machine parameters in p.u..
+   :type par: InductionMachineParameters
    :param base: Base values.
    :type base: base value object
    :param psiS_mag_ref: Stator flux magnitude reference [p.u.].
@@ -55,65 +43,11 @@ Module Contents
    :param T_ref_init: Initial torque reference [p.u.].
    :type T_ref_init: float
 
-   .. attribute:: w
+   .. attribute:: par
 
-      Rated angular frequency [p.u.].
+      Induction machine parameters in p.u..
 
-      :type: float
-
-   .. attribute:: Rs
-
-      Stator resistance [p.u.].
-
-      :type: float
-
-   .. attribute:: Rr
-
-      Rotor resistance [p.u.].
-
-      :type: float
-
-   .. attribute:: Xls
-
-      Stator leakage reactance [p.u.].
-
-      :type: float
-
-   .. attribute:: Xlr
-
-      Rotor leakage reactance [p.u.].
-
-      :type: float
-
-   .. attribute:: Xm
-
-      Mutual reactance [p.u.].
-
-      :type: float
-
-   .. attribute:: Xs
-
-      Stator self-reactance [p.u.].
-
-      :type: float
-
-   .. attribute:: Xr
-
-      Rotor self-reactance [p.u.].
-
-      :type: float
-
-   .. attribute:: D
-
-      Determinant.
-
-      :type: float
-
-   .. attribute:: kT
-
-      Torque correction factor (needed to have 1 p.u. nominal torque).
-
-      :type: float
+      :type: InductionMachineParameters
 
    .. attribute:: base
 
