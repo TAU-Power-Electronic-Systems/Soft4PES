@@ -97,7 +97,7 @@ class IMMpcCurrCtr:
         # Predict the current reference over the prediction horizon
         # Make a rotation matrix
         Ts_pu = self.Ts * sys.base.w
-        delta_theta = sys.w * Ts_pu
+        delta_theta = sys.par.ws * Ts_pu
         R_ref = np.array([[np.cos(delta_theta), -np.sin(delta_theta)], \
                           [np.sin(delta_theta), np.cos(delta_theta)]])
 

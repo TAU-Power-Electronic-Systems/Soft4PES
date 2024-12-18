@@ -45,8 +45,8 @@ class RLGridStateSpaceCurrCtr:
     """
 
     def __init__(self, sys, base, Ts, i_ref_seq_dq):
-        self.Xf = sys.Xg  # Assume the inductances are equal
-        self.Rf = sys.Rg  # Assume the resitances are equal
+        self.Xf = sys.par.Xg  # Assume the inductances are equal
+        self.Rf = sys.par.Rg  # Assume the resitances are equal
         self.Ts = Ts
         self.Ts_pu = self.Ts * base.w
         self.ctr_pars = self.get_state_space_ctr_pars()
