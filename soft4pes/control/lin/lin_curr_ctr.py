@@ -16,7 +16,7 @@ class RLGridPICurrCtr:
         Base values.
     Ts : float
         Sampling interval [s].
-    i_ref_seq_dq : Sequence object
+    ig_ref_seq_dq : Sequence object
         Current reference sequence instance in dq-frame [p.u.].
     
     Attributes
@@ -41,13 +41,13 @@ class RLGridPICurrCtr:
         Current error instance in d-frame [p.u.].
     integral_error_q : float
         Current error instance in q-frame [p.u.].                               
-    i_ref_seq_dq : Sequence object
+    ig_ref_seq_dq : Sequence object
         Current reference sequence instance in dq-frame [p.u.].   
     data : dict
         Controller data.
     """
 
-    def __init__(self, sys, base, Ts, i_ref_seq_dq):
+    def __init__(self, sys, base, Ts, ig_ref_seq_dq):
         self.Xg = sys.par.Xg
         self.Rg = sys.par.Rg
         self.Ts = Ts
@@ -57,7 +57,7 @@ class RLGridPICurrCtr:
         self.k_i = self.alpha_c * self.Rg  # Integral gain
         self.integral_error_d = 0
         self.integral_error_q = 0
-        self.i_ref_seq_dq = i_ref_seq_dq
+        self.ig_ref_seq_dq = ig_ref_seq_dq
 
         self.data = {
             'ig_ref': [],
@@ -88,7 +88,7 @@ class RLGridPICurrCtr:
         vg = sys.get_grid_voltage(kTs)
 
         # Get the reference for current step
-        i_ref_dq = self.i_ref_seq_dq(kTs)
+        ig_ref_dq = self.ig_ref_seq_dq(kTs)
 
         # Calculate the transformation angle
         theta = np.arctan2(vg[1], vg[0])
@@ -97,7 +97,7 @@ class RLGridPICurrCtr:
         i_dq = alpha_beta_2_dq(sys.x, theta)
 
         # Compute the converter voltage reference in dq frame using the PI controller
-        u_c_dq = self.pi_controller(i_dq, i_ref_dq)
+        u_c_dq = self.pi_controller(i_dq, ig_ref_dq)
 
         # Transform the converter voltage reference back to abc frame
         u_c_abc = dq_2_abc(u_c_dq, theta)
@@ -106,11 +106,11 @@ class RLGridPICurrCtr:
         uk_abc = u_c_abc / (conv.v_dc / 2)
 
         # Save controller data
-        ig_ref = dq_2_alpha_beta(i_ref_dq, theta)
+        ig_ref = dq_2_alpha_beta(ig_ref_dq, theta)
         self.save_data(ig_ref, uk_abc, kTs)
         return uk_abc
 
-    def pi_controller(self, i_dq, i_ref_dq):
+    def pi_controller(self, i_dq, ig_ref_dq):
         """
         PI controller in dq frame.
         
@@ -119,7 +119,7 @@ class RLGridPICurrCtr:
         i_dq : 1 x 2 ndarray of floats
             Grid Current in dq frame [p.u.].
 
-        i_ref_dq : 1 x 2 ndarray of floats
+        ig_ref_dq : 1 x 2 ndarray of floats
             Reference current in dq frame [p.u.].
 
         Returns
@@ -129,8 +129,8 @@ class RLGridPICurrCtr:
         """
 
         # PI controller in dq frame
-        error_d = i_ref_dq[0] - i_dq[0]
-        error_q = i_ref_dq[1] - i_dq[1]
+        error_d = ig_ref_dq[0] - i_dq[0]
+        error_q = ig_ref_dq[1] - i_dq[1]
 
         self.integral_error_d += error_d * self.Ts_pu
         self.integral_error_q += error_q * self.Ts_pu

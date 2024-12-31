@@ -35,8 +35,8 @@ class GridCurrRefGen(Controller):
         vg = sys.get_grid_voltage(kTs)
         theta = np.arctan2(vg[1], vg[0])
         vg_dq = alpha_beta_2_dq(vg, theta)
-        i_ref_d = self.input.P_ref / vg_dq[0]
-        i_ref_q = -self.input.Q_ref / vg_dq[0]
-        self.output.i_ref_dq = np.array([i_ref_d, i_ref_q])
+        ig_ref_d = self.input.P_ref / vg_dq[0]
+        ig_ref_q = -self.input.Q_ref / vg_dq[0]
+        self.output.ig_ref_dq = np.array([ig_ref_d, ig_ref_q])
 
         return self.output

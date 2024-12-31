@@ -26,7 +26,7 @@ from soft4pes.sim import Simulation
 base = model.grid.BaseGrid(Vg_R_SI=3300, Ig_R_SI=1575, fg_R_SI=50)
 
 # Define current reference sequence
-i_ref_dq = Sequence(np.array([0, 1]), np.array([[1, 0], [1, 0]]))
+ig_ref_dq = Sequence(np.array([0, 1]), np.array([[1, 0], [1, 0]]))
 
 # Define grid parameters
 grid_params = model.grid.RLGridParameters(Vg_SI=3300,
@@ -36,14 +36,14 @@ grid_params = model.grid.RLGridParameters(Vg_SI=3300,
                                           base=base)
 
 # Define system models
-sys = model.grid.RLGrid(par=grid_params, base=base, ig_ref_init=i_ref_dq(0))
+sys = model.grid.RLGrid(par=grid_params, base=base, ig_ref_init=ig_ref_dq(0))
 conv = model.conv.Converter(v_dc_SI=5529.2, nl=3, base=base)
 
 # Define controller
 ctr = RLGridStateSpaceCurrCtr(sys=sys,
                               base=base,
                               Ts=100e-6,
-                              i_ref_seq_dq=i_ref_dq)
+                              ig_ref_seq_dq=ig_ref_dq)
 
 # Simulate the system
 sim = Simulation(sys=sys, conv=conv, ctr=ctr, Ts_sim=5e-6)
