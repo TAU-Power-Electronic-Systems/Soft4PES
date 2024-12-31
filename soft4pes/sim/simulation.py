@@ -121,7 +121,9 @@ class Simulation:
 
             progress_printer(k)
 
-        self.simulation_data = {'ctr': self.ctr.sim_data, 'sys': self.sys.data}
+        # Get the simulation data
+        self.ctr.get_control_system_data()
+        self.simulation_data = {'ctr': self.ctr.data, 'sys': self.sys.data}
 
     def save_data(self, filename='sim_data.mat', path=''):
         """

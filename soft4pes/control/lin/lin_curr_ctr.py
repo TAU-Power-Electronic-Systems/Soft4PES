@@ -43,7 +43,7 @@ class RLGridPICurrCtr:
         Current error instance in q-frame [p.u.].                               
     i_ref_seq_dq : Sequence object
         Current reference sequence instance in dq-frame [p.u.].   
-    sim_data : dict
+    data : dict
         Controller data.
     """
 
@@ -59,7 +59,7 @@ class RLGridPICurrCtr:
         self.integral_error_q = 0
         self.i_ref_seq_dq = i_ref_seq_dq
 
-        self.sim_data = {
+        self.data = {
             'ig_ref': [],
             'u': [],
             't': [],
@@ -153,6 +153,12 @@ class RLGridPICurrCtr:
         kTs : float
             Current discrete time instant [s].
         """
-        self.sim_data['ig_ref'].append(ig_ref)
-        self.sim_data['u'].append(uk_abc)
-        self.sim_data['t'].append(kTs)
+        self.data['ig_ref'].append(ig_ref)
+        self.data['u'].append(uk_abc)
+        self.data['t'].append(kTs)
+
+    def get_control_system_data(self):
+        """
+        This is a empty method to make different controllers compatible when building the new 
+        control system structure.
+        """

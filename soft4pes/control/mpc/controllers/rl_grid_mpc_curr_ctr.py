@@ -1,11 +1,12 @@
-""" Model predictive control (MPC) for RL grid."""
+""" Model predictive current control (MPC) for RL grid."""
 
 from types import SimpleNamespace
 import numpy as np
 from soft4pes.utils import dq_2_alpha_beta
+from soft4pes.control.common.controller import Controller
 
 
-class RLGridMpcCurrCtr:
+class RLGridMpcCurrCtr(Controller):
     """
     Model predictive control (MPC) for RL grid. The controller aims to track
     the grid current in the alpha-beta frame.
@@ -18,10 +19,6 @@ class RLGridMpcCurrCtr:
         Weighting factor for the control effort.
     Np : int
         Prediction horizon steps.
-    Ts : float
-        Sampling interval [s].
-    i_ref_seq_dq : Sequence object
-        Current reference sequence in dq-frame [p.u.].
 
     Attributes
     ----------
@@ -29,12 +26,8 @@ class RLGridMpcCurrCtr:
         Weighting factor for the control effort.
     Np : int
         Prediction horizon.
-    Ts : float
-        Sampling interval [s].
     u_km1_abc : 1 x 3 ndarray of floats
         Previous (step k-1) three-phase switch position or modulating signal.
-    i_ref_seq_dq : Sequence object
-        Current reference sequence in dq-frame [p.u.].
     state_space : SimpleNamespace 
         The state-space model of the system.
     solver : solver object
@@ -43,16 +36,13 @@ class RLGridMpcCurrCtr:
         Grid voltage [p.u.].
     C : 2 x 2 ndarray of ints
         Output matrix.
-    data_sim : dict
-        Controller data.
     """
 
-    def __init__(self, solver, lambda_u, Np, Ts, i_ref_seq_dq):
+    def __init__(self, solver, lambda_u, Np):
+        super().__init__()
         self.lambda_u = lambda_u
         self.Np = Np
-        self.Ts = Ts
         self.u_km1_abc = np.array([0, 0, 0])
-        self.i_ref_seq_dq = i_ref_seq_dq
         self.state_space = SimpleNamespace()
         self.solver = solver
         self.vg = np.array([0, 0])
@@ -60,13 +50,7 @@ class RLGridMpcCurrCtr:
         # Output matrix
         self.C = np.array([[1, 0], [0, 1]])
 
-        self.sim_data = {
-            'ig_ref': [],
-            'u': [],
-            't': [],
-        }
-
-    def __call__(self, sys, conv, kTs):
+    def execute(self, sys, conv, kTs):
         """
         Perform MPC and save the controller data.
 
@@ -92,7 +76,7 @@ class RLGridMpcCurrCtr:
         self.vg = sys.get_grid_voltage(kTs)
 
         # Get the reference for current step
-        i_ref_dq = self.i_ref_seq_dq(kTs)
+        i_ref_dq = self.input.i_ref_dq
 
         # Get the grid-voltage angle and calculate the reference in alpha-beta frame
         theta = np.arctan2(self.vg[1], self.vg[0])
@@ -115,9 +99,9 @@ class RLGridMpcCurrCtr:
         uk_abc = self.solver(sys, conv, self, y_ref)
         self.u_km1_abc = uk_abc
 
-        self.save_data(ig_ref, uk_abc, kTs)
+        self.output = SimpleNamespace(uk_abc=uk_abc)
 
-        return uk_abc
+        return self.output
 
     def get_next_state(self, sys, xk, uk_abc, k):
         """
@@ -150,20 +134,3 @@ class RLGridMpcCurrCtr:
 
         return np.dot(self.state_space.A, xk) + np.dot(
             self.state_space.B1, uk_abc) + np.dot(self.state_space.B2, vg_k)
-
-    def save_data(self, ig_ref, uk_abc, kTs):
-        """
-        Save controller data.
-
-        Parameters
-        ----------
-        ig_ref : 1 x 2 ndarray of floats
-            Current reference in alpha-beta frame.
-        uk_abc : 1 x 3 ndarray of floats
-            Converter three-phase switch position or modulating signal.
-        kTs : float
-            Current discrete time instant [s].
-        """
-        self.sim_data['ig_ref'].append(ig_ref)
-        self.sim_data['u'].append(uk_abc)
-        self.sim_data['t'].append(kTs)
