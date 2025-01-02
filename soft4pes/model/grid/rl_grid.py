@@ -14,6 +14,8 @@ class RLGrid(SystemModel):
     three-phase switch position or modulating signal. The grid voltage is considered to be a 
     disturbance.
 
+    This class can be used as a base class for other grid models.
+
     Parameters
     ----------
     par : RLGridParameters
@@ -108,16 +110,16 @@ class RLGrid(SystemModel):
         theta = self.par.wg * (kTs * self.base.w)
 
         # Grid peak voltage
-        Vg = np.sqrt(2 / 3) * self.par.Vgr
+        Vg = np.sqrt(2 / 3) * self.par.Vg
 
         vg_abc = Vg * np.sin(theta + 2 * np.pi / 3 * np.array([0, -1, 1]))
 
         vg = abc_2_alpha_beta(vg_abc)
         return vg
 
-    def update_state(self, matrices, uk_abc, kTs):
+    def get_next_state(self, matrices, uk_abc, kTs):
         """
-        Calculate and update the system state.
+        Calculate the next state of the system.
 
         Parameters
         ----------
@@ -127,10 +129,31 @@ class RLGrid(SystemModel):
             A SimpleNamespace object containing the state-space model matrices.
         kTs : float
             Current discrete time instant [s].
+
+        Returns
+        -------
+        ndarray of floats
+            The next state of the system.
         """
 
         vg = self.get_grid_voltage(kTs)
         x_kp1 = np.dot(matrices.A, self.x) + np.dot(
             matrices.B1, uk_abc) + np.dot(matrices.B2, vg)
-        meas = SimpleNamespace(vg=vg)
-        super().update(x_kp1, uk_abc, kTs, meas)
+        return x_kp1
+
+    def get_measurements(self, kTs):
+        """
+        Update the measurement data of the system.
+
+        Parameters
+        ----------
+        kTs : float
+            Current discrete time instant [s].
+
+        Returns
+        -------
+        SimpleNamespace
+            A SimpleNamespace object containing the grid voltage in alpha-beta frame.
+        """
+
+        return SimpleNamespace(vg=self.get_grid_voltage(kTs))

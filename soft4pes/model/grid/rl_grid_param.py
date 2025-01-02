@@ -35,7 +35,7 @@ class RLGridParameters:
     """
 
     def __init__(self, Vg_SI, fg_SI, Rg_SI, Lg_SI, base):
-        self.Vgr = Vg_SI / base.V
+        self.Vg = Vg_SI / base.V
         self.wg = 2 * np.pi * fg_SI / base.w
         self.Rg = Rg_SI / base.Z
         self.Xg = Lg_SI / base.L

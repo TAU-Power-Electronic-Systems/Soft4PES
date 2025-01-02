@@ -53,9 +53,9 @@ class SystemModel(ABC):
         """
 
     @abstractmethod
-    def update_state(self, matrices, uk_abc, kTs):
+    def get_next_state(self, matrices, uk_abc, kTs):
         """
-        Get the next state of the system.
+        Calculate the next state of the system.
 
         Parameters
         ----------
@@ -63,18 +63,32 @@ class SystemModel(ABC):
             Converter three-phase switch position or modulating signal.
         matrices : SimpleNamespace
             A SimpleNamespace object containing the state-space model matrices.
+
+        Returns
+        -------
+        ndarray
+            The next state of the system.
+        """
+
+    @abstractmethod
+    def get_measurements(self, kTs):
+        """
+        Get additional measurements of the system.
+
+        Parameters
+        ----------
         kTs : float
             Current discrete time instant [s].
         """
 
-    def update(self, x_kp1, uk_abc, kTs, meas=None):
+    def update(self, matrices, uk_abc, kTs):
         """
         Update the system state and save data.
 
         Parameters
         ----------
-        x_kp1 : ndarray
-            State at discrete time step k + 1.
+        matrices : SimpleNamespace
+            A SimpleNamespace object containing the state-space model matrices.
         uk_abc : 1 x 3 ndarray of floats
             Converter three-phase switch position or modulating signal.
         kTs : float
@@ -83,8 +97,9 @@ class SystemModel(ABC):
             Measurement data.
         """
 
+        meas = self.get_measurements(kTs)
         self.save_data(kTs, uk_abc, meas)
-        self.x = x_kp1
+        self.x = self.get_next_state(matrices, uk_abc, kTs)
 
     def save_data(self, kTs, uk_abc, meas):
         """
