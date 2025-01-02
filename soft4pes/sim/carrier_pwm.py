@@ -1,12 +1,13 @@
-""" Carrier-based PWM. The implementation is asynchronous. The control system is 
-sampled twice per carrier period (in the peaks of the carrier). """
+"""
+Asynchronous carrier based pulse width modulation (CB-PWM).  
+"""
 
 import numpy as np
 
 
 class Carrier:
     """
-    Generating a triangular carrier signal.
+    A triangular carrier signal.
 
     Attributes
     ----------
@@ -22,13 +23,13 @@ class Carrier:
         Carrier step.
     """
 
-    def __init__(self, Ts_ctr, Ts_sim, lower_limit, upper_limit, initial_val):
+    def __init__(self, Ts, Ts_sim, lower_limit, upper_limit, initial_val):
         """
         Initialize a Carrier instance.
 
         Parameters
         ----------
-        Ts_ctr : float
+        Ts : float
             Control system sampling interval [s].
         Ts_sim : float
             Simulation sampling interval [s].
@@ -44,7 +45,7 @@ class Carrier:
         self.lower_limit = lower_limit
         self.upper_limit = upper_limit
         self.direction = -1
-        self.step = 2 * (upper_limit - lower_limit) * (Ts_sim / Ts_ctr)
+        self.step = 2 * (upper_limit - lower_limit) * (Ts_sim / Ts)
 
     def __call__(self):
         """
@@ -78,7 +79,7 @@ class Carrier:
 
 class CarrierPWM:
     """
-    Carrier based PWM. The class creates the carrier(s) and produces the three-phase switch 
+    CB-PWM. The class manages the carrier(s) and produces the three-phase switch 
     positions.
 
     Attributes
@@ -106,6 +107,7 @@ class CarrierPWM:
         nl : int
             Number of converter voltage levels.
         """
+
         self.nl = nl
         if nl == 2:
             self.lower_carrier = Carrier(Ts_ctr, Ts_sim, -1, 1, 1)
@@ -131,6 +133,7 @@ class CarrierPWM:
         1 x 3 ndarray of ints
             Three-phase switch positions.
         """
+
         carrier = self.lower_carrier()
         u_abc = np.zeros(3, dtype=int)
         for i in range(3):
@@ -151,6 +154,7 @@ class CarrierPWM:
         1 x 3 ndarray of ints
             Three-phase switch positions.
         """
+
         lower_value = self.lower_carrier()
         upper_value = self.upper_carrier()
         u_abc = np.zeros(3, dtype=int)
@@ -177,4 +181,5 @@ class CarrierPWM:
         1 x 3 ndarray of ints
             Three-phase switch positions.
         """
+
         return self.get_switch_positions(u_abc_ref)
