@@ -4,6 +4,7 @@ Model of a grid with stiff voltage source, RL-load and an LC(L) filter in alpha-
 
 from types import SimpleNamespace
 import numpy as np
+from scipy.linalg import expm
 
 from soft4pes.model.grid.rl_grid import RLGrid
 
@@ -16,7 +17,9 @@ class RLGridLCLFilter(RLGrid):
     The state of the system is the converter current, the capacitor voltage and the grid current in 
     the alpha-beta frame, i.e. x = [i_conv^T, vc^T, ig^T]^T. The system input is the converter 
     three-phase switch position or modulating signal. The grid voltage is considered to be a 
-    disturbance.
+    disturbance. The positive current direction is from the converter to the filter and from the
+    filter to the grid for i_conv and ig, respectively. Knowledge of the grid impedance is required,
+    and given to the model in the parent class RLGrid.
 
     Attributes
     ----------
@@ -43,7 +46,7 @@ class RLGridLCLFilter(RLGrid):
     def get_discrete_state_space(self, v_dc, Ts):
         """
         Get the discrete state-space model of the system in alpha-beta frame. The system is 
-        discretized using the forward Euler method. 
+        discretized using exact discretization. 
 
         Parameters
         ----------
@@ -100,8 +103,9 @@ class RLGridLCLFilter(RLGrid):
 
         G2 = np.block([[np.eye(2, 4), -1 / X * np.eye(2)]]).T
 
-        A = np.eye(6) + F * Ts_pu
-        B1 = G1 * Ts_pu
-        B2 = G2 * Ts_pu
+        # Discretize the system using exact discretization
+        A = expm(F * Ts_pu)
+        B1 = np.dot(-np.linalg.inv(F), (np.eye(6) - A)).dot(G1)
+        B2 = np.dot(-np.linalg.inv(F), (np.eye(6) - A)).dot(G2)
 
         return SimpleNamespace(A=A, B1=B1, B2=B2)
