@@ -117,7 +117,7 @@ class Simulation:
             for k_sim in range(int(self.ctr.Ts / self.Ts_sim)):
 
                 kTs_sim = kTs + k_sim * self.Ts_sim
-                self.sys.update_state(self.matrices, uk_abc, kTs_sim)
+                self.sys.update(self.matrices, uk_abc, kTs_sim)
 
             progress_printer(k)
 

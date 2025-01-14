@@ -14,6 +14,8 @@ class RLGrid(SystemModel):
     three-phase switch position or modulating signal. The grid voltage is considered to be a 
     disturbance.
 
+    This class can be used as a base class for other grid models.
+
     Parameters
     ----------
     par : RLGridParameters
@@ -56,6 +58,22 @@ class RLGrid(SystemModel):
             self.x = np.zeros(2)
 
     def get_discrete_state_space(self, v_dc, Ts):
+        """
+        Calculate the discrete-time state-space model of the system.
+
+        Parameters
+        ----------
+        v_dc : float
+            The converter dc-link voltage [p.u.].
+        Ts : float
+            Sampling interval [s].
+
+        Returns
+        -------
+        SimpleNamespace
+            The discrete-time state-space model of the system.
+        """
+
         Rg = self.par.Rg
         Xg = self.par.Xg
         Ts = Ts * self.base.w
@@ -92,16 +110,50 @@ class RLGrid(SystemModel):
         theta = self.par.wg * (kTs * self.base.w)
 
         # Grid peak voltage
-        Vg = np.sqrt(2 / 3) * self.par.Vgr
+        Vg = np.sqrt(2 / 3) * self.par.Vg
 
         vg_abc = Vg * np.sin(theta + 2 * np.pi / 3 * np.array([0, -1, 1]))
 
         vg = abc_2_alpha_beta(vg_abc)
         return vg
 
-    def update_state(self, matrices, uk_abc, kTs):
+    def get_next_state(self, matrices, uk_abc, kTs):
+        """
+        Calculate the next state of the system.
+
+        Parameters
+        ----------
+        uk_abc : 1 x 3 ndarray of floats
+            Converter three-phase switch position or modulating signal.
+        matrices : SimpleNamespace
+            A SimpleNamespace object containing the state-space model matrices.
+        kTs : float
+            Current discrete time instant [s].
+
+        Returns
+        -------
+        ndarray of floats
+            The next state of the system.
+        """
+
         vg = self.get_grid_voltage(kTs)
         x_kp1 = np.dot(matrices.A, self.x) + np.dot(
             matrices.B1, uk_abc) + np.dot(matrices.B2, vg)
-        meas = SimpleNamespace(vg=vg)
-        super().update(x_kp1, uk_abc, kTs, meas)
+        return x_kp1
+
+    def get_measurements(self, kTs):
+        """
+        Update the measurement data of the system.
+
+        Parameters
+        ----------
+        kTs : float
+            Current discrete time instant [s].
+
+        Returns
+        -------
+        SimpleNamespace
+            A SimpleNamespace object containing the grid voltage in alpha-beta frame.
+        """
+
+        return SimpleNamespace(vg=self.get_grid_voltage(kTs))

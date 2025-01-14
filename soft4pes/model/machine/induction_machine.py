@@ -175,7 +175,40 @@ class InductionMachine(SystemModel):
         psiR = self.x[2:4]
         return self.par.kT * (self.par.Xm / self.par.Xr) * np.cross(psiR, iS)
 
-    def update_state(self, matrices, uk_abc, kTs):
-        meas = SimpleNamespace(Te=self.Te)
+    def get_next_state(self, matrices, uk_abc, kTs):
+        """
+        Calculate the next state of the system.
+
+        Parameters
+        ----------
+        uk_abc : 1 x 3 ndarray of floats
+            Converter three-phase switch position or modulating signal.
+        matrices : SimpleNamespace
+            A SimpleNamespace object containing the state-space model matrices.
+        kTs : float
+            Current discrete time instant [s].
+
+        Returns
+        -------
+        1 x 4 ndarray of floats
+            The next state of the system.
+        """
+
         x_kp1 = np.dot(matrices.A, self.x) + np.dot(matrices.B, uk_abc)
-        super().update(x_kp1, uk_abc, kTs, meas)
+        return x_kp1
+
+    def get_measurements(self, kTs):
+        """
+        Update the measurement data of the system.
+
+        Parameters
+        ----------
+        kTs : float
+            Current discrete time instant [s].
+
+        Returns
+        -------
+        SimpleNamespace
+            A SimpleNamespace object containing the machine torque.
+        """
+        return SimpleNamespace(Te=self.Te)
