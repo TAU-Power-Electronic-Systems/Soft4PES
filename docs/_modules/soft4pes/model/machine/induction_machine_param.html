@@ -157,7 +157,9 @@
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/index.html">soft4pes.model.grid</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/base_grid/index.html">soft4pes.model.grid.base_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/lcl_filter_param/index.html">soft4pes.model.grid.lcl_filter_param</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html">soft4pes.model.grid.rl_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/rl_grid_lcl_filter/index.html">soft4pes.model.grid.rl_grid_lcl_filter</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/rl_grid_param/index.html">soft4pes.model.grid.rl_grid_param</a></li>
 </ul>
 </li>
@@ -302,10 +304,10 @@ document.write(`
 <span class="sd">Parameters for an induction machine.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 
-<div class="viewcode-block" id="InductionMachineParameters"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine_param/index.html#soft4pes.model.machine.InductionMachineParameters">[docs]</a><span class="k">class</span> <span class="nc">InductionMachineParameters</span><span class="p">:</span>
+<div class="viewcode-block" id="InductionMachineParameters"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine_param/index.html#soft4pes.model.machine.InductionMachineParameters">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">InductionMachineParameters</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters for the InductionMachine.</span>
 
@@ -346,7 +348,7 @@ document.write(`
 <span class="sd">        Mutual inductance [p.u.].</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fs_SI</span><span class="p">,</span> <span class="n">pf</span><span class="p">,</span> <span class="n">Rs_SI</span><span class="p">,</span> <span class="n">Rr_SI</span><span class="p">,</span> <span class="n">Lls_SI</span><span class="p">,</span> <span class="n">Llr_SI</span><span class="p">,</span> <span class="n">Lm_SI</span><span class="p">,</span> <span class="n">base</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fs_SI</span><span class="p">,</span> <span class="n">pf</span><span class="p">,</span> <span class="n">Rs_SI</span><span class="p">,</span> <span class="n">Rr_SI</span><span class="p">,</span> <span class="n">Lls_SI</span><span class="p">,</span> <span class="n">Llr_SI</span><span class="p">,</span> <span class="n">Lm_SI</span><span class="p">,</span> <span class="n">base</span><span class="p">):</span>
 <div class="viewcode-block" id="InductionMachineParameters.ws"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine_param/index.html#soft4pes.model.machine.InductionMachineParameters.ws">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">fs_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">w</span></div>
 <div class="viewcode-block" id="InductionMachineParameters.pf"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine_param/index.html#soft4pes.model.machine.InductionMachineParameters.pf">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">pf</span> <span class="o">=</span> <span class="n">pf</span></div>
 <div class="viewcode-block" id="InductionMachineParameters.Rs"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine_param/index.html#soft4pes.model.machine.InductionMachineParameters.Rs">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Rs</span> <span class="o">=</span> <span class="n">Rs_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">Z</span></div>

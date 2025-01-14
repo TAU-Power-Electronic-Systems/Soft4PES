@@ -160,7 +160,9 @@
 </li>
 <li class="toctree-l3 current active has-children"><a class="current reference internal" href="#">soft4pes.model.grid</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="base_grid/index.html">soft4pes.model.grid.base_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lcl_filter_param/index.html">soft4pes.model.grid.lcl_filter_param</a></li>
 <li class="toctree-l4"><a class="reference internal" href="rl_grid/index.html">soft4pes.model.grid.rl_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rl_grid_lcl_filter/index.html">soft4pes.model.grid.rl_grid_lcl_filter</a></li>
 <li class="toctree-l4"><a class="reference internal" href="rl_grid_param/index.html">soft4pes.model.grid.rl_grid_param</a></li>
 </ul>
 </li>
@@ -359,6 +361,24 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.BaseGrid.C"><code class="docutils literal notranslate"><span class="pre">BaseGrid.C</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.LCLFilterParameters"><code class="docutils literal notranslate"><span class="pre">LCLFilterParameters</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.LCLFilterParameters.X_fc"><code class="docutils literal notranslate"><span class="pre">LCLFilterParameters.X_fc</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.LCLFilterParameters.R_fc"><code class="docutils literal notranslate"><span class="pre">LCLFilterParameters.R_fc</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.LCLFilterParameters.Xc"><code class="docutils literal notranslate"><span class="pre">LCLFilterParameters.Xc</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.LCLFilterParameters.Rc"><code class="docutils literal notranslate"><span class="pre">LCLFilterParameters.Rc</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.LCLFilterParameters.X_fg"><code class="docutils literal notranslate"><span class="pre">LCLFilterParameters.X_fg</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.LCLFilterParameters.R_fg"><code class="docutils literal notranslate"><span class="pre">LCLFilterParameters.R_fg</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.LCLFilterParameters.base"><code class="docutils literal notranslate"><span class="pre">LCLFilterParameters.base</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLCLFilter"><code class="docutils literal notranslate"><span class="pre">RLGridLCLFilter</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLCLFilter.par"><code class="docutils literal notranslate"><span class="pre">RLGridLCLFilter.par</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLCLFilter.x"><code class="docutils literal notranslate"><span class="pre">RLGridLCLFilter.x</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLCLFilter.base"><code class="docutils literal notranslate"><span class="pre">RLGridLCLFilter.base</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLCLFilter.set_initial_state"><code class="docutils literal notranslate"><span class="pre">RLGridLCLFilter.set_initial_state()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLCLFilter.get_discrete_state_space"><code class="docutils literal notranslate"><span class="pre">RLGridLCLFilter.get_discrete_state_space()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid"><code class="docutils literal notranslate"><span class="pre">RLGrid</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.par"><code class="docutils literal notranslate"><span class="pre">RLGrid.par</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.x"><code class="docutils literal notranslate"><span class="pre">RLGrid.x</span></code></a></li>
@@ -366,7 +386,8 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.set_initial_state"><code class="docutils literal notranslate"><span class="pre">RLGrid.set_initial_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.get_discrete_state_space"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_discrete_state_space()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.get_grid_voltage"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_grid_voltage()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.update_state"><code class="docutils literal notranslate"><span class="pre">RLGrid.update_state()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.get_next_state"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_next_state()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.get_measurements"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_measurements()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridParameters"><code class="docutils literal notranslate"><span class="pre">RLGridParameters</span></code></a><ul class="nav section-nav flex-column">
@@ -397,7 +418,9 @@ document.write(`
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="base_grid/index.html">soft4pes.model.grid.base_grid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lcl_filter_param/index.html">soft4pes.model.grid.lcl_filter_param</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rl_grid/index.html">soft4pes.model.grid.rl_grid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rl_grid_lcl_filter/index.html">soft4pes.model.grid.rl_grid_lcl_filter</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rl_grid_param/index.html">soft4pes.model.grid.rl_grid_param</a></li>
 </ul>
 </div>
@@ -408,6 +431,12 @@ document.write(`
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.model.grid.BaseGrid" title="soft4pes.model.grid.BaseGrid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BaseGrid</span></code></a></p></td>
 <td><p>Base values for a grid.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.model.grid.LCLFilterParameters" title="soft4pes.model.grid.LCLFilterParameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LCLFilterParameters</span></code></a></p></td>
+<td><p>Parameters for an LCL-filter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.model.grid.RLGridLCLFilter" title="soft4pes.model.grid.RLGridLCLFilter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RLGridLCLFilter</span></code></a></p></td>
+<td><p>Model of a grid with stiff voltage source, RL-load and an LC(L) filter in alpha-beta frame. If</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.model.grid.RLGrid" title="soft4pes.model.grid.RLGrid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RLGrid</span></code></a></p></td>
 <td><p>Model of a grid with stiff voltage source and RL-load in alpha-beta frame. The state of the</p></td>
@@ -514,6 +543,176 @@ document.write(`
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="soft4pes.model.grid.LCLFilterParameters">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.model.grid.</span></span><span class="sig-name descname"><span class="pre">LCLFilterParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">L_fc_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">L_fg_SI</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R_fc_SI</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R_c_SI</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R_fg_SI</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/grid/lcl_filter_param.html#LCLFilterParameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.LCLFilterParameters" title="Permalink to this definition">#</a></dt>
+<dd><p>Parameters for an LCL-filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>L_fc_SI</strong> (<em>float</em>) – Inductance of the converter side filter inductor [H].</p></li>
+<li><p><strong>C_SI</strong> (<em>float</em>) – Capacitance of the filter capacitor [F].</p></li>
+<li><p><strong>base</strong> (<em>base value object</em>) – Base values.</p></li>
+<li><p><strong>L_fg_SI</strong> (<em>float</em><em>, </em><em>optional</em>) – Inductance of the grid side filter inductor [H].</p></li>
+<li><p><strong>R_fc_SI</strong> (<em>float</em><em>, </em><em>optional</em>) – Resistance of the converter side filter inductor [Ohm].</p></li>
+<li><p><strong>R_c_SI</strong> (<em>float</em><em>, </em><em>optional</em>) – Resistance of the filter capacitor [Ohm].</p></li>
+<li><p><strong>R_fg_SI</strong> (<em>float</em><em>, </em><em>optional</em>) – Resistance of the grid side filter inductor [Ohm].</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.model.grid.LCLFilterParameters.X_fc">
+<span class="sig-name descname"><span class="pre">X_fc</span></span><a class="headerlink" href="#soft4pes.model.grid.LCLFilterParameters.X_fc" title="Permalink to this definition">#</a></dt>
+<dd><p>Reactance of the converter side filter inductor [p.u.].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.model.grid.LCLFilterParameters.R_fc">
+<span class="sig-name descname"><span class="pre">R_fc</span></span><a class="headerlink" href="#soft4pes.model.grid.LCLFilterParameters.R_fc" title="Permalink to this definition">#</a></dt>
+<dd><p>Resistance of the converter side filter inductor [p.u.].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.model.grid.LCLFilterParameters.Xc">
+<span class="sig-name descname"><span class="pre">Xc</span></span><a class="headerlink" href="#soft4pes.model.grid.LCLFilterParameters.Xc" title="Permalink to this definition">#</a></dt>
+<dd><p>Reactance of the filter capacitor [p.u.].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.model.grid.LCLFilterParameters.Rc">
+<span class="sig-name descname"><span class="pre">Rc</span></span><a class="headerlink" href="#soft4pes.model.grid.LCLFilterParameters.Rc" title="Permalink to this definition">#</a></dt>
+<dd><p>Resistance of the filter capacitor [p.u.].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.model.grid.LCLFilterParameters.X_fg">
+<span class="sig-name descname"><span class="pre">X_fg</span></span><a class="headerlink" href="#soft4pes.model.grid.LCLFilterParameters.X_fg" title="Permalink to this definition">#</a></dt>
+<dd><p>Reactance of the grid side filter inductor [p.u.].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.model.grid.LCLFilterParameters.R_fg">
+<span class="sig-name descname"><span class="pre">R_fg</span></span><a class="headerlink" href="#soft4pes.model.grid.LCLFilterParameters.R_fg" title="Permalink to this definition">#</a></dt>
+<dd><p>Resistance of the grid side filter inductor [p.u.].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.model.grid.LCLFilterParameters.base">
+<span class="sig-name descname"><span class="pre">base</span></span><a class="headerlink" href="#soft4pes.model.grid.LCLFilterParameters.base" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>base value object</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="soft4pes.model.grid.RLGridLCLFilter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.model.grid.</span></span><span class="sig-name descname"><span class="pre">RLGridLCLFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">par_grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">par_lcl_filter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/grid/rl_grid_lcl_filter.html#RLGridLCLFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.RLGridLCLFilter" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="rl_grid/index.html#soft4pes.model.grid.rl_grid.RLGrid" title="soft4pes.model.grid.rl_grid.RLGrid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.model.grid.rl_grid.RLGrid</span></code></a></p>
+<p>Model of a grid with stiff voltage source, RL-load and an LC(L) filter in alpha-beta frame. If
+the grid side inductance is not provided, the filter is in LC configuration.</p>
+<p>The state of the system is the converter current, the capacitor voltage and the grid current in
+the alpha-beta frame, i.e. x = [i_conv^T, vc^T, ig^T]^T. The system input is the converter
+three-phase switch position or modulating signal. The grid voltage is considered to be a
+disturbance. The positive current direction is from the converter to the filter and from the
+filter to the grid for i_conv and ig, respectively. Knowledge of the grid impedance is required,
+and given to the model in the parent class RLGrid.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.model.grid.RLGridLCLFilter.par">
+<span class="sig-name descname"><span class="pre">par</span></span><a class="headerlink" href="#soft4pes.model.grid.RLGridLCLFilter.par" title="Permalink to this definition">#</a></dt>
+<dd><p>Combined RLGridParameters and LCLFilterParameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>System parameters</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.model.grid.RLGridLCLFilter.x">
+<span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#soft4pes.model.grid.RLGridLCLFilter.x" title="Permalink to this definition">#</a></dt>
+<dd><p>Current state of the grid [p.u.].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>1 x 6 ndarray of floats</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.model.grid.RLGridLCLFilter.base">
+<span class="sig-name descname"><span class="pre">base</span></span><a class="headerlink" href="#soft4pes.model.grid.RLGridLCLFilter.base" title="Permalink to this definition">#</a></dt>
+<dd><p>Base values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>base value object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.model.grid.RLGridLCLFilter.set_initial_state">
+<span class="sig-name descname"><span class="pre">set_initial_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/grid/rl_grid_lcl_filter.html#RLGridLCLFilter.set_initial_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.RLGridLCLFilter.set_initial_state" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the initial state of the system to zero.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.model.grid.RLGridLCLFilter.get_discrete_state_space">
+<span class="sig-name descname"><span class="pre">get_discrete_state_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v_dc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ts</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/grid/rl_grid_lcl_filter.html#RLGridLCLFilter.get_discrete_state_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.RLGridLCLFilter.get_discrete_state_space" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the discrete state-space model of the system in alpha-beta frame. The system is
+discretized using exact discretization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v_dc</strong> (<em>float</em>) – Converter dc-link voltage [p.u.].</p></li>
+<li><p><strong>Ts</strong> (<em>float</em>) – Sampling interval [s].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A SimpleNamespace object containing matrices A, B1 and B2 of the
+state-space model.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>SimpleNamespace</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="soft4pes.model.grid.RLGrid">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.model.grid.</span></span><span class="sig-name descname"><span class="pre">RLGrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">par</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ig_ref_init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/grid/rl_grid.html#RLGrid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.RLGrid" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.model.common.system_model.SystemModel</span></code></p>
@@ -521,6 +720,7 @@ document.write(`
 system is the grid current in the alpha-beta frame. The system input is the converter
 three-phase switch position or modulating signal. The grid voltage is considered to be a
 disturbance.</p>
+<p>This class can be used as a base class for other grid models.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -577,7 +777,7 @@ disturbance.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.model.grid.RLGrid.get_discrete_state_space">
 <span class="sig-name descname"><span class="pre">get_discrete_state_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v_dc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ts</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/grid/rl_grid.html#RLGrid.get_discrete_state_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.RLGrid.get_discrete_state_space" title="Permalink to this definition">#</a></dt>
-<dd><p>Calculates the discrete-time state-space model of the system.</p>
+<dd><p>Calculate the discrete-time state-space model of the system.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -612,9 +812,9 @@ disturbance.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="soft4pes.model.grid.RLGrid.update_state">
-<span class="sig-name descname"><span class="pre">update_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uk_abc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/grid/rl_grid.html#RLGrid.update_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.RLGrid.update_state" title="Permalink to this definition">#</a></dt>
-<dd><p>Get the next state of the system.</p>
+<dt class="sig sig-object py" id="soft4pes.model.grid.RLGrid.get_next_state">
+<span class="sig-name descname"><span class="pre">get_next_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uk_abc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/grid/rl_grid.html#RLGrid.get_next_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.RLGrid.get_next_state" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculate the next state of the system.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -622,6 +822,29 @@ disturbance.</p>
 <li><p><strong>matrices</strong> (<em>SimpleNamespace</em>) – A SimpleNamespace object containing the state-space model matrices.</p></li>
 <li><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The next state of the system.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray of floats</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.model.grid.RLGrid.get_measurements">
+<span class="sig-name descname"><span class="pre">get_measurements</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/grid/rl_grid.html#RLGrid.get_measurements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.RLGrid.get_measurements" title="Permalink to this definition">#</a></dt>
+<dd><p>Update the measurement data of the system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A SimpleNamespace object containing the grid voltage in alpha-beta frame.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>SimpleNamespace</p>
 </dd>
 </dl>
 </dd></dl>
@@ -749,6 +972,24 @@ disturbance.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.BaseGrid.C"><code class="docutils literal notranslate"><span class="pre">BaseGrid.C</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.LCLFilterParameters"><code class="docutils literal notranslate"><span class="pre">LCLFilterParameters</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.LCLFilterParameters.X_fc"><code class="docutils literal notranslate"><span class="pre">LCLFilterParameters.X_fc</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.LCLFilterParameters.R_fc"><code class="docutils literal notranslate"><span class="pre">LCLFilterParameters.R_fc</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.LCLFilterParameters.Xc"><code class="docutils literal notranslate"><span class="pre">LCLFilterParameters.Xc</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.LCLFilterParameters.Rc"><code class="docutils literal notranslate"><span class="pre">LCLFilterParameters.Rc</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.LCLFilterParameters.X_fg"><code class="docutils literal notranslate"><span class="pre">LCLFilterParameters.X_fg</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.LCLFilterParameters.R_fg"><code class="docutils literal notranslate"><span class="pre">LCLFilterParameters.R_fg</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.LCLFilterParameters.base"><code class="docutils literal notranslate"><span class="pre">LCLFilterParameters.base</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLCLFilter"><code class="docutils literal notranslate"><span class="pre">RLGridLCLFilter</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLCLFilter.par"><code class="docutils literal notranslate"><span class="pre">RLGridLCLFilter.par</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLCLFilter.x"><code class="docutils literal notranslate"><span class="pre">RLGridLCLFilter.x</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLCLFilter.base"><code class="docutils literal notranslate"><span class="pre">RLGridLCLFilter.base</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLCLFilter.set_initial_state"><code class="docutils literal notranslate"><span class="pre">RLGridLCLFilter.set_initial_state()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLCLFilter.get_discrete_state_space"><code class="docutils literal notranslate"><span class="pre">RLGridLCLFilter.get_discrete_state_space()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid"><code class="docutils literal notranslate"><span class="pre">RLGrid</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.par"><code class="docutils literal notranslate"><span class="pre">RLGrid.par</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.x"><code class="docutils literal notranslate"><span class="pre">RLGrid.x</span></code></a></li>
@@ -756,7 +997,8 @@ disturbance.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.set_initial_state"><code class="docutils literal notranslate"><span class="pre">RLGrid.set_initial_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.get_discrete_state_space"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_discrete_state_space()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.get_grid_voltage"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_grid_voltage()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.update_state"><code class="docutils literal notranslate"><span class="pre">RLGrid.update_state()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.get_next_state"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_next_state()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.get_measurements"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_measurements()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridParameters"><code class="docutils literal notranslate"><span class="pre">RLGridParameters</span></code></a><ul class="nav section-nav flex-column">

@@ -34,7 +34,9 @@ Submodules
    :maxdepth: 1
 
    /autoapi/soft4pes/model/grid/base_grid/index
+   /autoapi/soft4pes/model/grid/lcl_filter_param/index
    /autoapi/soft4pes/model/grid/rl_grid/index
+   /autoapi/soft4pes/model/grid/rl_grid_lcl_filter/index
    /autoapi/soft4pes/model/grid/rl_grid_param/index
 
 
@@ -44,6 +46,8 @@ Classes
 .. autoapisummary::
 
    soft4pes.model.grid.BaseGrid
+   soft4pes.model.grid.LCLFilterParameters
+   soft4pes.model.grid.RLGridLCLFilter
    soft4pes.model.grid.RLGrid
    soft4pes.model.grid.RLGridParameters
 
@@ -124,6 +128,191 @@ Package Contents
    ..
        !! processed by numpydoc !!
 
+.. py:class:: LCLFilterParameters(L_fc_SI, C_SI, base, L_fg_SI=0, R_fc_SI=0, R_c_SI=0, R_fg_SI=0)
+
+   
+   Parameters for an LCL-filter.
+
+   :param L_fc_SI: Inductance of the converter side filter inductor [H].
+   :type L_fc_SI: float
+   :param C_SI: Capacitance of the filter capacitor [F].
+   :type C_SI: float
+   :param base: Base values.
+   :type base: base value object
+   :param L_fg_SI: Inductance of the grid side filter inductor [H].
+   :type L_fg_SI: float, optional
+   :param R_fc_SI: Resistance of the converter side filter inductor [Ohm].
+   :type R_fc_SI: float, optional
+   :param R_c_SI: Resistance of the filter capacitor [Ohm].
+   :type R_c_SI: float, optional
+   :param R_fg_SI: Resistance of the grid side filter inductor [Ohm].
+   :type R_fg_SI: float, optional
+
+   .. attribute:: X_fc
+
+      Reactance of the converter side filter inductor [p.u.].
+
+      :type: float
+
+   .. attribute:: R_fc
+
+      Resistance of the converter side filter inductor [p.u.].
+
+      :type: float
+
+   .. attribute:: Xc
+
+      Reactance of the filter capacitor [p.u.].
+
+      :type: float
+
+   .. attribute:: Rc
+
+      Resistance of the filter capacitor [p.u.].
+
+      :type: float
+
+   .. attribute:: X_fg
+
+      Reactance of the grid side filter inductor [p.u.].
+
+      :type: float
+
+   .. attribute:: R_fg
+
+      Resistance of the grid side filter inductor [p.u.].
+
+      :type: float
+
+   .. attribute:: base
+
+      :type: base value object
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:class:: RLGridLCLFilter(par_grid, par_lcl_filter, base)
+
+   Bases: :py:obj:`soft4pes.model.grid.rl_grid.RLGrid`
+
+
+   
+   Model of a grid with stiff voltage source, RL-load and an LC(L) filter in alpha-beta frame. If
+   the grid side inductance is not provided, the filter is in LC configuration.
+
+   The state of the system is the converter current, the capacitor voltage and the grid current in
+   the alpha-beta frame, i.e. x = [i_conv^T, vc^T, ig^T]^T. The system input is the converter
+   three-phase switch position or modulating signal. The grid voltage is considered to be a
+   disturbance. The positive current direction is from the converter to the filter and from the
+   filter to the grid for i_conv and ig, respectively. Knowledge of the grid impedance is required,
+   and given to the model in the parent class RLGrid.
+
+   .. attribute:: par
+
+      Combined RLGridParameters and LCLFilterParameters.
+
+      :type: System parameters
+
+   .. attribute:: x
+
+      Current state of the grid [p.u.].
+
+      :type: 1 x 6 ndarray of floats
+
+   .. attribute:: base
+
+      Base values.
+
+      :type: base value object
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:method:: set_initial_state(**kwargs)
+
+      
+      Set the initial state of the system to zero.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: get_discrete_state_space(v_dc, Ts)
+
+      
+      Get the discrete state-space model of the system in alpha-beta frame. The system is
+      discretized using exact discretization.
+
+      :param v_dc: Converter dc-link voltage [p.u.].
+      :type v_dc: float
+      :param Ts: Sampling interval [s].
+      :type Ts: float
+
+      :returns: A SimpleNamespace object containing matrices A, B1 and B2 of the
+                state-space model.
+      :rtype: SimpleNamespace
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
 .. py:class:: RLGrid(par, base, ig_ref_init=None)
 
    Bases: :py:obj:`soft4pes.model.common.system_model.SystemModel`
@@ -134,6 +323,8 @@ Package Contents
    system is the grid current in the alpha-beta frame. The system input is the converter
    three-phase switch position or modulating signal. The grid voltage is considered to be a
    disturbance.
+
+   This class can be used as a base class for other grid models.
 
    :param par: Grid parameters in p.u..
    :type par: RLGridParameters
@@ -206,7 +397,7 @@ Package Contents
    .. py:method:: get_discrete_state_space(v_dc, Ts)
 
       
-      Calculates the discrete-time state-space model of the system.
+      Calculate the discrete-time state-space model of the system.
 
       :param v_dc: The converter dc-link voltage [p.u.].
       :type v_dc: float
@@ -263,10 +454,10 @@ Package Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: update_state(matrices, uk_abc, kTs)
+   .. py:method:: get_next_state(matrices, uk_abc, kTs)
 
       
-      Get the next state of the system.
+      Calculate the next state of the system.
 
       :param uk_abc: Converter three-phase switch position or modulating signal.
       :type uk_abc: 1 x 3 ndarray of floats
@@ -274,6 +465,38 @@ Package Contents
       :type matrices: SimpleNamespace
       :param kTs: Current discrete time instant [s].
       :type kTs: float
+
+      :returns: The next state of the system.
+      :rtype: ndarray of floats
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: get_measurements(kTs)
+
+      
+      Update the measurement data of the system.
+
+      :param kTs: Current discrete time instant [s].
+      :type kTs: float
+
+      :returns: A SimpleNamespace object containing the grid voltage in alpha-beta frame.
+      :rtype: SimpleNamespace
 
 
 

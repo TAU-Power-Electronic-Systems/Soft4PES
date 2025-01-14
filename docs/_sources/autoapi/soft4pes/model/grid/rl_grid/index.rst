@@ -33,6 +33,8 @@ Module Contents
    three-phase switch position or modulating signal. The grid voltage is considered to be a
    disturbance.
 
+   This class can be used as a base class for other grid models.
+
    :param par: Grid parameters in p.u..
    :type par: RLGridParameters
    :param base: Base values.
@@ -104,7 +106,7 @@ Module Contents
    .. py:method:: get_discrete_state_space(v_dc, Ts)
 
       
-      Calculates the discrete-time state-space model of the system.
+      Calculate the discrete-time state-space model of the system.
 
       :param v_dc: The converter dc-link voltage [p.u.].
       :type v_dc: float
@@ -161,10 +163,10 @@ Module Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: update_state(matrices, uk_abc, kTs)
+   .. py:method:: get_next_state(matrices, uk_abc, kTs)
 
       
-      Get the next state of the system.
+      Calculate the next state of the system.
 
       :param uk_abc: Converter three-phase switch position or modulating signal.
       :type uk_abc: 1 x 3 ndarray of floats
@@ -172,6 +174,38 @@ Module Contents
       :type matrices: SimpleNamespace
       :param kTs: Current discrete time instant [s].
       :type kTs: float
+
+      :returns: The next state of the system.
+      :rtype: ndarray of floats
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: get_measurements(kTs)
+
+      
+      Update the measurement data of the system.
+
+      :param kTs: Current discrete time instant [s].
+      :type kTs: float
+
+      :returns: A SimpleNamespace object containing the grid voltage in alpha-beta frame.
+      :rtype: SimpleNamespace
 
 
 

@@ -157,7 +157,9 @@
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../../../autoapi/soft4pes/model/grid/index.html">soft4pes.model.grid</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../../autoapi/soft4pes/model/grid/base_grid/index.html">soft4pes.model.grid.base_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../autoapi/soft4pes/model/grid/lcl_filter_param/index.html">soft4pes.model.grid.lcl_filter_param</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../../autoapi/soft4pes/model/grid/rl_grid/index.html">soft4pes.model.grid.rl_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../autoapi/soft4pes/model/grid/rl_grid_lcl_filter/index.html">soft4pes.model.grid.rl_grid_lcl_filter</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../../autoapi/soft4pes/model/grid/rl_grid_param/index.html">soft4pes.model.grid.rl_grid_param</a></li>
 </ul>
 </li>
@@ -300,12 +302,12 @@ document.write(`
   <h1>Source code for soft4pes.control.mpc.solvers.mpc_bnb</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Branch-and-bound solver for model predictive control (MPC).&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">soft4pes.control.mpc.solvers.utils</span> <span class="kn">import</span> <span class="n">switching_constraint_violated</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">product</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.control.mpc.solvers.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">switching_constraint_violated</span>
 
 
-<div class="viewcode-block" id="MpcBnB"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/mpc_bnb/index.html#soft4pes.control.mpc.solvers.MpcBnB">[docs]</a><span class="k">class</span> <span class="nc">MpcBnB</span><span class="p">:</span>
+<div class="viewcode-block" id="MpcBnB"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/mpc_bnb/index.html#soft4pes.control.mpc.solvers.MpcBnB">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">MpcBnB</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Branch-and-bound (BnB) solver for model predictive control (MPC).</span>
 
@@ -326,7 +328,7 @@ document.write(`
 <span class="sd">        All possible three-phase switch positions.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conv</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conv</span><span class="p">):</span>
 <div class="viewcode-block" id="MpcBnB.J_min"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/mpc_bnb/index.html#soft4pes.control.mpc.solvers.MpcBnB.J_min">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">J_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span></div>
 <div class="viewcode-block" id="MpcBnB.U_seq"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/mpc_bnb/index.html#soft4pes.control.mpc.solvers.MpcBnB.U_seq">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">U_seq</span> <span class="o">=</span> <span class="kc">None</span></div>
 <div class="viewcode-block" id="MpcBnB.U_temp"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/mpc_bnb/index.html#soft4pes.control.mpc.solvers.MpcBnB.U_temp">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">U_temp</span> <span class="o">=</span> <span class="kc">None</span></div>
@@ -340,7 +342,7 @@ document.write(`
         <span class="c1"># Create all possible three-phase switch positions</span>
 <div class="viewcode-block" id="MpcBnB.SW_COMB"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/mpc_bnb/index.html#soft4pes.control.mpc.solvers.MpcBnB.SW_COMB">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">SW_COMB</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="n">sw_pos_3ph</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">3</span><span class="p">)))</span></div>
 
-<div class="viewcode-block" id="MpcBnB.__call__"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/mpc_bnb/index.html#soft4pes.control.mpc.solvers.MpcBnB.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">ctr</span><span class="p">,</span> <span class="n">y_ref</span><span class="p">):</span>
+<div class="viewcode-block" id="MpcBnB.__call__"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/mpc_bnb/index.html#soft4pes.control.mpc.solvers.MpcBnB.__call__">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">ctr</span><span class="p">,</span> <span class="n">y_ref</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Solve MPC problem by using a simple BnB method.</span>
 
@@ -370,7 +372,7 @@ document.write(`
         <span class="n">uk_abc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">U_seq</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">uk_abc</span></div>
 
-<div class="viewcode-block" id="MpcBnB.solve"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/mpc_bnb/index.html#soft4pes.control.mpc.solvers.MpcBnB.solve">[docs]</a>    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="MpcBnB.solve"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/mpc_bnb/index.html#soft4pes.control.mpc.solvers.MpcBnB.solve">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
               <span class="n">sys</span><span class="p">,</span>
               <span class="n">conv</span><span class="p">,</span>
               <span class="n">ctr</span><span class="p">,</span>

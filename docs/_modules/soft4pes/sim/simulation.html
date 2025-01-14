@@ -157,7 +157,9 @@
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../autoapi/soft4pes/model/grid/index.html">soft4pes.model.grid</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/model/grid/base_grid/index.html">soft4pes.model.grid.base_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/model/grid/lcl_filter_param/index.html">soft4pes.model.grid.lcl_filter_param</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/model/grid/rl_grid/index.html">soft4pes.model.grid.rl_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/model/grid/rl_grid_lcl_filter/index.html">soft4pes.model.grid.rl_grid_lcl_filter</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/model/grid/rl_grid_param/index.html">soft4pes.model.grid.rl_grid_param</a></li>
 </ul>
 </li>
@@ -303,12 +305,12 @@ document.write(`
 
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">scipy.io</span> <span class="kn">import</span> <span class="n">savemat</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.io</span><span class="w"> </span><span class="kn">import</span> <span class="n">savemat</span>
 
 
-<div class="viewcode-block" id="ProgressPrinter"><a class="viewcode-back" href="../../../autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.ProgressPrinter">[docs]</a><span class="k">class</span> <span class="nc">ProgressPrinter</span><span class="p">:</span>
+<div class="viewcode-block" id="ProgressPrinter"><a class="viewcode-back" href="../../../autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.ProgressPrinter">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ProgressPrinter</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A class used to print the progress of the simulation process.</span>
 
@@ -325,11 +327,11 @@ document.write(`
 <span class="sd">        The last printed percentage of progress.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">total_steps</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">total_steps</span><span class="p">):</span>
 <div class="viewcode-block" id="ProgressPrinter.total_steps"><a class="viewcode-back" href="../../../autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.ProgressPrinter.total_steps">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">total_steps</span> <span class="o">=</span> <span class="n">total_steps</span></div>
 <div class="viewcode-block" id="ProgressPrinter.last_printed_percent"><a class="viewcode-back" href="../../../autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.ProgressPrinter.last_printed_percent">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">last_printed_percent</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span></div>
 
-<div class="viewcode-block" id="ProgressPrinter.__call__"><a class="viewcode-back" href="../../../autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.ProgressPrinter.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_step</span><span class="p">):</span>
+<div class="viewcode-block" id="ProgressPrinter.__call__"><a class="viewcode-back" href="../../../autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.ProgressPrinter.__call__">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_step</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Prints the current progress with steps of 5 percent.</span>
 
@@ -344,7 +346,7 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">last_printed_percent</span> <span class="o">=</span> <span class="n">current_percent</span></div></div>
 
 
-<div class="viewcode-block" id="Simulation"><a class="viewcode-back" href="../../../autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.Simulation">[docs]</a><span class="k">class</span> <span class="nc">Simulation</span><span class="p">:</span>
+<div class="viewcode-block" id="Simulation"><a class="viewcode-back" href="../../../autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.Simulation">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Simulation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Simulation environment.</span>
 
@@ -377,7 +379,7 @@ document.write(`
 <span class="sd">        Data from the simulation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">ctr</span><span class="p">,</span> <span class="n">Ts_sim</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">ctr</span><span class="p">,</span> <span class="n">Ts_sim</span><span class="p">):</span>
 <div class="viewcode-block" id="Simulation.sys"><a class="viewcode-back" href="../../../autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.Simulation.sys">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">sys</span> <span class="o">=</span> <span class="n">sys</span></div>
 <div class="viewcode-block" id="Simulation.conv"><a class="viewcode-back" href="../../../autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.Simulation.conv">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">conv</span> <span class="o">=</span> <span class="n">conv</span></div>
 <div class="viewcode-block" id="Simulation.ctr"><a class="viewcode-back" href="../../../autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.Simulation.ctr">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">ctr</span> <span class="o">=</span> <span class="n">ctr</span></div>
@@ -395,7 +397,7 @@ document.write(`
                 <span class="s2">&quot;The ratio of control system sampling interval to &quot;</span>
                 <span class="s2">&quot;simulation sampling interval must be an integer.&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Simulation.simulate"><a class="viewcode-back" href="../../../autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.Simulation.simulate">[docs]</a>    <span class="k">def</span> <span class="nf">simulate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t_stop</span><span class="p">):</span>
+<div class="viewcode-block" id="Simulation.simulate"><a class="viewcode-back" href="../../../autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.Simulation.simulate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">simulate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t_stop</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Simulate the system.</span>
 
@@ -417,13 +419,13 @@ document.write(`
             <span class="k">for</span> <span class="n">k_sim</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ctr</span><span class="o">.</span><span class="n">Ts</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ts_sim</span><span class="p">)):</span>
 
                 <span class="n">kTs_sim</span> <span class="o">=</span> <span class="n">kTs</span> <span class="o">+</span> <span class="n">k_sim</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ts_sim</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">update_state</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">matrices</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">,</span> <span class="n">kTs_sim</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">matrices</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">,</span> <span class="n">kTs_sim</span><span class="p">)</span>
 
             <span class="n">progress_printer</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">simulation_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ctr&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr</span><span class="o">.</span><span class="n">sim_data</span><span class="p">,</span> <span class="s1">&#39;sys&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">data</span><span class="p">}</span></div>
 
-<div class="viewcode-block" id="Simulation.save_data"><a class="viewcode-back" href="../../../autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.Simulation.save_data">[docs]</a>    <span class="k">def</span> <span class="nf">save_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;sim_data.mat&#39;</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="Simulation.save_data"><a class="viewcode-back" href="../../../autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.Simulation.save_data">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">save_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;sim_data.mat&#39;</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Save the simulation data to a .mat file.</span>
 

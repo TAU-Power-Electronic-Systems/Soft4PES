@@ -157,7 +157,9 @@
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/index.html">soft4pes.model.grid</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/base_grid/index.html">soft4pes.model.grid.base_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/lcl_filter_param/index.html">soft4pes.model.grid.lcl_filter_param</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html">soft4pes.model.grid.rl_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/rl_grid_lcl_filter/index.html">soft4pes.model.grid.rl_grid_lcl_filter</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/rl_grid_param/index.html">soft4pes.model.grid.rl_grid_param</a></li>
 </ul>
 </li>
@@ -301,12 +303,12 @@ document.write(`
 <span></span><span class="sd">&quot;&quot;&quot; State-space current controller with anti-windup scheme for grid-connected converter with </span>
 <span class="sd">    RL load &quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">SimpleNamespace</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">soft4pes.utils</span> <span class="kn">import</span> <span class="n">alpha_beta_2_dq</span><span class="p">,</span> <span class="n">dq_2_abc</span><span class="p">,</span> <span class="n">dq_2_alpha_beta</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleNamespace</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">alpha_beta_2_dq</span><span class="p">,</span> <span class="n">dq_2_abc</span><span class="p">,</span> <span class="n">dq_2_alpha_beta</span>
 
 
-<div class="viewcode-block" id="RLGridStateSpaceCurrCtr"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#soft4pes.control.lin.RLGridStateSpaceCurrCtr">[docs]</a><span class="k">class</span> <span class="nc">RLGridStateSpaceCurrCtr</span><span class="p">:</span>
+<div class="viewcode-block" id="RLGridStateSpaceCurrCtr"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#soft4pes.control.lin.RLGridStateSpaceCurrCtr">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RLGridStateSpaceCurrCtr</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    State-space current controller with anti-windup scheme for grid-connected converter with </span>
 <span class="sd">    RL load.</span>
@@ -344,7 +346,7 @@ document.write(`
 <span class="sd">        Controller data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">Ts</span><span class="p">,</span> <span class="n">i_ref_seq_dq</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">Ts</span><span class="p">,</span> <span class="n">i_ref_seq_dq</span><span class="p">):</span>
 <div class="viewcode-block" id="RLGridStateSpaceCurrCtr.Xf"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#soft4pes.control.lin.RLGridStateSpaceCurrCtr.Xf">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Xf</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xg</span>  <span class="c1"># Assume the inductances are equal</span></div>
 <div class="viewcode-block" id="RLGridStateSpaceCurrCtr.Rf"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#soft4pes.control.lin.RLGridStateSpaceCurrCtr.Rf">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Rf</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Rg</span>  <span class="c1"># Assume the resitances are equal</span></div>
 <div class="viewcode-block" id="RLGridStateSpaceCurrCtr.Ts"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#soft4pes.control.lin.RLGridStateSpaceCurrCtr.Ts">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Ts</span> <span class="o">=</span> <span class="n">Ts</span></div>
@@ -360,7 +362,7 @@ document.write(`
             <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="p">[],</span>
         <span class="p">}</span></div>
 
-<div class="viewcode-block" id="RLGridStateSpaceCurrCtr.__call__"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#soft4pes.control.lin.RLGridStateSpaceCurrCtr.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
+<div class="viewcode-block" id="RLGridStateSpaceCurrCtr.__call__"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#soft4pes.control.lin.RLGridStateSpaceCurrCtr.__call__">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Perform control.</span>
 
@@ -410,7 +412,7 @@ document.write(`
 
         <span class="k">return</span> <span class="n">uk_abc</span></div>
 
-<div class="viewcode-block" id="RLGridStateSpaceCurrCtr.get_state_space_ctr_pars"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#soft4pes.control.lin.RLGridStateSpaceCurrCtr.get_state_space_ctr_pars">[docs]</a>    <span class="k">def</span> <span class="nf">get_state_space_ctr_pars</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="RLGridStateSpaceCurrCtr.get_state_space_ctr_pars"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#soft4pes.control.lin.RLGridStateSpaceCurrCtr.get_state_space_ctr_pars">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_state_space_ctr_pars</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate state-space controller parameters.</span>
 <span class="sd">        </span>
@@ -454,7 +456,7 @@ document.write(`
 
         <span class="k">return</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">delta</span><span class="o">=</span><span class="n">delta</span><span class="p">,</span> <span class="n">K_i</span><span class="o">=</span><span class="n">K_i</span><span class="p">,</span> <span class="n">k_ii</span><span class="o">=</span><span class="n">k_ii</span><span class="p">,</span> <span class="n">k_ti</span><span class="o">=</span><span class="n">k_ti</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RLGridStateSpaceCurrCtr.state_space_controller"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#soft4pes.control.lin.RLGridStateSpaceCurrCtr.state_space_controller">[docs]</a>    <span class="k">def</span> <span class="nf">state_space_controller</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ic_dq</span><span class="p">,</span> <span class="n">ic_ref_dq</span><span class="p">,</span> <span class="n">uf_dq</span><span class="p">,</span> <span class="n">u_max</span><span class="p">):</span>
+<div class="viewcode-block" id="RLGridStateSpaceCurrCtr.state_space_controller"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#soft4pes.control.lin.RLGridStateSpaceCurrCtr.state_space_controller">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">state_space_controller</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ic_dq</span><span class="p">,</span> <span class="n">ic_ref_dq</span><span class="p">,</span> <span class="n">uf_dq</span><span class="p">,</span> <span class="n">u_max</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        State-space controller in dq frame.</span>
 <span class="sd">        </span>
@@ -492,7 +494,7 @@ document.write(`
 
         <span class="k">return</span> <span class="n">uc_ref_dq</span></div>
 
-<div class="viewcode-block" id="RLGridStateSpaceCurrCtr.voltage_reference_limiter"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#soft4pes.control.lin.RLGridStateSpaceCurrCtr.voltage_reference_limiter">[docs]</a>    <span class="k">def</span> <span class="nf">voltage_reference_limiter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u_max</span><span class="p">,</span> <span class="n">uc_ref_dq_unlim</span><span class="p">):</span>
+<div class="viewcode-block" id="RLGridStateSpaceCurrCtr.voltage_reference_limiter"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#soft4pes.control.lin.RLGridStateSpaceCurrCtr.voltage_reference_limiter">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">voltage_reference_limiter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u_max</span><span class="p">,</span> <span class="n">uc_ref_dq_unlim</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        limit the converter voltage reference.</span>
 
@@ -518,7 +520,7 @@ document.write(`
 
         <span class="k">return</span> <span class="n">uc_ref_dq</span></div>
 
-<div class="viewcode-block" id="RLGridStateSpaceCurrCtr.save_data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#soft4pes.control.lin.RLGridStateSpaceCurrCtr.save_data">[docs]</a>    <span class="k">def</span> <span class="nf">save_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ig_ref</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
+<div class="viewcode-block" id="RLGridStateSpaceCurrCtr.save_data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#soft4pes.control.lin.RLGridStateSpaceCurrCtr.save_data">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">save_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ig_ref</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Save controller data.</span>
 

@@ -157,7 +157,9 @@
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../autoapi/soft4pes/model/grid/index.html">soft4pes.model.grid</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/model/grid/base_grid/index.html">soft4pes.model.grid.base_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/model/grid/lcl_filter_param/index.html">soft4pes.model.grid.lcl_filter_param</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/model/grid/rl_grid/index.html">soft4pes.model.grid.rl_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/model/grid/rl_grid_lcl_filter/index.html">soft4pes.model.grid.rl_grid_lcl_filter</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/model/grid/rl_grid_param/index.html">soft4pes.model.grid.rl_grid_param</a></li>
 </ul>
 </li>
@@ -302,10 +304,10 @@ document.write(`
 <span class="sd">Reference-frame conversions.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 
-<div class="viewcode-block" id="abc_2_alpha_beta"><a class="viewcode-back" href="../../../autoapi/soft4pes/utils/index.html#soft4pes.utils.conversions.abc_2_alpha_beta">[docs]</a><span class="k">def</span> <span class="nf">abc_2_alpha_beta</span><span class="p">(</span><span class="n">abc</span><span class="p">):</span>
+<div class="viewcode-block" id="abc_2_alpha_beta"><a class="viewcode-back" href="../../../autoapi/soft4pes/utils/index.html#soft4pes.utils.conversions.abc_2_alpha_beta">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">abc_2_alpha_beta</span><span class="p">(</span><span class="n">abc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert a quantity from abc-frame to alpha-beta frame using the reduced </span>
 <span class="sd">    Clarke transformation. The common-mode component is neglected.</span>
@@ -329,7 +331,7 @@ document.write(`
     <span class="k">return</span> <span class="n">ab</span></div>
 
 
-<div class="viewcode-block" id="alpha_beta_2_abc"><a class="viewcode-back" href="../../../autoapi/soft4pes/utils/index.html#soft4pes.utils.conversions.alpha_beta_2_abc">[docs]</a><span class="k">def</span> <span class="nf">alpha_beta_2_abc</span><span class="p">(</span><span class="n">alpha_beta</span><span class="p">):</span>
+<div class="viewcode-block" id="alpha_beta_2_abc"><a class="viewcode-back" href="../../../autoapi/soft4pes/utils/index.html#soft4pes.utils.conversions.alpha_beta_2_abc">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">alpha_beta_2_abc</span><span class="p">(</span><span class="n">alpha_beta</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert a quantity from abc-frame to alpha-beta frame using the inverse </span>
 <span class="sd">    reduced Clarke transformation. The common-mode component is neglected.</span>
@@ -354,7 +356,7 @@ document.write(`
     <span class="k">return</span> <span class="n">abc</span></div>
 
 
-<div class="viewcode-block" id="alpha_beta_2_dq"><a class="viewcode-back" href="../../../autoapi/soft4pes/utils/index.html#soft4pes.utils.conversions.alpha_beta_2_dq">[docs]</a><span class="k">def</span> <span class="nf">alpha_beta_2_dq</span><span class="p">(</span><span class="n">alpha_beta</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
+<div class="viewcode-block" id="alpha_beta_2_dq"><a class="viewcode-back" href="../../../autoapi/soft4pes/utils/index.html#soft4pes.utils.conversions.alpha_beta_2_dq">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">alpha_beta_2_dq</span><span class="p">(</span><span class="n">alpha_beta</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert a quantity from alpha-beta frame to dq-frame. The common-mode</span>
 <span class="sd">    component is neglected.</span>
@@ -378,7 +380,7 @@ document.write(`
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">alpha_beta</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="dq_2_alpha_beta"><a class="viewcode-back" href="../../../autoapi/soft4pes/utils/index.html#soft4pes.utils.conversions.dq_2_alpha_beta">[docs]</a><span class="k">def</span> <span class="nf">dq_2_alpha_beta</span><span class="p">(</span><span class="n">dq</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
+<div class="viewcode-block" id="dq_2_alpha_beta"><a class="viewcode-back" href="../../../autoapi/soft4pes/utils/index.html#soft4pes.utils.conversions.dq_2_alpha_beta">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">dq_2_alpha_beta</span><span class="p">(</span><span class="n">dq</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert a quantity from dq-frame to alpha-beta frame. The common-mode</span>
 <span class="sd">    component is neglected.</span>
@@ -402,7 +404,7 @@ document.write(`
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R_inv</span><span class="p">,</span> <span class="n">dq</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="dq_2_abc"><a class="viewcode-back" href="../../../autoapi/soft4pes/utils/index.html#soft4pes.utils.conversions.dq_2_abc">[docs]</a><span class="k">def</span> <span class="nf">dq_2_abc</span><span class="p">(</span><span class="n">dq</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
+<div class="viewcode-block" id="dq_2_abc"><a class="viewcode-back" href="../../../autoapi/soft4pes/utils/index.html#soft4pes.utils.conversions.dq_2_abc">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">dq_2_abc</span><span class="p">(</span><span class="n">dq</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert a quantity from dq-frame to abc-frame using the inverse reduced Park </span>
 <span class="sd">    trasformation. The common-mode component is neglected.</span>

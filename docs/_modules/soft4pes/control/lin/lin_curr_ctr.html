@@ -157,7 +157,9 @@
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/index.html">soft4pes.model.grid</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/base_grid/index.html">soft4pes.model.grid.base_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/lcl_filter_param/index.html">soft4pes.model.grid.lcl_filter_param</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html">soft4pes.model.grid.rl_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/rl_grid_lcl_filter/index.html">soft4pes.model.grid.rl_grid_lcl_filter</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/rl_grid_param/index.html">soft4pes.model.grid.rl_grid_param</a></li>
 </ul>
 </li>
@@ -300,11 +302,11 @@ document.write(`
   <h1>Source code for soft4pes.control.lin.lin_curr_ctr</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot; PI current controller for grid-connected converter with RL load &quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">soft4pes.utils</span> <span class="kn">import</span> <span class="n">alpha_beta_2_dq</span><span class="p">,</span> <span class="n">dq_2_abc</span><span class="p">,</span> <span class="n">dq_2_alpha_beta</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">alpha_beta_2_dq</span><span class="p">,</span> <span class="n">dq_2_abc</span><span class="p">,</span> <span class="n">dq_2_alpha_beta</span>
 
 
-<div class="viewcode-block" id="RLGridPICurrCtr"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/lin_curr_ctr/index.html#soft4pes.control.lin.RLGridPICurrCtr">[docs]</a><span class="k">class</span> <span class="nc">RLGridPICurrCtr</span><span class="p">:</span>
+<div class="viewcode-block" id="RLGridPICurrCtr"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/lin_curr_ctr/index.html#soft4pes.control.lin.RLGridPICurrCtr">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RLGridPICurrCtr</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    PI current controller for grid-connected converter with RL load</span>
 <span class="sd">    </span>
@@ -347,7 +349,7 @@ document.write(`
 <span class="sd">        Controller data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">Ts</span><span class="p">,</span> <span class="n">i_ref_seq_dq</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">Ts</span><span class="p">,</span> <span class="n">i_ref_seq_dq</span><span class="p">):</span>
 <div class="viewcode-block" id="RLGridPICurrCtr.Xg"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/lin_curr_ctr/index.html#soft4pes.control.lin.RLGridPICurrCtr.Xg">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Xg</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xg</span></div>
 <div class="viewcode-block" id="RLGridPICurrCtr.Rg"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/lin_curr_ctr/index.html#soft4pes.control.lin.RLGridPICurrCtr.Rg">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Rg</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Rg</span></div>
 <div class="viewcode-block" id="RLGridPICurrCtr.Ts"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/lin_curr_ctr/index.html#soft4pes.control.lin.RLGridPICurrCtr.Ts">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Ts</span> <span class="o">=</span> <span class="n">Ts</span></div>
@@ -365,7 +367,7 @@ document.write(`
             <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="p">[],</span>
         <span class="p">}</span></div>
 
-<div class="viewcode-block" id="RLGridPICurrCtr.__call__"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/lin_curr_ctr/index.html#soft4pes.control.lin.RLGridPICurrCtr.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
+<div class="viewcode-block" id="RLGridPICurrCtr.__call__"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/lin_curr_ctr/index.html#soft4pes.control.lin.RLGridPICurrCtr.__call__">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Perform control.</span>
 
@@ -410,7 +412,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">save_data</span><span class="p">(</span><span class="n">ig_ref</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">,</span> <span class="n">kTs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">uk_abc</span></div>
 
-<div class="viewcode-block" id="RLGridPICurrCtr.pi_controller"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/lin_curr_ctr/index.html#soft4pes.control.lin.RLGridPICurrCtr.pi_controller">[docs]</a>    <span class="k">def</span> <span class="nf">pi_controller</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_dq</span><span class="p">,</span> <span class="n">i_ref_dq</span><span class="p">):</span>
+<div class="viewcode-block" id="RLGridPICurrCtr.pi_controller"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/lin_curr_ctr/index.html#soft4pes.control.lin.RLGridPICurrCtr.pi_controller">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">pi_controller</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i_dq</span><span class="p">,</span> <span class="n">i_ref_dq</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        PI controller in dq frame.</span>
 <span class="sd">        </span>
@@ -440,7 +442,7 @@ document.write(`
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">u_c_d</span><span class="p">,</span> <span class="n">u_c_q</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="RLGridPICurrCtr.save_data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/lin_curr_ctr/index.html#soft4pes.control.lin.RLGridPICurrCtr.save_data">[docs]</a>    <span class="k">def</span> <span class="nf">save_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ig_ref</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
+<div class="viewcode-block" id="RLGridPICurrCtr.save_data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/lin_curr_ctr/index.html#soft4pes.control.lin.RLGridPICurrCtr.save_data">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">save_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ig_ref</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Save controller data.</span>
 

@@ -157,7 +157,9 @@
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../../../autoapi/soft4pes/model/grid/index.html">soft4pes.model.grid</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../../autoapi/soft4pes/model/grid/base_grid/index.html">soft4pes.model.grid.base_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../autoapi/soft4pes/model/grid/lcl_filter_param/index.html">soft4pes.model.grid.lcl_filter_param</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../../autoapi/soft4pes/model/grid/rl_grid/index.html">soft4pes.model.grid.rl_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../autoapi/soft4pes/model/grid/rl_grid_lcl_filter/index.html">soft4pes.model.grid.rl_grid_lcl_filter</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../../autoapi/soft4pes/model/grid/rl_grid_param/index.html">soft4pes.model.grid.rl_grid_param</a></li>
 </ul>
 </li>
@@ -300,12 +302,12 @@ document.write(`
   <h1>Source code for soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot; Model predictive control (MPC) for RL grid.&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">SimpleNamespace</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">soft4pes.utils</span> <span class="kn">import</span> <span class="n">dq_2_alpha_beta</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleNamespace</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">dq_2_alpha_beta</span>
 
 
-<div class="viewcode-block" id="RLGridMpcCurrCtr"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr">[docs]</a><span class="k">class</span> <span class="nc">RLGridMpcCurrCtr</span><span class="p">:</span>
+<div class="viewcode-block" id="RLGridMpcCurrCtr"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RLGridMpcCurrCtr</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Model predictive control (MPC) for RL grid. The controller aims to track</span>
 <span class="sd">    the grid current in the alpha-beta frame.</span>
@@ -347,7 +349,7 @@ document.write(`
 <span class="sd">        Controller data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">solver</span><span class="p">,</span> <span class="n">lambda_u</span><span class="p">,</span> <span class="n">Np</span><span class="p">,</span> <span class="n">Ts</span><span class="p">,</span> <span class="n">i_ref_seq_dq</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">solver</span><span class="p">,</span> <span class="n">lambda_u</span><span class="p">,</span> <span class="n">Np</span><span class="p">,</span> <span class="n">Ts</span><span class="p">,</span> <span class="n">i_ref_seq_dq</span><span class="p">):</span>
 <div class="viewcode-block" id="RLGridMpcCurrCtr.lambda_u"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.lambda_u">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">lambda_u</span> <span class="o">=</span> <span class="n">lambda_u</span></div>
 <div class="viewcode-block" id="RLGridMpcCurrCtr.Np"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.Np">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Np</span> <span class="o">=</span> <span class="n">Np</span></div>
 <div class="viewcode-block" id="RLGridMpcCurrCtr.Ts"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.Ts">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Ts</span> <span class="o">=</span> <span class="n">Ts</span></div>
@@ -366,7 +368,7 @@ document.write(`
             <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="p">[],</span>
         <span class="p">}</span>
 
-<div class="viewcode-block" id="RLGridMpcCurrCtr.__call__"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
+<div class="viewcode-block" id="RLGridMpcCurrCtr.__call__"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.__call__">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Perform MPC and save the controller data.</span>
 
@@ -419,7 +421,7 @@ document.write(`
 
         <span class="k">return</span> <span class="n">uk_abc</span></div>
 
-<div class="viewcode-block" id="RLGridMpcCurrCtr.get_next_state"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.get_next_state">[docs]</a>    <span class="k">def</span> <span class="nf">get_next_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">xk</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<div class="viewcode-block" id="RLGridMpcCurrCtr.get_next_state"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.get_next_state">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_next_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">xk</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the next state of the system.</span>
 
@@ -451,7 +453,7 @@ document.write(`
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_space</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">xk</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">state_space</span><span class="o">.</span><span class="n">B1</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_space</span><span class="o">.</span><span class="n">B2</span><span class="p">,</span> <span class="n">vg_k</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RLGridMpcCurrCtr.save_data"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.save_data">[docs]</a>    <span class="k">def</span> <span class="nf">save_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ig_ref</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
+<div class="viewcode-block" id="RLGridMpcCurrCtr.save_data"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.save_data">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">save_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ig_ref</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Save controller data.</span>
 
