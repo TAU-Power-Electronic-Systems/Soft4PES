@@ -1,4 +1,6 @@
-""" Model predictive current control (MPC) for RL grid."""
+"""
+Model predictive control (MPC) for the control of the grid current (RL grid).
+"""
 
 from types import SimpleNamespace
 import numpy as np

@@ -93,7 +93,8 @@ class RLGridStateSpaceCurrCtr:
         # Maximum converter output voltage
         u_max = conv.v_dc / 2
 
-        # Assume filter capacitor voltage equals grid voltage (No filter considered)
+        # As the filter is not concidered, the filter capacitor voltage is assumed to be the same
+        # as the grid voltage after the grid indutance.
         uf_dq = vg
 
         # Compute the converter voltage reference using the state space controller with anti-windup

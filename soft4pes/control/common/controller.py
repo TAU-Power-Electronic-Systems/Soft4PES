@@ -33,8 +33,9 @@ class Controller(ABC):
 
     def set_sampling_interval(self, Ts):
         """
-        Set the sampling interval. This method can be extended to set and/or calculate additional 
-        parameters.
+        Set the sampling interval. 
+        
+        This method can be extended to set and/or calculate additional parameters.
 
         Parameters
         ----------

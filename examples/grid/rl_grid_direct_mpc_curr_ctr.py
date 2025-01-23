@@ -49,11 +49,12 @@ solver = mpc.solvers.MpcEnum(conv=conv)
 # Uncomment to use Branch-and-Bound solver
 # solver = mpc.solvers.MpcBnB(conv=conv)
 
-# Define controllers, the outer loop generates the grid current reference based on the power
-# references. The inner loop (direct MPC) is used to track the current reference.
+# Define control loops, the outer loop generates the grid current reference based on the power
+# references, acting as a feedforward term. The inner loop (direct MPC) is used to track the grid
+# current reference.
 ref_ctr = lin.GridCurrRefGen()
 ctr = mpc.controllers.RLGridMpcCurrCtr(solver, lambda_u=10e-3, Np=1)
-ctrSys = common.ControlSystem(controllers=[ref_ctr, ctr],
+ctrSys = common.ControlSystem(control_loops=[ref_ctr, ctr],
                               ref_seq=ref_seq,
                               Ts=100e-6)
 
