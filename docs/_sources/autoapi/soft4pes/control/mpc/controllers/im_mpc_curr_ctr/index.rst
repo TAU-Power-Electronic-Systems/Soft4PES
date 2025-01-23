@@ -88,7 +88,7 @@ Module Contents
 
       :type: 2 x 4 ndarray of ints
 
-   .. attribute:: sim_data
+   .. attribute:: data
 
       Controller data.
 
@@ -190,6 +190,31 @@ Module Contents
       :type uk_abc: 1 x 3 ndarray of floats
       :param kTs: Current discrete time instant [s].
       :type kTs: float
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: get_control_system_data()
+
+      
+      This is a empty method to make different controllers compatible when building the new
+      control system structure.
+
 
 
 

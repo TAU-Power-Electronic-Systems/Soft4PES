@@ -5,7 +5,7 @@ soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr
 
 .. autoapi-nested-parse::
 
-   Model predictive control (MPC) for RL grid.
+   Model predictive control (MPC) for the control of the grid current (RL grid).
 
    ..
        !! processed by numpydoc !!
@@ -22,7 +22,10 @@ Classes
 Module Contents
 ---------------
 
-.. py:class:: RLGridMpcCurrCtr(solver, lambda_u, Np, Ts, i_ref_seq_dq)
+.. py:class:: RLGridMpcCurrCtr(solver, lambda_u, Np)
+
+   Bases: :py:obj:`soft4pes.control.common.controller.Controller`
+
 
    
    Model predictive control (MPC) for RL grid. The controller aims to track
@@ -34,10 +37,6 @@ Module Contents
    :type lambda_u: float
    :param Np: Prediction horizon steps.
    :type Np: int
-   :param Ts: Sampling interval [s].
-   :type Ts: float
-   :param i_ref_seq_dq: Current reference sequence in dq-frame [p.u.].
-   :type i_ref_seq_dq: Sequence object
 
    .. attribute:: lambda_u
 
@@ -51,23 +50,11 @@ Module Contents
 
       :type: int
 
-   .. attribute:: Ts
-
-      Sampling interval [s].
-
-      :type: float
-
    .. attribute:: u_km1_abc
 
       Previous (step k-1) three-phase switch position or modulating signal.
 
       :type: 1 x 3 ndarray of floats
-
-   .. attribute:: i_ref_seq_dq
-
-      Current reference sequence in dq-frame [p.u.].
-
-      :type: Sequence object
 
    .. attribute:: state_space
 
@@ -93,12 +80,6 @@ Module Contents
 
       :type: 2 x 2 ndarray of ints
 
-   .. attribute:: data_sim
-
-      Controller data.
-
-      :type: dict
-
 
 
 
@@ -116,7 +97,7 @@ Module Contents
    ..
        !! processed by numpydoc !!
 
-   .. py:method:: __call__(sys, conv, kTs)
+   .. py:method:: execute(sys, conv, kTs)
 
       
       Perform MPC and save the controller data.
@@ -165,36 +146,6 @@ Module Contents
 
       :returns: The next state of the system.
       :rtype: 1 x 2 ndarray of floats
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      ..
-          !! processed by numpydoc !!
-
-
-   .. py:method:: save_data(ig_ref, uk_abc, kTs)
-
-      
-      Save controller data.
-
-      :param ig_ref: Current reference in alpha-beta frame.
-      :type ig_ref: 1 x 2 ndarray of floats
-      :param uk_abc: Converter three-phase switch position or modulating signal.
-      :type uk_abc: 1 x 3 ndarray of floats
-      :param kTs: Current discrete time instant [s].
-      :type kTs: float
 
 
 

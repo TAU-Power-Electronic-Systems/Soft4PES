@@ -23,7 +23,7 @@ Classes
 Module Contents
 ---------------
 
-.. py:class:: RLGridStateSpaceCurrCtr(sys, base, Ts, i_ref_seq_dq)
+.. py:class:: RLGridStateSpaceCurrCtr(sys, base, Ts, ig_ref_seq_dq)
 
    
    State-space current controller with anti-windup scheme for grid-connected converter with
@@ -35,8 +35,8 @@ Module Contents
    :type base: base-value object
    :param Ts: Sampling interval [s].
    :type Ts: float
-   :param i_ref_seq_dq: Current reference sequence instance in dq-frame [p.u.].
-   :type i_ref_seq_dq: Sequence object
+   :param ig_ref_seq_dq: Current reference sequence instance in dq-frame [p.u.].
+   :type ig_ref_seq_dq: Sequence object
 
    .. attribute:: Rf
 
@@ -80,13 +80,13 @@ Module Contents
 
       :type: 1 x 2 ndarray of floats
 
-   .. attribute:: i_ref_seq_dq
+   .. attribute:: ig_ref_seq_dq
 
       Current reference sequence instance in dq-frame [p.u.].
 
       :type: Sequence object
 
-   .. attribute:: sim_data
+   .. attribute:: data
 
       Controller data.
 
@@ -245,6 +245,31 @@ Module Contents
       :type uk_abc: 1 x 3 ndarray of floats
       :param kTs: Current discrete time instant [s].
       :type kTs: float
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: get_control_system_data()
+
+      
+      This is a empty method to make different controllers compatible when building the new
+      control system structure.
+
 
 
 
