@@ -42,7 +42,7 @@ class IMMpcCurrCtr:
         The state-space model of the system.
     C : 2 x 4 ndarray of ints
         Output matrix.
-    sim_data : dict
+    data : dict
         Controller data.
     """
 
@@ -58,7 +58,7 @@ class IMMpcCurrCtr:
         # Output matrix
         self.C = np.array([[1, 0, 0, 0], [0, 1, 0, 0]])
 
-        self.sim_data = {
+        self.data = {
             'u': [],
             'iS_ref': [],
             't': [],
@@ -152,7 +152,13 @@ class IMMpcCurrCtr:
         kTs : float
             Current discrete time instant [s].
         """
-        self.sim_data['iS_ref'].append(iS_ref)
-        self.sim_data['u'].append(uk_abc)
-        self.sim_data['T_ref'].append(T_ref)
-        self.sim_data['t'].append(kTs)
+        self.data['iS_ref'].append(iS_ref)
+        self.data['u'].append(uk_abc)
+        self.data['T_ref'].append(T_ref)
+        self.data['t'].append(kTs)
+
+    def get_control_system_data(self):
+        """
+        This is a empty method to make different controllers compatible when building the new 
+        control system structure.
+        """
