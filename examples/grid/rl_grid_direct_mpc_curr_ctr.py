@@ -5,12 +5,10 @@ current. The current references are generated based on the power references.
 """
 
 #pylint: disable=wrong-import-position
-#pylint: disable=wrong-import-order
+from types import SimpleNamespace
 import sys as system
 import os
 import numpy as np
-
-from types import SimpleNamespace
 
 ## -------------------------------------------------------------------- ##
 # These allow using soft4pes from this folder
@@ -54,11 +52,11 @@ solver = mpc.solvers.MpcEnum(conv=conv)
 # current reference.
 ref_ctr = lin.GridCurrRefGen()
 ctr = mpc.controllers.RLGridMpcCurrCtr(solver, lambda_u=10e-3, Np=1)
-ctrSys = common.ControlSystem(control_loops=[ref_ctr, ctr],
-                              ref_seq=ref_seq,
-                              Ts=100e-6)
+ctr_sys = common.ControlSystem(control_loops=[ref_ctr, ctr],
+                               ref_seq=ref_seq,
+                               Ts=100e-6)
 
 # Simulate the system
-sim = Simulation(sys=sys, conv=conv, ctr=ctrSys, Ts_sim=5e-6)
+sim = Simulation(sys=sys, conv=conv, ctr=ctr_sys, Ts_sim=5e-6)
 sim.simulate(t_stop=0.2)
 sim.save_data()
