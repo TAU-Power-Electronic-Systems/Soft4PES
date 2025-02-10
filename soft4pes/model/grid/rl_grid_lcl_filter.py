@@ -81,16 +81,16 @@ class RLGridLCLFilter(RLGrid):
                                 [0, np.sqrt(3) / 2, -np.sqrt(3) / 2]])
 
         F11 = (-R1 / X_fc) * np.eye(2)
-        F12 = (-1 / X_fc) * np.eye(2)
-        F13 = (Rc / X_fc) * np.eye(2)
+        F13 = (-1 / X_fc) * np.eye(2)
+        F12 = (Rc / X_fc) * np.eye(2)
 
-        F21 = (1 / Xc) * np.eye(2)
-        F22 = np.zeros((2, 2))
-        F23 = (-1 / Xc) * np.eye(2)
+        F31 = (1 / Xc) * np.eye(2)
+        F33 = np.zeros((2, 2))
+        F32 = (-1 / Xc) * np.eye(2)
 
-        F31 = (Rc / X) * np.eye(2)
-        F32 = (1 / X) * np.eye(2)
-        F33 = (-R2 / X) * np.eye(2)
+        F21 = (Rc / X) * np.eye(2)
+        F23 = (1 / X) * np.eye(2)
+        F22 = (-R2 / X) * np.eye(2)
 
         F = np.block([
             [F11, F12, F13],
@@ -101,7 +101,9 @@ class RLGridLCLFilter(RLGrid):
         G1 = (v_dc / (2 * X_fc)) * np.dot(
             np.block([[np.eye(2), np.zeros((2, 4))]]).T, K)
 
-        G2 = np.block([[np.eye(2, 4), -1 / X * np.eye(2)]]).T
+        G2 = np.block(
+            [[np.zeros((2, 2)), -1 / X * np.eye(2),
+              np.zeros((2, 2))]]).T
 
         # Discretize the system using exact discretization
         A = expm(F * Ts_pu)
