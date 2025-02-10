@@ -33,12 +33,12 @@ def get_modulating_signal(v_ref, v_dc):
     v_ref : ndarray
         The reference voltage in alpha-beta frame.
     v_dc : float
-        The DC link voltage.
+        The dc-link voltage.
 
     Returns
     -------
     ndarray
-        The modulating signal in abc frame.
+        The modulating signal in abc-frame.
     """
 
     return np.clip(alpha_beta_2_abc(v_ref / (v_dc / 2)), -1, 1)
@@ -69,7 +69,7 @@ class FirstOrderFilter:
 
     def update(self, value_in, Ts, base):
         """
-        Update the filter with a new input signal.
+        Update the filter with a new input signal of the defined size.
 
         Parameters
         ----------

@@ -21,14 +21,14 @@ class RFPSC(Controller):
     Parameters
     ----------
     Ra : float, optional
-        Virtual (active) resistance [p.u.].
+        Virtual damping resistance [p.u.].
     wb : float, optional
         Current filter bandwidth [p.u.].
 
     Attributes
     ----------
     Ra : float
-        Virtual (active) resistance [p.u.].
+        Virtual damping resistance [p.u.].
     theta_c : float
         Initial angle of the synchronous reference frame.
     ig_filter : FirstOrderFilter
@@ -71,7 +71,7 @@ class RFPSC(Controller):
         # Droop control
         wc = 1 + 0.2 * (P_ref - P)
 
-        # Calculate the reference current in dq frame
+        # Calculate the reference current in dq-frame
         ig_ref_d = P_ref / V_ref
         ig_ref_q = self.ig_filter.output[1]
         ig_ref_dq = np.array([ig_ref_d, ig_ref_q])
