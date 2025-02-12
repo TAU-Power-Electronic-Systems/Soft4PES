@@ -312,10 +312,11 @@ document.write(`
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleNamespace</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.control.common.controller</span><span class="w"> </span><span class="kn">import</span> <span class="n">Controller</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">dq_2_alpha_beta</span>
 
 
-<div class="viewcode-block" id="IMMpcCurrCtr"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">IMMpcCurrCtr</span><span class="p">:</span>
+<div class="viewcode-block" id="IMMpcCurrCtr"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">IMMpcCurrCtr</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Model predictive current control for an induction machine. The controller aims to track</span>
 <span class="sd">    the stator current in the alpha-beta frame. The current reference is calculated based on the</span>
@@ -329,53 +330,35 @@ document.write(`
 <span class="sd">        Weighting factor for the control effort.</span>
 <span class="sd">    Np : int</span>
 <span class="sd">        Prediction horizon.</span>
-<span class="sd">    Ts : float</span>
-<span class="sd">        Sampling interval [s].</span>
-<span class="sd">    T_ref_seq : Sequence object</span>
-<span class="sd">        Torque reference sequence [p.u.].</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">    solver : solver object</span>
-<span class="sd">        Solver for MPC.</span>
 <span class="sd">    lambda_u : float</span>
 <span class="sd">        Weighting factor for the control effort.</span>
 <span class="sd">    Np : int</span>
 <span class="sd">        Prediction horizon steps.</span>
-<span class="sd">    Ts : float</span>
-<span class="sd">        Sampling interval [s].</span>
-<span class="sd">    T_ref_seq : Sequence object</span>
-<span class="sd">        Torque reference sequence [p.u.].</span>
 <span class="sd">    u_km1_abc : 1 x 3 ndarray of floats</span>
 <span class="sd">        Previous (step k-1) three-phase switch position or modulating signal.</span>
 <span class="sd">    state_space : SimpleNamespace </span>
 <span class="sd">        The state-space model of the system.</span>
+<span class="sd">    solver : solver object</span>
+<span class="sd">        Solver for MPC.</span>
 <span class="sd">    C : 2 x 4 ndarray of ints</span>
 <span class="sd">        Output matrix.</span>
-<span class="sd">    data : dict</span>
-<span class="sd">        Controller data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">solver</span><span class="p">,</span> <span class="n">lambda_u</span><span class="p">,</span> <span class="n">Np</span><span class="p">,</span> <span class="n">Ts</span><span class="p">,</span> <span class="n">T_ref</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">solver</span><span class="p">,</span> <span class="n">lambda_u</span><span class="p">,</span> <span class="n">Np</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 <div class="viewcode-block" id="IMMpcCurrCtr.lambda_u"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.lambda_u">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">lambda_u</span> <span class="o">=</span> <span class="n">lambda_u</span></div>
 <div class="viewcode-block" id="IMMpcCurrCtr.Np"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.Np">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Np</span> <span class="o">=</span> <span class="n">Np</span></div>
-<div class="viewcode-block" id="IMMpcCurrCtr.Ts"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.Ts">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Ts</span> <span class="o">=</span> <span class="n">Ts</span></div>
 <div class="viewcode-block" id="IMMpcCurrCtr.u_km1_abc"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.u_km1_abc">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">u_km1_abc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span></div>
-<div class="viewcode-block" id="IMMpcCurrCtr.T_ref_seq"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.T_ref_seq">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">T_ref_seq</span> <span class="o">=</span> <span class="n">T_ref</span></div>
 <div class="viewcode-block" id="IMMpcCurrCtr.state_space"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.state_space">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">state_space</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">()</span></div>
 <div class="viewcode-block" id="IMMpcCurrCtr.solver"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.solver">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="o">=</span> <span class="n">solver</span></div>
 
         <span class="c1"># Output matrix</span>
 <div class="viewcode-block" id="IMMpcCurrCtr.C"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.C">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span></div>
 
-<div class="viewcode-block" id="IMMpcCurrCtr.data"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.data">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;u&#39;</span><span class="p">:</span> <span class="p">[],</span>
-            <span class="s1">&#39;iS_ref&#39;</span><span class="p">:</span> <span class="p">[],</span>
-            <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="p">[],</span>
-            <span class="s1">&#39;T_ref&#39;</span><span class="p">:</span> <span class="p">[],</span>
-        <span class="p">}</span></div>
-
-<div class="viewcode-block" id="IMMpcCurrCtr.__call__"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.__call__">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
+<div class="viewcode-block" id="IMMpcCurrCtr.execute"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.execute">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Perform MPC.</span>
 
@@ -396,13 +379,16 @@ document.write(`
 
         <span class="bp">self</span><span class="o">.</span><span class="n">state_space</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">get_discrete_state_space</span><span class="p">(</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ts</span><span class="p">)</span>
 
-        <span class="n">T_ref</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">T_ref_seq</span><span class="p">(</span><span class="n">kTs</span><span class="p">)</span>
+        <span class="n">T_ref</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">T_ref</span>
 
+        <span class="c1"># Calculate the reference stator current based on the torque and rotor flux magnitude</span>
+        <span class="c1"># references</span>
         <span class="n">iS_ref_dq</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">calc_stator_current</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">psiR_mag_ref</span><span class="p">,</span> <span class="n">T_ref</span><span class="p">)</span>
 
         <span class="c1"># Get the rotor flux angle and calculate the reference in alpha-beta frame</span>
         <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
         <span class="n">iS_ref</span> <span class="o">=</span> <span class="n">dq_2_alpha_beta</span><span class="p">(</span><span class="n">iS_ref_dq</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">iS_ref</span> <span class="o">=</span> <span class="n">iS_ref</span>
 
         <span class="c1"># Predict the current reference over the prediction horizon</span>
         <span class="c1"># Make a rotation matrix</span>
@@ -421,57 +407,33 @@ document.write(`
         <span class="n">uk_abc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">y_ref</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">u_km1_abc</span> <span class="o">=</span> <span class="n">uk_abc</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">save_data</span><span class="p">(</span><span class="n">iS_ref</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">,</span> <span class="n">T_ref</span><span class="p">,</span> <span class="n">kTs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">uk_abc</span><span class="o">=</span><span class="n">uk_abc</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">uk_abc</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span></div>
 
 <div class="viewcode-block" id="IMMpcCurrCtr.get_next_state"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.get_next_state">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_next_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">xk</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the next state of the system.</span>
+<span class="sd">        Get the next state of the system.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        sys : system object</span>
-<span class="sd">            The system object, not used in this method.</span>
-<span class="sd">        xk : 1 x 2 ndarray of floats</span>
-<span class="sd">            The current state of the system [p.u.] (step k).</span>
+<span class="sd">            The system model.</span>
+<span class="sd">        xk : 1 x 4 ndarray of floats</span>
+<span class="sd">            The current state of the system.</span>
 <span class="sd">        uk_abc : 1 x 3 ndarray of floats</span>
 <span class="sd">            Converter three-phase switch position or modulating signal.</span>
 <span class="sd">        k : int</span>
-<span class="sd">            The solver prediction step. Not used in this method.</span>
+<span class="sd">            The solver prediction step.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        1 x 2 ndarray of floats</span>
-<span class="sd">            The next state of the system [p.u.] (step k+1).</span>
+<span class="sd">        1 x 4 ndarray of floats</span>
+<span class="sd">            The next state of the system.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_space</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">xk</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_space</span><span class="o">.</span><span class="n">B</span><span class="p">,</span>
-                                                       <span class="n">uk_abc</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="IMMpcCurrCtr.save_data"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.save_data">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">save_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iS_ref</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">,</span> <span class="n">T_ref</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Save controller data.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        iS_ref : 1 x 2 ndarray of floats</span>
-<span class="sd">            Current reference in alpha-beta frame [p.u.].</span>
-<span class="sd">        uk_abc : 1 x 3 ndarray of floats</span>
-<span class="sd">            Converter three-phase switch position or modulating signal.</span>
-<span class="sd">        kTs : float</span>
-<span class="sd">            Current discrete time instant [s].</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;iS_ref&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">iS_ref</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;u&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">uk_abc</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;T_ref&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">T_ref</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kTs</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="IMMpcCurrCtr.get_control_system_data"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.get_control_system_data">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_control_system_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This is a empty method to make different controllers compatible when building the new </span>
-<span class="sd">        control system structure.</span>
-<span class="sd">        &quot;&quot;&quot;</span></div></div>
+                                                       <span class="n">uk_abc</span><span class="p">)</span></div></div>
 </pre></div>
 
                 </article>
