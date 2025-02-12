@@ -144,10 +144,12 @@
 <li class="toctree-l3 current active has-children"><a class="current reference internal" href="#">soft4pes.control.common</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="control_system/index.html">soft4pes.control.common.control_system</a></li>
 <li class="toctree-l4"><a class="reference internal" href="controller/index.html">soft4pes.control.common.controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils/index.html">soft4pes.control.common.utils</a></li>
 </ul>
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../lin/index.html">soft4pes.control.lin</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../lin/grid_curr_ref_gen/index.html">soft4pes.control.lin.grid_curr_ref_gen</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../lin/lcl_conv_curr_ctr/index.html">soft4pes.control.lin.lcl_conv_curr_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../lin/lin_curr_ctr/index.html">soft4pes.control.lin.lin_curr_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../lin/state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
 </ul>
@@ -356,6 +358,7 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#package-contents">Package Contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.ControlSystem"><code class="docutils literal notranslate"><span class="pre">ControlSystem</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.ControlSystem.ref_seq"><code class="docutils literal notranslate"><span class="pre">ControlSystem.ref_seq</span></code></a></li>
@@ -377,6 +380,15 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.Controller.set_sampling_interval"><code class="docutils literal notranslate"><span class="pre">Controller.set_sampling_interval()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.Controller.execute"><code class="docutils literal notranslate"><span class="pre">Controller.execute()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.Controller.save_data"><code class="docutils literal notranslate"><span class="pre">Controller.save_data()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.wrap_theta"><code class="docutils literal notranslate"><span class="pre">wrap_theta()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.get_modulating_signal"><code class="docutils literal notranslate"><span class="pre">get_modulating_signal()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.magnitude_limiter"><code class="docutils literal notranslate"><span class="pre">magnitude_limiter()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.FirstOrderFilter"><code class="docutils literal notranslate"><span class="pre">FirstOrderFilter</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.FirstOrderFilter.wb"><code class="docutils literal notranslate"><span class="pre">FirstOrderFilter.wb</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.FirstOrderFilter.output"><code class="docutils literal notranslate"><span class="pre">FirstOrderFilter.output</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.FirstOrderFilter.update"><code class="docutils literal notranslate"><span class="pre">FirstOrderFilter.update()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -401,6 +413,7 @@ document.write(`
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="control_system/index.html">soft4pes.control.common.control_system</a></li>
 <li class="toctree-l1"><a class="reference internal" href="controller/index.html">soft4pes.control.common.controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils/index.html">soft4pes.control.common.utils</a></li>
 </ul>
 </div>
 </section>
@@ -413,6 +426,25 @@ document.write(`
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.common.Controller" title="soft4pes.control.common.Controller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Controller</span></code></a></p></td>
 <td><p>Base class for controllers.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.common.FirstOrderFilter" title="soft4pes.control.common.FirstOrderFilter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FirstOrderFilter</span></code></a></p></td>
+<td><p>General first order filter.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.common.wrap_theta" title="soft4pes.control.common.wrap_theta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wrap_theta</span></code></a>(theta)</p></td>
+<td><p>Wrap the angle theta to the range [-pi, pi].</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.common.get_modulating_signal" title="soft4pes.control.common.get_modulating_signal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_modulating_signal</span></code></a>(v_ref, v_dc)</p></td>
+<td><p>Convert a voltage reference to a modulating signal.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.common.magnitude_limiter" title="soft4pes.control.common.magnitude_limiter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">magnitude_limiter</span></code></a>(unlimited_input, maximum_output)</p></td>
+<td><p>Limit the input in dq-frame. The instantaneous limiting function is used</p></td>
 </tr>
 </tbody>
 </table>
@@ -644,6 +676,115 @@ the control loop class.</p>
 
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="soft4pes.control.common.wrap_theta">
+<span class="sig-prename descclassname"><span class="pre">soft4pes.control.common.</span></span><span class="sig-name descname"><span class="pre">wrap_theta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/common/utils.html#wrap_theta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.common.wrap_theta" title="Permalink to this definition">#</a></dt>
+<dd><p>Wrap the angle theta to the range [-pi, pi].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>theta</strong> (<em>float</em>) – The angle in radians.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The wrapped angle in radians.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="soft4pes.control.common.get_modulating_signal">
+<span class="sig-prename descclassname"><span class="pre">soft4pes.control.common.</span></span><span class="sig-name descname"><span class="pre">get_modulating_signal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_dc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/common/utils.html#get_modulating_signal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.common.get_modulating_signal" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert a voltage reference to a modulating signal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v_ref</strong> (<em>ndarray</em>) – The reference voltage in alpha-beta frame.</p></li>
+<li><p><strong>v_dc</strong> (<em>float</em>) – The DC link voltage.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The modulating signal in abc frame.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="soft4pes.control.common.magnitude_limiter">
+<span class="sig-prename descclassname"><span class="pre">soft4pes.control.common.</span></span><span class="sig-name descname"><span class="pre">magnitude_limiter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unlimited_input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximum_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/common/utils.html#magnitude_limiter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.common.magnitude_limiter" title="Permalink to this definition">#</a></dt>
+<dd><p>Limit the input in dq-frame. The instantaneous limiting function is used
+to limit the amplitude of the current and voltage reference in dq-frame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>maximum_output</strong> (<em>float</em>) – Maximum magnitude [p.u.].</p></li>
+<li><p><strong>unlimited_input</strong> (<em>1 x 2 ndarray</em><em> of </em><em>floats</em>) – Unlimited input [p.u.].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Limited output [p.u.].</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>1 x 2 ndarray of floats</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="soft4pes.control.common.FirstOrderFilter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.common.</span></span><span class="sig-name descname"><span class="pre">FirstOrderFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/common/utils.html#FirstOrderFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.common.FirstOrderFilter" title="Permalink to this definition">#</a></dt>
+<dd><p>General first order filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>wb</strong> (<em>float</em>) – The bandwidth of the filter [p.u.].</p></li>
+<li><p><strong>size</strong> (<em>int</em>) – The size of the signal to be filtered.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.control.common.FirstOrderFilter.wb">
+<span class="sig-name descname"><span class="pre">wb</span></span><a class="headerlink" href="#soft4pes.control.common.FirstOrderFilter.wb" title="Permalink to this definition">#</a></dt>
+<dd><p>The bandwidth of the filter [p.u.].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.control.common.FirstOrderFilter.output">
+<span class="sig-name descname"><span class="pre">output</span></span><a class="headerlink" href="#soft4pes.control.common.FirstOrderFilter.output" title="Permalink to this definition">#</a></dt>
+<dd><p>The filtered signal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.control.common.FirstOrderFilter.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/common/utils.html#FirstOrderFilter.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.common.FirstOrderFilter.update" title="Permalink to this definition">#</a></dt>
+<dd><p>Update the filter with a new input signal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value_in</strong> (<em>ndarray</em>) – The input signal to be filtered.</p></li>
+<li><p><strong>Ts</strong> (<em>float</em>) – The sampling interval [s].</p></li>
+<li><p><strong>base</strong> (<em>object</em>) – The base values object containing the base angular frequency.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 
@@ -693,6 +834,7 @@ the control loop class.</p>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#package-contents">Package Contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.ControlSystem"><code class="docutils literal notranslate"><span class="pre">ControlSystem</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.ControlSystem.ref_seq"><code class="docutils literal notranslate"><span class="pre">ControlSystem.ref_seq</span></code></a></li>
@@ -714,6 +856,15 @@ the control loop class.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.Controller.set_sampling_interval"><code class="docutils literal notranslate"><span class="pre">Controller.set_sampling_interval()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.Controller.execute"><code class="docutils literal notranslate"><span class="pre">Controller.execute()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.Controller.save_data"><code class="docutils literal notranslate"><span class="pre">Controller.save_data()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.wrap_theta"><code class="docutils literal notranslate"><span class="pre">wrap_theta()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.get_modulating_signal"><code class="docutils literal notranslate"><span class="pre">get_modulating_signal()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.magnitude_limiter"><code class="docutils literal notranslate"><span class="pre">magnitude_limiter()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.FirstOrderFilter"><code class="docutils literal notranslate"><span class="pre">FirstOrderFilter</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.FirstOrderFilter.wb"><code class="docutils literal notranslate"><span class="pre">FirstOrderFilter.wb</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.FirstOrderFilter.output"><code class="docutils literal notranslate"><span class="pre">FirstOrderFilter.output</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.FirstOrderFilter.update"><code class="docutils literal notranslate"><span class="pre">FirstOrderFilter.update()</span></code></a></li>
 </ul>
 </li>
 </ul>

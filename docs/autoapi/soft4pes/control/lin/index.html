@@ -49,7 +49,7 @@
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
     <link rel="next" title="soft4pes.control.lin.grid_curr_ref_gen" href="grid_curr_ref_gen/index.html" />
-    <link rel="prev" title="soft4pes.control.common.controller" href="../common/controller/index.html" />
+    <link rel="prev" title="soft4pes.control.common.utils" href="../common/utils/index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -144,10 +144,12 @@
 <li class="toctree-l3 has-children"><a class="reference internal" href="../common/index.html">soft4pes.control.common</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../common/control_system/index.html">soft4pes.control.common.control_system</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../common/controller/index.html">soft4pes.control.common.controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../common/utils/index.html">soft4pes.control.common.utils</a></li>
 </ul>
 </li>
 <li class="toctree-l3 current active has-children"><a class="current reference internal" href="#">soft4pes.control.lin</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="grid_curr_ref_gen/index.html">soft4pes.control.lin.grid_curr_ref_gen</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lcl_conv_curr_ctr/index.html">soft4pes.control.lin.lcl_conv_curr_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="lin_curr_ctr/index.html">soft4pes.control.lin.lin_curr_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
 </ul>
@@ -361,25 +363,6 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.GridCurrRefGen.execute"><code class="docutils literal notranslate"><span class="pre">GridCurrRefGen.execute()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.Rg"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.Rg</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.Xg"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.Xg</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.base"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.base</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.Ts"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.Ts</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.Ts_pu"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.Ts_pu</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.alpha_c"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.alpha_c</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.k_p"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.k_p</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.k_i"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.k_i</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.integral_error_d"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.integral_error_d</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.integral_error_q"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.integral_error_q</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.ig_ref_seq_dq"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.ig_ref_seq_dq</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.data"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.data</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.__call__"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.__call__()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.pi_controller"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.pi_controller()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.save_data"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.save_data()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.get_control_system_data"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.get_control_system_data()</span></code></a></li>
-</ul>
-</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridStateSpaceCurrCtr"><code class="docutils literal notranslate"><span class="pre">RLGridStateSpaceCurrCtr</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridStateSpaceCurrCtr.Rf"><code class="docutils literal notranslate"><span class="pre">RLGridStateSpaceCurrCtr.Rf</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridStateSpaceCurrCtr.Xf"><code class="docutils literal notranslate"><span class="pre">RLGridStateSpaceCurrCtr.Xf</span></code></a></li>
@@ -396,6 +379,16 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridStateSpaceCurrCtr.voltage_reference_limiter"><code class="docutils literal notranslate"><span class="pre">RLGridStateSpaceCurrCtr.voltage_reference_limiter()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridStateSpaceCurrCtr.save_data"><code class="docutils literal notranslate"><span class="pre">RLGridStateSpaceCurrCtr.save_data()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridStateSpaceCurrCtr.get_control_system_data"><code class="docutils literal notranslate"><span class="pre">RLGridStateSpaceCurrCtr.get_control_system_data()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLConvCurrCtr"><code class="docutils literal notranslate"><span class="pre">LCLConvCurrCtr</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLConvCurrCtr.u_ii_comp"><code class="docutils literal notranslate"><span class="pre">LCLConvCurrCtr.u_ii_comp</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLConvCurrCtr.v_conv_kp1_comp"><code class="docutils literal notranslate"><span class="pre">LCLConvCurrCtr.v_conv_kp1_comp</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLConvCurrCtr.u_km1_abc"><code class="docutils literal notranslate"><span class="pre">LCLConvCurrCtr.u_km1_abc</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLConvCurrCtr.sys"><code class="docutils literal notranslate"><span class="pre">LCLConvCurrCtr.sys</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLConvCurrCtr.ctr_pars"><code class="docutils literal notranslate"><span class="pre">LCLConvCurrCtr.ctr_pars</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLConvCurrCtr.set_sampling_interval"><code class="docutils literal notranslate"><span class="pre">LCLConvCurrCtr.set_sampling_interval()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLConvCurrCtr.execute"><code class="docutils literal notranslate"><span class="pre">LCLConvCurrCtr.execute()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -419,6 +412,7 @@ document.write(`
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="grid_curr_ref_gen/index.html">soft4pes.control.lin.grid_curr_ref_gen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lcl_conv_curr_ctr/index.html">soft4pes.control.lin.lcl_conv_curr_ctr</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lin_curr_ctr/index.html">soft4pes.control.lin.lin_curr_ctr</a></li>
 <li class="toctree-l1"><a class="reference internal" href="state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
 </ul>
@@ -431,11 +425,11 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.lin.GridCurrRefGen" title="soft4pes.control.lin.GridCurrRefGen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GridCurrRefGen</span></code></a></p></td>
 <td><p>Grid current reference generator. This class generates the grid current reference based on the</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.lin.RLGridPICurrCtr" title="soft4pes.control.lin.RLGridPICurrCtr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RLGridPICurrCtr</span></code></a></p></td>
-<td><p>PI current controller for grid-connected converter with RL load</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.lin.RLGridStateSpaceCurrCtr" title="soft4pes.control.lin.RLGridStateSpaceCurrCtr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RLGridStateSpaceCurrCtr</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.lin.RLGridStateSpaceCurrCtr" title="soft4pes.control.lin.RLGridStateSpaceCurrCtr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RLGridStateSpaceCurrCtr</span></code></a></p></td>
 <td><p>State-space current controller with anti-windup scheme for grid-connected converter with</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.lin.LCLConvCurrCtr" title="soft4pes.control.lin.LCLConvCurrCtr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LCLConvCurrCtr</span></code></a></p></td>
+<td><p>Current Controller for converter current with an LC(L) filter.</p></td>
 </tr>
 </tbody>
 </table>
@@ -469,217 +463,6 @@ Moreover, the positive grid current flows from the converter to the grid.</p>
 <dd class="field-odd"><p>SimpleNamespace</p>
 </dd>
 </dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="soft4pes.control.lin.RLGridPICurrCtr">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.lin.</span></span><span class="sig-name descname"><span class="pre">RLGridPICurrCtr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ig_ref_seq_dq</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/lin/lin_curr_ctr.html#RLGridPICurrCtr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.lin.RLGridPICurrCtr" title="Permalink to this definition">#</a></dt>
-<dd><p>PI current controller for grid-connected converter with RL load</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>sys</strong> (<em>system object</em>) – System model.</p></li>
-<li><p><strong>base</strong> (<em>base-value object</em>) – Base values.</p></li>
-<li><p><strong>Ts</strong> (<em>float</em>) – Sampling interval [s].</p></li>
-<li><p><strong>ig_ref_seq_dq</strong> (<em>Sequence object</em>) – Current reference sequence instance in dq-frame [p.u.].</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.control.lin.RLGridPICurrCtr.Rg">
-<span class="sig-name descname"><span class="pre">Rg</span></span><a class="headerlink" href="#soft4pes.control.lin.RLGridPICurrCtr.Rg" title="Permalink to this definition">#</a></dt>
-<dd><p>Resistance [p.u.].</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.control.lin.RLGridPICurrCtr.Xg">
-<span class="sig-name descname"><span class="pre">Xg</span></span><a class="headerlink" href="#soft4pes.control.lin.RLGridPICurrCtr.Xg" title="Permalink to this definition">#</a></dt>
-<dd><p>Reactance [p.u.].</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.control.lin.RLGridPICurrCtr.base">
-<span class="sig-name descname"><span class="pre">base</span></span><a class="headerlink" href="#soft4pes.control.lin.RLGridPICurrCtr.base" title="Permalink to this definition">#</a></dt>
-<dd><p>Base values.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>base-value object</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.control.lin.RLGridPICurrCtr.Ts">
-<span class="sig-name descname"><span class="pre">Ts</span></span><a class="headerlink" href="#soft4pes.control.lin.RLGridPICurrCtr.Ts" title="Permalink to this definition">#</a></dt>
-<dd><p>Sampling interval [s].</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.control.lin.RLGridPICurrCtr.Ts_pu">
-<span class="sig-name descname"><span class="pre">Ts_pu</span></span><a class="headerlink" href="#soft4pes.control.lin.RLGridPICurrCtr.Ts_pu" title="Permalink to this definition">#</a></dt>
-<dd><p>Sampling interval [p.u.].</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.control.lin.RLGridPICurrCtr.alpha_c">
-<span class="sig-name descname"><span class="pre">alpha_c</span></span><a class="headerlink" href="#soft4pes.control.lin.RLGridPICurrCtr.alpha_c" title="Permalink to this definition">#</a></dt>
-<dd><p>Controller bandwidth [p.u.]</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.control.lin.RLGridPICurrCtr.k_p">
-<span class="sig-name descname"><span class="pre">k_p</span></span><a class="headerlink" href="#soft4pes.control.lin.RLGridPICurrCtr.k_p" title="Permalink to this definition">#</a></dt>
-<dd><p>Proportional gain [p.u.]</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.control.lin.RLGridPICurrCtr.k_i">
-<span class="sig-name descname"><span class="pre">k_i</span></span><a class="headerlink" href="#soft4pes.control.lin.RLGridPICurrCtr.k_i" title="Permalink to this definition">#</a></dt>
-<dd><p>Proportional gain [p.u.]</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.control.lin.RLGridPICurrCtr.integral_error_d">
-<span class="sig-name descname"><span class="pre">integral_error_d</span></span><a class="headerlink" href="#soft4pes.control.lin.RLGridPICurrCtr.integral_error_d" title="Permalink to this definition">#</a></dt>
-<dd><p>Current error instance in d-frame [p.u.].</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.control.lin.RLGridPICurrCtr.integral_error_q">
-<span class="sig-name descname"><span class="pre">integral_error_q</span></span><a class="headerlink" href="#soft4pes.control.lin.RLGridPICurrCtr.integral_error_q" title="Permalink to this definition">#</a></dt>
-<dd><p>Current error instance in q-frame [p.u.].</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.control.lin.RLGridPICurrCtr.ig_ref_seq_dq">
-<span class="sig-name descname"><span class="pre">ig_ref_seq_dq</span></span><a class="headerlink" href="#soft4pes.control.lin.RLGridPICurrCtr.ig_ref_seq_dq" title="Permalink to this definition">#</a></dt>
-<dd><p>Current reference sequence instance in dq-frame [p.u.].</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Sequence object</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.control.lin.RLGridPICurrCtr.data">
-<span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#soft4pes.control.lin.RLGridPICurrCtr.data" title="Permalink to this definition">#</a></dt>
-<dd><p>Controller data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="soft4pes.control.lin.RLGridPICurrCtr.__call__">
-<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/lin/lin_curr_ctr.html#RLGridPICurrCtr.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.lin.RLGridPICurrCtr.__call__" title="Permalink to this definition">#</a></dt>
-<dd><p>Perform control.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>sys</strong> (<em>system object</em>) – System model.</p></li>
-<li><p><strong>conv</strong> (<em>converter object</em>) – Converter model.</p></li>
-<li><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Modulating signal.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>1 x 3 ndarray of floats</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="soft4pes.control.lin.RLGridPICurrCtr.pi_controller">
-<span class="sig-name descname"><span class="pre">pi_controller</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i_dq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ig_ref_dq</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/lin/lin_curr_ctr.html#RLGridPICurrCtr.pi_controller"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.lin.RLGridPICurrCtr.pi_controller" title="Permalink to this definition">#</a></dt>
-<dd><p>PI controller in dq frame.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>i_dq</strong> (<em>1 x 2 ndarray</em><em> of </em><em>floats</em>) – Grid Current in dq frame [p.u.].</p></li>
-<li><p><strong>ig_ref_dq</strong> (<em>1 x 2 ndarray</em><em> of </em><em>floats</em>) – Reference current in dq frame [p.u.].</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Converter voltage reference in dq frame [p.u.].</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>1 x 2 ndarray of floats</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="soft4pes.control.lin.RLGridPICurrCtr.save_data">
-<span class="sig-name descname"><span class="pre">save_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ig_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uk_abc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/lin/lin_curr_ctr.html#RLGridPICurrCtr.save_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.lin.RLGridPICurrCtr.save_data" title="Permalink to this definition">#</a></dt>
-<dd><p>Save controller data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>ig_ref</strong> (<em>1 x 2 ndarray</em><em> of </em><em>floats</em>) – Current reference in alpha-beta frame.</p></li>
-<li><p><strong>uk_abc</strong> (<em>1 x 3 ndarray</em><em> of </em><em>floats</em>) – Converter three-phase switch position or modulating signal.</p></li>
-<li><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="soft4pes.control.lin.RLGridPICurrCtr.get_control_system_data">
-<span class="sig-name descname"><span class="pre">get_control_system_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/lin/lin_curr_ctr.html#RLGridPICurrCtr.get_control_system_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.lin.RLGridPICurrCtr.get_control_system_data" title="Permalink to this definition">#</a></dt>
-<dd><p>This is a empty method to make different controllers compatible when building the new
-control system structure.</p>
 </dd></dl>
 
 </dd></dl>
@@ -899,6 +682,105 @@ control system structure.</p>
 
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="soft4pes.control.lin.LCLConvCurrCtr">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.lin.</span></span><span class="sig-name descname"><span class="pre">LCLConvCurrCtr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/lin/lcl_conv_curr_ctr.html#LCLConvCurrCtr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.lin.LCLConvCurrCtr" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../common/controller/index.html#soft4pes.control.common.controller.Controller" title="soft4pes.control.common.controller.Controller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.control.common.controller.Controller</span></code></a></p>
+<p>Current Controller for converter current with an LC(L) filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sys</strong> (<em>object</em>) – System model containing electrical parameters and base values.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.control.lin.LCLConvCurrCtr.u_ii_comp">
+<span class="sig-name descname"><span class="pre">u_ii_comp</span></span><a class="headerlink" href="#soft4pes.control.lin.LCLConvCurrCtr.u_ii_comp" title="Permalink to this definition">#</a></dt>
+<dd><p>Integrator state for the converter voltage reference in the dq-frame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>complex</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.control.lin.LCLConvCurrCtr.v_conv_kp1_comp">
+<span class="sig-name descname"><span class="pre">v_conv_kp1_comp</span></span><a class="headerlink" href="#soft4pes.control.lin.LCLConvCurrCtr.v_conv_kp1_comp" title="Permalink to this definition">#</a></dt>
+<dd><p>Next converter voltage reference in the dq-frame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>complex</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.control.lin.LCLConvCurrCtr.u_km1_abc">
+<span class="sig-name descname"><span class="pre">u_km1_abc</span></span><a class="headerlink" href="#soft4pes.control.lin.LCLConvCurrCtr.u_km1_abc" title="Permalink to this definition">#</a></dt>
+<dd><p>Previous converter voltage reference in the abc-frame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray (3,)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.control.lin.LCLConvCurrCtr.sys">
+<span class="sig-name descname"><span class="pre">sys</span></span><a class="headerlink" href="#soft4pes.control.lin.LCLConvCurrCtr.sys" title="Permalink to this definition">#</a></dt>
+<dd><p>System model containing electrical parameters and base values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.control.lin.LCLConvCurrCtr.ctr_pars">
+<span class="sig-name descname"><span class="pre">ctr_pars</span></span><a class="headerlink" href="#soft4pes.control.lin.LCLConvCurrCtr.ctr_pars" title="Permalink to this definition">#</a></dt>
+<dd><p>Controller parameters including delta, K_i, k_ii, and K_ti.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>SimpleNamespace</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.control.lin.LCLConvCurrCtr.set_sampling_interval">
+<span class="sig-name descname"><span class="pre">set_sampling_interval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Ts</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/lin/lcl_conv_curr_ctr.html#LCLConvCurrCtr.set_sampling_interval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.lin.LCLConvCurrCtr.set_sampling_interval" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the sampling interval and compute controller parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Ts</strong> (<em>float</em>) – Sampling interval [s].</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.control.lin.LCLConvCurrCtr.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/lin/lcl_conv_curr_ctr.html#LCLConvCurrCtr.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.lin.LCLConvCurrCtr.execute" title="Permalink to this definition">#</a></dt>
+<dd><p>Execute the Current Controller (CC) and save the controller data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sys</strong> (<em>object</em>) – System model.</p></li>
+<li><p><strong>conv</strong> (<em>object</em>) – Converter model.</p></li>
+<li><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Three-phase modulating signal.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>1 x 3 ndarray of floats</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 
@@ -914,12 +796,12 @@ control system structure.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../common/controller/index.html"
+       href="../common/utils/index.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">soft4pes.control.common.controller</p>
+        <p class="prev-next-title">soft4pes.control.common.utils</p>
       </div>
     </a>
     <a class="right-next"
@@ -953,25 +835,6 @@ control system structure.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.GridCurrRefGen.execute"><code class="docutils literal notranslate"><span class="pre">GridCurrRefGen.execute()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.Rg"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.Rg</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.Xg"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.Xg</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.base"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.base</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.Ts"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.Ts</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.Ts_pu"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.Ts_pu</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.alpha_c"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.alpha_c</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.k_p"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.k_p</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.k_i"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.k_i</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.integral_error_d"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.integral_error_d</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.integral_error_q"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.integral_error_q</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.ig_ref_seq_dq"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.ig_ref_seq_dq</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.data"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.data</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.__call__"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.__call__()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.pi_controller"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.pi_controller()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.save_data"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.save_data()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridPICurrCtr.get_control_system_data"><code class="docutils literal notranslate"><span class="pre">RLGridPICurrCtr.get_control_system_data()</span></code></a></li>
-</ul>
-</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridStateSpaceCurrCtr"><code class="docutils literal notranslate"><span class="pre">RLGridStateSpaceCurrCtr</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridStateSpaceCurrCtr.Rf"><code class="docutils literal notranslate"><span class="pre">RLGridStateSpaceCurrCtr.Rf</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridStateSpaceCurrCtr.Xf"><code class="docutils literal notranslate"><span class="pre">RLGridStateSpaceCurrCtr.Xf</span></code></a></li>
@@ -988,6 +851,16 @@ control system structure.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridStateSpaceCurrCtr.voltage_reference_limiter"><code class="docutils literal notranslate"><span class="pre">RLGridStateSpaceCurrCtr.voltage_reference_limiter()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridStateSpaceCurrCtr.save_data"><code class="docutils literal notranslate"><span class="pre">RLGridStateSpaceCurrCtr.save_data()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RLGridStateSpaceCurrCtr.get_control_system_data"><code class="docutils literal notranslate"><span class="pre">RLGridStateSpaceCurrCtr.get_control_system_data()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLConvCurrCtr"><code class="docutils literal notranslate"><span class="pre">LCLConvCurrCtr</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLConvCurrCtr.u_ii_comp"><code class="docutils literal notranslate"><span class="pre">LCLConvCurrCtr.u_ii_comp</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLConvCurrCtr.v_conv_kp1_comp"><code class="docutils literal notranslate"><span class="pre">LCLConvCurrCtr.v_conv_kp1_comp</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLConvCurrCtr.u_km1_abc"><code class="docutils literal notranslate"><span class="pre">LCLConvCurrCtr.u_km1_abc</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLConvCurrCtr.sys"><code class="docutils literal notranslate"><span class="pre">LCLConvCurrCtr.sys</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLConvCurrCtr.ctr_pars"><code class="docutils literal notranslate"><span class="pre">LCLConvCurrCtr.ctr_pars</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLConvCurrCtr.set_sampling_interval"><code class="docutils literal notranslate"><span class="pre">LCLConvCurrCtr.set_sampling_interval()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLConvCurrCtr.execute"><code class="docutils literal notranslate"><span class="pre">LCLConvCurrCtr.execute()</span></code></a></li>
 </ul>
 </li>
 </ul>

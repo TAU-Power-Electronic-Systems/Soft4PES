@@ -34,6 +34,7 @@ Submodules
    :maxdepth: 1
 
    /autoapi/soft4pes/control/lin/grid_curr_ref_gen/index
+   /autoapi/soft4pes/control/lin/lcl_conv_curr_ctr/index
    /autoapi/soft4pes/control/lin/lin_curr_ctr/index
    /autoapi/soft4pes/control/lin/state_space_curr_ctr/index
 
@@ -44,8 +45,8 @@ Classes
 .. autoapisummary::
 
    soft4pes.control.lin.GridCurrRefGen
-   soft4pes.control.lin.RLGridPICurrCtr
    soft4pes.control.lin.RLGridStateSpaceCurrCtr
+   soft4pes.control.lin.LCLConvCurrCtr
 
 
 Package Contents
@@ -94,228 +95,6 @@ Package Contents
 
       :returns: **output** -- The output of the controller, containing the current reference in dq frame.
       :rtype: SimpleNamespace
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      ..
-          !! processed by numpydoc !!
-
-
-.. py:class:: RLGridPICurrCtr(sys, base, Ts, ig_ref_seq_dq)
-
-   
-   PI current controller for grid-connected converter with RL load
-
-   :param sys: System model.
-   :type sys: system object
-   :param base: Base values.
-   :type base: base-value object
-   :param Ts: Sampling interval [s].
-   :type Ts: float
-   :param ig_ref_seq_dq: Current reference sequence instance in dq-frame [p.u.].
-   :type ig_ref_seq_dq: Sequence object
-
-   .. attribute:: Rg
-
-      Resistance [p.u.].
-
-      :type: float
-
-   .. attribute:: Xg
-
-      Reactance [p.u.].
-
-      :type: float
-
-   .. attribute:: base
-
-      Base values.
-
-      :type: base-value object
-
-   .. attribute:: Ts
-
-      Sampling interval [s].
-
-      :type: float
-
-   .. attribute:: Ts_pu
-
-      Sampling interval [p.u.].
-
-      :type: float
-
-   .. attribute:: alpha_c
-
-      Controller bandwidth [p.u.]
-
-      :type: float
-
-   .. attribute:: k_p
-
-      Proportional gain [p.u.]
-
-      :type: float
-
-   .. attribute:: k_i
-
-      Proportional gain [p.u.]
-
-      :type: float
-
-   .. attribute:: integral_error_d
-
-      Current error instance in d-frame [p.u.].
-
-      :type: float
-
-   .. attribute:: integral_error_q
-
-      Current error instance in q-frame [p.u.].
-
-      :type: float
-
-   .. attribute:: ig_ref_seq_dq
-
-      Current reference sequence instance in dq-frame [p.u.].
-
-      :type: Sequence object
-
-   .. attribute:: data
-
-      Controller data.
-
-      :type: dict
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   ..
-       !! processed by numpydoc !!
-
-   .. py:method:: __call__(sys, conv, kTs)
-
-      
-      Perform control.
-
-      :param sys: System model.
-      :type sys: system object
-      :param conv: Converter model.
-      :type conv: converter object
-      :param kTs: Current discrete time instant [s].
-      :type kTs: float
-
-      :returns: Modulating signal.
-      :rtype: 1 x 3 ndarray of floats
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      ..
-          !! processed by numpydoc !!
-
-
-   .. py:method:: pi_controller(i_dq, ig_ref_dq)
-
-      
-      PI controller in dq frame.
-
-      :param i_dq: Grid Current in dq frame [p.u.].
-      :type i_dq: 1 x 2 ndarray of floats
-      :param ig_ref_dq: Reference current in dq frame [p.u.].
-      :type ig_ref_dq: 1 x 2 ndarray of floats
-
-      :returns: Converter voltage reference in dq frame [p.u.].
-      :rtype: 1 x 2 ndarray of floats
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      ..
-          !! processed by numpydoc !!
-
-
-   .. py:method:: save_data(ig_ref, uk_abc, kTs)
-
-      
-      Save controller data.
-
-      :param ig_ref: Current reference in alpha-beta frame.
-      :type ig_ref: 1 x 2 ndarray of floats
-      :param uk_abc: Converter three-phase switch position or modulating signal.
-      :type uk_abc: 1 x 3 ndarray of floats
-      :param kTs: Current discrete time instant [s].
-      :type kTs: float
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      ..
-          !! processed by numpydoc !!
-
-
-   .. py:method:: get_control_system_data()
-
-      
-      This is a empty method to make different controllers compatible when building the new
-      control system structure.
-
 
 
 
@@ -582,6 +361,123 @@ Package Contents
       This is a empty method to make different controllers compatible when building the new
       control system structure.
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: LCLConvCurrCtr(sys)
+
+   Bases: :py:obj:`soft4pes.control.common.controller.Controller`
+
+
+   
+   Current Controller for converter current with an LC(L) filter.
+
+   :param sys: System model containing electrical parameters and base values.
+   :type sys: object
+
+   .. attribute:: u_ii_comp
+
+      Integrator state for the converter voltage reference in the dq-frame.
+
+      :type: complex
+
+   .. attribute:: v_conv_kp1_comp
+
+      Next converter voltage reference in the dq-frame.
+
+      :type: complex
+
+   .. attribute:: u_km1_abc
+
+      Previous converter voltage reference in the abc-frame.
+
+      :type: ndarray (3,)
+
+   .. attribute:: sys
+
+      System model containing electrical parameters and base values.
+
+      :type: object
+
+   .. attribute:: ctr_pars
+
+      Controller parameters including delta, K_i, k_ii, and K_ti.
+
+      :type: SimpleNamespace
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:method:: set_sampling_interval(Ts)
+
+      
+      Set the sampling interval and compute controller parameters.
+
+      :param Ts: Sampling interval [s].
+      :type Ts: float
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: execute(sys, conv, kTs)
+
+      
+      Execute the Current Controller (CC) and save the controller data.
+
+      :param sys: System model.
+      :type sys: object
+      :param conv: Converter model.
+      :type conv: object
+      :param kTs: Current discrete time instant [s].
+      :type kTs: float
+
+      :returns: Three-phase modulating signal.
+      :rtype: 1 x 3 ndarray of floats
 
 
 

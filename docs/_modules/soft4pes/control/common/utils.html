@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>soft4pes.model.grid.rl_grid_param &#8212; Soft4PES  documentation</title>
+    <title>soft4pes.control.common.utils &#8212; Soft4PES  documentation</title>
   
   
   
@@ -44,7 +44,7 @@
     <script src="../../../../_static/clipboard.min.js"></script>
     <script src="../../../../_static/copybutton.js"></script>
     <script src="../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/soft4pes/model/grid/rl_grid_param';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/soft4pes/control/common/utils';</script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -307,48 +307,120 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <h1>Source code for soft4pes.model.grid.rl_grid_param</h1><div class="highlight"><pre>
+  <h1>Source code for soft4pes.control.common.utils</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Parameters for a grid with a stiff voltage source and RL-load.</span>
+<span class="sd">Utility functions and classes for the control module.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">alpha_beta_2_abc</span>
 
 
-<div class="viewcode-block" id="RLGridParameters"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_param/index.html#soft4pes.model.grid.RLGridParameters">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RLGridParameters</span><span class="p">:</span>
+<div class="viewcode-block" id="wrap_theta"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/utils/index.html#soft4pes.control.common.wrap_theta">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">wrap_theta</span><span class="p">(</span><span class="n">theta</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Parameters for a grid with a stiff voltage source and RL-load.</span>
+<span class="sd">    Wrap the angle theta to the range [-pi, pi].</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    Vg_SI : float</span>
-<span class="sd">        Grid voltage [V] (line-to-line rms voltage).</span>
-<span class="sd">    fg_SI : float</span>
-<span class="sd">        Grid frequency [Hz].</span>
-<span class="sd">    Rg_SI : float</span>
-<span class="sd">        Resistance [Ohm].</span>
-<span class="sd">    Lg_SI : float</span>
-<span class="sd">        Inductance [H].</span>
-<span class="sd">    base : base value object</span>
-<span class="sd">        Base values.</span>
+<span class="sd">    theta : float</span>
+<span class="sd">        The angle in radians.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The wrapped angle in radians.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">theta</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span></div>
+
+
+<div class="viewcode-block" id="get_modulating_signal"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/utils/index.html#soft4pes.control.common.get_modulating_signal">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_modulating_signal</span><span class="p">(</span><span class="n">v_ref</span><span class="p">,</span> <span class="n">v_dc</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a voltage reference to a modulating signal.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    v_ref : ndarray</span>
+<span class="sd">        The reference voltage in alpha-beta frame.</span>
+<span class="sd">    v_dc : float</span>
+<span class="sd">        The DC link voltage.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ndarray</span>
+<span class="sd">        The modulating signal in abc frame.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">alpha_beta_2_abc</span><span class="p">(</span><span class="n">v_ref</span> <span class="o">/</span> <span class="p">(</span><span class="n">v_dc</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)),</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="magnitude_limiter"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/utils/index.html#soft4pes.control.common.magnitude_limiter">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">magnitude_limiter</span><span class="p">(</span><span class="n">unlimited_input</span><span class="p">,</span> <span class="n">maximum_output</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Limit the input in dq-frame. The instantaneous limiting function is used</span>
+<span class="sd">    to limit the amplitude of the current and voltage reference in dq-frame.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    maximum_output : float</span>
+<span class="sd">        Maximum magnitude [p.u.].</span>
+<span class="sd">    unlimited_input : 1 x 2 ndarray of floats</span>
+<span class="sd">        Unlimited input [p.u.].</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    1 x 2 ndarray of floats</span>
+<span class="sd">        Limited output [p.u.].</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">unlimited_input_mag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">unlimited_input</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">unlimited_input_mag</span> <span class="o">&lt;=</span> <span class="n">maximum_output</span><span class="p">:</span>
+        <span class="n">limited_output</span> <span class="o">=</span> <span class="n">unlimited_input</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">limited_output</span> <span class="o">=</span> <span class="p">(</span><span class="n">unlimited_input</span> <span class="o">/</span>
+                          <span class="n">unlimited_input_mag</span><span class="p">)</span> <span class="o">*</span> <span class="n">maximum_output</span>
+
+    <span class="k">return</span> <span class="n">limited_output</span></div>
+
+
+<div class="viewcode-block" id="FirstOrderFilter"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/utils/index.html#soft4pes.control.common.FirstOrderFilter">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">FirstOrderFilter</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    General first order filter.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    wb : float</span>
+<span class="sd">        The bandwidth of the filter [p.u.].</span>
+<span class="sd">    size : int</span>
+<span class="sd">        The size of the signal to be filtered.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">    Vg : float</span>
-<span class="sd">        Grid voltage [p.u.] (line-to-line rms voltage).</span>
-<span class="sd">    wg : float</span>
-<span class="sd">        Angular frequency [p.u.].</span>
-<span class="sd">    Rg : float</span>
-<span class="sd">        Resistance [p.u.].</span>
-<span class="sd">    Xg : float</span>
-<span class="sd">        Reactance [p.u.].</span>
+<span class="sd">    wb : float</span>
+<span class="sd">        The bandwidth of the filter [p.u.].</span>
+<span class="sd">    output : ndarray</span>
+<span class="sd">        The filtered signal.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Vg_SI</span><span class="p">,</span> <span class="n">fg_SI</span><span class="p">,</span> <span class="n">Rg_SI</span><span class="p">,</span> <span class="n">Lg_SI</span><span class="p">,</span> <span class="n">base</span><span class="p">):</span>
-<div class="viewcode-block" id="RLGridParameters.Vg"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_param/index.html#soft4pes.model.grid.RLGridParameters.Vg">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Vg</span> <span class="o">=</span> <span class="n">Vg_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">V</span></div>
-<div class="viewcode-block" id="RLGridParameters.wg"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_param/index.html#soft4pes.model.grid.RLGridParameters.wg">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">wg</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">fg_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">w</span></div>
-<div class="viewcode-block" id="RLGridParameters.Rg"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_param/index.html#soft4pes.model.grid.RLGridParameters.Rg">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Rg</span> <span class="o">=</span> <span class="n">Rg_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">Z</span></div>
-<div class="viewcode-block" id="RLGridParameters.Xg"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_param/index.html#soft4pes.model.grid.RLGridParameters.Xg">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Xg</span> <span class="o">=</span> <span class="n">Lg_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">L</span></div></div>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wb</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+<div class="viewcode-block" id="FirstOrderFilter.wb"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/utils/index.html#soft4pes.control.common.FirstOrderFilter.wb">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">wb</span> <span class="o">=</span> <span class="n">wb</span></div>
+<div class="viewcode-block" id="FirstOrderFilter.output"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/utils/index.html#soft4pes.control.common.FirstOrderFilter.output">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FirstOrderFilter.update"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/utils/index.html#soft4pes.control.common.FirstOrderFilter.update">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value_in</span><span class="p">,</span> <span class="n">Ts</span><span class="p">,</span> <span class="n">base</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update the filter with a new input signal.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value_in : ndarray</span>
+<span class="sd">            The input signal to be filtered.</span>
+<span class="sd">        Ts : float</span>
+<span class="sd">            The sampling interval [s].</span>
+<span class="sd">        base : object</span>
+<span class="sd">            The base values object containing the base angular frequency.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Ts_pu</span> <span class="o">=</span> <span class="n">Ts</span> <span class="o">*</span> <span class="n">base</span><span class="o">.</span><span class="n">w</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">+=</span> <span class="n">Ts_pu</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">wb</span> <span class="o">*</span> <span class="p">(</span><span class="n">value_in</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">)</span></div></div>
 </pre></div>
 
                 </article>
