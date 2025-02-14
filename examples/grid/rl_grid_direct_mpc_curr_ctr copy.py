@@ -1,7 +1,7 @@
 """
-Example of direct model predictive control (MPC) for a grid-connected power converter. MPC is 
-designed as a current controller, thus the main objective is to track the reference of the grid 
-current. The current references are generated based on the power references. 
+Example of model predictive control (MPC) for a grid-connected power converter with an LC(L) filter.
+MPC is designed as a capacitor voltage controller, thus the main objective is to track the
+capacitor voltage reference, while limiting the converter current. 
 """
 
 #pylint: disable=wrong-import-position
@@ -28,40 +28,40 @@ from soft4pes.sim import Simulation
 # Define base values
 base = model.grid.BaseGrid(Vg_R_SI=400, Ig_R_SI=18, fg_R_SI=50)
 
-# Define power reference sequences
-vc_ref_dq_seq = Sequence(np.array([0, 1]), np.array([[0.5, 0], [0.5, 0]]))
+# Define capacitor voltage reference sequences
+vc_ref_dq_seq = Sequence(np.array([0, 0.1, 0.1, 1]),
+                         np.array([[1, 0], [1, 0], [0.5, 0], [0.5, 0]]))
 ref_seq = SimpleNamespace(vc_ref_dq_seq=vc_ref_dq_seq)
 
-# Define grid parameters
+# Define grid parameters and filter parameters
 grid_params = model.grid.RLGridParameters(Vg_SI=400,
                                           fg_SI=50,
                                           Rg_SI=0.01,
                                           Lg_SI=5e-3,
                                           base=base)
-lcl_params = model.grid.LCLFilterParameters(R_fc_SI=0.01,
+lcl_params = model.grid.LCLFilterParameters(R_fc_SI=0.1,
                                             L_fc_SI=3e-3,
                                             C_SI=10e-6,
-                                            R_c_SI=0.0001,
+                                            R_c_SI=1e-3,
                                             base=base)
+
 # Define system models
 sys = model.grid.RLGridLCLFilter(par_grid=grid_params,
                                  par_lcl_filter=lcl_params,
                                  base=base)
 conv = model.conv.Converter(v_dc_SI=650, nl=2, base=base)
 
-# Define solver to be enumeration based
-# solver = mpc.solvers.MpcEnum(conv=conv)
-
-# Uncomment to use Branch-and-Bound solver
-
-# Define control loops, the outer loop generates the grid current reference based on the power
-# references, acting as a feedforward term. The inner loop (direct MPC) is used to track the grid
-# current reference.
+# Use indirect MPC
 solver = mpc.solvers.MpcQP()
+
+# Uncomment to use direct MPC with branch-and-bound solver
+# solver = mpc.solvers.MpcBnB(conv=conv)
+
+# Define the controller
 ctr = mpc.controllers.LCLVcMpcCtr(solver=solver, lambda_u=1e-4, Np=4)
 ctrSys = common.ControlSystem(control_loops=[ctr], ref_seq=ref_seq, Ts=100e-6)
 
 # Simulate the system
-sim = Simulation(sys=sys, conv=conv, ctr=ctrSys, Ts_sim=100e-6)
-sim.simulate(t_stop=0.1)
+sim = Simulation(sys=sys, conv=conv, ctr=ctrSys, Ts_sim=5e-6)
+sim.simulate(t_stop=0.2)
 sim.save_data()

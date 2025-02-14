@@ -1,14 +1,56 @@
+"""
+This module contains the class MpcQP, which is used to solve the MPC problem using a quadratic 
+program (QP) solver. 
+
+The formulation of the control problem and the QP matrices are based on "M. Rossi, P. Karamanakos, 
+and F. Castelli-Dezza, “An indirect model predictive control method for grid-connected three-level 
+neutral point clamped converters with LCL filters,” IEEE Trans. Ind. Applicat., vol. 58, no. 3, pp. 
+3750-3768, May/Jun. 2022". Note, that contrary to the reference, the grid voltage is modelled as a 
+disturbance. Moreover, the same states do not have to be both tracked and limited.
+
+The QP is solved using the qpsolvers package and the solver 'DAQP', licensed under the MIT 
+license.
+"""
+
 import numpy as np
 from types import SimpleNamespace
 from qpsolvers import solve_qp
 
 
 class MpcQP:
+    """
+    Problem formulation and QP solver for indirect MPC. 
+
+    Attributes
+    ----------
+    QP_matrices : SimpleNamespace
+        Namespace containing the matrices used in the QP problem.
+    """
 
     def __init__(self):
         self.QP_matrices = None
 
     def __call__(self, sys, conv, ctr, y_ref):
+        """
+        Formulate and solve the MPC QP.
+
+        Parameters
+        ----------
+        sys : system object
+            System model.
+        conv : converter object
+            Converter model.
+        ctr : controller object
+            Controller object.
+        y_ref : ndarray of floats
+            Reference vector [p.u.].
+
+        Returns
+        -------
+        uk_abc : 1 x 3 ndarray of floats
+            The three-phase modulating signal.
+        """
+
         if self.QP_matrices is None:
             self.QP_matrices = self.make_QP_matrices(sys, conv, ctr)
 
@@ -17,15 +59,14 @@ class MpcQP:
         # Reshape the vectors to be row vectors
         x = sys.x.reshape(-1, 1)
         y_ref = y_ref[1:].flatten().reshape(-1, 1)
+        u_km1 = ctr.u_km1_abc.reshape(-1, 1)
 
         # Calculate time varying matrices Theta_tilde and b for the QP
-        Theta = -m.Ypsilon.T.dot(
-            m.Q_tilde).dot(y_ref - m.Gamma.dot(x)) - ctr.lambda_u * m.S.T.dot(
-                m.E).dot(ctr.u_km1_abc.reshape(-1, 1))
+        Theta = -m.Ypsilon.T.dot(m.Q_tilde).dot(
+            y_ref - m.Gamma.dot(x)) - ctr.lambda_u * m.S.T.dot(m.E).dot(u_km1)
 
         # If the system is a grid, predict the grid voltage
         if m.Psi is not None:
-
             Ts_pu = ctr.Ts * sys.base.w
             delta_theta = sys.par.wg * Ts_pu
             R_vg = np.array([[np.cos(delta_theta), -np.sin(delta_theta)], \
@@ -45,12 +86,29 @@ class MpcQP:
             m.Delta - m.Pi.dot(m.Gamma_constraints).dot(x)
         ])
 
-        # Solve the QP and return the modulating signal for current step
-        uk = solve_qp(m.H_tilde, Theta_tilde, m.A, b, solver='quadprog')
+        # Solve the QP and return the solution to the controller
+        U_tilde = solve_qp(m.H_tilde, Theta_tilde, m.A, b, solver='daqp')
 
-        return uk
+        return U_tilde[0:3]
 
     def make_QP_matrices(self, sys, conv, ctr):
+        """
+        Create the QP matrices.
+
+        Parameters
+        ----------
+        sys : system object
+            System model.
+        conv : converter object
+            Converter model.
+        ctr : controller object
+            Controller object.
+
+        Returns
+        -------
+        SimpleNamespace
+            Namespace containing the QP matrices.
+        """
 
         model = sys.get_discrete_state_space(conv.v_dc, ctr.Ts)
         A = model.A
@@ -93,17 +151,12 @@ class MpcQP:
                           [-1 / 2, -np.sqrt(3) / 2]])
         K_inv_tilde = np.kron(np.eye(R_size), K_inv)
 
-        W = np.array([[1, -1, 0, 0, 0, 0, 0], [0, 0, 1, -1, 0, 0, 0],
+        W = np.array([[1, -1, 0, 0, 0, 0, 0],\
+                      [0, 0, 1, -1, 0, 0, 0],
                       [0, 0, 0, 0, 1, -1, 0]]).T
         W_tilde = np.kron(np.eye(R_size), W)
 
         N = np.kron(np.eye(R_size), np.block([[np.ones((6, 1))], [0]]))
-
-        # if R_size > 1:
-        #     N_base = np.block([N, np.zeros((7, R_size - 1))])
-        #     N = N_base
-        #     for i in range(1, R_size):
-        #         N = np.block([[N], [np.roll(N_base, shift=i, axis=1)]])
 
         Nc = np.dot(N, ctr.c)
 
@@ -116,7 +169,9 @@ class MpcQP:
         Delta = np.kron(np.ones((Np, 1)), Nc)
 
         V = (np.sqrt(3) / 2) * np.array(
-            [[1, 0, 0, -1, 0, 0], [0, 1, 0, 0, -1, 0], [0, 0, 1, 0, 0, -1]]).T
+            [[1, 0, 0, -1, 0, 0],\
+             [0, 1, 0, 0, -1, 0],\
+             [0, 0, 1, 0, 0, -1]]).T
 
         Omega = np.kron(np.eye(Np), V)
 
