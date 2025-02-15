@@ -1,7 +1,7 @@
 """
-Example of Current Controller (CC) for a grid-connected power converter with LC(L) filter. 
-The objective is to track the reference of the converter current. 
-The current references are given externally in this example. 
+Example of cascade control (voltage control and current control) of voltage-source converter 
+equipped with an LC(L) filter. The objective is to track the reference of the capacitor voltage.
+Also, the controller has inherent overcurrent protection.
 """
 
 #pylint: disable=wrong-import-position
@@ -26,37 +26,40 @@ from soft4pes.utils import Sequence
 from soft4pes.sim import Simulation
 
 # Define base values
-base = model.grid.BaseGrid(Vg_R_SI=3300, Ig_R_SI=1575, fg_R_SI=50)
+base = model.grid.BaseGrid(Vg_R_SI=400, Ig_R_SI=18, fg_R_SI=50)
 
 # Define converter current reference sequences
-i_conv_ref_dq_seq = Sequence(
-    np.array([0, 0.1, 0.1, 1]),
-    np.array([[1, 0], [1, 0], [0.8, -0.1], [0.8, -0.1]]))
-ref_seq = SimpleNamespace(i_conv_ref_dq_seq=i_conv_ref_dq_seq)
+vc_ref_dq_seq = Sequence(np.array([0, 0.2, 0.2, 1]),
+                         np.array([[1, 0], [1, 0], [0.6, 0], [0.6, 0]]))
+ref_seq = SimpleNamespace(vc_ref_dq_seq=vc_ref_dq_seq)
 
 # Define grid parameters
-grid_params = model.grid.RLGridParameters(Vg_SI=3300,
+grid_params = model.grid.RLGridParameters(Vg_SI=400,
                                           fg_SI=50,
-                                          Rg_SI=0.01815,
-                                          Lg_SI=5.7773e-4,
+                                          Rg_SI=0,
+                                          Lg_SI=1.96e-3,
                                           base=base)
 
-filter_params = model.grid.LCLFilterParameters(L_fc_SI=2.8e-3,
-                                               C_SI=15e-6,
+filter_params = model.grid.LCLFilterParameters(L_fc_SI=2.94e-3,
+                                               C_SI=10e-6,
                                                base=base,
-                                               R_fc_SI=1e-3)
+                                               R_fc_SI=92e-3)
 
 # Define system models
 sys = model.grid.RLGridLCLFilter(par_grid=grid_params,
                                  par_lcl_filter=filter_params,
                                  base=base)
-conv = model.conv.Converter(v_dc_SI=5529, nl=3, base=base)
+conv = model.conv.Converter(v_dc_SI=650, nl=3, base=base)
 
 # Define control strategy
-ctr = lin.LCLConvCurrCtr(sys=sys)
-ctrSys = common.ControlSystem(control_loops=[ctr], ref_seq=ref_seq, Ts=100e-6)
+curr_ctr = lin.LCLConvCurrCtr(sys=sys)
+volt_ctr = lin.LCLVcCtr(sys=sys, i_conv_lim=1.2, curr_ctr=curr_ctr)
+
+ctrSys = common.ControlSystem(control_loops=[volt_ctr, curr_ctr],
+                              ref_seq=ref_seq,
+                              Ts=125e-6)
 
 # Simulate the system
 sim = Simulation(sys=sys, conv=conv, ctr=ctrSys, Ts_sim=5e-6)
-sim.simulate(t_stop=0.2)
+sim.simulate(t_stop=0.4)
 sim.save_data()
