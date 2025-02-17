@@ -35,7 +35,6 @@ Submodules
 
    /autoapi/soft4pes/control/lin/grid_curr_ref_gen/index
    /autoapi/soft4pes/control/lin/lcl_conv_curr_ctr/index
-   /autoapi/soft4pes/control/lin/lin_curr_ctr/index
    /autoapi/soft4pes/control/lin/state_space_curr_ctr/index
 
 
