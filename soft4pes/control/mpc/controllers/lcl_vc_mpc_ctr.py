@@ -133,7 +133,7 @@ class LCLVcMpcCtr(Controller):
         ----------
         sys : system object
             The system model.
-        xk : 1 x 4 ndarray of floats
+        xk : 1 x 6 ndarray of floats
             The current state of the system.
         uk_abc : 1 x 3 ndarray of floats
             Converter three-phase switch position or modulating signal.
@@ -142,7 +142,7 @@ class LCLVcMpcCtr(Controller):
 
         Returns
         -------
-        1 x 4 ndarray of floats
+        1 x 6 ndarray of floats
             The next state of the system.
         """
 
