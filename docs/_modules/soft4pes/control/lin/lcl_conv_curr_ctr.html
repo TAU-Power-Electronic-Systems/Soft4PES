@@ -147,6 +147,7 @@
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/index.html">soft4pes.control.lin</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/grid_curr_ref_gen/index.html">soft4pes.control.lin.grid_curr_ref_gen</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_conv_curr_ctr/index.html">soft4pes.control.lin.lcl_conv_curr_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
 </ul>
 </li>
@@ -309,6 +310,10 @@ document.write(`
   <h1>Source code for soft4pes.control.lin.lcl_conv_curr_ctr</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Current Controller (CC) for the control of the converter current with LC(L) filter.</span>
+
+<span class="sd">[Ref.]. V. Pirsto, J. Kukkola and M. Hinkkanen, &quot;Multifunctional Cascade Control of Voltage-Source </span>
+<span class="sd">Converters Equipped With an LC Filter,&quot; IEEE Trans. Ind. Electron., vol. 69, no. 3, </span>
+<span class="sd">pp. 2610-2620, March 2022.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleNamespace</span>
@@ -423,32 +428,30 @@ document.write(`
         <span class="n">i_conv_comp</span> <span class="o">=</span> <span class="nb">complex</span><span class="p">(</span><span class="o">*</span><span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">x</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="n">theta</span><span class="p">))</span>
 
         <span class="c1"># Get the capacitor voltage in dq-frame</span>
-        <span class="n">vc_comp</span> <span class="o">=</span> <span class="nb">complex</span><span class="p">(</span><span class="o">*</span><span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">],</span> <span class="n">theta</span><span class="p">))</span>
+        <span class="n">vc_comp</span> <span class="o">=</span> <span class="nb">complex</span><span class="p">(</span><span class="o">*</span><span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">],</span> <span class="n">theta</span><span class="p">))</span>
 
         <span class="c1"># Get the converter voltage</span>
         <span class="n">v_conv_comp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">v_conv_kp1_comp</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr_pars</span><span class="o">.</span><span class="n">delta</span>
 
-        <span class="n">X_LC</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">i_conv_comp</span><span class="p">,</span> <span class="n">vc_comp</span><span class="p">,</span> <span class="n">v_conv_comp</span><span class="p">])</span>
+        <span class="n">x_LC</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">i_conv_comp</span><span class="p">,</span> <span class="n">vc_comp</span><span class="p">,</span> <span class="n">v_conv_comp</span><span class="p">])</span>
 
-        <span class="n">v_con_ref_unlim_comp</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ctr_pars</span><span class="o">.</span><span class="n">k_ti</span> <span class="o">*</span> <span class="n">i_conv_ref_comp</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">ctr_pars</span><span class="o">.</span><span class="n">K_i</span><span class="p">,</span> <span class="n">X_LC</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">u_ii_comp</span>
-
-        <span class="c1"># Convert the complex signal (d+j*q) to 1 x 2 ndarray of floats ([d, q])</span>
-        <span class="n">v_conv_ref_dq_unlim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">v_con_ref_unlim_comp</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">v_con_ref_unlim_comp</span><span class="o">.</span><span class="n">imag</span><span class="p">])</span>
+        <span class="n">v_conv_ref_unlim_comp</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ctr_pars</span><span class="o">.</span><span class="n">k_ti</span> <span class="o">*</span>
+                                 <span class="n">i_conv_ref_comp</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+                                     <span class="bp">self</span><span class="o">.</span><span class="n">ctr_pars</span><span class="o">.</span><span class="n">K_i</span><span class="p">,</span> <span class="n">x_LC</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">u_ii_comp</span>
 
         <span class="c1"># Limiting the converter voltage reference</span>
-        <span class="n">v_conv_ref_dq</span> <span class="o">=</span> <span class="n">magnitude_limiter</span><span class="p">(</span><span class="n">v_conv_ref_dq_unlim</span><span class="p">,</span> <span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
-        <span class="n">v_conv_ref_comp</span> <span class="o">=</span> <span class="nb">complex</span><span class="p">(</span><span class="o">*</span><span class="n">v_conv_ref_dq</span><span class="p">)</span>
+        <span class="n">v_conv_ref_comp</span> <span class="o">=</span> <span class="n">magnitude_limiter</span><span class="p">(</span><span class="n">v_conv_ref_unlim_comp</span><span class="p">,</span>
+                                            <span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">v_conv_kp1_comp</span> <span class="o">=</span> <span class="n">v_conv_ref_comp</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">u_ii_comp</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr_pars</span><span class="o">.</span><span class="n">k_ii</span> <span class="o">*</span> <span class="p">(</span>
-            <span class="p">((</span><span class="n">v_conv_ref_comp</span> <span class="o">-</span> <span class="n">v_con_ref_unlim_comp</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr_pars</span><span class="o">.</span><span class="n">k_ti</span><span class="p">)</span> <span class="o">+</span>
+            <span class="p">((</span><span class="n">v_conv_ref_comp</span> <span class="o">-</span> <span class="n">v_conv_ref_unlim_comp</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr_pars</span><span class="o">.</span><span class="n">k_ti</span><span class="p">)</span> <span class="o">+</span>
             <span class="p">(</span><span class="n">i_conv_ref_comp</span> <span class="o">-</span> <span class="n">i_conv_comp</span><span class="p">))</span>
 
         <span class="c1"># Get the modulating signal and Hold it for one cycle before sending it out from the</span>
         <span class="c1"># controller</span>
         <span class="n">uk_abc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">u_km1_abc</span>
+        <span class="n">v_conv_ref_dq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">v_conv_ref_comp</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">v_conv_ref_comp</span><span class="o">.</span><span class="n">imag</span><span class="p">])</span>
         <span class="n">v_conv_ref</span> <span class="o">=</span> <span class="n">dq_2_alpha_beta</span><span class="p">(</span><span class="n">v_conv_ref_dq</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">u_km1_abc</span> <span class="o">=</span> <span class="n">get_modulating_signal</span><span class="p">(</span><span class="n">v_conv_ref</span><span class="p">,</span> <span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">uk_abc</span><span class="o">=</span><span class="n">uk_abc</span><span class="p">)</span>

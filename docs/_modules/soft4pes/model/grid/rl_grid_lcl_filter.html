@@ -147,6 +147,7 @@
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/index.html">soft4pes.control.lin</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/grid_curr_ref_gen/index.html">soft4pes.control.lin.grid_curr_ref_gen</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_conv_curr_ctr/index.html">soft4pes.control.lin.lcl_conv_curr_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
 </ul>
 </li>
@@ -323,8 +324,8 @@ document.write(`
 <span class="sd">    Model of a grid with stiff voltage source, RL-load and an LC(L) filter in alpha-beta frame. If </span>
 <span class="sd">    the grid side inductance is not provided, the filter is in LC configuration.</span>
 <span class="sd">    </span>
-<span class="sd">    The state of the system is the converter current, the capacitor voltage and the grid current in </span>
-<span class="sd">    the alpha-beta frame, i.e. x = [i_conv^T, vc^T, ig^T]^T. The system input is the converter </span>
+<span class="sd">    The state of the system is the converter current, grid current and capacitor voltage in </span>
+<span class="sd">    the alpha-beta frame, i.e. x = [i_conv^T, ig^T, vc^T]^T. The system input is the converter </span>
 <span class="sd">    three-phase switch position or modulating signal. The grid voltage is considered to be a </span>
 <span class="sd">    disturbance. The positive current direction is from the converter to the filter and from the</span>
 <span class="sd">    filter to the grid for i_conv and ig, respectively. Knowledge of the grid impedance is required,</span>

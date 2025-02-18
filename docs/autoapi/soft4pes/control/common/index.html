@@ -150,6 +150,7 @@
 <li class="toctree-l3 has-children"><a class="reference internal" href="../lin/index.html">soft4pes.control.lin</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../lin/grid_curr_ref_gen/index.html">soft4pes.control.lin.grid_curr_ref_gen</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../lin/lcl_conv_curr_ctr/index.html">soft4pes.control.lin.lcl_conv_curr_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../lin/lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../lin/state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
 </ul>
 </li>
@@ -442,8 +443,8 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.common.get_modulating_signal" title="soft4pes.control.common.get_modulating_signal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_modulating_signal</span></code></a>(v_ref, v_dc)</p></td>
 <td><p>Convert a voltage reference to a modulating signal.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.common.magnitude_limiter" title="soft4pes.control.common.magnitude_limiter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">magnitude_limiter</span></code></a>(unlimited_input, maximum_output)</p></td>
-<td><p>Limit the input in dq-frame. The instantaneous limiting function is used</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.common.magnitude_limiter" title="soft4pes.control.common.magnitude_limiter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">magnitude_limiter</span></code></a>(input_signal, limit)</p></td>
+<td><p>Limit the input in to maximum magnitude. The input can be in alpha-beta or dq-frame, and given</p></td>
 </tr>
 </tbody>
 </table>
@@ -714,14 +715,14 @@ the control loop class.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="soft4pes.control.common.magnitude_limiter">
-<span class="sig-prename descclassname"><span class="pre">soft4pes.control.common.</span></span><span class="sig-name descname"><span class="pre">magnitude_limiter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unlimited_input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximum_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/common/utils.html#magnitude_limiter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.common.magnitude_limiter" title="Permalink to this definition">#</a></dt>
-<dd><p>Limit the input in dq-frame. The instantaneous limiting function is used
-to limit the amplitude of the current and voltage reference in dq-frame.</p>
+<span class="sig-prename descclassname"><span class="pre">soft4pes.control.common.</span></span><span class="sig-name descname"><span class="pre">magnitude_limiter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/common/utils.html#magnitude_limiter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.common.magnitude_limiter" title="Permalink to this definition">#</a></dt>
+<dd><p>Limit the input in to maximum magnitude. The input can be in alpha-beta or dq-frame, and given
+as a vector or complex number.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>maximum_output</strong> (<em>float</em>) – Maximum magnitude [p.u.].</p></li>
-<li><p><strong>unlimited_input</strong> (<em>1 x 2 ndarray</em><em> of </em><em>floats</em>) – Unlimited input [p.u.].</p></li>
+<li><p><strong>limit</strong> (<em>float</em>) – Maximum magnitude [p.u.].</p></li>
+<li><p><strong>input_signal</strong> (<em>1 x 2 ndarray</em><em> of </em><em>floats</em><em> or </em><em>complex</em>) – Unlimited input [p.u.].</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>

@@ -147,6 +147,7 @@
 <li class="toctree-l3 has-children"><a class="reference internal" href="autoapi/soft4pes/control/lin/index.html">soft4pes.control.lin</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="autoapi/soft4pes/control/lin/grid_curr_ref_gen/index.html">soft4pes.control.lin.grid_curr_ref_gen</a></li>
 <li class="toctree-l4"><a class="reference internal" href="autoapi/soft4pes/control/lin/lcl_conv_curr_ctr/index.html">soft4pes.control.lin.lcl_conv_curr_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
 </ul>
 </li>
@@ -464,14 +465,14 @@ document.write(`
         <li><a href="autoapi/soft4pes/control/common/controller/index.html#soft4pes.control.common.controller.Controller">(class in soft4pes.control.common.controller)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/soft4pes/control/common/index.html#soft4pes.control.common.ControlSystem">ControlSystem (class in soft4pes.control.common)</a>
 
       <ul>
         <li><a href="autoapi/soft4pes/control/common/control_system/index.html#soft4pes.control.common.control_system.ControlSystem">(class in soft4pes.control.common.control_system)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/soft4pes/sim/index.html#soft4pes.sim.Simulation.conv">conv (soft4pes.sim.Simulation attribute)</a>
 
       <ul>
@@ -493,11 +494,21 @@ document.write(`
       <li><a href="autoapi/soft4pes/control/lin/lcl_conv_curr_ctr/index.html#soft4pes.control.lin.lcl_conv_curr_ctr.LCLConvCurrCtr.ctr_pars">ctr_pars (soft4pes.control.lin.lcl_conv_curr_ctr.LCLConvCurrCtr attribute)</a>
 
       <ul>
+        <li><a href="autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html#soft4pes.control.lin.lcl_vc_ctr.LCLVcCtr.ctr_pars">(soft4pes.control.lin.lcl_vc_ctr.LCLVcCtr attribute)</a>
+</li>
         <li><a href="autoapi/soft4pes/control/lin/index.html#soft4pes.control.lin.LCLConvCurrCtr.ctr_pars">(soft4pes.control.lin.LCLConvCurrCtr attribute)</a>
+</li>
+        <li><a href="autoapi/soft4pes/control/lin/index.html#soft4pes.control.lin.LCLVcCtr.ctr_pars">(soft4pes.control.lin.LCLVcCtr attribute)</a>
 </li>
         <li><a href="autoapi/soft4pes/control/lin/index.html#soft4pes.control.lin.RLGridStateSpaceCurrCtr.ctr_pars">(soft4pes.control.lin.RLGridStateSpaceCurrCtr attribute)</a>
 </li>
         <li><a href="autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#soft4pes.control.lin.state_space_curr_ctr.RLGridStateSpaceCurrCtr.ctr_pars">(soft4pes.control.lin.state_space_curr_ctr.RLGridStateSpaceCurrCtr attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html#soft4pes.control.lin.lcl_vc_ctr.LCLVcCtr.curr_ctr">curr_ctr (soft4pes.control.lin.lcl_vc_ctr.LCLVcCtr attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/soft4pes/control/lin/index.html#soft4pes.control.lin.LCLVcCtr.curr_ctr">(soft4pes.control.lin.LCLVcCtr attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -551,7 +562,11 @@ document.write(`
 </li>
         <li><a href="autoapi/soft4pes/control/lin/lcl_conv_curr_ctr/index.html#soft4pes.control.lin.lcl_conv_curr_ctr.LCLConvCurrCtr.execute">(soft4pes.control.lin.lcl_conv_curr_ctr.LCLConvCurrCtr method)</a>
 </li>
+        <li><a href="autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html#soft4pes.control.lin.lcl_vc_ctr.LCLVcCtr.execute">(soft4pes.control.lin.lcl_vc_ctr.LCLVcCtr method)</a>
+</li>
         <li><a href="autoapi/soft4pes/control/lin/index.html#soft4pes.control.lin.LCLConvCurrCtr.execute">(soft4pes.control.lin.LCLConvCurrCtr method)</a>
+</li>
+        <li><a href="autoapi/soft4pes/control/lin/index.html#soft4pes.control.lin.LCLVcCtr.execute">(soft4pes.control.lin.LCLVcCtr method)</a>
 </li>
         <li><a href="autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.execute">(soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr method)</a>
 </li>
@@ -686,20 +701,26 @@ document.write(`
         <li><a href="autoapi/soft4pes/model/machine/index.html#soft4pes.model.machine.BaseMachine.I">(soft4pes.model.machine.BaseMachine attribute)</a>
 </li>
       </ul></li>
+      <li><a href="autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html#soft4pes.control.lin.lcl_vc_ctr.LCLVcCtr.i_conv_lim">i_conv_lim (soft4pes.control.lin.lcl_vc_ctr.LCLVcCtr attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/soft4pes/control/lin/index.html#soft4pes.control.lin.LCLVcCtr.i_conv_lim">(soft4pes.control.lin.LCLVcCtr attribute)</a>
+</li>
+      </ul></li>
       <li><a href="autoapi/soft4pes/control/lin/index.html#soft4pes.control.lin.RLGridStateSpaceCurrCtr.ig_ref_seq_dq">ig_ref_seq_dq (soft4pes.control.lin.RLGridStateSpaceCurrCtr attribute)</a>
 
       <ul>
         <li><a href="autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#soft4pes.control.lin.state_space_curr_ctr.RLGridStateSpaceCurrCtr.ig_ref_seq_dq">(soft4pes.control.lin.state_space_curr_ctr.RLGridStateSpaceCurrCtr attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.IMMpcCurrCtr">IMMpcCurrCtr (class in soft4pes.control.mpc.controllers)</a>
 
       <ul>
         <li><a href="autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr">(class in soft4pes.control.mpc.controllers.im_mpc_curr_ctr)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/soft4pes/model/machine/index.html#soft4pes.model.machine.InductionMachine">InductionMachine (class in soft4pes.model.machine)</a>
 
       <ul>
@@ -758,18 +779,24 @@ document.write(`
       </ul></li>
       <li><a href="autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.simulation.ProgressPrinter.last_printed_percent">last_printed_percent (soft4pes.sim.simulation.ProgressPrinter attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/soft4pes/control/lin/index.html#soft4pes.control.lin.LCLConvCurrCtr">LCLConvCurrCtr (class in soft4pes.control.lin)</a>
 
       <ul>
         <li><a href="autoapi/soft4pes/control/lin/lcl_conv_curr_ctr/index.html#soft4pes.control.lin.lcl_conv_curr_ctr.LCLConvCurrCtr">(class in soft4pes.control.lin.lcl_conv_curr_ctr)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/soft4pes/model/grid/index.html#soft4pes.model.grid.LCLFilterParameters">LCLFilterParameters (class in soft4pes.model.grid)</a>
 
       <ul>
         <li><a href="autoapi/soft4pes/model/grid/lcl_filter_param/index.html#soft4pes.model.grid.lcl_filter_param.LCLFilterParameters">(class in soft4pes.model.grid.lcl_filter_param)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/soft4pes/control/lin/index.html#soft4pes.control.lin.LCLVcCtr">LCLVcCtr (class in soft4pes.control.lin)</a>
+
+      <ul>
+        <li><a href="autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html#soft4pes.control.lin.lcl_vc_ctr.LCLVcCtr">(class in soft4pes.control.lin.lcl_vc_ctr)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/soft4pes/model/machine/induction_machine_param/index.html#soft4pes.model.machine.induction_machine_param.InductionMachineParameters.Llr">Llr (soft4pes.model.machine.induction_machine_param.InductionMachineParameters attribute)</a>
@@ -829,6 +856,8 @@ document.write(`
         <li><a href="autoapi/soft4pes/control/lin/grid_curr_ref_gen/index.html#module-soft4pes.control.lin.grid_curr_ref_gen">soft4pes.control.lin.grid_curr_ref_gen</a>
 </li>
         <li><a href="autoapi/soft4pes/control/lin/lcl_conv_curr_ctr/index.html#module-soft4pes.control.lin.lcl_conv_curr_ctr">soft4pes.control.lin.lcl_conv_curr_ctr</a>
+</li>
+        <li><a href="autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html#module-soft4pes.control.lin.lcl_vc_ctr">soft4pes.control.lin.lcl_vc_ctr</a>
 </li>
         <li><a href="autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#module-soft4pes.control.lin.state_space_curr_ctr">soft4pes.control.lin.state_space_curr_ctr</a>
 </li>
@@ -1126,7 +1155,11 @@ document.write(`
 </li>
         <li><a href="autoapi/soft4pes/control/lin/lcl_conv_curr_ctr/index.html#soft4pes.control.lin.lcl_conv_curr_ctr.LCLConvCurrCtr.set_sampling_interval">(soft4pes.control.lin.lcl_conv_curr_ctr.LCLConvCurrCtr method)</a>
 </li>
+        <li><a href="autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html#soft4pes.control.lin.lcl_vc_ctr.LCLVcCtr.set_sampling_interval">(soft4pes.control.lin.lcl_vc_ctr.LCLVcCtr method)</a>
+</li>
         <li><a href="autoapi/soft4pes/control/lin/index.html#soft4pes.control.lin.LCLConvCurrCtr.set_sampling_interval">(soft4pes.control.lin.LCLConvCurrCtr method)</a>
+</li>
+        <li><a href="autoapi/soft4pes/control/lin/index.html#soft4pes.control.lin.LCLVcCtr.set_sampling_interval">(soft4pes.control.lin.LCLVcCtr method)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/soft4pes/sim/index.html#soft4pes.sim.Simulation.simulate">simulate() (soft4pes.sim.Simulation method)</a>
@@ -1211,6 +1244,13 @@ document.write(`
 </li>
       </ul></li>
       <li>
+    soft4pes.control.lin.lcl_vc_ctr
+
+      <ul>
+        <li><a href="autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html#module-soft4pes.control.lin.lcl_vc_ctr">module</a>
+</li>
+      </ul></li>
+      <li>
     soft4pes.control.lin.state_space_curr_ctr
 
       <ul>
@@ -1259,6 +1299,8 @@ document.write(`
         <li><a href="autoapi/soft4pes/control/mpc/solvers/mpc_bnb/index.html#module-soft4pes.control.mpc.solvers.mpc_bnb">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     soft4pes.control.mpc.solvers.mpc_enum
 
@@ -1266,8 +1308,6 @@ document.write(`
         <li><a href="autoapi/soft4pes/control/mpc/solvers/mpc_enum/index.html#module-soft4pes.control.mpc.solvers.mpc_enum">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     soft4pes.control.mpc.solvers.utils
 
@@ -1458,7 +1498,11 @@ document.write(`
       <li><a href="autoapi/soft4pes/control/lin/lcl_conv_curr_ctr/index.html#soft4pes.control.lin.lcl_conv_curr_ctr.LCLConvCurrCtr.sys">sys (soft4pes.control.lin.lcl_conv_curr_ctr.LCLConvCurrCtr attribute)</a>
 
       <ul>
+        <li><a href="autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html#soft4pes.control.lin.lcl_vc_ctr.LCLVcCtr.sys">(soft4pes.control.lin.lcl_vc_ctr.LCLVcCtr attribute)</a>
+</li>
         <li><a href="autoapi/soft4pes/control/lin/index.html#soft4pes.control.lin.LCLConvCurrCtr.sys">(soft4pes.control.lin.LCLConvCurrCtr attribute)</a>
+</li>
+        <li><a href="autoapi/soft4pes/control/lin/index.html#soft4pes.control.lin.LCLVcCtr.sys">(soft4pes.control.lin.LCLVcCtr attribute)</a>
 </li>
         <li><a href="autoapi/soft4pes/sim/index.html#soft4pes.sim.Simulation.sys">(soft4pes.sim.Simulation attribute)</a>
 </li>
@@ -1529,6 +1573,12 @@ document.write(`
 
       <ul>
         <li><a href="autoapi/soft4pes/control/lin/index.html#soft4pes.control.lin.LCLConvCurrCtr.u_ii_comp">(soft4pes.control.lin.LCLConvCurrCtr attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html#soft4pes.control.lin.lcl_vc_ctr.LCLVcCtr.u_iu_comp">u_iu_comp (soft4pes.control.lin.lcl_vc_ctr.LCLVcCtr attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/soft4pes/control/lin/index.html#soft4pes.control.lin.LCLVcCtr.u_iu_comp">(soft4pes.control.lin.LCLVcCtr attribute)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/soft4pes/control/lin/lcl_conv_curr_ctr/index.html#soft4pes.control.lin.lcl_conv_curr_ctr.LCLConvCurrCtr.u_km1_abc">u_km1_abc (soft4pes.control.lin.lcl_conv_curr_ctr.LCLConvCurrCtr attribute)</a>

@@ -7,6 +7,10 @@ soft4pes.control.lin.lcl_conv_curr_ctr
 
    Current Controller (CC) for the control of the converter current with LC(L) filter.
 
+   [Ref.]. V. Pirsto, J. Kukkola and M. Hinkkanen, "Multifunctional Cascade Control of Voltage-Source
+   Converters Equipped With an LC Filter," IEEE Trans. Ind. Electron., vol. 69, no. 3,
+   pp. 2610-2620, March 2022.
+
    ..
        !! processed by numpydoc !!
 

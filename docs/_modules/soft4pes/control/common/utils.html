@@ -147,6 +147,7 @@
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/index.html">soft4pes.control.lin</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/grid_curr_ref_gen/index.html">soft4pes.control.lin.grid_curr_ref_gen</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_conv_curr_ctr/index.html">soft4pes.control.lin.lcl_conv_curr_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
 </ul>
 </li>
@@ -353,16 +354,16 @@ document.write(`
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">alpha_beta_2_abc</span><span class="p">(</span><span class="n">v_ref</span> <span class="o">/</span> <span class="p">(</span><span class="n">v_dc</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)),</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="magnitude_limiter"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/utils/index.html#soft4pes.control.common.magnitude_limiter">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">magnitude_limiter</span><span class="p">(</span><span class="n">unlimited_input</span><span class="p">,</span> <span class="n">maximum_output</span><span class="p">):</span>
+<div class="viewcode-block" id="magnitude_limiter"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/utils/index.html#soft4pes.control.common.magnitude_limiter">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">magnitude_limiter</span><span class="p">(</span><span class="n">input_signal</span><span class="p">,</span> <span class="n">limit</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Limit the input in dq-frame. The instantaneous limiting function is used</span>
-<span class="sd">    to limit the amplitude of the current and voltage reference in dq-frame.</span>
+<span class="sd">    Limit the input in to maximum magnitude. The input can be in alpha-beta or dq-frame, and given  </span>
+<span class="sd">    as a vector or complex number. </span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    maximum_output : float</span>
+<span class="sd">    limit : float</span>
 <span class="sd">        Maximum magnitude [p.u.].</span>
-<span class="sd">    unlimited_input : 1 x 2 ndarray of floats</span>
+<span class="sd">    input_signal : 1 x 2 ndarray of floats or complex</span>
 <span class="sd">        Unlimited input [p.u.].</span>
 
 <span class="sd">    Returns</span>
@@ -371,15 +372,17 @@ document.write(`
 <span class="sd">        Limited output [p.u.].</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">unlimited_input_mag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">unlimited_input</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">unlimited_input_mag</span> <span class="o">&lt;=</span> <span class="n">maximum_output</span><span class="p">:</span>
-        <span class="n">limited_output</span> <span class="o">=</span> <span class="n">unlimited_input</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_signal</span><span class="p">,</span> <span class="nb">complex</span><span class="p">):</span>
+        <span class="n">input_mag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">input_signal</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">limited_output</span> <span class="o">=</span> <span class="p">(</span><span class="n">unlimited_input</span> <span class="o">/</span>
-                          <span class="n">unlimited_input_mag</span><span class="p">)</span> <span class="o">*</span> <span class="n">maximum_output</span>
+        <span class="n">input_mag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">input_signal</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">limited_output</span></div>
+    <span class="k">if</span> <span class="n">input_mag</span> <span class="o">&lt;=</span> <span class="n">limit</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">input_signal</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="p">(</span><span class="n">input_signal</span> <span class="o">/</span> <span class="n">input_mag</span><span class="p">)</span> <span class="o">*</span> <span class="n">limit</span>
+
+    <span class="k">return</span> <span class="n">output</span></div>
 
 
 <div class="viewcode-block" id="FirstOrderFilter"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/utils/index.html#soft4pes.control.common.FirstOrderFilter">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">FirstOrderFilter</span><span class="p">:</span>

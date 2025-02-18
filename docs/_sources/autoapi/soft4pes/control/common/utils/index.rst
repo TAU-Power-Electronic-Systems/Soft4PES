@@ -90,16 +90,16 @@ Module Contents
    ..
        !! processed by numpydoc !!
 
-.. py:function:: magnitude_limiter(unlimited_input, maximum_output)
+.. py:function:: magnitude_limiter(input_signal, limit)
 
    
-   Limit the input in dq-frame. The instantaneous limiting function is used
-   to limit the amplitude of the current and voltage reference in dq-frame.
+   Limit the input in to maximum magnitude. The input can be in alpha-beta or dq-frame, and given
+   as a vector or complex number.
 
-   :param maximum_output: Maximum magnitude [p.u.].
-   :type maximum_output: float
-   :param unlimited_input: Unlimited input [p.u.].
-   :type unlimited_input: 1 x 2 ndarray of floats
+   :param limit: Maximum magnitude [p.u.].
+   :type limit: float
+   :param input_signal: Unlimited input [p.u.].
+   :type input_signal: 1 x 2 ndarray of floats or complex
 
    :returns: Limited output [p.u.].
    :rtype: 1 x 2 ndarray of floats
