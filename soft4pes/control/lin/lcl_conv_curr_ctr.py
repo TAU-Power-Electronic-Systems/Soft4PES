@@ -1,5 +1,9 @@
 """
 Current Controller (CC) for the control of the converter current with LC(L) filter.
+
+[Ref.]. V. Pirsto, J. Kukkola and M. Hinkkanen, "Multifunctional Cascade Control of Voltage-Source 
+Converters Equipped With an LC Filter," IEEE Trans. Ind. Electron., vol. 69, no. 3, 
+pp. 2610-2620, March 2022.
 """
 
 from types import SimpleNamespace
@@ -114,32 +118,30 @@ class LCLConvCurrCtr(Controller):
         i_conv_comp = complex(*alpha_beta_2_dq(sys.x[:2], theta))
 
         # Get the capacitor voltage in dq-frame
-        vc_comp = complex(*alpha_beta_2_dq(sys.x[2:4], theta))
+        vc_comp = complex(*alpha_beta_2_dq(sys.x[4:6], theta))
 
         # Get the converter voltage
         v_conv_comp = self.v_conv_kp1_comp * self.ctr_pars.delta
 
-        X_LC = np.array([i_conv_comp, vc_comp, v_conv_comp])
+        x_LC = np.array([i_conv_comp, vc_comp, v_conv_comp])
 
-        v_con_ref_unlim_comp = (self.ctr_pars.k_ti * i_conv_ref_comp) - np.dot(
-            self.ctr_pars.K_i, X_LC) + self.u_ii_comp
-
-        # Convert the complex signal (d+j*q) to 1 x 2 ndarray of floats ([d, q])
-        v_conv_ref_dq_unlim = np.array(
-            [v_con_ref_unlim_comp.real, v_con_ref_unlim_comp.imag])
+        v_conv_ref_unlim_comp = (self.ctr_pars.k_ti *
+                                 i_conv_ref_comp) - np.dot(
+                                     self.ctr_pars.K_i, x_LC) + self.u_ii_comp
 
         # Limiting the converter voltage reference
-        v_conv_ref_dq = magnitude_limiter(v_conv_ref_dq_unlim, conv.v_dc / 2)
-        v_conv_ref_comp = complex(*v_conv_ref_dq)
+        v_conv_ref_comp = magnitude_limiter(v_conv_ref_unlim_comp,
+                                            conv.v_dc / 2)
         self.v_conv_kp1_comp = v_conv_ref_comp
 
         self.u_ii_comp += self.ctr_pars.k_ii * (
-            ((v_conv_ref_comp - v_con_ref_unlim_comp) / self.ctr_pars.k_ti) +
+            ((v_conv_ref_comp - v_conv_ref_unlim_comp) / self.ctr_pars.k_ti) +
             (i_conv_ref_comp - i_conv_comp))
 
         # Get the modulating signal and Hold it for one cycle before sending it out from the
         # controller
         uk_abc = self.u_km1_abc
+        v_conv_ref_dq = np.array([v_conv_ref_comp.real, v_conv_ref_comp.imag])
         v_conv_ref = dq_2_alpha_beta(v_conv_ref_dq, theta)
         self.u_km1_abc = get_modulating_signal(v_conv_ref, conv.v_dc)
         self.output = SimpleNamespace(uk_abc=uk_abc)

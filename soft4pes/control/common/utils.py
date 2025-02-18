@@ -44,16 +44,16 @@ def get_modulating_signal(v_ref, v_dc):
     return np.clip(alpha_beta_2_abc(v_ref / (v_dc / 2)), -1, 1)
 
 
-def magnitude_limiter(unlimited_input, maximum_output):
+def magnitude_limiter(input_signal, limit):
     """
-    Limit the input in dq-frame. The instantaneous limiting function is used
-    to limit the amplitude of the current and voltage reference in dq-frame.
+    Limit the input in to maximum magnitude. The input can be in alpha-beta or dq-frame, and given  
+    as a vector or complex number. 
 
     Parameters
     ----------
-    maximum_output : float
+    limit : float
         Maximum magnitude [p.u.].
-    unlimited_input : 1 x 2 ndarray of floats
+    input_signal : 1 x 2 ndarray of floats or complex
         Unlimited input [p.u.].
 
     Returns
@@ -62,15 +62,17 @@ def magnitude_limiter(unlimited_input, maximum_output):
         Limited output [p.u.].
     """
 
-    unlimited_input_mag = np.linalg.norm(unlimited_input)
-
-    if unlimited_input_mag <= maximum_output:
-        limited_output = unlimited_input
+    if isinstance(input_signal, complex):
+        input_mag = np.abs(input_signal)
     else:
-        limited_output = (unlimited_input /
-                          unlimited_input_mag) * maximum_output
+        input_mag = np.linalg.norm(input_signal)
 
-    return limited_output
+    if input_mag <= limit:
+        output = input_signal
+    else:
+        output = (input_signal / input_mag) * limit
+
+    return output
 
 
 class FirstOrderFilter:
