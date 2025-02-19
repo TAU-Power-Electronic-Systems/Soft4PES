@@ -1,6 +1,7 @@
 numpy
 scipy
 matplotlib
+qpsolvers[daqp]
 numpydoc
 sphinx==6.2.1
 sphinx-autoapi
