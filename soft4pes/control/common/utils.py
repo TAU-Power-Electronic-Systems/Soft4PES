@@ -46,25 +46,25 @@ def get_modulating_signal(v_ref, v_dc):
 
 class FirstOrderFilter:
     """
-    General first order filter.
+    General first-order filter.
 
     Parameters
     ----------
-    wb : float
+    w_bw : float
         The bandwidth of the filter [p.u.].
     size : int
-        The size of the signal to be filtered.
+        The size of the signal to be filtered, i.e. the length of the input vector.
 
     Attributes
     ----------
-    wb : float
+    w_bw : float
         The bandwidth of the filter [p.u.].
     output : ndarray
         The filtered signal.
     """
 
-    def __init__(self, wb, size):
-        self.wb = wb
+    def __init__(self, w_bw, size):
+        self.w_bw = w_bw
         self.output = np.zeros(size)
 
     def update(self, value_in, Ts, base):
@@ -81,4 +81,4 @@ class FirstOrderFilter:
             The base values object containing the base angular frequency.
         """
         Ts_pu = Ts * base.w
-        self.output += Ts_pu * self.wb * (value_in - self.output)
+        self.output += Ts_pu * self.w_bw * (value_in - self.output)

@@ -20,9 +20,15 @@ class RFPSC(Controller):
 
     Parameters
     ----------
+    sys : system object
+        System model.
     Ra : float, optional
         Virtual damping resistance [p.u.].
-    wb : float, optional
+    Kp : float, optional
+        Proportional gain of the active power droop control [p.u.]. If not provided, it is 
+        calculated based on the nominal frequency, nominal grid peak voltage and the virtual
+        damping resistance.
+    w_bw : float, optional
         Current filter bandwidth [p.u.].
 
     Attributes
@@ -30,16 +36,27 @@ class RFPSC(Controller):
     Ra : float
         Virtual damping resistance [p.u.].
     theta_c : float
-        Initial angle of the synchronous reference frame.
+        The angle of the synchronous reference frame set by the droop control. The initial angle
+        is set to -pi/2 to align the q-axis with the grid voltage. 
     ig_filter : FirstOrderFilter
         First-order filter for the current.
+    Kp : float
+        Proportional gain of the active power droop control [p.u.].
     """
 
-    def __init__(self, Ra=0.2, wb=0.1):
+    def __init__(self, sys, Ra=0.2, Kp=None, w_bw=0.1):
         super().__init__()
         self.Ra = Ra
-        self.theta_c = -np.pi / 2
-        self.ig_filter = FirstOrderFilter(wb=wb, size=2)
+        self.theta_c = 0  #-np.pi / 2
+        self.ig_filter = FirstOrderFilter(w_bw=w_bw, size=2)
+
+        if Kp is not None:
+            self.Kp = Kp
+        else:
+            # If Kp is not provided, calculate it based on the nominal frequency, nominal grid peak
+            # voltage and the virtual damping resistance according to the reference
+            Vg = np.sqrt(2 / 3) * sys.par.Vg
+            self.Kp = sys.par.wg * self.Ra / Vg
 
     def execute(self, sys, conv, kTs):
         """
@@ -57,7 +74,8 @@ class RFPSC(Controller):
         Returns
         -------
         SimpleNamespace
-            A SimpleNamespace object containing the modulating signal (uk_abc).
+            A SimpleNamespace object containing the modulating signal for the converter (uk_abc) and
+            a capacitor voltage reference in case LC(L) filter is used (vc_ref).
         """
 
         V_ref = self.input.V_ref
@@ -69,7 +87,7 @@ class RFPSC(Controller):
         P = np.dot(vg, ig)
 
         # Droop control
-        wc = 1 + 0.2 * (P_ref - P)
+        wc = sys.par.wg + self.Kp * (P_ref - P)
 
         # Calculate the reference current in dq-frame
         ig_ref_d = P_ref / V_ref
@@ -81,7 +99,9 @@ class RFPSC(Controller):
         v_ref = dq_2_alpha_beta(v_ref_dq, self.theta_c)
 
         self.output = SimpleNamespace(
-            uk_abc=get_modulating_signal(v_ref, conv.v_dc))
+            uk_abc=get_modulating_signal(v_ref, conv.v_dc),
+            vc_ref=v_ref,
+        )
 
         self.ig_filter.update(ig_dq, self.Ts, sys.base)
         self.theta_c += wc * self.Ts * sys.base.w
