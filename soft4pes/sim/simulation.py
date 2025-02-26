@@ -6,6 +6,7 @@ Simulation environment for power electronic systems.
 import os
 import numpy as np
 from scipy.io import savemat
+from types import SimpleNamespace
 
 
 class ProgressPrinter:
@@ -125,6 +126,9 @@ class Simulation:
         self.ctr.get_control_system_data()
         self.simulation_data = {'ctr': self.ctr.data, 'sys': self.sys.data}
 
+        return self.list_to_np_array(
+            SimpleNamespace(sys=self.sys.data, ctr=self.ctr.data))
+
     def save_data(self, filename='sim_data.mat', path=''):
         """
         Save the simulation data to a .mat file.
@@ -148,3 +152,32 @@ class Simulation:
 
         full_path = os.path.join(path, filename)
         savemat(full_path, self.simulation_data)
+
+    def list_to_np_array(self, data):
+        """
+        Recursively convert lists of arrays in a SimpleNamespace to NumPy arrays.
+
+        Parameters
+        ----------
+        data : SimpleNamespace or list of ndarray
+            The data to be converted. Can be a SimpleNamespace or a list of arrays.
+
+        Returns
+        -------
+        SimpleNamespace or ndarray
+            A SimpleNamespace with lists of arrays converted to NumPy arrays, or a NumPy array if the input is a list of arrays.
+        """
+        if isinstance(data, list):
+            # If data is a list of arrays, convert it to a single NumPy array
+            stacked_array = np.array(data)
+            return stacked_array
+
+        elif isinstance(data, SimpleNamespace):
+            # If data is a SimpleNamespace, recursively process its attributes
+            for attr in data.__dict__:
+                setattr(data, attr, self.list_to_np_array(getattr(data, attr)))
+            return data
+
+        else:
+            # If data is neither a list nor a SimpleNamespace, return it as is
+            return data
