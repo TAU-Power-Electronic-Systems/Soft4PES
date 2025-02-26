@@ -67,10 +67,10 @@ Module Contents
 
    :param v_ref: The reference voltage in alpha-beta frame.
    :type v_ref: ndarray
-   :param v_dc: The DC link voltage.
+   :param v_dc: The dc-link voltage.
    :type v_dc: float
 
-   :returns: The modulating signal in abc frame.
+   :returns: The modulating signal in abc-frame.
    :rtype: ndarray
 
 
@@ -121,17 +121,17 @@ Module Contents
    ..
        !! processed by numpydoc !!
 
-.. py:class:: FirstOrderFilter(wb, size)
+.. py:class:: FirstOrderFilter(w_bw, size)
 
    
-   General first order filter.
+   General first-order filter.
 
-   :param wb: The bandwidth of the filter [p.u.].
-   :type wb: float
-   :param size: The size of the signal to be filtered.
+   :param w_bw: The bandwidth of the filter [p.u.].
+   :type w_bw: float
+   :param size: The size of the signal to be filtered, i.e. the length of the input vector.
    :type size: int
 
-   .. attribute:: wb
+   .. attribute:: w_bw
 
       The bandwidth of the filter [p.u.].
 
@@ -163,7 +163,7 @@ Module Contents
    .. py:method:: update(value_in, Ts, base)
 
       
-      Update the filter with a new input signal.
+      Update the filter with a new input signal of the defined size.
 
       :param value_in: The input signal to be filtered.
       :type value_in: ndarray

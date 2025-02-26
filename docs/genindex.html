@@ -148,6 +148,7 @@
 <li class="toctree-l4"><a class="reference internal" href="autoapi/soft4pes/control/lin/grid_curr_ref_gen/index.html">soft4pes.control.lin.grid_curr_ref_gen</a></li>
 <li class="toctree-l4"><a class="reference internal" href="autoapi/soft4pes/control/lin/lcl_conv_curr_ctr/index.html">soft4pes.control.lin.lcl_conv_curr_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/soft4pes/control/lin/rfpsc/index.html">soft4pes.control.lin.rfpsc</a></li>
 <li class="toctree-l4"><a class="reference internal" href="autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
 </ul>
 </li>
@@ -321,6 +322,7 @@ document.write(`
  | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
  | <a href="#J"><strong>J</strong></a>
+ | <a href="#K"><strong>K</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
@@ -568,6 +570,8 @@ document.write(`
 </li>
         <li><a href="autoapi/soft4pes/control/lin/index.html#soft4pes.control.lin.LCLVcCtr.execute">(soft4pes.control.lin.LCLVcCtr method)</a>
 </li>
+        <li><a href="autoapi/soft4pes/control/lin/rfpsc/index.html#soft4pes.control.lin.rfpsc.RFPSC.execute">(soft4pes.control.lin.rfpsc.RFPSC method)</a>
+</li>
         <li><a href="autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.execute">(soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr method)</a>
 </li>
         <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.IMMpcCurrCtr.execute">(soft4pes.control.mpc.controllers.IMMpcCurrCtr method)</a>
@@ -707,6 +711,8 @@ document.write(`
         <li><a href="autoapi/soft4pes/control/lin/index.html#soft4pes.control.lin.LCLVcCtr.i_conv_lim">(soft4pes.control.lin.LCLVcCtr attribute)</a>
 </li>
       </ul></li>
+      <li><a href="autoapi/soft4pes/control/lin/rfpsc/index.html#soft4pes.control.lin.rfpsc.RFPSC.ig_filter">ig_filter (soft4pes.control.lin.rfpsc.RFPSC attribute)</a>
+</li>
       <li><a href="autoapi/soft4pes/control/lin/index.html#soft4pes.control.lin.RLGridStateSpaceCurrCtr.ig_ref_seq_dq">ig_ref_seq_dq (soft4pes.control.lin.RLGridStateSpaceCurrCtr attribute)</a>
 
       <ul>
@@ -751,6 +757,14 @@ document.write(`
         <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.MpcBnB.J_min">(soft4pes.control.mpc.solvers.MpcBnB attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/soft4pes/control/lin/rfpsc/index.html#soft4pes.control.lin.rfpsc.RFPSC.Kp">Kp (soft4pes.control.lin.rfpsc.RFPSC attribute)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -858,6 +872,8 @@ document.write(`
         <li><a href="autoapi/soft4pes/control/lin/lcl_conv_curr_ctr/index.html#module-soft4pes.control.lin.lcl_conv_curr_ctr">soft4pes.control.lin.lcl_conv_curr_ctr</a>
 </li>
         <li><a href="autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html#module-soft4pes.control.lin.lcl_vc_ctr">soft4pes.control.lin.lcl_vc_ctr</a>
+</li>
+        <li><a href="autoapi/soft4pes/control/lin/rfpsc/index.html#module-soft4pes.control.lin.rfpsc">soft4pes.control.lin.rfpsc</a>
 </li>
         <li><a href="autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#module-soft4pes.control.lin.state_space_curr_ctr">soft4pes.control.lin.state_space_curr_ctr</a>
 </li>
@@ -1026,6 +1042,8 @@ document.write(`
         <li><a href="autoapi/soft4pes/model/grid/index.html#soft4pes.model.grid.LCLFilterParameters.R_fg">(soft4pes.model.grid.LCLFilterParameters attribute)</a>
 </li>
       </ul></li>
+      <li><a href="autoapi/soft4pes/control/lin/rfpsc/index.html#soft4pes.control.lin.rfpsc.RFPSC.Ra">Ra (soft4pes.control.lin.rfpsc.RFPSC attribute)</a>
+</li>
       <li><a href="autoapi/soft4pes/model/grid/lcl_filter_param/index.html#soft4pes.model.grid.lcl_filter_param.LCLFilterParameters.Rc">Rc (soft4pes.model.grid.lcl_filter_param.LCLFilterParameters attribute)</a>
 
       <ul>
@@ -1044,20 +1062,22 @@ document.write(`
         <li><a href="autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#soft4pes.control.lin.state_space_curr_ctr.RLGridStateSpaceCurrCtr.Rf">(soft4pes.control.lin.state_space_curr_ctr.RLGridStateSpaceCurrCtr attribute)</a>
 </li>
       </ul></li>
+      <li><a href="autoapi/soft4pes/control/lin/rfpsc/index.html#soft4pes.control.lin.rfpsc.RFPSC">RFPSC (class in soft4pes.control.lin.rfpsc)</a>
+</li>
       <li><a href="autoapi/soft4pes/model/grid/rl_grid_param/index.html#soft4pes.model.grid.rl_grid_param.RLGridParameters.Rg">Rg (soft4pes.model.grid.rl_grid_param.RLGridParameters attribute)</a>
 
       <ul>
         <li><a href="autoapi/soft4pes/model/grid/index.html#soft4pes.model.grid.RLGridParameters.Rg">(soft4pes.model.grid.RLGridParameters attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/soft4pes/model/grid/index.html#soft4pes.model.grid.RLGrid">RLGrid (class in soft4pes.model.grid)</a>
 
       <ul>
         <li><a href="autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.rl_grid.RLGrid">(class in soft4pes.model.grid.rl_grid)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/soft4pes/model/grid/index.html#soft4pes.model.grid.RLGridLCLFilter">RLGridLCLFilter (class in soft4pes.model.grid)</a>
 
       <ul>
@@ -1248,6 +1268,13 @@ document.write(`
 
       <ul>
         <li><a href="autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html#module-soft4pes.control.lin.lcl_vc_ctr">module</a>
+</li>
+      </ul></li>
+      <li>
+    soft4pes.control.lin.rfpsc
+
+      <ul>
+        <li><a href="autoapi/soft4pes/control/lin/rfpsc/index.html#module-soft4pes.control.lin.rfpsc">module</a>
 </li>
       </ul></li>
       <li>
@@ -1527,6 +1554,8 @@ document.write(`
         <li><a href="autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.simulation.Simulation.t_stop">(soft4pes.sim.simulation.Simulation attribute)</a>
 </li>
       </ul></li>
+      <li><a href="autoapi/soft4pes/control/lin/rfpsc/index.html#soft4pes.control.lin.rfpsc.RFPSC.theta_c">theta_c (soft4pes.control.lin.rfpsc.RFPSC attribute)</a>
+</li>
       <li><a href="autoapi/soft4pes/utils/index.html#soft4pes.utils.Sequence.times">times (soft4pes.utils.Sequence attribute)</a>
 
       <ul>
@@ -1701,10 +1730,10 @@ document.write(`
         <li><a href="autoapi/soft4pes/model/machine/index.html#soft4pes.model.machine.BaseMachine.w">(soft4pes.model.machine.BaseMachine attribute)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/soft4pes/control/common/index.html#soft4pes.control.common.FirstOrderFilter.wb">wb (soft4pes.control.common.FirstOrderFilter attribute)</a>
+      <li><a href="autoapi/soft4pes/control/common/index.html#soft4pes.control.common.FirstOrderFilter.w_bw">w_bw (soft4pes.control.common.FirstOrderFilter attribute)</a>
 
       <ul>
-        <li><a href="autoapi/soft4pes/control/common/utils/index.html#soft4pes.control.common.utils.FirstOrderFilter.wb">(soft4pes.control.common.utils.FirstOrderFilter attribute)</a>
+        <li><a href="autoapi/soft4pes/control/common/utils/index.html#soft4pes.control.common.utils.FirstOrderFilter.w_bw">(soft4pes.control.common.utils.FirstOrderFilter attribute)</a>
 </li>
       </ul></li>
   </ul></td>

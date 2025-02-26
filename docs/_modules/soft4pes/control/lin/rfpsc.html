@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>soft4pes.model.grid.rl_grid_param &#8212; Soft4PES  documentation</title>
+    <title>soft4pes.control.lin.rfpsc &#8212; Soft4PES  documentation</title>
   
   
   
@@ -44,7 +44,7 @@
     <script src="../../../../_static/clipboard.min.js"></script>
     <script src="../../../../_static/copybutton.js"></script>
     <script src="../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/soft4pes/model/grid/rl_grid_param';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/soft4pes/control/lin/rfpsc';</script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -308,48 +308,117 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <h1>Source code for soft4pes.model.grid.rl_grid_param</h1><div class="highlight"><pre>
+  <h1>Source code for soft4pes.control.lin.rfpsc</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Parameters for a grid with a stiff voltage source and RL-load.</span>
+<span class="sd">Reference-feedforward power synchronization control (RFPSC). </span>
+
+<span class="sd">Reference: </span>
+<span class="sd">L. Harnefors, F. M. M. Rahman, M. Hinkkanen, and M. Routimo, “Reference-feedforward </span>
+<span class="sd">power-synchronization control,” IEEE Trans. Power Electron., vol. 35, no. 9, pp. 8878-8881, Sep. </span>
+<span class="sd">2020.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleNamespace</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.control.common.controller</span><span class="w"> </span><span class="kn">import</span> <span class="n">Controller</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">alpha_beta_2_dq</span><span class="p">,</span> <span class="n">dq_2_alpha_beta</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.control.common.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">wrap_theta</span><span class="p">,</span> <span class="n">get_modulating_signal</span><span class="p">,</span> <span class="n">FirstOrderFilter</span>
 
 
-<div class="viewcode-block" id="RLGridParameters"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_param/index.html#soft4pes.model.grid.RLGridParameters">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RLGridParameters</span><span class="p">:</span>
+<div class="viewcode-block" id="RFPSC"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/rfpsc/index.html#soft4pes.control.lin.rfpsc.RFPSC">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RFPSC</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Parameters for a grid with a stiff voltage source and RL-load.</span>
+<span class="sd">    Reference-feedforward power synchronization control (RFPSC).</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    Vg_SI : float</span>
-<span class="sd">        Grid voltage [V] (line-to-line rms voltage).</span>
-<span class="sd">    fg_SI : float</span>
-<span class="sd">        Grid frequency [Hz].</span>
-<span class="sd">    Rg_SI : float</span>
-<span class="sd">        Resistance [Ohm].</span>
-<span class="sd">    Lg_SI : float</span>
-<span class="sd">        Inductance [H].</span>
-<span class="sd">    base : base value object</span>
-<span class="sd">        Base values.</span>
+<span class="sd">    sys : system object</span>
+<span class="sd">        System model.</span>
+<span class="sd">    Ra : float, optional</span>
+<span class="sd">        Virtual damping resistance [p.u.].</span>
+<span class="sd">    Kp : float, optional</span>
+<span class="sd">        Proportional gain of the active power droop control [p.u.]. If not provided, it is </span>
+<span class="sd">        calculated based on the nominal frequency, nominal grid peak voltage and the virtual</span>
+<span class="sd">        damping resistance.</span>
+<span class="sd">    w_bw : float, optional</span>
+<span class="sd">        Current filter bandwidth [p.u.].</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">    Vg : float</span>
-<span class="sd">        Grid voltage [p.u.] (line-to-line rms voltage).</span>
-<span class="sd">    wg : float</span>
-<span class="sd">        Angular frequency [p.u.].</span>
-<span class="sd">    Rg : float</span>
-<span class="sd">        Resistance [p.u.].</span>
-<span class="sd">    Xg : float</span>
-<span class="sd">        Reactance [p.u.].</span>
+<span class="sd">    Ra : float</span>
+<span class="sd">        Virtual damping resistance [p.u.].</span>
+<span class="sd">    theta_c : float</span>
+<span class="sd">        The angle of the synchronous reference frame set by the droop control. The initial angle</span>
+<span class="sd">        is set to -pi/2 to align the q-axis with the grid voltage. </span>
+<span class="sd">    ig_filter : FirstOrderFilter</span>
+<span class="sd">        First-order filter for the current.</span>
+<span class="sd">    Kp : float</span>
+<span class="sd">        Proportional gain of the active power droop control [p.u.].</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Vg_SI</span><span class="p">,</span> <span class="n">fg_SI</span><span class="p">,</span> <span class="n">Rg_SI</span><span class="p">,</span> <span class="n">Lg_SI</span><span class="p">,</span> <span class="n">base</span><span class="p">):</span>
-<div class="viewcode-block" id="RLGridParameters.Vg"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_param/index.html#soft4pes.model.grid.RLGridParameters.Vg">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Vg</span> <span class="o">=</span> <span class="n">Vg_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">V</span></div>
-<div class="viewcode-block" id="RLGridParameters.wg"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_param/index.html#soft4pes.model.grid.RLGridParameters.wg">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">wg</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">fg_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">w</span></div>
-<div class="viewcode-block" id="RLGridParameters.Rg"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_param/index.html#soft4pes.model.grid.RLGridParameters.Rg">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Rg</span> <span class="o">=</span> <span class="n">Rg_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">Z</span></div>
-<div class="viewcode-block" id="RLGridParameters.Xg"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_param/index.html#soft4pes.model.grid.RLGridParameters.Xg">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Xg</span> <span class="o">=</span> <span class="n">Lg_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">L</span></div></div>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">Ra</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">Kp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">w_bw</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+<div class="viewcode-block" id="RFPSC.Ra"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/rfpsc/index.html#soft4pes.control.lin.rfpsc.RFPSC.Ra">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Ra</span> <span class="o">=</span> <span class="n">Ra</span></div>
+<div class="viewcode-block" id="RFPSC.theta_c"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/rfpsc/index.html#soft4pes.control.lin.rfpsc.RFPSC.theta_c">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">theta_c</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1">#-np.pi / 2</span></div>
+<div class="viewcode-block" id="RFPSC.ig_filter"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/rfpsc/index.html#soft4pes.control.lin.rfpsc.RFPSC.ig_filter">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">ig_filter</span> <span class="o">=</span> <span class="n">FirstOrderFilter</span><span class="p">(</span><span class="n">w_bw</span><span class="o">=</span><span class="n">w_bw</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span></div>
+
+        <span class="k">if</span> <span class="n">Kp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Kp</span> <span class="o">=</span> <span class="n">Kp</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># If Kp is not provided, calculate it based on the nominal frequency, nominal grid peak</span>
+            <span class="c1"># voltage and the virtual damping resistance according to the reference</span>
+            <span class="n">Vg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Vg</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Kp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">wg</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ra</span> <span class="o">/</span> <span class="n">Vg</span>
+
+<div class="viewcode-block" id="RFPSC.execute"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/rfpsc/index.html#soft4pes.control.lin.rfpsc.RFPSC.execute">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Execute the RFPSC control algorithm.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        sys : system object</span>
+<span class="sd">            The system model.</span>
+<span class="sd">        conv : converter object</span>
+<span class="sd">            The converter model.</span>
+<span class="sd">        kTs : float</span>
+<span class="sd">            Current discrete time instant [s].</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        SimpleNamespace</span>
+<span class="sd">            A SimpleNamespace object containing the modulating signal for the converter (uk_abc) and</span>
+<span class="sd">            a capacitor voltage reference in case LC(L) filter is used (vc_ref).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">V_ref</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">V_ref</span>
+        <span class="n">P_ref</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">P_ref</span>
+
+        <span class="n">vg</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">get_grid_voltage</span><span class="p">(</span><span class="n">kTs</span><span class="p">)</span>
+        <span class="n">ig</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">x</span>
+        <span class="n">ig_dq</span> <span class="o">=</span> <span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="n">ig</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_c</span><span class="p">)</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">vg</span><span class="p">,</span> <span class="n">ig</span><span class="p">)</span>
+
+        <span class="c1"># Droop control</span>
+        <span class="n">wc</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">wg</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Kp</span> <span class="o">*</span> <span class="p">(</span><span class="n">P_ref</span> <span class="o">-</span> <span class="n">P</span><span class="p">)</span>
+
+        <span class="c1"># Calculate the reference current in dq-frame</span>
+        <span class="n">ig_ref_d</span> <span class="o">=</span> <span class="n">P_ref</span> <span class="o">/</span> <span class="n">V_ref</span>
+        <span class="n">ig_ref_q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ig_filter</span><span class="o">.</span><span class="n">output</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">ig_ref_dq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">ig_ref_d</span><span class="p">,</span> <span class="n">ig_ref_q</span><span class="p">])</span>
+
+        <span class="c1"># Calculate the reference voltage</span>
+        <span class="n">v_ref_dq</span> <span class="o">=</span> <span class="n">V_ref</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ra</span> <span class="o">*</span> <span class="p">(</span><span class="n">ig_ref_dq</span> <span class="o">-</span> <span class="n">ig_dq</span><span class="p">)</span>
+        <span class="n">v_ref</span> <span class="o">=</span> <span class="n">dq_2_alpha_beta</span><span class="p">(</span><span class="n">v_ref_dq</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_c</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span>
+            <span class="n">uk_abc</span><span class="o">=</span><span class="n">get_modulating_signal</span><span class="p">(</span><span class="n">v_ref</span><span class="p">,</span> <span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span><span class="p">),</span>
+            <span class="n">vc_ref</span><span class="o">=</span><span class="n">v_ref</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ig_filter</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">ig_dq</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ts</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">base</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">theta_c</span> <span class="o">+=</span> <span class="n">wc</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ts</span> <span class="o">*</span> <span class="n">sys</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">w</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">theta_c</span> <span class="o">=</span> <span class="n">wrap_theta</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">theta_c</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span></div></div>
 </pre></div>
 
                 </article>

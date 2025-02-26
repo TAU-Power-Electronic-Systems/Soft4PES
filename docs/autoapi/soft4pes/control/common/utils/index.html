@@ -151,6 +151,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../lin/grid_curr_ref_gen/index.html">soft4pes.control.lin.grid_curr_ref_gen</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../lin/lcl_conv_curr_ctr/index.html">soft4pes.control.lin.lcl_conv_curr_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../lin/lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../lin/rfpsc/index.html">soft4pes.control.lin.rfpsc</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../lin/state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
 </ul>
 </li>
@@ -363,7 +364,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.utils.get_modulating_signal"><code class="docutils literal notranslate"><span class="pre">get_modulating_signal()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.utils.magnitude_limiter"><code class="docutils literal notranslate"><span class="pre">magnitude_limiter()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.utils.FirstOrderFilter"><code class="docutils literal notranslate"><span class="pre">FirstOrderFilter</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.utils.FirstOrderFilter.wb"><code class="docutils literal notranslate"><span class="pre">FirstOrderFilter.wb</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.utils.FirstOrderFilter.w_bw"><code class="docutils literal notranslate"><span class="pre">FirstOrderFilter.w_bw</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.utils.FirstOrderFilter.output"><code class="docutils literal notranslate"><span class="pre">FirstOrderFilter.output</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.utils.FirstOrderFilter.update"><code class="docutils literal notranslate"><span class="pre">FirstOrderFilter.update()</span></code></a></li>
 </ul>
@@ -389,7 +390,7 @@ document.write(`
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.common.utils.FirstOrderFilter" title="soft4pes.control.common.utils.FirstOrderFilter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FirstOrderFilter</span></code></a></p></td>
-<td><p>General first order filter.</p></td>
+<td><p>General first-order filter.</p></td>
 </tr>
 </tbody>
 </table>
@@ -437,11 +438,11 @@ document.write(`
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>v_ref</strong> (<em>ndarray</em>) – The reference voltage in alpha-beta frame.</p></li>
-<li><p><strong>v_dc</strong> (<em>float</em>) – The DC link voltage.</p></li>
+<li><p><strong>v_dc</strong> (<em>float</em>) – The dc-link voltage.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The modulating signal in abc frame.</p>
+<dd class="field-even"><p>The modulating signal in abc-frame.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>ndarray</p>
@@ -472,19 +473,19 @@ as a vector or complex number.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="soft4pes.control.common.utils.FirstOrderFilter">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.common.utils.</span></span><span class="sig-name descname"><span class="pre">FirstOrderFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/common/utils.html#FirstOrderFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.common.utils.FirstOrderFilter" title="Permalink to this definition">#</a></dt>
-<dd><p>General first order filter.</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.common.utils.</span></span><span class="sig-name descname"><span class="pre">FirstOrderFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">w_bw</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/common/utils.html#FirstOrderFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.common.utils.FirstOrderFilter" title="Permalink to this definition">#</a></dt>
+<dd><p>General first-order filter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>wb</strong> (<em>float</em>) – The bandwidth of the filter [p.u.].</p></li>
-<li><p><strong>size</strong> (<em>int</em>) – The size of the signal to be filtered.</p></li>
+<li><p><strong>w_bw</strong> (<em>float</em>) – The bandwidth of the filter [p.u.].</p></li>
+<li><p><strong>size</strong> (<em>int</em>) – The size of the signal to be filtered, i.e. the length of the input vector.</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.control.common.utils.FirstOrderFilter.wb">
-<span class="sig-name descname"><span class="pre">wb</span></span><a class="reference internal" href="../../../../../_modules/soft4pes/control/common/utils.html#FirstOrderFilter.wb"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.common.utils.FirstOrderFilter.wb" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="soft4pes.control.common.utils.FirstOrderFilter.w_bw">
+<span class="sig-name descname"><span class="pre">w_bw</span></span><a class="reference internal" href="../../../../../_modules/soft4pes/control/common/utils.html#FirstOrderFilter.w_bw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.common.utils.FirstOrderFilter.w_bw" title="Permalink to this definition">#</a></dt>
 <dd><p>The bandwidth of the filter [p.u.].</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -507,7 +508,7 @@ as a vector or complex number.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.control.common.utils.FirstOrderFilter.update">
 <span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/common/utils.html#FirstOrderFilter.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.common.utils.FirstOrderFilter.update" title="Permalink to this definition">#</a></dt>
-<dd><p>Update the filter with a new input signal.</p>
+<dd><p>Update the filter with a new input signal of the defined size.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -575,7 +576,7 @@ as a vector or complex number.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.utils.get_modulating_signal"><code class="docutils literal notranslate"><span class="pre">get_modulating_signal()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.utils.magnitude_limiter"><code class="docutils literal notranslate"><span class="pre">magnitude_limiter()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.utils.FirstOrderFilter"><code class="docutils literal notranslate"><span class="pre">FirstOrderFilter</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.utils.FirstOrderFilter.wb"><code class="docutils literal notranslate"><span class="pre">FirstOrderFilter.wb</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.utils.FirstOrderFilter.w_bw"><code class="docutils literal notranslate"><span class="pre">FirstOrderFilter.w_bw</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.utils.FirstOrderFilter.output"><code class="docutils literal notranslate"><span class="pre">FirstOrderFilter.output</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.utils.FirstOrderFilter.update"><code class="docutils literal notranslate"><span class="pre">FirstOrderFilter.update()</span></code></a></li>
 </ul>
