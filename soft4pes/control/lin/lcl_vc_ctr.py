@@ -23,10 +23,10 @@ class LCLVcCtr(Controller):
     ----------
     sys : object
         The system model containing electrical parameters and base values.
-    i_conv_lim: float
-        The maximum converter current in per unit (p.u.).
     curr_ctr : object
         The current controller containing its controller parameters and attributes.
+    I_conv_max: float (optional)
+        The maximum converter current in per unit (p.u.).
     
     Attributes
     ----------
@@ -34,7 +34,7 @@ class LCLVcCtr(Controller):
         Integrator state for the converter voltage reference in the dq-frame.
     sys : object
         System model containing electrical parameters and base values.
-    i_conv_lim: float
+    I_conv_max: float
         The maximum converter current in per unit (p.u.).
     ctr_pars : SimpleNamespace
         Controller parameters including delta, K_u, k_iu, and K_tu.
@@ -42,11 +42,11 @@ class LCLVcCtr(Controller):
         The current controller containing its controller parameters and attributes.    
     """
 
-    def __init__(self, sys, i_conv_lim, curr_ctr):
+    def __init__(self, sys, curr_ctr, I_conv_max=1.2):
         super().__init__()
         self.u_iu_comp = complex(0, 0)
         self.sys = sys
-        self.i_conv_lim = i_conv_lim
+        self.I_conv_max = I_conv_max
         self.ctr_pars = None
         self.curr_ctr = curr_ctr
 
@@ -193,7 +193,7 @@ class LCLVcCtr(Controller):
                                  ) / self.curr_ctr.ctr_pars.k_ti
 
         i_conv_ref_comp = magnitude_limiter(i_conv_ref_unlim_comp,
-                                            self.i_conv_lim)
+                                            self.I_conv_max)
 
         self.u_iu_comp += self.ctr_pars.k_iu * (
             (vc_ref_comp - vc_comp) +

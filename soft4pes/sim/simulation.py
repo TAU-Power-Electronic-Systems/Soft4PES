@@ -126,7 +126,7 @@ class Simulation:
         self.ctr.get_control_system_data()
         self.simulation_data = {'ctr': self.ctr.data, 'sys': self.sys.data}
 
-        return self.list_to_np_array(
+        return self.process_simulation_data(
             SimpleNamespace(sys=self.sys.data, ctr=self.ctr.data))
 
     def save_data(self, filename='sim_data.mat', path=''):
@@ -153,7 +153,7 @@ class Simulation:
         full_path = os.path.join(path, filename)
         savemat(full_path, self.simulation_data)
 
-    def list_to_np_array(self, data):
+    def process_simulation_data(self, data):
         """
         Recursively convert lists of arrays in a SimpleNamespace to NumPy arrays.
 
@@ -175,7 +175,8 @@ class Simulation:
         elif isinstance(data, SimpleNamespace):
             # If data is a SimpleNamespace, recursively process its attributes
             for attr in data.__dict__:
-                setattr(data, attr, self.list_to_np_array(getattr(data, attr)))
+                setattr(data, attr,
+                        self.process_simulation_data(getattr(data, attr)))
             return data
 
         else:
