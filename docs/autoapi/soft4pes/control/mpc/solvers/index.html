@@ -48,7 +48,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'autoapi/soft4pes/control/mpc/solvers/index';</script>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
-    <link rel="next" title="soft4pes.control.mpc.solvers.mpc_bnb" href="mpc_bnb/index.html" />
+    <link rel="next" title="soft4pes.control.mpc.solvers.mpc_QP" href="mpc_QP/index.html" />
     <link rel="prev" title="soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr" href="../controllers/rl_grid_mpc_curr_ctr/index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -359,7 +359,13 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#package-contents">Package Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.IndirectMpcQP"><code class="docutils literal notranslate"><span class="pre">IndirectMpcQP</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.IndirectMpcQP.QP_matrices"><code class="docutils literal notranslate"><span class="pre">IndirectMpcQP.QP_matrices</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.IndirectMpcQP.__call__"><code class="docutils literal notranslate"><span class="pre">IndirectMpcQP.__call__()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcBnB"><code class="docutils literal notranslate"><span class="pre">MpcBnB</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcBnB.J_min"><code class="docutils literal notranslate"><span class="pre">MpcBnB.J_min</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcBnB.U_seq"><code class="docutils literal notranslate"><span class="pre">MpcBnB.U_seq</span></code></a></li>
@@ -376,6 +382,10 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcEnum.solve"><code class="docutils literal notranslate"><span class="pre">MpcEnum.solve()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.switching_constraint_violated"><code class="docutils literal notranslate"><span class="pre">switching_constraint_violated()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.make_QP_matrices"><code class="docutils literal notranslate"><span class="pre">make_QP_matrices()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.make_Gamma"><code class="docutils literal notranslate"><span class="pre">make_Gamma()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.make_Upsilon"><code class="docutils literal notranslate"><span class="pre">make_Upsilon()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -396,6 +406,7 @@ document.write(`
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="mpc_QP/index.html">soft4pes.control.mpc.solvers.mpc_QP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mpc_bnb/index.html">soft4pes.control.mpc.solvers.mpc_bnb</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mpc_enum/index.html">soft4pes.control.mpc.solvers.mpc_enum</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils/index.html">soft4pes.control.mpc.solvers.utils</a></li>
@@ -406,17 +417,78 @@ document.write(`
 <h2>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h2>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.MpcBnB" title="soft4pes.control.mpc.solvers.MpcBnB"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MpcBnB</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.IndirectMpcQP" title="soft4pes.control.mpc.solvers.IndirectMpcQP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IndirectMpcQP</span></code></a></p></td>
+<td><p>Problem formulation and QP solver for indirect MPC.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.MpcBnB" title="soft4pes.control.mpc.solvers.MpcBnB"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MpcBnB</span></code></a></p></td>
 <td><p>Branch-and-bound (BnB) solver for model predictive control (MPC).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.MpcEnum" title="soft4pes.control.mpc.solvers.MpcEnum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MpcEnum</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.MpcEnum" title="soft4pes.control.mpc.solvers.MpcEnum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MpcEnum</span></code></a></p></td>
 <td><p>Enumeration-based solver for model predictive control (MPC).</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.switching_constraint_violated" title="soft4pes.control.mpc.solvers.switching_constraint_violated"><code class="xref py py-obj docutils literal notranslate"><span class="pre">switching_constraint_violated</span></code></a>(nl, uk_abc, u_km1_abc)</p></td>
+<td><p>Check if a candidate three-phase switch position violates a switching constraint.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.make_QP_matrices" title="soft4pes.control.mpc.solvers.make_QP_matrices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_QP_matrices</span></code></a>(sys, conv, ctr)</p></td>
+<td><p>Create the QP matrices.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.make_Gamma" title="soft4pes.control.mpc.solvers.make_Gamma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_Gamma</span></code></a>(Np, C, A)</p></td>
+<td><p>Make Gamma matrix for the QP.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.make_Upsilon" title="soft4pes.control.mpc.solvers.make_Upsilon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_Upsilon</span></code></a>(Np, C, A, B)</p></td>
+<td><p>Make Upsilon matrix for the QP.</p></td>
 </tr>
 </tbody>
 </table>
 </section>
 <section id="package-contents">
 <h2>Package Contents<a class="headerlink" href="#package-contents" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.IndirectMpcQP">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.</span></span><span class="sig-name descname"><span class="pre">IndirectMpcQP</span></span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/mpc_QP.html#IndirectMpcQP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.IndirectMpcQP" title="Permalink to this definition">#</a></dt>
+<dd><p>Problem formulation and QP solver for indirect MPC.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.IndirectMpcQP.QP_matrices">
+<span class="sig-name descname"><span class="pre">QP_matrices</span></span><a class="headerlink" href="#soft4pes.control.mpc.solvers.IndirectMpcQP.QP_matrices" title="Permalink to this definition">#</a></dt>
+<dd><p>Namespace containing the matrices used in the QP problem.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>SimpleNamespace</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.IndirectMpcQP.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_ref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/mpc_QP.html#IndirectMpcQP.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.IndirectMpcQP.__call__" title="Permalink to this definition">#</a></dt>
+<dd><p>Formulate and solve the MPC QP.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sys</strong> (<em>system object</em>) – System model.</p></li>
+<li><p><strong>conv</strong> (<em>converter object</em>) – Converter model.</p></li>
+<li><p><strong>ctr</strong> (<em>controller object</em>) – Controller object.</p></li>
+<li><p><strong>y_ref</strong> (<em>ndarray</em><em> of </em><em>floats</em>) – Reference vector [p.u.].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>uk_abc</strong> – The three-phase modulating signal.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>1 x 3 ndarray of floats</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.MpcBnB">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.</span></span><span class="sig-name descname"><span class="pre">MpcBnB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conv</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/mpc_bnb.html#MpcBnB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.MpcBnB" title="Permalink to this definition">#</a></dt>
@@ -593,6 +665,93 @@ document.write(`
 
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.switching_constraint_violated">
+<span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.</span></span><span class="sig-name descname"><span class="pre">switching_constraint_violated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uk_abc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_km1_abc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/utils.html#switching_constraint_violated"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.switching_constraint_violated" title="Permalink to this definition">#</a></dt>
+<dd><p>Check if a candidate three-phase switch position violates a switching constraint.
+A three-level converter is not allowed to directly switch from -1 and 1 (and vice versa)
+on one phase.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nl</strong> (<em>int</em>) – Number of converter voltage levels.</p></li>
+<li><p><strong>uk_abc</strong> (<em>1 x 3 ndarray</em><em> of </em><em>ints</em>) – three-phase switch position.</p></li>
+<li><p><strong>u_km1_abc</strong> (<em>1 x 3 ndarray</em><em> of </em><em>ints</em>) – Previously applied three-phase switch position.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Constraint violated.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.make_QP_matrices">
+<span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.</span></span><span class="sig-name descname"><span class="pre">make_QP_matrices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/utils.html#make_QP_matrices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.make_QP_matrices" title="Permalink to this definition">#</a></dt>
+<dd><p>Create the QP matrices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sys</strong> (<em>system object</em>) – System model.</p></li>
+<li><p><strong>conv</strong> (<em>converter object</em>) – Converter model.</p></li>
+<li><p><strong>ctr</strong> (<em>controller object</em>) – Controller object.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Namespace containing the QP matrices.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>SimpleNamespace</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.make_Gamma">
+<span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.</span></span><span class="sig-name descname"><span class="pre">make_Gamma</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Np</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/utils.html#make_Gamma"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.make_Gamma" title="Permalink to this definition">#</a></dt>
+<dd><p>Make Gamma matrix for the QP.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Np</strong> (<em>int</em>) – Prediction horizon.</p></li>
+<li><p><strong>C</strong> (<em>ndarray</em>) – Output matrix of the system.</p></li>
+<li><p><strong>A</strong> (<em>ndarray</em>) – State matrix of the system.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Gamma matrix.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.make_Upsilon">
+<span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.</span></span><span class="sig-name descname"><span class="pre">make_Upsilon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Np</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/utils.html#make_Upsilon"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.make_Upsilon" title="Permalink to this definition">#</a></dt>
+<dd><p>Make Upsilon matrix for the QP.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Np</strong> (<em>int</em>) – Prediction horizon.</p></li>
+<li><p><strong>C</strong> (<em>ndarray</em>) – Output matrix of the system.</p></li>
+<li><p><strong>A</strong> (<em>ndarray</em>) – State matrix of the system.</p></li>
+<li><p><strong>B</strong> (<em>ndarray</em>) – Input matrix of the system.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Upsilon matrix.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
 
@@ -617,11 +776,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="mpc_bnb/index.html"
+       href="mpc_QP/index.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">soft4pes.control.mpc.solvers.mpc_bnb</p>
+        <p class="prev-next-title">soft4pes.control.mpc.solvers.mpc_QP</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -642,7 +801,13 @@ document.write(`
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#package-contents">Package Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.IndirectMpcQP"><code class="docutils literal notranslate"><span class="pre">IndirectMpcQP</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.IndirectMpcQP.QP_matrices"><code class="docutils literal notranslate"><span class="pre">IndirectMpcQP.QP_matrices</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.IndirectMpcQP.__call__"><code class="docutils literal notranslate"><span class="pre">IndirectMpcQP.__call__()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcBnB"><code class="docutils literal notranslate"><span class="pre">MpcBnB</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcBnB.J_min"><code class="docutils literal notranslate"><span class="pre">MpcBnB.J_min</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcBnB.U_seq"><code class="docutils literal notranslate"><span class="pre">MpcBnB.U_seq</span></code></a></li>
@@ -659,6 +824,10 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcEnum.solve"><code class="docutils literal notranslate"><span class="pre">MpcEnum.solve()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.switching_constraint_violated"><code class="docutils literal notranslate"><span class="pre">switching_constraint_violated()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.make_QP_matrices"><code class="docutils literal notranslate"><span class="pre">make_QP_matrices()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.make_Gamma"><code class="docutils literal notranslate"><span class="pre">make_Gamma()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.make_Upsilon"><code class="docutils literal notranslate"><span class="pre">make_Upsilon()</span></code></a></li>
 </ul>
 </li>
 </ul>

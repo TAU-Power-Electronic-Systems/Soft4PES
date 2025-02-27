@@ -33,6 +33,7 @@ Submodules
 .. toctree::
    :maxdepth: 1
 
+   /autoapi/soft4pes/control/mpc/solvers/mpc_QP/index
    /autoapi/soft4pes/control/mpc/solvers/mpc_bnb/index
    /autoapi/soft4pes/control/mpc/solvers/mpc_enum/index
    /autoapi/soft4pes/control/mpc/solvers/utils/index
@@ -43,12 +44,87 @@ Classes
 
 .. autoapisummary::
 
+   soft4pes.control.mpc.solvers.IndirectMpcQP
    soft4pes.control.mpc.solvers.MpcBnB
    soft4pes.control.mpc.solvers.MpcEnum
 
 
+Functions
+---------
+
+.. autoapisummary::
+
+   soft4pes.control.mpc.solvers.switching_constraint_violated
+   soft4pes.control.mpc.solvers.make_QP_matrices
+   soft4pes.control.mpc.solvers.make_Gamma
+   soft4pes.control.mpc.solvers.make_Upsilon
+
+
 Package Contents
 ----------------
+
+.. py:class:: IndirectMpcQP
+
+   
+   Problem formulation and QP solver for indirect MPC.
+
+   .. attribute:: QP_matrices
+
+      Namespace containing the matrices used in the QP problem.
+
+      :type: SimpleNamespace
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:method:: __call__(sys, conv, ctr, y_ref)
+
+      
+      Formulate and solve the MPC QP.
+
+      :param sys: System model.
+      :type sys: system object
+      :param conv: Converter model.
+      :type conv: converter object
+      :param ctr: Controller object.
+      :type ctr: controller object
+      :param y_ref: Reference vector [p.u.].
+      :type y_ref: ndarray of floats
+
+      :returns: **uk_abc** -- The three-phase modulating signal.
+      :rtype: 1 x 3 ndarray of floats
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
 
 .. py:class:: MpcBnB(conv)
 
@@ -284,4 +360,136 @@ Package Contents
       ..
           !! processed by numpydoc !!
 
+
+.. py:function:: switching_constraint_violated(nl, uk_abc, u_km1_abc)
+
+   
+   Check if a candidate three-phase switch position violates a switching constraint.
+   A three-level converter is not allowed to directly switch from -1 and 1 (and vice versa)
+   on one phase.
+
+   :param nl: Number of converter voltage levels.
+   :type nl: int
+   :param uk_abc: three-phase switch position.
+   :type uk_abc: 1 x 3 ndarray of ints
+   :param u_km1_abc: Previously applied three-phase switch position.
+   :type u_km1_abc: 1 x 3 ndarray of ints
+
+   :returns: Constraint violated.
+   :rtype: bool
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: make_QP_matrices(sys, conv, ctr)
+
+   
+   Create the QP matrices.
+
+   :param sys: System model.
+   :type sys: system object
+   :param conv: Converter model.
+   :type conv: converter object
+   :param ctr: Controller object.
+   :type ctr: controller object
+
+   :returns: Namespace containing the QP matrices.
+   :rtype: SimpleNamespace
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: make_Gamma(Np, C, A)
+
+   
+   Make Gamma matrix for the QP.
+
+   :param Np: Prediction horizon.
+   :type Np: int
+   :param C: Output matrix of the system.
+   :type C: ndarray
+   :param A: State matrix of the system.
+   :type A: ndarray
+
+   :returns: Gamma matrix.
+   :rtype: ndarray
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: make_Upsilon(Np, C, A, B)
+
+   
+   Make Upsilon matrix for the QP.
+
+   :param Np: Prediction horizon.
+   :type Np: int
+   :param C: Output matrix of the system.
+   :type C: ndarray
+   :param A: State matrix of the system.
+   :type A: ndarray
+   :param B: Input matrix of the system.
+   :type B: ndarray
+
+   :returns: Upsilon matrix.
+   :rtype: ndarray
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
 

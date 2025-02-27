@@ -17,6 +17,9 @@ Functions
 .. autoapisummary::
 
    soft4pes.control.mpc.solvers.utils.switching_constraint_violated
+   soft4pes.control.mpc.solvers.utils.make_QP_matrices
+   soft4pes.control.mpc.solvers.utils.make_Gamma
+   soft4pes.control.mpc.solvers.utils.make_Upsilon
 
 
 Module Contents
@@ -38,6 +41,104 @@ Module Contents
 
    :returns: Constraint violated.
    :rtype: bool
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: make_QP_matrices(sys, conv, ctr)
+
+   
+   Create the QP matrices.
+
+   :param sys: System model.
+   :type sys: system object
+   :param conv: Converter model.
+   :type conv: converter object
+   :param ctr: Controller object.
+   :type ctr: controller object
+
+   :returns: Namespace containing the QP matrices.
+   :rtype: SimpleNamespace
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: make_Gamma(Np, C, A)
+
+   
+   Make Gamma matrix for the QP.
+
+   :param Np: Prediction horizon.
+   :type Np: int
+   :param C: Output matrix of the system.
+   :type C: ndarray
+   :param A: State matrix of the system.
+   :type A: ndarray
+
+   :returns: Gamma matrix.
+   :rtype: ndarray
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: make_Upsilon(Np, C, A, B)
+
+   
+   Make Upsilon matrix for the QP.
+
+   :param Np: Prediction horizon.
+   :type Np: int
+   :param C: Output matrix of the system.
+   :type C: ndarray
+   :param A: State matrix of the system.
+   :type A: ndarray
+   :param B: Input matrix of the system.
+   :type B: ndarray
+
+   :returns: Upsilon matrix.
+   :rtype: ndarray
 
 
 

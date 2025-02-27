@@ -312,9 +312,10 @@ document.write(`
 <span></span><span class="sd">&quot;&quot;&quot;Utility functions for MPC solvers.&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleNamespace</span>
 
 
-<div class="viewcode-block" id="switching_constraint_violated"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/utils/index.html#soft4pes.control.mpc.solvers.utils.switching_constraint_violated">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">switching_constraint_violated</span><span class="p">(</span><span class="n">nl</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">,</span> <span class="n">u_km1_abc</span><span class="p">):</span>
+<div class="viewcode-block" id="switching_constraint_violated"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/utils/index.html#soft4pes.control.mpc.solvers.switching_constraint_violated">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">switching_constraint_violated</span><span class="p">(</span><span class="n">nl</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">,</span> <span class="n">u_km1_abc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check if a candidate three-phase switch position violates a switching constraint. </span>
 <span class="sd">    A three-level converter is not allowed to directly switch from -1 and 1 (and vice versa) </span>
@@ -341,6 +342,166 @@ document.write(`
         <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">uk_abc</span> <span class="o">-</span> <span class="n">u_km1_abc</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span>
 
     <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="make_QP_matrices"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/utils/index.html#soft4pes.control.mpc.solvers.make_QP_matrices">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">make_QP_matrices</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">ctr</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create the QP matrices.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sys : system object</span>
+<span class="sd">        System model.</span>
+<span class="sd">    conv : converter object</span>
+<span class="sd">        Converter model.</span>
+<span class="sd">    ctr : controller object</span>
+<span class="sd">        Controller object.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    SimpleNamespace</span>
+<span class="sd">        Namespace containing the QP matrices.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">get_discrete_state_space</span><span class="p">(</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span><span class="p">,</span> <span class="n">ctr</span><span class="o">.</span><span class="n">Ts</span><span class="p">)</span>
+    <span class="n">A_QP</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">A</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="n">ctr</span><span class="o">.</span><span class="n">C</span>
+
+    <span class="n">Np</span> <span class="o">=</span> <span class="n">ctr</span><span class="o">.</span><span class="n">Np</span>
+    <span class="n">lambda_u</span> <span class="o">=</span> <span class="n">ctr</span><span class="o">.</span><span class="n">lambda_u</span>
+    <span class="n">R_size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">ctr</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">Q_tilde</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">Np</span><span class="p">),</span> <span class="n">ctr</span><span class="o">.</span><span class="n">Q</span><span class="p">)</span>
+    <span class="n">R_tilde</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">Np</span><span class="p">),</span> <span class="n">ctr</span><span class="o">.</span><span class="n">R</span><span class="p">)</span>
+
+    <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">Np</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">block</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+        <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">Np</span><span class="p">))],</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">Np</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)),</span>
+                        <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">Np</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">3</span><span class="p">))]])</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">block</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)],</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(((</span><span class="n">Np</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))]])</span>
+
+    <span class="n">Gamma</span> <span class="o">=</span> <span class="n">make_Gamma</span><span class="p">(</span><span class="n">Np</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">A_QP</span><span class="p">)</span>
+    <span class="n">Gamma_constraints</span> <span class="o">=</span> <span class="n">make_Gamma</span><span class="p">(</span><span class="n">Np</span><span class="p">,</span> <span class="n">ctr</span><span class="o">.</span><span class="n">C_constr</span><span class="p">,</span> <span class="n">A_QP</span><span class="p">)</span>
+
+    <span class="c1"># If the system is a grid-connected converter, take into account the grid voltage that has</span>
+    <span class="c1"># been modelled as a disturbance. Note that contrary to the reference paper, the constraints</span>
+    <span class="c1"># are handled separately of the output variables.</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s1">&#39;B1&#39;</span><span class="p">):</span>
+        <span class="n">B1</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">B1</span>
+        <span class="n">B2</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">B2</span>
+        <span class="n">Upsilon</span> <span class="o">=</span> <span class="n">make_Upsilon</span><span class="p">(</span><span class="n">Np</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">A_QP</span><span class="p">,</span> <span class="n">B1</span><span class="p">)</span>
+        <span class="n">Upsilon_constraints</span> <span class="o">=</span> <span class="n">make_Upsilon</span><span class="p">(</span><span class="n">Np</span><span class="p">,</span> <span class="n">ctr</span><span class="o">.</span><span class="n">C_constr</span><span class="p">,</span> <span class="n">A_QP</span><span class="p">,</span> <span class="n">B1</span><span class="p">)</span>
+        <span class="n">Psi</span> <span class="o">=</span> <span class="n">make_Upsilon</span><span class="p">(</span><span class="n">Np</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">A_QP</span><span class="p">,</span> <span class="n">B2</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">B</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">B</span>
+        <span class="n">Upsilon</span> <span class="o">=</span> <span class="n">make_Upsilon</span><span class="p">(</span><span class="n">Np</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">A_QP</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+        <span class="n">Upsilon_constraints</span> <span class="o">=</span> <span class="n">make_Upsilon</span><span class="p">(</span><span class="n">Np</span><span class="p">,</span> <span class="n">ctr</span><span class="o">.</span><span class="n">C_constr</span><span class="p">,</span> <span class="n">A_QP</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+        <span class="n">Psi</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Form the quadric objective matrix H_tilde</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">Upsilon</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Q_tilde</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Upsilon</span><span class="p">)</span> <span class="o">+</span> <span class="n">lambda_u</span> <span class="o">*</span> <span class="n">S</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+    <span class="n">H_tilde</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">block</span><span class="p">([[</span><span class="n">H</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span> <span class="o">*</span> <span class="n">Np</span><span class="p">,</span> <span class="n">R_size</span> <span class="o">*</span> <span class="n">Np</span><span class="p">))],</span>
+                        <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">R_size</span> <span class="o">*</span> <span class="n">Np</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">Np</span><span class="p">)),</span> <span class="n">R_tilde</span><span class="p">]])</span>
+
+    <span class="n">K_inv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">],</span>
+                      <span class="p">[</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]])</span>
+    <span class="n">K_inv_tilde</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">R_size</span><span class="p">),</span> <span class="n">K_inv</span><span class="p">)</span>
+
+    <span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>\
+                    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">W_tilde</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">R_size</span><span class="p">),</span> <span class="n">W</span><span class="p">)</span>
+
+    <span class="n">N</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">R_size</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">block</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">))],</span> <span class="p">[</span><span class="mi">0</span><span class="p">]]))</span>
+
+    <span class="n">Nc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">ctr</span><span class="o">.</span><span class="n">c</span><span class="p">)</span>
+
+    <span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">R_size</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">7</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">Np</span><span class="p">),</span> <span class="o">-</span><span class="n">M</span><span class="p">)</span>
+
+    <span class="n">Pi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">Np</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W_tilde</span><span class="p">,</span> <span class="n">K_inv_tilde</span><span class="p">))</span>
+
+    <span class="n">Delta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">Np</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">Nc</span><span class="p">)</span>
+
+    <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>\
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>\
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]])</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="n">Omega</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">Np</span><span class="p">),</span> <span class="n">V</span><span class="p">)</span>
+
+    <span class="c1"># Form the linear inequality constraint matrix A_QP</span>
+    <span class="n">A_QP</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">block</span><span class="p">([[</span><span class="n">Omega</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">6</span> <span class="o">*</span> <span class="n">Np</span><span class="p">,</span> <span class="n">R_size</span> <span class="o">*</span> <span class="n">Np</span><span class="p">))],</span>
+                     <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Pi</span><span class="p">,</span> <span class="n">Upsilon_constraints</span><span class="p">),</span> <span class="n">Z</span><span class="p">]])</span>
+
+    <span class="k">return</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">R_size</span><span class="o">=</span><span class="n">R_size</span><span class="p">,</span>
+                           <span class="n">Gamma</span><span class="o">=</span><span class="n">Gamma</span><span class="p">,</span>
+                           <span class="n">Gamma_constraints</span><span class="o">=</span><span class="n">Gamma_constraints</span><span class="p">,</span>
+                           <span class="n">Upsilon</span><span class="o">=</span><span class="n">Upsilon</span><span class="p">,</span>
+                           <span class="n">S</span><span class="o">=</span><span class="n">S</span><span class="p">,</span>
+                           <span class="n">E</span><span class="o">=</span><span class="n">E</span><span class="p">,</span>
+                           <span class="n">H_tilde</span><span class="o">=</span><span class="n">H_tilde</span><span class="p">,</span>
+                           <span class="n">Q_tilde</span><span class="o">=</span><span class="n">Q_tilde</span><span class="p">,</span>
+                           <span class="n">Delta</span><span class="o">=</span><span class="n">Delta</span><span class="p">,</span>
+                           <span class="n">Pi</span><span class="o">=</span><span class="n">Pi</span><span class="p">,</span>
+                           <span class="n">A_QP</span><span class="o">=</span><span class="n">A_QP</span><span class="p">,</span>
+                           <span class="n">Psi</span><span class="o">=</span><span class="n">Psi</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="make_Gamma"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/utils/index.html#soft4pes.control.mpc.solvers.make_Gamma">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">make_Gamma</span><span class="p">(</span><span class="n">Np</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">A</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Make Gamma matrix for the QP.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Np : int</span>
+<span class="sd">        Prediction horizon.</span>
+<span class="sd">    C : ndarray</span>
+<span class="sd">        Output matrix of the system.</span>
+<span class="sd">    A : ndarray</span>
+<span class="sd">        State matrix of the system.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ndarray</span>
+<span class="sd">        Gamma matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Gamma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">Np</span> <span class="o">*</span> <span class="n">C</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Np</span><span class="p">):</span>
+        <span class="n">Gamma_row_index</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">C</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">C</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">Gamma</span><span class="p">[</span><span class="n">Gamma_row_index</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">matrix_power</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">Gamma</span></div>
+
+
+<div class="viewcode-block" id="make_Upsilon"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/utils/index.html#soft4pes.control.mpc.solvers.make_Upsilon">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">make_Upsilon</span><span class="p">(</span><span class="n">Np</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Make Upsilon matrix for the QP.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Np : int</span>
+<span class="sd">        Prediction horizon.</span>
+<span class="sd">    C : ndarray</span>
+<span class="sd">        Output matrix of the system.</span>
+<span class="sd">    A : ndarray</span>
+<span class="sd">        State matrix of the system.</span>
+<span class="sd">    B : ndarray</span>
+<span class="sd">        Input matrix of the system.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ndarray</span>
+<span class="sd">        Upsilon matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Upsilon</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">Np</span> <span class="o">*</span> <span class="n">C</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Np</span> <span class="o">*</span> <span class="n">B</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">Upsilon_row</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">C</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Np</span> <span class="o">*</span> <span class="n">B</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Np</span><span class="p">):</span>
+        <span class="n">Upsilon_row</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">Upsilon_row</span><span class="p">,</span> <span class="n">B</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">Upsilon_row</span><span class="p">[:,</span> <span class="p">:</span><span class="n">B</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">C</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">matrix_power</span><span class="p">(</span><span class="n">A</span><span class="p">,</span>
+                                                                   <span class="n">i</span><span class="p">))</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+        <span class="n">Upsilon_row_index</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">C</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">C</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">Upsilon</span><span class="p">[</span><span class="n">Upsilon_row_index</span><span class="p">]</span> <span class="o">=</span> <span class="n">Upsilon_row</span>
+    <span class="k">return</span> <span class="n">Upsilon</span></div>
 </pre></div>
 
                 </article>
