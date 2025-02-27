@@ -334,10 +334,10 @@ document.write(`
 <span class="sd">    ----------</span>
 <span class="sd">    sys : object</span>
 <span class="sd">        The system model containing electrical parameters and base values.</span>
-<span class="sd">    i_conv_lim: float</span>
-<span class="sd">        The maximum converter current in per unit (p.u.).</span>
 <span class="sd">    curr_ctr : object</span>
 <span class="sd">        The current controller containing its controller parameters and attributes.</span>
+<span class="sd">    I_conv_max: float (optional)</span>
+<span class="sd">        The maximum converter current in per unit (p.u.).</span>
 <span class="sd">    </span>
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
@@ -345,7 +345,7 @@ document.write(`
 <span class="sd">        Integrator state for the converter voltage reference in the dq-frame.</span>
 <span class="sd">    sys : object</span>
 <span class="sd">        System model containing electrical parameters and base values.</span>
-<span class="sd">    i_conv_lim: float</span>
+<span class="sd">    I_conv_max: float</span>
 <span class="sd">        The maximum converter current in per unit (p.u.).</span>
 <span class="sd">    ctr_pars : SimpleNamespace</span>
 <span class="sd">        Controller parameters including delta, K_u, k_iu, and K_tu.</span>
@@ -353,11 +353,11 @@ document.write(`
 <span class="sd">        The current controller containing its controller parameters and attributes.    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">i_conv_lim</span><span class="p">,</span> <span class="n">curr_ctr</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">curr_ctr</span><span class="p">,</span> <span class="n">I_conv_max</span><span class="o">=</span><span class="mf">1.2</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 <div class="viewcode-block" id="LCLVcCtr.u_iu_comp"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html#soft4pes.control.lin.LCLVcCtr.u_iu_comp">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">u_iu_comp</span> <span class="o">=</span> <span class="nb">complex</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></div>
 <div class="viewcode-block" id="LCLVcCtr.sys"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html#soft4pes.control.lin.LCLVcCtr.sys">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">sys</span> <span class="o">=</span> <span class="n">sys</span></div>
-<div class="viewcode-block" id="LCLVcCtr.i_conv_lim"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html#soft4pes.control.lin.LCLVcCtr.i_conv_lim">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">i_conv_lim</span> <span class="o">=</span> <span class="n">i_conv_lim</span></div>
+<div class="viewcode-block" id="LCLVcCtr.I_conv_max"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html#soft4pes.control.lin.LCLVcCtr.I_conv_max">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">I_conv_max</span> <span class="o">=</span> <span class="n">I_conv_max</span></div>
 <div class="viewcode-block" id="LCLVcCtr.ctr_pars"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html#soft4pes.control.lin.LCLVcCtr.ctr_pars">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">ctr_pars</span> <span class="o">=</span> <span class="kc">None</span></div>
 <div class="viewcode-block" id="LCLVcCtr.curr_ctr"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html#soft4pes.control.lin.LCLVcCtr.curr_ctr">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">curr_ctr</span> <span class="o">=</span> <span class="n">curr_ctr</span></div>
 
@@ -504,7 +504,7 @@ document.write(`
                                  <span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">curr_ctr</span><span class="o">.</span><span class="n">ctr_pars</span><span class="o">.</span><span class="n">k_ti</span>
 
         <span class="n">i_conv_ref_comp</span> <span class="o">=</span> <span class="n">magnitude_limiter</span><span class="p">(</span><span class="n">i_conv_ref_unlim_comp</span><span class="p">,</span>
-                                            <span class="bp">self</span><span class="o">.</span><span class="n">i_conv_lim</span><span class="p">)</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">I_conv_max</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">u_iu_comp</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr_pars</span><span class="o">.</span><span class="n">k_iu</span> <span class="o">*</span> <span class="p">(</span>
             <span class="p">(</span><span class="n">vc_ref_comp</span> <span class="o">-</span> <span class="n">vc_comp</span><span class="p">)</span> <span class="o">+</span>

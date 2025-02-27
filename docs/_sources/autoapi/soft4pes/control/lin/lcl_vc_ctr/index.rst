@@ -28,7 +28,7 @@ Classes
 Module Contents
 ---------------
 
-.. py:class:: LCLVcCtr(sys, i_conv_lim, curr_ctr)
+.. py:class:: LCLVcCtr(sys, curr_ctr, I_conv_max=1.2)
 
    Bases: :py:obj:`soft4pes.control.common.controller.Controller`
 
@@ -38,10 +38,10 @@ Module Contents
 
    :param sys: The system model containing electrical parameters and base values.
    :type sys: object
-   :param i_conv_lim: The maximum converter current in per unit (p.u.).
-   :type i_conv_lim: float
    :param curr_ctr: The current controller containing its controller parameters and attributes.
    :type curr_ctr: object
+   :param I_conv_max: The maximum converter current in per unit (p.u.).
+   :type I_conv_max: float (optional)
 
    .. attribute:: u_iu_comp
 
@@ -55,7 +55,7 @@ Module Contents
 
       :type: object
 
-   .. attribute:: i_conv_lim
+   .. attribute:: I_conv_max
 
       The maximum converter current in per unit (p.u.).
 

@@ -214,3 +214,32 @@ Module Contents
           !! processed by numpydoc !!
 
 
+   .. py:method:: process_simulation_data(data)
+
+      
+      Recursively convert lists of arrays in a SimpleNamespace to NumPy arrays.
+
+      :param data: The data to be converted. Can be a SimpleNamespace or a list of arrays.
+      :type data: SimpleNamespace or list of ndarray
+
+      :returns: A SimpleNamespace with lists of arrays converted to NumPy arrays, or a NumPy array if the input is a list of arrays.
+      :rtype: SimpleNamespace or ndarray
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+

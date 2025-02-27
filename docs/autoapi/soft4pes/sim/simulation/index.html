@@ -375,6 +375,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.sim.simulation.Simulation.simulation_data"><code class="docutils literal notranslate"><span class="pre">Simulation.simulation_data</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.sim.simulation.Simulation.simulate"><code class="docutils literal notranslate"><span class="pre">Simulation.simulate()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.sim.simulation.Simulation.save_data"><code class="docutils literal notranslate"><span class="pre">Simulation.save_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.sim.simulation.Simulation.process_simulation_data"><code class="docutils literal notranslate"><span class="pre">Simulation.process_simulation_data()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -569,6 +570,23 @@ directory. The default saving directory is the current directory.</p></li>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.sim.simulation.Simulation.process_simulation_data">
+<span class="sig-name descname"><span class="pre">process_simulation_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/sim/simulation.html#Simulation.process_simulation_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.sim.simulation.Simulation.process_simulation_data" title="Permalink to this definition">#</a></dt>
+<dd><p>Recursively convert lists of arrays in a SimpleNamespace to NumPy arrays.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>SimpleNamespace</em><em> or </em><em>list</em><em> of </em><em>ndarray</em>) – The data to be converted. Can be a SimpleNamespace or a list of arrays.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A SimpleNamespace with lists of arrays converted to NumPy arrays, or a NumPy array if the input is a list of arrays.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>SimpleNamespace or ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -636,6 +654,7 @@ directory. The default saving directory is the current directory.</p></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.sim.simulation.Simulation.simulation_data"><code class="docutils literal notranslate"><span class="pre">Simulation.simulation_data</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.sim.simulation.Simulation.simulate"><code class="docutils literal notranslate"><span class="pre">Simulation.simulate()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.sim.simulation.Simulation.save_data"><code class="docutils literal notranslate"><span class="pre">Simulation.save_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.sim.simulation.Simulation.process_simulation_data"><code class="docutils literal notranslate"><span class="pre">Simulation.process_simulation_data()</span></code></a></li>
 </ul>
 </li>
 </ul>

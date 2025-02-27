@@ -317,6 +317,7 @@ document.write(`
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.io</span><span class="w"> </span><span class="kn">import</span> <span class="n">savemat</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleNamespace</span>
 
 
 <div class="viewcode-block" id="ProgressPrinter"><a class="viewcode-back" href="../../../autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.ProgressPrinter">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ProgressPrinter</span><span class="p">:</span>
@@ -434,7 +435,10 @@ document.write(`
 
         <span class="c1"># Get the simulation data</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ctr</span><span class="o">.</span><span class="n">get_control_system_data</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">simulation_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ctr&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;sys&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">data</span><span class="p">}</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">simulation_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ctr&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;sys&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">data</span><span class="p">}</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_simulation_data</span><span class="p">(</span>
+            <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">sys</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">ctr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ctr</span><span class="o">.</span><span class="n">data</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="Simulation.save_data"><a class="viewcode-back" href="../../../autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.Simulation.save_data">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">save_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;sim_data.mat&#39;</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -458,7 +462,37 @@ document.write(`
             <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 
         <span class="n">full_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
-        <span class="n">savemat</span><span class="p">(</span><span class="n">full_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulation_data</span><span class="p">)</span></div></div>
+        <span class="n">savemat</span><span class="p">(</span><span class="n">full_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulation_data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Simulation.process_simulation_data"><a class="viewcode-back" href="../../../autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.Simulation.process_simulation_data">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">process_simulation_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Recursively convert lists of arrays in a SimpleNamespace to NumPy arrays.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data : SimpleNamespace or list of ndarray</span>
+<span class="sd">            The data to be converted. Can be a SimpleNamespace or a list of arrays.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        SimpleNamespace or ndarray</span>
+<span class="sd">            A SimpleNamespace with lists of arrays converted to NumPy arrays, or a NumPy array if the input is a list of arrays.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="c1"># If data is a list of arrays, convert it to a single NumPy array</span>
+            <span class="n">stacked_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">stacked_array</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">SimpleNamespace</span><span class="p">):</span>
+            <span class="c1"># If data is a SimpleNamespace, recursively process its attributes</span>
+            <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">process_simulation_data</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">attr</span><span class="p">)))</span>
+            <span class="k">return</span> <span class="n">data</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># If data is neither a list nor a SimpleNamespace, return it as is</span>
+            <span class="k">return</span> <span class="n">data</span></div></div>
 </pre></div>
 
                 </article>

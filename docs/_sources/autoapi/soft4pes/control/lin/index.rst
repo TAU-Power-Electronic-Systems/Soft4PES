@@ -49,6 +49,7 @@ Classes
    soft4pes.control.lin.RLGridStateSpaceCurrCtr
    soft4pes.control.lin.LCLConvCurrCtr
    soft4pes.control.lin.LCLVcCtr
+   soft4pes.control.lin.RFPSC
 
 
 Package Contents
@@ -499,7 +500,7 @@ Package Contents
           !! processed by numpydoc !!
 
 
-.. py:class:: LCLVcCtr(sys, i_conv_lim, curr_ctr)
+.. py:class:: LCLVcCtr(sys, curr_ctr, I_conv_max=1.2)
 
    Bases: :py:obj:`soft4pes.control.common.controller.Controller`
 
@@ -509,10 +510,10 @@ Package Contents
 
    :param sys: The system model containing electrical parameters and base values.
    :type sys: object
-   :param i_conv_lim: The maximum converter current in per unit (p.u.).
-   :type i_conv_lim: float
    :param curr_ctr: The current controller containing its controller parameters and attributes.
    :type curr_ctr: object
+   :param I_conv_max: The maximum converter current in per unit (p.u.).
+   :type I_conv_max: float (optional)
 
    .. attribute:: u_iu_comp
 
@@ -526,7 +527,7 @@ Package Contents
 
       :type: object
 
-   .. attribute:: i_conv_lim
+   .. attribute:: I_conv_max
 
       The maximum converter current in per unit (p.u.).
 
@@ -605,6 +606,101 @@ Package Contents
 
       :returns: The converter current reference in dq-frame for Current Controller (CC).
       :rtype: 1 x 2 ndarray of floats
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: RFPSC(sys, Ra=0.2, Kp=None, w_bw=0.1)
+
+   Bases: :py:obj:`soft4pes.control.common.controller.Controller`
+
+
+   
+   Reference-feedforward power synchronization control (RFPSC).
+
+   :param sys: System model.
+   :type sys: system object
+   :param Ra: Virtual damping resistance [p.u.].
+   :type Ra: float, optional
+   :param Kp: Proportional gain of the active power droop control [p.u.]. If not provided, it is
+              calculated based on the nominal frequency, nominal grid peak voltage and the virtual
+              damping resistance.
+   :type Kp: float, optional
+   :param w_bw: Current filter bandwidth [p.u.].
+   :type w_bw: float, optional
+
+   .. attribute:: Ra
+
+      Virtual damping resistance [p.u.].
+
+      :type: float
+
+   .. attribute:: theta_c
+
+      The angle of the synchronous reference frame set by the droop control. The initial angle
+      is set to -pi/2 to align the q-axis with the grid voltage.
+
+      :type: float
+
+   .. attribute:: ig_filter
+
+      First-order filter for the current.
+
+      :type: FirstOrderFilter
+
+   .. attribute:: Kp
+
+      Proportional gain of the active power droop control [p.u.].
+
+      :type: float
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:method:: execute(sys, conv, kTs)
+
+      
+      Execute the RFPSC control algorithm.
+
+      :param sys: The system model.
+      :type sys: system object
+      :param conv: The converter model.
+      :type conv: converter object
+      :param kTs: Current discrete time instant [s].
+      :type kTs: float
+
+      :returns: A SimpleNamespace object containing the modulating signal for the converter (uk_abc) and
+                a capacitor voltage reference in case LC(L) filter is used (vc_ref).
+      :rtype: SimpleNamespace
 
 
 

@@ -321,11 +321,12 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleNamespace</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.control.common.controller</span><span class="w"> </span><span class="kn">import</span> <span class="n">Controller</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.model.grid</span><span class="w"> </span><span class="kn">import</span> <span class="n">RLGridLCLFilter</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">alpha_beta_2_dq</span><span class="p">,</span> <span class="n">dq_2_alpha_beta</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.control.common.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">wrap_theta</span><span class="p">,</span> <span class="n">get_modulating_signal</span><span class="p">,</span> <span class="n">FirstOrderFilter</span>
 
 
-<div class="viewcode-block" id="RFPSC"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/rfpsc/index.html#soft4pes.control.lin.rfpsc.RFPSC">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RFPSC</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
+<div class="viewcode-block" id="RFPSC"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/rfpsc/index.html#soft4pes.control.lin.RFPSC">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RFPSC</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reference-feedforward power synchronization control (RFPSC).</span>
 
@@ -357,9 +358,9 @@ document.write(`
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">Ra</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">Kp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">w_bw</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-<div class="viewcode-block" id="RFPSC.Ra"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/rfpsc/index.html#soft4pes.control.lin.rfpsc.RFPSC.Ra">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Ra</span> <span class="o">=</span> <span class="n">Ra</span></div>
-<div class="viewcode-block" id="RFPSC.theta_c"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/rfpsc/index.html#soft4pes.control.lin.rfpsc.RFPSC.theta_c">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">theta_c</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1">#-np.pi / 2</span></div>
-<div class="viewcode-block" id="RFPSC.ig_filter"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/rfpsc/index.html#soft4pes.control.lin.rfpsc.RFPSC.ig_filter">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">ig_filter</span> <span class="o">=</span> <span class="n">FirstOrderFilter</span><span class="p">(</span><span class="n">w_bw</span><span class="o">=</span><span class="n">w_bw</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span></div>
+<div class="viewcode-block" id="RFPSC.Ra"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/rfpsc/index.html#soft4pes.control.lin.RFPSC.Ra">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Ra</span> <span class="o">=</span> <span class="n">Ra</span></div>
+<div class="viewcode-block" id="RFPSC.theta_c"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/rfpsc/index.html#soft4pes.control.lin.RFPSC.theta_c">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">theta_c</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span></div>
+<div class="viewcode-block" id="RFPSC.ig_filter"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/rfpsc/index.html#soft4pes.control.lin.RFPSC.ig_filter">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">ig_filter</span> <span class="o">=</span> <span class="n">FirstOrderFilter</span><span class="p">(</span><span class="n">w_bw</span><span class="o">=</span><span class="n">w_bw</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span></div>
 
         <span class="k">if</span> <span class="n">Kp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">Kp</span> <span class="o">=</span> <span class="n">Kp</span>
@@ -369,7 +370,7 @@ document.write(`
             <span class="n">Vg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Vg</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">Kp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">wg</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ra</span> <span class="o">/</span> <span class="n">Vg</span>
 
-<div class="viewcode-block" id="RFPSC.execute"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/rfpsc/index.html#soft4pes.control.lin.rfpsc.RFPSC.execute">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
+<div class="viewcode-block" id="RFPSC.execute"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/rfpsc/index.html#soft4pes.control.lin.RFPSC.execute">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Execute the RFPSC control algorithm.</span>
 
@@ -393,7 +394,11 @@ document.write(`
         <span class="n">P_ref</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">P_ref</span>
 
         <span class="n">vg</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">get_grid_voltage</span><span class="p">(</span><span class="n">kTs</span><span class="p">)</span>
-        <span class="n">ig</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">x</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="n">RLGridLCLFilter</span><span class="p">):</span>
+            <span class="n">ig</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ig</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">x</span>
+
         <span class="n">ig_dq</span> <span class="o">=</span> <span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="n">ig</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_c</span><span class="p">)</span>
         <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">vg</span><span class="p">,</span> <span class="n">ig</span><span class="p">)</span>
 
@@ -409,9 +414,13 @@ document.write(`
         <span class="n">v_ref_dq</span> <span class="o">=</span> <span class="n">V_ref</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ra</span> <span class="o">*</span> <span class="p">(</span><span class="n">ig_ref_dq</span> <span class="o">-</span> <span class="n">ig_dq</span><span class="p">)</span>
         <span class="n">v_ref</span> <span class="o">=</span> <span class="n">dq_2_alpha_beta</span><span class="p">(</span><span class="n">v_ref_dq</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_c</span><span class="p">)</span>
 
+        <span class="c1"># Calculate the dq-frame reference with a frame that is aligned with the grid voltage</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">vg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">vg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">v_ref_dq</span> <span class="o">=</span> <span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="n">v_ref</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span>
             <span class="n">uk_abc</span><span class="o">=</span><span class="n">get_modulating_signal</span><span class="p">(</span><span class="n">v_ref</span><span class="p">,</span> <span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span><span class="p">),</span>
-            <span class="n">vc_ref</span><span class="o">=</span><span class="n">v_ref</span><span class="p">,</span>
+            <span class="n">vc_ref_dq</span><span class="o">=</span><span class="n">v_ref_dq</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ig_filter</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">ig_dq</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ts</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">base</span><span class="p">)</span>

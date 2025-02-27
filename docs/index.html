@@ -333,7 +333,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -349,6 +351,14 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -362,12 +372,32 @@ document.write(`
 <h1>Soft4PES<a class="headerlink" href="#soft4pes" title="Permalink to this heading">#</a></h1>
 <p>Software library for power electronic systems</p>
 <p>The aim is to develop optimal control methods for power electronic systems, such as variable speed drives and converters connected to the grid. The library consists of building blocks that allow for modular solutions, allowing for adaptation of the methods to different systems. This work is under continuous development, so stay tuned!</p>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">#</a></h2>
+<p><strong>Install Python</strong>: Ensure that you have Python installed on your machine. You can download and install the latest version from the <a class="reference external" href="https://www.python.org/">official website</a>.</p>
+<p><strong>Clone the Repository</strong>: To get started, clone the repository to your local machine by running the following command in your terminal or command prompt:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">TAU</span><span class="o">-</span><span class="n">Power</span><span class="o">-</span><span class="n">Electronic</span><span class="o">-</span><span class="n">Systems</span><span class="o">/</span><span class="n">Soft4PES</span>
+</pre></div>
+</div>
+<p><strong>Navigate to the Repository Directory</strong>: Once the repository is cloned, navigate to the <code class="docutils literal notranslate"><span class="pre">Soft4Pes</span></code> directory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">Soft4PES</span>
+</pre></div>
+</div>
+<p><strong>Install Required Dependencies</strong>: Install the required Python packages listed in the <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file. It is recommended to either create a virtual environment or ensure that Python is added to your system’s PATH variable. To install the dependencies, run::</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p><strong>Run Example</strong>: The repository includes example files located in the <code class="docutils literal notranslate"><span class="pre">examples</span></code> folder. You can test the library by running an example script. For instance, to run a grid-forming control example, use the following command::</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">examples</span><span class="o">/</span><span class="n">grid</span><span class="o">/</span><span class="n">grid_forming_ctr</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
 <div class="toctree-wrapper compound" id="api-reference">
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="autoapi/soft4pes/index.html">API</a></li>
 </ul>
 </div>
+</section>
 </section>
 
 
@@ -396,6 +426,20 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
