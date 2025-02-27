@@ -14,7 +14,7 @@ class RLGridLCLFilter(RLGrid):
     Model of a grid with stiff voltage source, RL-load and an LC(L) filter in alpha-beta frame. If 
     the grid side inductance is not provided, the filter is in LC configuration.
     
-    The state of the system is the converter current, grid current and capacitor voltage in 
+    The state of the system is the converter current, the capacitor voltage and the grid current in 
     the alpha-beta frame, i.e. x = [i_conv^T, ig^T, vc^T]^T. The system input is the converter 
     three-phase switch position or modulating signal. The grid voltage is considered to be a 
     disturbance. The positive current direction is from the converter to the filter and from the
