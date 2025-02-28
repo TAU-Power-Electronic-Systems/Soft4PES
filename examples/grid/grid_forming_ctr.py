@@ -1,5 +1,5 @@
 """
-Example of grid-forming control of converter with LCL filter using reference-feedforward power
+Example of grid-forming control of converter with LC filter using reference-feedforward power
 synchronization control (RFPSC) and cascade controller or model predictive control (MPC). The RFPSC 
 synchronizes with the grid and generates the capacitor voltage reference, which is subsequently 
 tracked by the cascade controller or MPC.
@@ -49,7 +49,7 @@ grid_params = model.grid.RLGridParameters(Vg_SI=400,
                                           Lg_SI=30e-3,
                                           base=base)
 
-# Define the LCL-filter parameters
+# Define the LC-filter parameters
 lcl_params = model.grid.LCLFilterParameters(L_fc_SI=3e-3,
                                             R_fc_SI=0.1,
                                             C_SI=10e-6,
