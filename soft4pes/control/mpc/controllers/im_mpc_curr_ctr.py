@@ -20,6 +20,8 @@ class IMMpcCurrCtr(Controller):
         Weighting factor for the control effort.
     Np : int
         Prediction horizon.
+    disc_method : str, optional
+        Discretization method for the state-space model. Default is 'forward_euler'.
 
     Attributes
     ----------
@@ -27,6 +29,8 @@ class IMMpcCurrCtr(Controller):
         Weighting factor for the control effort.
     Np : int
         Prediction horizon steps.
+    disc_method : str
+        Discretization method for the state-space model.
     u_km1_abc : 1 x 3 ndarray of floats
         Previous (step k-1) three-phase switch position or modulating signal.
     state_space : SimpleNamespace 
@@ -37,18 +41,19 @@ class IMMpcCurrCtr(Controller):
         Output matrix.
     """
 
-    def __init__(self, solver, lambda_u, Np):
+    def __init__(self, solver, lambda_u, Np, disc_method='forward_euler'):
         super().__init__()
         self.lambda_u = lambda_u
         self.Np = Np
+        self.disc_method = disc_method
         self.u_km1_abc = np.array([0, 0, 0])
-        self.state_space = SimpleNamespace()
+        self.state_space = None
         self.solver = solver
 
         # Output matrix
         self.C = np.array([[1, 0, 0, 0], [0, 1, 0, 0]])
 
-    def execute(self, sys, conv, kTs):
+    def execute(self, sys, kTs):
         """
         Perform MPC.
 
@@ -56,8 +61,6 @@ class IMMpcCurrCtr(Controller):
         ----------
         sys : system object
             System model.
-        conv : converter object
-            Converter model.
         kTs : float
             Current discrete time instant [s].
 
@@ -66,8 +69,9 @@ class IMMpcCurrCtr(Controller):
         1 x 3 ndarray of floats
             Three-phase switch position or modulating signals.
         """
-
-        self.state_space = sys.get_discrete_state_space(conv.v_dc, self.Ts)
+        if self.state_space is None:
+            self.state_space = sys.get_discrete_state_space(
+                self.Ts, self.disc_method)
 
         T_ref = self.input.T_ref
 
@@ -94,7 +98,7 @@ class IMMpcCurrCtr(Controller):
             y_ref[ell + 1, :] = np.dot(R_ref, y_ref[ell, :])
 
         # Solve the control problem
-        uk_abc = self.solver(sys, conv, self, y_ref)
+        uk_abc = self.solver(sys, self, y_ref)
         self.u_km1_abc = uk_abc
 
         self.output = SimpleNamespace(uk_abc=uk_abc)

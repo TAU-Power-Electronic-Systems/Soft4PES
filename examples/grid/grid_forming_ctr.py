@@ -57,10 +57,8 @@ lcl_params = model.grid.LCLFilterParameters(L_fc_SI=3e-3,
                                             base=base)
 
 # Define the system model
-sys = model.grid.RLGridLCLFilter(grid_params, lcl_params, base)
-
-# Define the converter properties
 conv = model.conv.Converter(v_dc_SI=750, nl=2, base=base)
+sys = model.grid.RLGridLCLFilter(grid_params, lcl_params, conv, base)
 
 # Build the reference-feedforward power synchronization control (RFPSC)
 rfpsc = lin.RFPSC(sys)
@@ -88,7 +86,7 @@ ctr_sys = common.ControlSystem(control_loops=control_loops,
                                Ts=100e-6)
 
 # Simulate the system
-sim = Simulation(sys=sys, conv=conv, ctr=ctr_sys, Ts_sim=5e-6)
+sim = Simulation(sys=sys, ctr=ctr_sys, Ts_sim=5e-6)
 sim_data = sim.simulate(t_stop=0.5)
 
 # Save the simulation data to a .mat file

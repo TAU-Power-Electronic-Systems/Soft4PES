@@ -36,8 +36,8 @@ grid_params = model.grid.RLGridParameters(Vg_SI=3300,
                                           base=base)
 
 # Define system models
-sys = model.grid.RLGrid(par=grid_params, base=base, ig_ref_init=ig_ref_dq(0))
 conv = model.conv.Converter(v_dc_SI=5529.2, nl=3, base=base)
+sys = model.grid.RLGrid(grid_params, conv, base, ig_ref_dq(0))
 
 # Define controller
 ctr = RLGridStateSpaceCurrCtr(sys=sys,
@@ -46,6 +46,6 @@ ctr = RLGridStateSpaceCurrCtr(sys=sys,
                               ig_ref_seq_dq=ig_ref_dq)
 
 # Simulate the system
-sim = Simulation(sys=sys, conv=conv, ctr=ctr, Ts_sim=5e-6)
+sim = Simulation(sys=sys, ctr=ctr, Ts_sim=5e-6)
 sim.simulate(t_stop=0.2)
 sim.save_data()

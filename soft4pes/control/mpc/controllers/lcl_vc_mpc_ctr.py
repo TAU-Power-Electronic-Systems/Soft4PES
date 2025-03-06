@@ -20,6 +20,8 @@ class LCLVcMpcCtr(Controller):
         Weighting factor for the control effort.
     Np : int
         Prediction horizon steps.
+    disc_method : str, optional
+        Discretization method for the state-space model. Default is 'exact_discretization'.
     I_conv_max : float
         Maximum converter current [p.u.].
     xi_I_conv : float
@@ -33,6 +35,8 @@ class LCLVcMpcCtr(Controller):
         Weighting factor for the control effort.
     Np : int
         Prediction horizon.
+    disc_method : str
+        Discretization method for the state-space model.
     u_km1_abc : 1 x 3 ndarray of floats
         Previous (step k-1) three-phase switch position or modulating signal.
     state_space : SimpleNamespace
@@ -51,13 +55,20 @@ class LCLVcMpcCtr(Controller):
         Weighting matrix for the output variables.
     """
 
-    def __init__(self, solver, lambda_u, Np, I_conv_max=1.2, xi_I_conv=1e6):
+    def __init__(self,
+                 solver,
+                 lambda_u,
+                 Np,
+                 I_conv_max=1.2,
+                 xi_I_conv=1e6,
+                 disc_method='exact_discretization'):
         super().__init__()
         self.solver = solver
         self.lambda_u = lambda_u
         self.Np = Np
+        self.disc_method = disc_method
         self.u_km1_abc = np.array([0, 0, 0])
-        self.state_space = SimpleNamespace()
+        self.state_space = None
         self.vg = np.array([0, 0])
 
         # Weight matrix for the constraints (R) and vector for state constraints (c)
@@ -73,7 +84,7 @@ class LCLVcMpcCtr(Controller):
         self.C = np.block([[np.zeros((2, 2)), np.zeros((2, 2)), np.eye(2)]])
         self.Q = np.eye(2)
 
-    def execute(self, sys, conv, kTs):
+    def execute(self, sys, kTs):
         """
         Perform MPC and save the controller data.
 
@@ -81,8 +92,6 @@ class LCLVcMpcCtr(Controller):
         ----------
         sys : system object
             System model.
-        conv : converter object
-            Converter model.
         kTs : float
             Current discrete time instant [s].
 
@@ -94,7 +103,9 @@ class LCLVcMpcCtr(Controller):
         """
 
         # Get the discrete state-space model of the system
-        self.state_space = sys.get_discrete_state_space(conv.v_dc, self.Ts)
+        if self.state_space is None:
+            self.state_space = sys.get_discrete_state_space(
+                self.Ts, self.disc_method)
 
         # Get the grid voltage and save it for future use
         self.vg = sys.get_grid_voltage(kTs)
@@ -120,7 +131,7 @@ class LCLVcMpcCtr(Controller):
             y_ref[ell + 1, :] = np.dot(R_rot, y_ref[ell, :])
 
         # Solve the control problem
-        uk_abc = self.solver(sys, conv, self, y_ref)
+        uk_abc = self.solver(sys, self, y_ref)
         self.u_km1_abc = uk_abc
 
         self.output = SimpleNamespace(uk_abc=uk_abc)

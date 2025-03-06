@@ -45,10 +45,8 @@ lcl_params = model.grid.LCLFilterParameters(R_fc_SI=0.1,
                                             base=base)
 
 # Define system models
-sys = model.grid.RLGridLCLFilter(par_grid=grid_params,
-                                 par_lcl_filter=lcl_params,
-                                 base=base)
 conv = model.conv.Converter(v_dc_SI=650, nl=2, base=base)
+sys = model.grid.RLGridLCLFilter(grid_params, lcl_params, conv, base)
 
 # Formulate and solve the problem as a QP. Indirect MPC is used.
 solver = mpc.solvers.IndirectMpcQP()
@@ -61,6 +59,6 @@ ctr = mpc.controllers.LCLVcMpcCtr(solver=solver, lambda_u=1e-4, Np=4)
 ctrSys = common.ControlSystem(control_loops=[ctr], ref_seq=ref_seq, Ts=100e-6)
 
 # Simulate the system
-sim = Simulation(sys=sys, conv=conv, ctr=ctrSys, Ts_sim=5e-6)
+sim = Simulation(sys=sys, ctr=ctrSys, Ts_sim=5e-6)
 sim.simulate(t_stop=0.2)
 sim.save_data()

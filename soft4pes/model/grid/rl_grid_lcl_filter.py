@@ -4,7 +4,6 @@ Model of a grid with stiff voltage source, RL-load and an LC(L) filter in alpha-
 
 from types import SimpleNamespace
 import numpy as np
-from scipy.linalg import expm
 
 from soft4pes.model.grid.rl_grid import RLGrid
 
@@ -21,19 +20,36 @@ class RLGridLCLFilter(RLGrid):
     filter to the grid for i_conv and ig, respectively. Knowledge of the grid impedance is required,
     and given to the model in the parent class RLGrid.
 
+    Parameters
+    ----------
+    par_grid : RLGridParameters
+        Parameters of the grid.
+    par_lcl_filter : LCLFilterParameters
+        Parameters of the LCL filter.
+    conv : converter object
+        Converter object.
+    base : base value object
+        Base values.
+
     Attributes
     ----------
+    data : SimpleNamespace
+        Namespace for storing simulation data.
     par : System parameters
         Combined RLGridParameters and LCLFilterParameters.
+    conv : converter object
+        Converter object.
     x : 1 x 6 ndarray of floats
         Current state of the grid [p.u.].
     base : base value object
         Base values.
+    cont_state_space : SimpleNamespace
+        The continuous-time state-space model of the system.
     """
 
-    def __init__(self, par_grid, par_lcl_filter, base):
-        super().__init__(par=par_grid, base=base)
-        self.par = SimpleNamespace(**vars(par_grid), **vars(par_lcl_filter))
+    def __init__(self, par_grid, par_lcl_filter, conv, base):
+        par = SimpleNamespace(**vars(par_grid), **vars(par_lcl_filter))
+        super().__init__(par, conv, base)
         self.set_initial_state()
 
     def set_initial_state(self, **kwargs):
@@ -43,22 +59,14 @@ class RLGridLCLFilter(RLGrid):
 
         self.x = np.zeros(6)
 
-    def get_discrete_state_space(self, v_dc, Ts):
+    def get_continuous_state_space(self):
         """
-        Get the discrete state-space model of the system in alpha-beta frame. The system is 
-        discretized using exact discretization. 
-
-        Parameters
-        ----------
-        v_dc : float
-            Converter dc-link voltage [p.u.].
-        Ts : float
-            Sampling interval [s].
+        Get the continuous-time state-space model of the system in alpha-beta frame. 
 
         Returns
         -------
         SimpleNamespace
-            A SimpleNamespace object containing matrices A, B1 and B2 of the 
+            A SimpleNamespace object containing matrices F, G1 and G2 of the continuous-time 
             state-space model. 
         """
 
@@ -70,7 +78,6 @@ class RLGridLCLFilter(RLGrid):
         R_fg = self.par.R_fg
         Xg = self.par.Xg
         Rg = self.par.Rg
-        Ts_pu = Ts * self.base.w
 
         R1 = R_fc + Rc
         R2 = Rc + R_fg + Rg
@@ -98,16 +105,11 @@ class RLGridLCLFilter(RLGrid):
             [F31, F32, F33],
         ])
 
-        G1 = (v_dc / (2 * X_fc)) * np.dot(
+        G1 = (self.conv.v_dc / (2 * X_fc)) * np.dot(
             np.block([[np.eye(2), np.zeros((2, 4))]]).T, K)
 
         G2 = np.block(
             [[np.zeros((2, 2)), -1 / X * np.eye(2),
               np.zeros((2, 2))]]).T
 
-        # Discretize the system using exact discretization
-        A = expm(F * Ts_pu)
-        B1 = np.dot(-np.linalg.inv(F), (np.eye(6) - A)).dot(G1)
-        B2 = np.dot(-np.linalg.inv(F), (np.eye(6) - A)).dot(G2)
-
-        return SimpleNamespace(A=A, B1=B1, B2=B2)
+        return SimpleNamespace(F=F, G1=G1, G2=G2)

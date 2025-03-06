@@ -38,8 +38,8 @@ grid_params = model.grid.RLGridParameters(Vg_SI=3300,
                                           Lg_SI=5.7773e-4,
                                           base=base)
 # Define system models
-sys = model.grid.RLGrid(par=grid_params, base=base)
 conv = model.conv.Converter(v_dc_SI=5200, nl=3, base=base)
+sys = model.grid.RLGrid(grid_params, conv, base)
 
 # Define solver to be enumeration based
 solver = mpc.solvers.MpcEnum(conv=conv)
@@ -51,12 +51,12 @@ solver = mpc.solvers.MpcEnum(conv=conv)
 # references, acting as a feedforward term. The inner loop (direct MPC) is used to track the grid
 # current reference.
 ref_ctr = lin.GridCurrRefGen()
-ctr = mpc.controllers.RLGridMpcCurrCtr(solver, lambda_u=10e-3, Np=1)
+ctr = mpc.controllers.RLGridMpcCurrCtr(solver=solver, lambda_u=10e-3, Np=1)
 ctr_sys = common.ControlSystem(control_loops=[ref_ctr, ctr],
                                ref_seq=ref_seq,
                                Ts=100e-6)
 
 # Simulate the system
-sim = Simulation(sys=sys, conv=conv, ctr=ctr_sys, Ts_sim=5e-6)
+sim = Simulation(sys=sys, ctr=ctr_sys, Ts_sim=5e-6)
 sim.simulate(t_stop=0.2)
 sim.save_data()

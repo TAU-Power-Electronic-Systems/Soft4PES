@@ -31,7 +31,7 @@ class IndirectMpcQP:
     def __init__(self):
         self.QP_matrices = None
 
-    def __call__(self, sys, conv, ctr, y_ref):
+    def __call__(self, sys, ctr, y_ref):
         """
         Formulate and solve the MPC QP.
 
@@ -39,8 +39,6 @@ class IndirectMpcQP:
         ----------
         sys : system object
             System model.
-        conv : converter object
-            Converter model.
         ctr : controller object
             Controller object.
         y_ref : ndarray of floats
@@ -53,7 +51,7 @@ class IndirectMpcQP:
         """
 
         if self.QP_matrices is None:
-            self.QP_matrices = make_QP_matrices(sys, conv, ctr)
+            self.QP_matrices = make_QP_matrices(sys, ctr)
 
         m = self.QP_matrices
 
