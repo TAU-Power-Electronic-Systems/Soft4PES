@@ -39,7 +39,7 @@ class SystemModel(ABC):
 
     def __init__(self, par, base, conv):
         self.base = base
-        self.data = SimpleNamespace(x=[], t=[], uk_abc=[])
+        self.data = SimpleNamespace(x=[], t=[], u_abc=[])
         self.par = par
         self.conv = conv
         if not hasattr(self, 'x'):
@@ -119,13 +119,13 @@ class SystemModel(ABC):
         """
 
     @abstractmethod
-    def get_next_state(self, matrices, uk_abc, kTs):
+    def get_next_state(self, matrices, u_abc, kTs):
         """
         Calculate the next state of the system.
 
         Parameters
         ----------
-        uk_abc : 1 x 3 ndarray of floats
+        u_abc : 1 x 3 ndarray of floats
             Converter three-phase switch position or modulating signal.
         matrices : SimpleNamespace
             A SimpleNamespace object containing the state-space model matrices.
@@ -147,7 +147,7 @@ class SystemModel(ABC):
             Current discrete time instant [s].
         """
 
-    def update(self, matrices, uk_abc, kTs):
+    def update(self, matrices, u_abc, kTs):
         """
         Update the system state and save data.
 
@@ -155,7 +155,7 @@ class SystemModel(ABC):
         ----------
         matrices : SimpleNamespace
             A SimpleNamespace object containing the state-space model matrices.
-        uk_abc : 1 x 3 ndarray of floats
+        u_abc : 1 x 3 ndarray of floats
             Converter three-phase switch position or modulating signal.
         kTs : float
             Current discrete time instant [s].
@@ -164,10 +164,10 @@ class SystemModel(ABC):
         """
 
         meas = self.get_measurements(kTs)
-        self.save_data(kTs, uk_abc, meas)
-        self.x = self.get_next_state(matrices, uk_abc, kTs)
+        self.save_data(kTs, u_abc, meas)
+        self.x = self.get_next_state(matrices, u_abc, kTs)
 
-    def save_data(self, kTs, uk_abc, meas):
+    def save_data(self, kTs, u_abc, meas):
         """
         Save simulation data.
 
@@ -175,7 +175,7 @@ class SystemModel(ABC):
         ----------
         kTs : float
             Current discrete time instant [s].
-        uk_abc : 1 x 3 ndarray of floats 
+        u_abc : 1 x 3 ndarray of floats 
             Converter three-phase switch position or modulating signal.
         meas : SimpleNamespace, optional
             Measurement data.
@@ -183,7 +183,7 @@ class SystemModel(ABC):
 
         self.data.x.append(self.x)
         self.data.t.append(kTs)
-        self.data.uk_abc.append(uk_abc)
+        self.data.u_abc.append(u_abc)
         if meas is not None:
             for key, value in meas.__dict__.items():
                 if not hasattr(self.data, key):

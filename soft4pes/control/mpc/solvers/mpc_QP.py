@@ -46,7 +46,7 @@ class IndirectMpcQP:
 
         Returns
         -------
-        uk_abc : 1 x 3 ndarray of floats
+        u_abc : 1 x 3 ndarray of floats
             The three-phase modulating signal.
         """
 

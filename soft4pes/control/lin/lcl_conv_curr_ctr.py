@@ -138,10 +138,10 @@ class LCLConvCurrCtr(Controller):
 
         # Get the modulating signal and Hold it for one cycle before sending it out from the
         # controller
-        uk_abc = self.u_km1_abc
+        u_abc = self.u_km1_abc
         v_conv_ref_dq = np.array([v_conv_ref_comp.real, v_conv_ref_comp.imag])
         v_conv_ref = dq_2_alpha_beta(v_conv_ref_dq, theta)
         self.u_km1_abc = get_modulating_signal(v_conv_ref, sys.conv.v_dc)
-        self.output = SimpleNamespace(uk_abc=uk_abc)
+        self.output = SimpleNamespace(u_abc=u_abc)
 
         return self.output

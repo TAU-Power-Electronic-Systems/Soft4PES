@@ -192,13 +192,13 @@ class InductionMachine(SystemModel):
         psiR = self.x[2:4]
         return self.par.kT * (self.par.Xm / self.par.Xr) * np.cross(psiR, iS)
 
-    def get_next_state(self, matrices, uk_abc, kTs):
+    def get_next_state(self, matrices, u_abc, kTs):
         """
         Calculate the next state of the system.
 
         Parameters
         ----------
-        uk_abc : 1 x 3 ndarray of floats
+        u_abc : 1 x 3 ndarray of floats
             Converter three-phase switch position or modulating signal.
         matrices : SimpleNamespace
             A SimpleNamespace object containing the state-space model matrices.
@@ -211,7 +211,7 @@ class InductionMachine(SystemModel):
             The next state of the system.
         """
 
-        x_kp1 = np.dot(matrices.A, self.x) + np.dot(matrices.B, uk_abc)
+        x_kp1 = np.dot(matrices.A, self.x) + np.dot(matrices.B, u_abc)
         return x_kp1
 
     def get_measurements(self, kTs):

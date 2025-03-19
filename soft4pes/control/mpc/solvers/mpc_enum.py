@@ -45,7 +45,7 @@ class MpcEnum:
 
         Returns
         -------
-        uk_abc : 1 x 3 ndarray of ints
+        u_abc : 1 x 3 ndarray of ints
             The three-phase switch position with the lowest cost.
         """
 
@@ -58,8 +58,8 @@ class MpcEnum:
 
         # Find the switching sequences with the lowest cost
         min_index = np.argmin(J)
-        uk_abc = self.U_seq[min_index, 0:3]
-        return uk_abc
+        u_abc = self.U_seq[min_index, 0:3]
+        return u_abc
 
     def solve(self, sys, ctr, xk, y_ref, u_km1_abc):
         """

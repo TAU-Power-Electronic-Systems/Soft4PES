@@ -114,13 +114,13 @@ class RLGrid(SystemModel):
         vg = abc_2_alpha_beta(vg_abc)
         return vg
 
-    def get_next_state(self, matrices, uk_abc, kTs):
+    def get_next_state(self, matrices, u_abc, kTs):
         """
         Calculate the next state of the system.
 
         Parameters
         ----------
-        uk_abc : 1 x 3 ndarray of floats
+        u_abc : 1 x 3 ndarray of floats
             Converter three-phase switch position or modulating signal.
         matrices : SimpleNamespace
             A SimpleNamespace object containing the state-space model matrices.
@@ -135,7 +135,7 @@ class RLGrid(SystemModel):
 
         vg = self.get_grid_voltage(kTs)
         x_kp1 = np.dot(matrices.A, self.x) + np.dot(
-            matrices.B1, uk_abc) + np.dot(matrices.B2, vg)
+            matrices.B1, u_abc) + np.dot(matrices.B2, vg)
         return x_kp1
 
     def get_measurements(self, kTs):
