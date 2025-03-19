@@ -331,6 +331,8 @@ document.write(`
 <span class="sd">        Weighting factor for the control effort.</span>
 <span class="sd">    Np : int</span>
 <span class="sd">        Prediction horizon.</span>
+<span class="sd">    disc_method : str, optional</span>
+<span class="sd">        Discretization method for the state-space model. Default is &#39;forward_euler&#39;.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
@@ -338,6 +340,8 @@ document.write(`
 <span class="sd">        Weighting factor for the control effort.</span>
 <span class="sd">    Np : int</span>
 <span class="sd">        Prediction horizon steps.</span>
+<span class="sd">    disc_method : str</span>
+<span class="sd">        Discretization method for the state-space model.</span>
 <span class="sd">    u_km1_abc : 1 x 3 ndarray of floats</span>
 <span class="sd">        Previous (step k-1) three-phase switch position or modulating signal.</span>
 <span class="sd">    state_space : SimpleNamespace </span>
@@ -348,18 +352,19 @@ document.write(`
 <span class="sd">        Output matrix.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">solver</span><span class="p">,</span> <span class="n">lambda_u</span><span class="p">,</span> <span class="n">Np</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">solver</span><span class="p">,</span> <span class="n">lambda_u</span><span class="p">,</span> <span class="n">Np</span><span class="p">,</span> <span class="n">disc_method</span><span class="o">=</span><span class="s1">&#39;forward_euler&#39;</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 <div class="viewcode-block" id="IMMpcCurrCtr.lambda_u"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.lambda_u">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">lambda_u</span> <span class="o">=</span> <span class="n">lambda_u</span></div>
 <div class="viewcode-block" id="IMMpcCurrCtr.Np"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.Np">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Np</span> <span class="o">=</span> <span class="n">Np</span></div>
+<div class="viewcode-block" id="IMMpcCurrCtr.disc_method"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.disc_method">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">disc_method</span> <span class="o">=</span> <span class="n">disc_method</span></div>
 <div class="viewcode-block" id="IMMpcCurrCtr.u_km1_abc"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.u_km1_abc">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">u_km1_abc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span></div>
-<div class="viewcode-block" id="IMMpcCurrCtr.state_space"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.state_space">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">state_space</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">()</span></div>
+<div class="viewcode-block" id="IMMpcCurrCtr.state_space"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.state_space">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">state_space</span> <span class="o">=</span> <span class="kc">None</span></div>
 <div class="viewcode-block" id="IMMpcCurrCtr.solver"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.solver">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="o">=</span> <span class="n">solver</span></div>
 
         <span class="c1"># Output matrix</span>
 <div class="viewcode-block" id="IMMpcCurrCtr.C"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.C">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span></div>
 
-<div class="viewcode-block" id="IMMpcCurrCtr.execute"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.execute">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
+<div class="viewcode-block" id="IMMpcCurrCtr.execute"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.execute">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Perform MPC.</span>
 
@@ -367,8 +372,6 @@ document.write(`
 <span class="sd">        ----------</span>
 <span class="sd">        sys : system object</span>
 <span class="sd">            System model.</span>
-<span class="sd">        conv : converter object</span>
-<span class="sd">            Converter model.</span>
 <span class="sd">        kTs : float</span>
 <span class="sd">            Current discrete time instant [s].</span>
 
@@ -377,8 +380,9 @@ document.write(`
 <span class="sd">        1 x 3 ndarray of floats</span>
 <span class="sd">            Three-phase switch position or modulating signals.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">state_space</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">get_discrete_state_space</span><span class="p">(</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ts</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_space</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state_space</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">get_discrete_state_space</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">Ts</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">disc_method</span><span class="p">)</span>
 
         <span class="n">T_ref</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">T_ref</span>
 
@@ -405,7 +409,7 @@ document.write(`
             <span class="n">y_ref</span><span class="p">[</span><span class="n">ell</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R_ref</span><span class="p">,</span> <span class="n">y_ref</span><span class="p">[</span><span class="n">ell</span><span class="p">,</span> <span class="p">:])</span>
 
         <span class="c1"># Solve the control problem</span>
-        <span class="n">uk_abc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">y_ref</span><span class="p">)</span>
+        <span class="n">uk_abc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">y_ref</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">u_km1_abc</span> <span class="o">=</span> <span class="n">uk_abc</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">uk_abc</span><span class="o">=</span><span class="n">uk_abc</span><span class="p">)</span>

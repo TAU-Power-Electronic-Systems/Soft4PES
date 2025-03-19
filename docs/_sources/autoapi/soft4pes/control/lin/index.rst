@@ -84,15 +84,13 @@ Package Contents
    ..
        !! processed by numpydoc !!
 
-   .. py:method:: execute(sys, conv, kTs)
+   .. py:method:: execute(sys, kTs)
 
       
       Generate the current reference.
 
       :param sys: System model.
       :type sys: object
-      :param conv: Converter model.
-      :type conv: object
       :param kTs: Current discrete time instant [s].
       :type kTs: float
 
@@ -203,15 +201,13 @@ Package Contents
    ..
        !! processed by numpydoc !!
 
-   .. py:method:: __call__(sys, conv, kTs)
+   .. py:method:: __call__(sys, kTs)
 
       
       Perform control.
 
       :param sys: System model.
       :type sys: system object
-      :param conv: Converter model.
-      :type conv: converter object
       :param kTs: Current discrete time instant [s].
       :type kTs: float
 
@@ -467,15 +463,13 @@ Package Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: execute(sys, conv, kTs)
+   .. py:method:: execute(sys, kTs)
 
       
       Execute the Current Controller (CC) and save the controller data.
 
       :param sys: System model.
       :type sys: object
-      :param conv: Converter model.
-      :type conv: object
       :param kTs: Current discrete time instant [s].
       :type kTs: float
 
@@ -592,15 +586,13 @@ Package Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: execute(sys, conv, kTs)
+   .. py:method:: execute(sys, kTs)
 
       
       Execute the Voltage Controller (VC) and save the controller data.
 
       :param sys: System model.
       :type sys: object
-      :param conv: Converter model.
-      :type conv: object
       :param kTs: Current discrete time instant [s].
       :type kTs: float
 
@@ -686,15 +678,13 @@ Package Contents
    ..
        !! processed by numpydoc !!
 
-   .. py:method:: execute(sys, conv, kTs)
+   .. py:method:: execute(sys, kTs)
 
       
       Execute the RFPSC control algorithm.
 
       :param sys: The system model.
       :type sys: system object
-      :param conv: The converter model.
-      :type conv: converter object
       :param kTs: Current discrete time instant [s].
       :type kTs: float
 

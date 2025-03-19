@@ -59,15 +59,13 @@ Module Contents
    ..
        !! processed by numpydoc !!
 
-.. py:function:: make_QP_matrices(sys, conv, ctr)
+.. py:function:: make_QP_matrices(sys, ctr)
 
    
    Create the QP matrices.
 
    :param sys: System model.
    :type sys: system object
-   :param conv: Converter model.
-   :type conv: converter object
    :param ctr: Controller object.
    :type ctr: controller object
 

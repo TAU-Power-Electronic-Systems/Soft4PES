@@ -61,15 +61,13 @@ Module Contents
    ..
        !! processed by numpydoc !!
 
-   .. py:method:: __call__(sys, conv, ctr, y_ref)
+   .. py:method:: __call__(sys, ctr, y_ref)
 
       
       Formulate and solve the MPC QP.
 
       :param sys: System model.
       :type sys: system object
-      :param conv: Converter model.
-      :type conv: converter object
       :param ctr: Controller object.
       :type ctr: controller object
       :param y_ref: Reference vector [p.u.].

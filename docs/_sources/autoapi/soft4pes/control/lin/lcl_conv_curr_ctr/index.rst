@@ -110,15 +110,13 @@ Module Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: execute(sys, conv, kTs)
+   .. py:method:: execute(sys, kTs)
 
       
       Execute the Current Controller (CC) and save the controller data.
 
       :param sys: System model.
       :type sys: object
-      :param conv: Converter model.
-      :type conv: object
       :param kTs: Current discrete time instant [s].
       :type kTs: float
 

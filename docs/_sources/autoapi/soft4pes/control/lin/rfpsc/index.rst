@@ -88,15 +88,13 @@ Module Contents
    ..
        !! processed by numpydoc !!
 
-   .. py:method:: execute(sys, conv, kTs)
+   .. py:method:: execute(sys, kTs)
 
       
       Execute the RFPSC control algorithm.
 
       :param sys: The system model.
       :type sys: system object
-      :param conv: The converter model.
-      :type conv: converter object
       :param kTs: Current discrete time instant [s].
       :type kTs: float
 

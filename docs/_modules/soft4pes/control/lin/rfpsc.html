@@ -370,7 +370,7 @@ document.write(`
             <span class="n">Vg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Vg</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">Kp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">wg</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ra</span> <span class="o">/</span> <span class="n">Vg</span>
 
-<div class="viewcode-block" id="RFPSC.execute"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/rfpsc/index.html#soft4pes.control.lin.RFPSC.execute">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
+<div class="viewcode-block" id="RFPSC.execute"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/rfpsc/index.html#soft4pes.control.lin.RFPSC.execute">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Execute the RFPSC control algorithm.</span>
 
@@ -378,8 +378,6 @@ document.write(`
 <span class="sd">        ----------</span>
 <span class="sd">        sys : system object</span>
 <span class="sd">            The system model.</span>
-<span class="sd">        conv : converter object</span>
-<span class="sd">            The converter model.</span>
 <span class="sd">        kTs : float</span>
 <span class="sd">            Current discrete time instant [s].</span>
 
@@ -419,7 +417,7 @@ document.write(`
         <span class="n">v_ref_dq</span> <span class="o">=</span> <span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="n">v_ref</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span>
-            <span class="n">uk_abc</span><span class="o">=</span><span class="n">get_modulating_signal</span><span class="p">(</span><span class="n">v_ref</span><span class="p">,</span> <span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span><span class="p">),</span>
+            <span class="n">uk_abc</span><span class="o">=</span><span class="n">get_modulating_signal</span><span class="p">(</span><span class="n">v_ref</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span><span class="p">),</span>
             <span class="n">vc_ref_dq</span><span class="o">=</span><span class="n">v_ref_dq</span><span class="p">,</span>
         <span class="p">)</span>
 

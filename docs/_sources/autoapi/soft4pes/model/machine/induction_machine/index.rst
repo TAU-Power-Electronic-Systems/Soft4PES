@@ -22,7 +22,7 @@ Classes
 Module Contents
 ---------------
 
-.. py:class:: InductionMachine(par, base, psiS_mag_ref, T_ref_init)
+.. py:class:: InductionMachine(par, conv, base, psiS_mag_ref, T_ref_init)
 
    Bases: :py:obj:`soft4pes.model.common.system_model.SystemModel`
 
@@ -34,8 +34,10 @@ Module Contents
    The system input is the converter three-phase switch position or modulating signal. The initial
    state of the model is based on the stator flux magnitude reference and torque reference.
 
-   :param par: Induction machine parameters in p.u..
+   :param par: Induction machine parameters in p.u.
    :type par: InductionMachineParameters
+   :param conv: Converter object.
+   :type conv: converter object
    :param base: Base values.
    :type base: base value object
    :param psiS_mag_ref: Stator flux magnitude reference [p.u.].
@@ -43,11 +45,23 @@ Module Contents
    :param T_ref_init: Initial torque reference [p.u.].
    :type T_ref_init: float
 
+   .. attribute:: data
+
+      Namespace for storing simulation data.
+
+      :type: SimpleNamespace
+
    .. attribute:: par
 
-      Induction machine parameters in p.u..
+      Induction machine parameters in p.u.
 
       :type: InductionMachineParameters
+
+   .. attribute:: conv
+
+      Converter object.
+
+      :type: converter object
 
    .. attribute:: base
 
@@ -66,6 +80,18 @@ Module Contents
       Rotor flux magnitude reference [p.u.].
 
       :type: float
+
+   .. attribute:: wr
+
+      Electrical angular rotor speed [p.u.].
+
+      :type: float
+
+   .. attribute:: cont_state_space
+
+      The continuous-time state-space model of the system.
+
+      :type: SimpleNamespace
 
 
 
@@ -175,17 +201,13 @@ Module Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: get_discrete_state_space(v_dc, Ts)
+   .. py:method:: get_continuous_state_space()
 
       
-      Calculates the discrete-time state-space model of the system.
+      Calculate the continuous-time state-space model of the system.
 
-      :param v_dc: The converter dc-link voltage [p.u.].
-      :type v_dc: float
-      :param Ts: Sampling interval [s].
-      :type Ts: float
-
-      :returns: The discrete-time state-space model of the system.
+      :returns: A SimpleNamespace object containing matrices F and G of the continuous-time state-space
+                model.
       :rtype: SimpleNamespace
 
 

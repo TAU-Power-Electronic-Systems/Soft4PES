@@ -125,7 +125,7 @@ Package Contents
    ..
        !! processed by numpydoc !!
 
-   .. py:method:: __call__(sys, conv, kTs)
+   .. py:method:: __call__(sys, kTs)
 
       
       Execute the control system for a given discrete time step. The control system
@@ -135,8 +135,6 @@ Package Contents
 
       :param sys: System model.
       :type sys: object
-      :param conv: Converter model.
-      :type conv: object
       :param kTs: Current discrete time instant [s].
       :type kTs: float
 
@@ -319,7 +317,7 @@ Package Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: execute(sys, conv, kTs)
+   .. py:method:: execute(sys, kTs)
       :abstractmethod:
 
 
@@ -328,8 +326,6 @@ Package Contents
 
       :param sys: System model.
       :type sys: object
-      :param conv: Converter model.
-      :type conv: object
       :param kTs: Current discrete time instant [s].
       :type kTs: float
 

@@ -386,7 +386,7 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.utils.switching_constraint_violated" title="soft4pes.control.mpc.solvers.utils.switching_constraint_violated"><code class="xref py py-obj docutils literal notranslate"><span class="pre">switching_constraint_violated</span></code></a>(nl, uk_abc, u_km1_abc)</p></td>
 <td><p>Check if a candidate three-phase switch position violates a switching constraint.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.utils.make_QP_matrices" title="soft4pes.control.mpc.solvers.utils.make_QP_matrices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_QP_matrices</span></code></a>(sys, conv, ctr)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.utils.make_QP_matrices" title="soft4pes.control.mpc.solvers.utils.make_QP_matrices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_QP_matrices</span></code></a>(sys, ctr)</p></td>
 <td><p>Create the QP matrices.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.utils.make_Gamma" title="soft4pes.control.mpc.solvers.utils.make_Gamma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_Gamma</span></code></a>(Np, C, A)</p></td>
@@ -425,13 +425,12 @@ on one phase.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.utils.make_QP_matrices">
-<span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.utils.</span></span><span class="sig-name descname"><span class="pre">make_QP_matrices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/soft4pes/control/mpc/solvers/utils.html#make_QP_matrices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.utils.make_QP_matrices" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.utils.</span></span><span class="sig-name descname"><span class="pre">make_QP_matrices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/soft4pes/control/mpc/solvers/utils.html#make_QP_matrices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.utils.make_QP_matrices" title="Permalink to this definition">#</a></dt>
 <dd><p>Create the QP matrices.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sys</strong> (<em>system object</em>) – System model.</p></li>
-<li><p><strong>conv</strong> (<em>converter object</em>) – Converter model.</p></li>
 <li><p><strong>ctr</strong> (<em>controller object</em>) – Controller object.</p></li>
 </ul>
 </dd>

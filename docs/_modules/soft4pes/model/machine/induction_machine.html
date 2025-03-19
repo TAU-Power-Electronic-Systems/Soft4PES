@@ -330,30 +330,41 @@ document.write(`
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    par : InductionMachineParameters</span>
-<span class="sd">        Induction machine parameters in p.u..</span>
+<span class="sd">        Induction machine parameters in p.u.</span>
+<span class="sd">    conv : converter object</span>
+<span class="sd">        Converter object.</span>
 <span class="sd">    base : base value object</span>
 <span class="sd">        Base values.</span>
 <span class="sd">    psiS_mag_ref : float</span>
-<div class="viewcode-block" id="InductionMachine.base"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.base">[docs]</a><span class="sd">        Stator flux magnitude reference [p.u.].</span></div>
+<span class="sd">        Stator flux magnitude reference [p.u.].</span>
 <span class="sd">    T_ref_init : float</span>
-<div class="viewcode-block" id="InductionMachine.par"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.par">[docs]</a><span class="sd">        Initial torque reference [p.u.].</span></div>
-<div class="viewcode-block" id="InductionMachine.x"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.x">[docs]</a></div>
+<span class="sd">        Initial torque reference [p.u.].</span>
+
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
+<span class="sd">    data : SimpleNamespace</span>
+<span class="sd">        Namespace for storing simulation data.</span>
 <span class="sd">    par : InductionMachineParameters</span>
-<span class="sd">        Induction machine parameters in p.u..</span>
+<span class="sd">        Induction machine parameters in p.u.</span>
+<span class="sd">    conv : converter object</span>
+<span class="sd">        Converter object.</span>
 <span class="sd">    base : base value object</span>
-<span class="sd">        Base values.</span>
-<span class="sd">    x : 1 x 4 ndarray of floats</span>
+<div class="viewcode-block" id="InductionMachine.base"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.base">[docs]</a><span class="sd">        Base values.</span></div>
+<div class="viewcode-block" id="InductionMachine.data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.data">[docs]</a><span class="sd">    x : 1 x 4 ndarray of floats</span></div>
 <span class="sd">        Current state of the machine [p.u.].</span>
-<span class="sd">    psiR_mag_ref : float</span>
+<div class="viewcode-block" id="InductionMachine.conv"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.conv">[docs]</a><span class="sd">    psiR_mag_ref : float</span></div>
 <span class="sd">        Rotor flux magnitude reference [p.u.].</span>
+<span class="sd">    wr : float</span>
+<div class="viewcode-block" id="InductionMachine.cont_state_space"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.cont_state_space">[docs]</a><span class="sd">        Electrical angular rotor speed [p.u.].</span></div>
+<span class="sd">    cont_state_space : SimpleNamespace</span>
+<span class="sd">        The continuous-time state-space model of the system.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">par</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">psiS_mag_ref</span><span class="p">,</span> <span class="n">T_ref_init</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">par</span><span class="o">=</span><span class="n">par</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="n">base</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">par</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">psiS_mag_ref</span><span class="p">,</span> <span class="n">T_ref_init</span><span class="p">):</span>
+<div class="viewcode-block" id="InductionMachine.par"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.par">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">par</span> <span class="o">=</span> <span class="n">par</span></div>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_initial_state</span><span class="p">(</span><span class="n">psiS_mag_ref</span><span class="o">=</span><span class="n">psiS_mag_ref</span><span class="p">,</span>
                                <span class="n">T_ref_init</span><span class="o">=</span><span class="n">T_ref_init</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">par</span><span class="o">=</span><span class="n">par</span><span class="p">,</span> <span class="n">conv</span><span class="o">=</span><span class="n">conv</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="n">base</span><span class="p">)</span>
 <div class="viewcode-block" id="InductionMachine.psiR_mag_ref"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.psiR_mag_ref">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">psiR_mag_ref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="InductionMachine.set_initial_state"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.set_initial_state">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_initial_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -453,7 +464,17 @@ document.write(`
         <span class="n">iS_q</span> <span class="o">=</span> <span class="n">T_ref</span> <span class="o">/</span> <span class="n">psiR_mag</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xr</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xm</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">kT</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">iS_d</span><span class="p">,</span> <span class="n">iS_q</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="InductionMachine.get_discrete_state_space"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.get_discrete_state_space">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_discrete_state_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v_dc</span><span class="p">,</span> <span class="n">Ts</span><span class="p">):</span>
+<div class="viewcode-block" id="InductionMachine.get_continuous_state_space"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.get_continuous_state_space">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_continuous_state_space</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the continuous-time state-space model of the system.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        SimpleNamespace</span>
+<span class="sd">            A SimpleNamespace object containing matrices F and G of the continuous-time state-space </span>
+<span class="sd">            model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="n">wr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wr</span>
         <span class="n">Rs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Rs</span>
         <span class="n">Rr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Rr</span>
@@ -463,8 +484,6 @@ document.write(`
         <span class="n">tauS</span> <span class="o">=</span> <span class="n">Xr</span> <span class="o">*</span> <span class="n">D</span> <span class="o">/</span> <span class="p">(</span><span class="n">Rs</span> <span class="o">*</span> <span class="n">Xr</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Rr</span> <span class="o">*</span> <span class="n">Xm</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">tauR</span> <span class="o">=</span> <span class="n">Xr</span> <span class="o">/</span> <span class="n">Rr</span>
 
-        <span class="n">Ts_pu</span> <span class="o">=</span> <span class="n">Ts</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">w</span>
-
         <span class="n">K</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">],</span>
                                 <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]])</span>
 
@@ -473,12 +492,10 @@ document.write(`
                       <span class="p">[</span><span class="n">Xm</span> <span class="o">/</span> <span class="n">tauR</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">tauR</span><span class="p">,</span> <span class="o">-</span><span class="n">wr</span><span class="p">],</span>
                       <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">Xm</span> <span class="o">/</span> <span class="n">tauR</span><span class="p">,</span> <span class="n">wr</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">tauR</span><span class="p">]])</span>
 
-        <span class="n">G</span> <span class="o">=</span> <span class="n">Xr</span> <span class="o">/</span> <span class="n">D</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]),</span>
-                            <span class="n">K</span><span class="p">)</span> <span class="o">*</span> <span class="n">v_dc</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">G</span> <span class="o">=</span> <span class="n">Xr</span> <span class="o">/</span> <span class="n">D</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">block</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+            <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))]])</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span> <span class="o">/</span> <span class="mi">2</span>
 
-        <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="n">F</span> <span class="o">*</span> <span class="n">Ts_pu</span>
-        <span class="n">B</span> <span class="o">=</span> <span class="n">G</span> <span class="o">*</span> <span class="n">Ts_pu</span>
-        <span class="k">return</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">A</span><span class="o">=</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="n">B</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">F</span><span class="o">=</span><span class="n">F</span><span class="p">,</span> <span class="n">G</span><span class="o">=</span><span class="n">G</span><span class="p">)</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">Te</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

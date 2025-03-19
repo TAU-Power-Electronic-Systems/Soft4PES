@@ -86,15 +86,13 @@ Module Contents
           !! processed by numpydoc !!
 
 
-.. py:class:: Simulation(sys, conv, ctr, Ts_sim)
+.. py:class:: Simulation(sys, ctr, Ts_sim, disc_method='forward_euler')
 
    
    Simulation environment.
 
    :param sys: System model.
    :type sys: system object
-   :param conv: Converter model.
-   :type conv: converter object
    :param ctr: Control system.
    :type ctr: controller object
    :param Ts_sim: Simulation sampling interval [s].
@@ -105,12 +103,6 @@ Module Contents
       System model.
 
       :type: system object
-
-   .. attribute:: conv
-
-      Converter model.
-
-      :type: converter object
 
    .. attribute:: ctr
 

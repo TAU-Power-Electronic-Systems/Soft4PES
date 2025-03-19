@@ -357,7 +357,7 @@ document.write(`
         <span class="k">for</span> <span class="n">control_loop</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">control_loops</span><span class="p">:</span>
             <span class="n">control_loop</span><span class="o">.</span><span class="n">set_sampling_interval</span><span class="p">(</span><span class="n">Ts</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ControlSystem.__call__"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/index.html#soft4pes.control.common.control_system.ControlSystem.__call__">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
+<div class="viewcode-block" id="ControlSystem.__call__"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/index.html#soft4pes.control.common.control_system.ControlSystem.__call__">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Execute the control system for a given discrete time step. The control system</span>
 <span class="sd">        1. Gets the references for the current time step.</span>
@@ -368,8 +368,6 @@ document.write(`
 <span class="sd">        ----------</span>
 <span class="sd">        sys : object</span>
 <span class="sd">            System model.</span>
-<span class="sd">        conv : object</span>
-<span class="sd">            Converter model.</span>
 <span class="sd">        kTs : float</span>
 <span class="sd">            Current discrete time instant [s].</span>
 
@@ -385,7 +383,7 @@ document.write(`
         <span class="c1"># Execute the control loops</span>
         <span class="k">for</span> <span class="n">control_loop</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">control_loops</span><span class="p">:</span>
             <span class="n">control_loop</span><span class="o">.</span><span class="n">input</span> <span class="o">=</span> <span class="n">ctr_input</span>
-            <span class="n">ctr_input</span> <span class="o">=</span> <span class="n">control_loop</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">kTs</span><span class="p">)</span>
+            <span class="n">ctr_input</span> <span class="o">=</span> <span class="n">control_loop</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="n">kTs</span><span class="p">)</span>
             <span class="n">control_loop</span><span class="o">.</span><span class="n">save_data</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">save_data</span><span class="p">(</span><span class="n">kTs</span><span class="o">=</span><span class="n">kTs</span><span class="p">)</span>

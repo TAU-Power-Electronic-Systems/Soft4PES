@@ -51,7 +51,7 @@ Classes
 Package Contents
 ----------------
 
-.. py:class:: LCLVcMpcCtr(solver, lambda_u, Np, I_conv_max=1.2, xi_I_conv=1000000.0)
+.. py:class:: LCLVcMpcCtr(solver, lambda_u, Np, I_conv_max=1.2, xi_I_conv=1000000.0, disc_method='exact_discretization')
 
    Bases: :py:obj:`soft4pes.control.common.controller.Controller`
 
@@ -65,6 +65,8 @@ Package Contents
    :type lambda_u: float
    :param Np: Prediction horizon steps.
    :type Np: int
+   :param disc_method: Discretization method for the state-space model. Default is 'exact_discretization'.
+   :type disc_method: str, optional
    :param I_conv_max: Maximum converter current [p.u.].
    :type I_conv_max: float
    :param xi_I_conv: Slack variable weight for the current constraint.
@@ -87,6 +89,12 @@ Package Contents
       Prediction horizon.
 
       :type: int
+
+   .. attribute:: disc_method
+
+      Discretization method for the state-space model.
+
+      :type: str
 
    .. attribute:: u_km1_abc
 
@@ -153,15 +161,13 @@ Package Contents
    ..
        !! processed by numpydoc !!
 
-   .. py:method:: execute(sys, conv, kTs)
+   .. py:method:: execute(sys, kTs)
 
       
       Perform MPC and save the controller data.
 
       :param sys: System model.
       :type sys: system object
-      :param conv: Converter model.
-      :type conv: converter object
       :param kTs: Current discrete time instant [s].
       :type kTs: float
 
@@ -222,7 +228,7 @@ Package Contents
           !! processed by numpydoc !!
 
 
-.. py:class:: IMMpcCurrCtr(solver, lambda_u, Np)
+.. py:class:: IMMpcCurrCtr(solver, lambda_u, Np, disc_method='forward_euler')
 
    Bases: :py:obj:`soft4pes.control.common.controller.Controller`
 
@@ -238,6 +244,8 @@ Package Contents
    :type lambda_u: float
    :param Np: Prediction horizon.
    :type Np: int
+   :param disc_method: Discretization method for the state-space model. Default is 'forward_euler'.
+   :type disc_method: str, optional
 
    .. attribute:: lambda_u
 
@@ -250,6 +258,12 @@ Package Contents
       Prediction horizon steps.
 
       :type: int
+
+   .. attribute:: disc_method
+
+      Discretization method for the state-space model.
+
+      :type: str
 
    .. attribute:: u_km1_abc
 
@@ -292,15 +306,13 @@ Package Contents
    ..
        !! processed by numpydoc !!
 
-   .. py:method:: execute(sys, conv, kTs)
+   .. py:method:: execute(sys, kTs)
 
       
       Perform MPC.
 
       :param sys: System model.
       :type sys: system object
-      :param conv: Converter model.
-      :type conv: converter object
       :param kTs: Current discrete time instant [s].
       :type kTs: float
 
@@ -360,7 +372,7 @@ Package Contents
           !! processed by numpydoc !!
 
 
-.. py:class:: RLGridMpcCurrCtr(solver, lambda_u, Np)
+.. py:class:: RLGridMpcCurrCtr(solver, lambda_u, Np, disc_method='forward_euler')
 
    Bases: :py:obj:`soft4pes.control.common.controller.Controller`
 
@@ -375,6 +387,8 @@ Package Contents
    :type lambda_u: float
    :param Np: Prediction horizon steps.
    :type Np: int
+   :param disc_method: Discretization method for the state-space model. Default is 'forward_euler'.
+   :type disc_method: str, optional
 
    .. attribute:: lambda_u
 
@@ -387,6 +401,12 @@ Package Contents
       Prediction horizon.
 
       :type: int
+
+   .. attribute:: disc_method
+
+      Discretization method for the state-space model.
+
+      :type: str
 
    .. attribute:: u_km1_abc
 
@@ -435,15 +455,13 @@ Package Contents
    ..
        !! processed by numpydoc !!
 
-   .. py:method:: execute(sys, conv, kTs)
+   .. py:method:: execute(sys, kTs)
 
       
       Perform MPC and save the controller data.
 
       :param sys: System model.
       :type sys: system object
-      :param conv: Converter model.
-      :type conv: converter object
       :param kTs: Current discrete time instant [s].
       :type kTs: float
 

@@ -371,14 +371,18 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine"><code class="docutils literal notranslate"><span class="pre">InductionMachine</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.data"><code class="docutils literal notranslate"><span class="pre">InductionMachine.data</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.par"><code class="docutils literal notranslate"><span class="pre">InductionMachine.par</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.conv"><code class="docutils literal notranslate"><span class="pre">InductionMachine.conv</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.base"><code class="docutils literal notranslate"><span class="pre">InductionMachine.base</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.x"><code class="docutils literal notranslate"><span class="pre">InductionMachine.x</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.psiR_mag_ref"><code class="docutils literal notranslate"><span class="pre">InductionMachine.psiR_mag_ref</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.wr"><code class="docutils literal notranslate"><span class="pre">InductionMachine.wr</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.cont_state_space"><code class="docutils literal notranslate"><span class="pre">InductionMachine.cont_state_space</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.set_initial_state"><code class="docutils literal notranslate"><span class="pre">InductionMachine.set_initial_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.get_steady_state_psir"><code class="docutils literal notranslate"><span class="pre">InductionMachine.get_steady_state_psir()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.calc_stator_current"><code class="docutils literal notranslate"><span class="pre">InductionMachine.calc_stator_current()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.get_discrete_state_space"><code class="docutils literal notranslate"><span class="pre">InductionMachine.get_discrete_state_space()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.get_continuous_state_space"><code class="docutils literal notranslate"><span class="pre">InductionMachine.get_continuous_state_space()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.get_next_state"><code class="docutils literal notranslate"><span class="pre">InductionMachine.get_next_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.get_measurements"><code class="docutils literal notranslate"><span class="pre">InductionMachine.get_measurements()</span></code></a></li>
 </ul>
@@ -534,7 +538,7 @@ document.write(`
 
 <dl class="py class">
 <dt class="sig sig-object py" id="soft4pes.model.machine.InductionMachine">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.model.machine.</span></span><span class="sig-name descname"><span class="pre">InductionMachine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">par</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">psiS_mag_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_ref_init</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/machine/induction_machine.html#InductionMachine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.machine.InductionMachine" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.model.machine.</span></span><span class="sig-name descname"><span class="pre">InductionMachine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">par</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">psiS_mag_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_ref_init</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/machine/induction_machine.html#InductionMachine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.machine.InductionMachine" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.model.common.system_model.SystemModel</span></code></p>
 <p>Induction machine model operating at a constant electrical angular rotor speed.
 The state of the system is the stator current and rotor flux in the alpha-beta frame, i.e.,
@@ -544,7 +548,8 @@ state of the model is based on the stator flux magnitude reference and torque re
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>par</strong> (<a class="reference internal" href="#soft4pes.model.machine.InductionMachineParameters" title="soft4pes.model.machine.InductionMachineParameters"><em>InductionMachineParameters</em></a>) – Induction machine parameters in p.u..</p></li>
+<li><p><strong>par</strong> (<a class="reference internal" href="#soft4pes.model.machine.InductionMachineParameters" title="soft4pes.model.machine.InductionMachineParameters"><em>InductionMachineParameters</em></a>) – Induction machine parameters in p.u.</p></li>
+<li><p><strong>conv</strong> (<em>converter object</em>) – Converter object.</p></li>
 <li><p><strong>base</strong> (<em>base value object</em>) – Base values.</p></li>
 <li><p><strong>psiS_mag_ref</strong> (<em>float</em>) – Stator flux magnitude reference [p.u.].</p></li>
 <li><p><strong>T_ref_init</strong> (<em>float</em>) – Initial torque reference [p.u.].</p></li>
@@ -552,12 +557,34 @@ state of the model is based on the stator flux magnitude reference and torque re
 </dd>
 </dl>
 <dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.model.machine.InductionMachine.data">
+<span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#soft4pes.model.machine.InductionMachine.data" title="Permalink to this definition">#</a></dt>
+<dd><p>Namespace for storing simulation data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>SimpleNamespace</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="soft4pes.model.machine.InductionMachine.par">
 <span class="sig-name descname"><span class="pre">par</span></span><a class="headerlink" href="#soft4pes.model.machine.InductionMachine.par" title="Permalink to this definition">#</a></dt>
-<dd><p>Induction machine parameters in p.u..</p>
+<dd><p>Induction machine parameters in p.u.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#soft4pes.model.machine.InductionMachineParameters" title="soft4pes.model.machine.InductionMachineParameters">InductionMachineParameters</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.model.machine.InductionMachine.conv">
+<span class="sig-name descname"><span class="pre">conv</span></span><a class="headerlink" href="#soft4pes.model.machine.InductionMachine.conv" title="Permalink to this definition">#</a></dt>
+<dd><p>Converter object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>converter object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -591,6 +618,28 @@ state of the model is based on the stator flux magnitude reference and torque re
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.model.machine.InductionMachine.wr">
+<span class="sig-name descname"><span class="pre">wr</span></span><a class="headerlink" href="#soft4pes.model.machine.InductionMachine.wr" title="Permalink to this definition">#</a></dt>
+<dd><p>Electrical angular rotor speed [p.u.].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.model.machine.InductionMachine.cont_state_space">
+<span class="sig-name descname"><span class="pre">cont_state_space</span></span><a class="headerlink" href="#soft4pes.model.machine.InductionMachine.cont_state_space" title="Permalink to this definition">#</a></dt>
+<dd><p>The continuous-time state-space model of the system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>SimpleNamespace</p>
 </dd>
 </dl>
 </dd></dl>
@@ -652,21 +701,16 @@ stator flux magnitude reference.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="soft4pes.model.machine.InductionMachine.get_discrete_state_space">
-<span class="sig-name descname"><span class="pre">get_discrete_state_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v_dc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ts</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/machine/induction_machine.html#InductionMachine.get_discrete_state_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.machine.InductionMachine.get_discrete_state_space" title="Permalink to this definition">#</a></dt>
-<dd><p>Calculates the discrete-time state-space model of the system.</p>
+<dt class="sig sig-object py" id="soft4pes.model.machine.InductionMachine.get_continuous_state_space">
+<span class="sig-name descname"><span class="pre">get_continuous_state_space</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/machine/induction_machine.html#InductionMachine.get_continuous_state_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.machine.InductionMachine.get_continuous_state_space" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculate the continuous-time state-space model of the system.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>v_dc</strong> (<em>float</em>) – The converter dc-link voltage [p.u.].</p></li>
-<li><p><strong>Ts</strong> (<em>float</em>) – Sampling interval [s].</p></li>
-</ul>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A SimpleNamespace object containing matrices F and G of the continuous-time state-space
+model.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The discrete-time state-space model of the system.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>SimpleNamespace</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>SimpleNamespace</p>
 </dd>
 </dl>
 </dd></dl>
@@ -869,14 +913,18 @@ stator flux magnitude reference.</p>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine"><code class="docutils literal notranslate"><span class="pre">InductionMachine</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.data"><code class="docutils literal notranslate"><span class="pre">InductionMachine.data</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.par"><code class="docutils literal notranslate"><span class="pre">InductionMachine.par</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.conv"><code class="docutils literal notranslate"><span class="pre">InductionMachine.conv</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.base"><code class="docutils literal notranslate"><span class="pre">InductionMachine.base</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.x"><code class="docutils literal notranslate"><span class="pre">InductionMachine.x</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.psiR_mag_ref"><code class="docutils literal notranslate"><span class="pre">InductionMachine.psiR_mag_ref</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.wr"><code class="docutils literal notranslate"><span class="pre">InductionMachine.wr</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.cont_state_space"><code class="docutils literal notranslate"><span class="pre">InductionMachine.cont_state_space</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.set_initial_state"><code class="docutils literal notranslate"><span class="pre">InductionMachine.set_initial_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.get_steady_state_psir"><code class="docutils literal notranslate"><span class="pre">InductionMachine.get_steady_state_psir()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.calc_stator_current"><code class="docutils literal notranslate"><span class="pre">InductionMachine.calc_stator_current()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.get_discrete_state_space"><code class="docutils literal notranslate"><span class="pre">InductionMachine.get_discrete_state_space()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.get_continuous_state_space"><code class="docutils literal notranslate"><span class="pre">InductionMachine.get_continuous_state_space()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.get_next_state"><code class="docutils literal notranslate"><span class="pre">InductionMachine.get_next_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.get_measurements"><code class="docutils literal notranslate"><span class="pre">InductionMachine.get_measurements()</span></code></a></li>
 </ul>

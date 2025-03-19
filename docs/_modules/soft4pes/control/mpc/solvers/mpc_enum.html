@@ -341,7 +341,7 @@ document.write(`
         <span class="k">elif</span> <span class="n">conv</span><span class="o">.</span><span class="n">nl</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sw_pos_3ph</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 
-<div class="viewcode-block" id="MpcEnum.__call__"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/mpc_enum/index.html#soft4pes.control.mpc.solvers.MpcEnum.__call__">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">ctr</span><span class="p">,</span> <span class="n">y_ref</span><span class="p">):</span>
+<div class="viewcode-block" id="MpcEnum.__call__"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/mpc_enum/index.html#soft4pes.control.mpc.solvers.MpcEnum.__call__">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">ctr</span><span class="p">,</span> <span class="n">y_ref</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Solve MPC problem with exhaustive enumeration.</span>
 
@@ -349,8 +349,6 @@ document.write(`
 <span class="sd">        ----------</span>
 <span class="sd">        sys : system object</span>
 <span class="sd">            System model.</span>
-<span class="sd">        conv : converter object</span>
-<span class="sd">            Converter model.</span>
 <span class="sd">        ctr : controller object</span>
 <span class="sd">            Controller object.</span>
 <span class="sd">        y_ref : ndarray of floats</span>
@@ -367,14 +365,14 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">U_seq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
                 <span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sw_pos_3ph</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">3</span> <span class="o">*</span> <span class="n">ctr</span><span class="o">.</span><span class="n">Np</span><span class="p">)))</span>
 
-        <span class="n">J</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">ctr</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y_ref</span><span class="p">,</span> <span class="n">ctr</span><span class="o">.</span><span class="n">u_km1_abc</span><span class="p">)</span>
+        <span class="n">J</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="n">ctr</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y_ref</span><span class="p">,</span> <span class="n">ctr</span><span class="o">.</span><span class="n">u_km1_abc</span><span class="p">)</span>
 
         <span class="c1"># Find the switching sequences with the lowest cost</span>
         <span class="n">min_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">J</span><span class="p">)</span>
         <span class="n">uk_abc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">U_seq</span><span class="p">[</span><span class="n">min_index</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">uk_abc</span></div>
 
-<div class="viewcode-block" id="MpcEnum.solve"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/mpc_enum/index.html#soft4pes.control.mpc.solvers.MpcEnum.solve">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">ctr</span><span class="p">,</span> <span class="n">xk</span><span class="p">,</span> <span class="n">y_ref</span><span class="p">,</span> <span class="n">u_km1_abc</span><span class="p">):</span>
+<div class="viewcode-block" id="MpcEnum.solve"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/mpc_enum/index.html#soft4pes.control.mpc.solvers.MpcEnum.solve">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">ctr</span><span class="p">,</span> <span class="n">xk</span><span class="p">,</span> <span class="n">y_ref</span><span class="p">,</span> <span class="n">u_km1_abc</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Recursively compute the cost for different switching sequences</span>
 
@@ -382,8 +380,6 @@ document.write(`
 <span class="sd">        ----------</span>
 <span class="sd">        sys : system object</span>
 <span class="sd">            System model.</span>
-<span class="sd">        conv : converter object.</span>
-<span class="sd">            Converter model.</span>
 <span class="sd">        ctr : controller object.</span>
 <span class="sd">            Controller object.</span>
 <span class="sd">        xk : ndarray of floats</span>
@@ -401,7 +397,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Initialize the cost array</span>
-        <span class="n">J</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">conv</span><span class="o">.</span><span class="n">nl</span><span class="o">**</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">ctr</span><span class="o">.</span><span class="n">Np</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">J</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">sys</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">nl</span><span class="o">**</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">ctr</span><span class="o">.</span><span class="n">Np</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
 
         <span class="c1"># Iterate over all possible switching sequences and three-phase switch positionss</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">u_seq</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">U_seq</span><span class="p">):</span>
@@ -418,7 +414,8 @@ document.write(`
 
                 <span class="c1"># Check if switching constraint is violated or the cost is already infinite</span>
                 <span class="k">if</span> <span class="n">switching_constraint_violated</span><span class="p">(</span>
-                        <span class="n">conv</span><span class="o">.</span><span class="n">nl</span><span class="p">,</span> <span class="n">u_ell_abc</span><span class="p">,</span> <span class="n">u_ell_abc_prev</span><span class="p">)</span> <span class="ow">or</span> <span class="n">J</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">:</span>
+                        <span class="n">sys</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">nl</span><span class="p">,</span> <span class="n">u_ell_abc</span><span class="p">,</span>
+                        <span class="n">u_ell_abc_prev</span><span class="p">)</span> <span class="ow">or</span> <span class="n">J</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">:</span>
                     <span class="c1"># Set the cost to infinity and the next state to infinity</span>
                     <span class="n">J</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
                     <span class="n">x_ell_next</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">x_ell</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>

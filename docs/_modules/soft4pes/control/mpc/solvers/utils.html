@@ -344,7 +344,7 @@ document.write(`
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="make_QP_matrices"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/utils/index.html#soft4pes.control.mpc.solvers.make_QP_matrices">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">make_QP_matrices</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">ctr</span><span class="p">):</span>
+<div class="viewcode-block" id="make_QP_matrices"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/utils/index.html#soft4pes.control.mpc.solvers.make_QP_matrices">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">make_QP_matrices</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="n">ctr</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create the QP matrices.</span>
 
@@ -352,8 +352,6 @@ document.write(`
 <span class="sd">    ----------</span>
 <span class="sd">    sys : system object</span>
 <span class="sd">        System model.</span>
-<span class="sd">    conv : converter object</span>
-<span class="sd">        Converter model.</span>
 <span class="sd">    ctr : controller object</span>
 <span class="sd">        Controller object.</span>
 
@@ -363,7 +361,7 @@ document.write(`
 <span class="sd">        Namespace containing the QP matrices.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">model</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">get_discrete_state_space</span><span class="p">(</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span><span class="p">,</span> <span class="n">ctr</span><span class="o">.</span><span class="n">Ts</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">ctr</span><span class="o">.</span><span class="n">state_space</span>
     <span class="n">A_QP</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">A</span>
     <span class="n">C</span> <span class="o">=</span> <span class="n">ctr</span><span class="o">.</span><span class="n">C</span>
 

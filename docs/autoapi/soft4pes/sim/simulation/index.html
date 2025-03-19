@@ -367,7 +367,6 @@ document.write(`
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.sim.simulation.Simulation"><code class="docutils literal notranslate"><span class="pre">Simulation</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.sim.simulation.Simulation.sys"><code class="docutils literal notranslate"><span class="pre">Simulation.sys</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.sim.simulation.Simulation.conv"><code class="docutils literal notranslate"><span class="pre">Simulation.conv</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.sim.simulation.Simulation.ctr"><code class="docutils literal notranslate"><span class="pre">Simulation.ctr</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.sim.simulation.Simulation.Ts_sim"><code class="docutils literal notranslate"><span class="pre">Simulation.Ts_sim</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.sim.simulation.Simulation.t_stop"><code class="docutils literal notranslate"><span class="pre">Simulation.t_stop</span></code></a></li>
@@ -455,13 +454,12 @@ document.write(`
 
 <dl class="py class">
 <dt class="sig sig-object py" id="soft4pes.sim.simulation.Simulation">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.sim.simulation.</span></span><span class="sig-name descname"><span class="pre">Simulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ts_sim</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/sim/simulation.html#Simulation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.sim.simulation.Simulation" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.sim.simulation.</span></span><span class="sig-name descname"><span class="pre">Simulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ts_sim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disc_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'forward_euler'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/sim/simulation.html#Simulation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.sim.simulation.Simulation" title="Permalink to this definition">#</a></dt>
 <dd><p>Simulation environment.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sys</strong> (<em>system object</em>) – System model.</p></li>
-<li><p><strong>conv</strong> (<em>converter object</em>) – Converter model.</p></li>
 <li><p><strong>ctr</strong> (<em>controller object</em>) – Control system.</p></li>
 <li><p><strong>Ts_sim</strong> (<em>float</em>) – Simulation sampling interval [s].</p></li>
 </ul>
@@ -474,17 +472,6 @@ document.write(`
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>system object</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.sim.simulation.Simulation.conv">
-<span class="sig-name descname"><span class="pre">conv</span></span><a class="reference internal" href="../../../../_modules/soft4pes/sim/simulation.html#Simulation.conv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.sim.simulation.Simulation.conv" title="Permalink to this definition">#</a></dt>
-<dd><p>Converter model.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>converter object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -646,7 +633,6 @@ directory. The default saving directory is the current directory.</p></li>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.sim.simulation.Simulation"><code class="docutils literal notranslate"><span class="pre">Simulation</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.sim.simulation.Simulation.sys"><code class="docutils literal notranslate"><span class="pre">Simulation.sys</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.sim.simulation.Simulation.conv"><code class="docutils literal notranslate"><span class="pre">Simulation.conv</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.sim.simulation.Simulation.ctr"><code class="docutils literal notranslate"><span class="pre">Simulation.ctr</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.sim.simulation.Simulation.Ts_sim"><code class="docutils literal notranslate"><span class="pre">Simulation.Ts_sim</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.sim.simulation.Simulation.t_stop"><code class="docutils literal notranslate"><span class="pre">Simulation.t_stop</span></code></a></li>

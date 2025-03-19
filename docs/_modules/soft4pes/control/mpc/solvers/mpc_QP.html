@@ -342,7 +342,7 @@ document.write(`
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <div class="viewcode-block" id="IndirectMpcQP.QP_matrices"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/mpc_QP/index.html#soft4pes.control.mpc.solvers.IndirectMpcQP.QP_matrices">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">QP_matrices</span> <span class="o">=</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="IndirectMpcQP.__call__"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/mpc_QP/index.html#soft4pes.control.mpc.solvers.IndirectMpcQP.__call__">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">ctr</span><span class="p">,</span> <span class="n">y_ref</span><span class="p">):</span>
+<div class="viewcode-block" id="IndirectMpcQP.__call__"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/mpc_QP/index.html#soft4pes.control.mpc.solvers.IndirectMpcQP.__call__">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">ctr</span><span class="p">,</span> <span class="n">y_ref</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Formulate and solve the MPC QP.</span>
 
@@ -350,8 +350,6 @@ document.write(`
 <span class="sd">        ----------</span>
 <span class="sd">        sys : system object</span>
 <span class="sd">            System model.</span>
-<span class="sd">        conv : converter object</span>
-<span class="sd">            Converter model.</span>
 <span class="sd">        ctr : controller object</span>
 <span class="sd">            Controller object.</span>
 <span class="sd">        y_ref : ndarray of floats</span>
@@ -364,7 +362,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">QP_matrices</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">QP_matrices</span> <span class="o">=</span> <span class="n">make_QP_matrices</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">ctr</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">QP_matrices</span> <span class="o">=</span> <span class="n">make_QP_matrices</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="n">ctr</span><span class="p">)</span>
 
         <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">QP_matrices</span>
 

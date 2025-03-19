@@ -51,15 +51,13 @@ Module Contents
    ..
        !! processed by numpydoc !!
 
-   .. py:method:: execute(sys, conv, kTs)
+   .. py:method:: execute(sys, kTs)
 
       
       Generate the current reference.
 
       :param sys: System model.
       :type sys: object
-      :param conv: Converter model.
-      :type conv: object
       :param kTs: Current discrete time instant [s].
       :type kTs: float
 

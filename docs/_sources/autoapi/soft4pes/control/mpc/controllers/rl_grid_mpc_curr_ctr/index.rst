@@ -22,7 +22,7 @@ Classes
 Module Contents
 ---------------
 
-.. py:class:: RLGridMpcCurrCtr(solver, lambda_u, Np)
+.. py:class:: RLGridMpcCurrCtr(solver, lambda_u, Np, disc_method='forward_euler')
 
    Bases: :py:obj:`soft4pes.control.common.controller.Controller`
 
@@ -37,6 +37,8 @@ Module Contents
    :type lambda_u: float
    :param Np: Prediction horizon steps.
    :type Np: int
+   :param disc_method: Discretization method for the state-space model. Default is 'forward_euler'.
+   :type disc_method: str, optional
 
    .. attribute:: lambda_u
 
@@ -49,6 +51,12 @@ Module Contents
       Prediction horizon.
 
       :type: int
+
+   .. attribute:: disc_method
+
+      Discretization method for the state-space model.
+
+      :type: str
 
    .. attribute:: u_km1_abc
 
@@ -97,15 +105,13 @@ Module Contents
    ..
        !! processed by numpydoc !!
 
-   .. py:method:: execute(sys, conv, kTs)
+   .. py:method:: execute(sys, kTs)
 
       
       Perform MPC and save the controller data.
 
       :param sys: System model.
       :type sys: system object
-      :param conv: Converter model.
-      :type conv: converter object
       :param kTs: Current discrete time instant [s].
       :type kTs: float
 

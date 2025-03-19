@@ -109,15 +109,13 @@ Module Contents
    ..
        !! processed by numpydoc !!
 
-   .. py:method:: __call__(sys, conv, kTs)
+   .. py:method:: __call__(sys, kTs)
 
       
       Perform control.
 
       :param sys: System model.
       :type sys: system object
-      :param conv: Converter model.
-      :type conv: converter object
       :param kTs: Current discrete time instant [s].
       :type kTs: float
 

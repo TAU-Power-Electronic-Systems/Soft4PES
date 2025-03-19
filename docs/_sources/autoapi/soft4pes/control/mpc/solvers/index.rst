@@ -91,15 +91,13 @@ Package Contents
    ..
        !! processed by numpydoc !!
 
-   .. py:method:: __call__(sys, conv, ctr, y_ref)
+   .. py:method:: __call__(sys, ctr, y_ref)
 
       
       Formulate and solve the MPC QP.
 
       :param sys: System model.
       :type sys: system object
-      :param conv: Converter model.
-      :type conv: converter object
       :param ctr: Controller object.
       :type ctr: controller object
       :param y_ref: Reference vector [p.u.].
@@ -175,15 +173,13 @@ Package Contents
    ..
        !! processed by numpydoc !!
 
-   .. py:method:: __call__(sys, conv, ctr, y_ref)
+   .. py:method:: __call__(sys, ctr, y_ref)
 
       
       Solve MPC problem by using a simple BnB method.
 
       :param sys: System model.
       :type sys: system object
-      :param conv: Converter model.
-      :type conv: converter object
       :param ctr: Controller object.
       :type ctr: controller object
       :param y_ref: Reference vector [p.u.].
@@ -210,15 +206,13 @@ Package Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: solve(sys, conv, ctr, x_ell, y_ref, u_ell_abc_prev, ell=0, J_prev=0)
+   .. py:method:: solve(sys, ctr, x_ell, y_ref, u_ell_abc_prev, ell=0, J_prev=0)
 
       
       Recursively compute the cost for different switching sequences.
 
       :param sys: System model.
       :type sys: object
-      :param conv: Converter model.
-      :type conv: object
       :param ctr: Controller object.
       :type ctr: object
       :param x_ell: State vector [p.u.].
@@ -287,15 +281,13 @@ Package Contents
    ..
        !! processed by numpydoc !!
 
-   .. py:method:: __call__(sys, conv, ctr, y_ref)
+   .. py:method:: __call__(sys, ctr, y_ref)
 
       
       Solve MPC problem with exhaustive enumeration.
 
       :param sys: System model.
       :type sys: system object
-      :param conv: Converter model.
-      :type conv: converter object
       :param ctr: Controller object.
       :type ctr: controller object
       :param y_ref: Reference vector [p.u.].
@@ -322,15 +314,13 @@ Package Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: solve(sys, conv, ctr, xk, y_ref, u_km1_abc)
+   .. py:method:: solve(sys, ctr, xk, y_ref, u_km1_abc)
 
       
       Recursively compute the cost for different switching sequences
 
       :param sys: System model.
       :type sys: system object
-      :param conv: Converter model.
-      :type conv: converter object.
       :param ctr: Controller object.
       :type ctr: controller object.
       :param xk: Current state vector [p.u.].
@@ -395,15 +385,13 @@ Package Contents
    ..
        !! processed by numpydoc !!
 
-.. py:function:: make_QP_matrices(sys, conv, ctr)
+.. py:function:: make_QP_matrices(sys, ctr)
 
    
    Create the QP matrices.
 
    :param sys: System model.
    :type sys: system object
-   :param conv: Converter model.
-   :type conv: converter object
    :param ctr: Controller object.
    :type ctr: controller object
 

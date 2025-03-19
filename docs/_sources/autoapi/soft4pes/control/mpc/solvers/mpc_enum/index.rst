@@ -59,15 +59,13 @@ Module Contents
    ..
        !! processed by numpydoc !!
 
-   .. py:method:: __call__(sys, conv, ctr, y_ref)
+   .. py:method:: __call__(sys, ctr, y_ref)
 
       
       Solve MPC problem with exhaustive enumeration.
 
       :param sys: System model.
       :type sys: system object
-      :param conv: Converter model.
-      :type conv: converter object
       :param ctr: Controller object.
       :type ctr: controller object
       :param y_ref: Reference vector [p.u.].
@@ -94,15 +92,13 @@ Module Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: solve(sys, conv, ctr, xk, y_ref, u_km1_abc)
+   .. py:method:: solve(sys, ctr, xk, y_ref, u_km1_abc)
 
       
       Recursively compute the cost for different switching sequences
 
       :param sys: System model.
       :type sys: system object
-      :param conv: Converter model.
-      :type conv: converter object.
       :param ctr: Controller object.
       :type ctr: controller object.
       :param xk: Current state vector [p.u.].

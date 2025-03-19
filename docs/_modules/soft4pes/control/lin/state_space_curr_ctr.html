@@ -371,7 +371,7 @@ document.write(`
             <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="p">[],</span>
         <span class="p">}</span></div>
 
-<div class="viewcode-block" id="RLGridStateSpaceCurrCtr.__call__"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#soft4pes.control.lin.RLGridStateSpaceCurrCtr.__call__">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
+<div class="viewcode-block" id="RLGridStateSpaceCurrCtr.__call__"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#soft4pes.control.lin.RLGridStateSpaceCurrCtr.__call__">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Perform control.</span>
 
@@ -379,8 +379,6 @@ document.write(`
 <span class="sd">        ----------</span>
 <span class="sd">        sys : system object</span>
 <span class="sd">            System model.</span>
-<span class="sd">        conv : converter object</span>
-<span class="sd">            Converter model.</span>
 <span class="sd">        kTs : float</span>
 <span class="sd">            Current discrete time instant [s].</span>
 
@@ -402,7 +400,7 @@ document.write(`
         <span class="n">ic_dq</span> <span class="o">=</span> <span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
 
         <span class="c1"># Maximum converter output voltage</span>
-        <span class="n">u_max</span> <span class="o">=</span> <span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">u_max</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span> <span class="o">/</span> <span class="mi">2</span>
 
         <span class="c1"># As the filter is not concidered, the filter capacitor voltage is assumed to be the same</span>
         <span class="c1"># as the grid voltage after the grid indutance.</span>
@@ -414,7 +412,7 @@ document.write(`
         <span class="c1"># Transform the converter voltage reference back to abc frame</span>
         <span class="n">uc_abc</span> <span class="o">=</span> <span class="n">dq_2_abc</span><span class="p">(</span><span class="n">uc_dq</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
 
-        <span class="n">uk_abc</span> <span class="o">=</span> <span class="n">uc_abc</span> <span class="o">/</span> <span class="p">(</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">uk_abc</span> <span class="o">=</span> <span class="n">uc_abc</span> <span class="o">/</span> <span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
 
         <span class="c1"># Save controller data</span>
         <span class="n">ig_ref</span> <span class="o">=</span> <span class="n">dq_2_alpha_beta</span><span class="p">(</span><span class="n">ic_ref_dq</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>

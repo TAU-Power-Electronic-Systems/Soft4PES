@@ -330,24 +330,32 @@ document.write(`
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    par : RLGridParameters</span>
-<span class="sd">        Grid parameters in p.u..</span>
+<span class="sd">        Grid parameters in p.u.</span>
+<span class="sd">    conv : converter object</span>
+<span class="sd">        Converter object.</span>
 <span class="sd">    base : base value object</span>
 <span class="sd">        Base values.</span>
 <span class="sd">    ig_ref_init : 1 x 2 ndarray of floats, optional</span>
-<div class="viewcode-block" id="RLGrid.base"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.base">[docs]</a><span class="sd">        Reference at discrete time instant kTs = 0 for starting simulation from steady state.</span></div>
+<span class="sd">        Reference at discrete time instant kTs = 0 for starting simulation from steady state.</span>
 
-<div class="viewcode-block" id="RLGrid.par"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.par">[docs]</a><span class="sd">    Attributes</span></div>
-<div class="viewcode-block" id="RLGrid.x"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.x">[docs]</a><span class="sd">    ----------</span></div>
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : SimpleNamespace</span>
+<span class="sd">        Namespace for storing simulation data.</span>
 <span class="sd">    par : RLGridParameters</span>
-<span class="sd">        Grid parameters in p.u..</span>
+<span class="sd">        Grid parameters in p.u.</span>
+<span class="sd">    conv : converter object</span>
+<span class="sd">        Converter object.</span>
 <span class="sd">    x : 1 x 2 ndarray of floats</span>
 <span class="sd">        Current state of the grid [p.u.].</span>
 <span class="sd">    base : base value object</span>
-<span class="sd">        Base values.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="RLGrid.base"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.base">[docs]</a><span class="sd">        Base values.</span></div>
+<div class="viewcode-block" id="RLGrid.data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.data">[docs]</a><span class="sd">    cont_state_space : SimpleNamespace</span></div>
+<div class="viewcode-block" id="RLGrid.par"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.par">[docs]</a><span class="sd">        The continuous-time state-space model of the system.</span></div>
+<div class="viewcode-block" id="RLGrid.conv"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.conv">[docs]</a><span class="sd">    &quot;&quot;&quot;</span></div>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">par</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">ig_ref_init</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">par</span><span class="o">=</span><span class="n">par</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="n">base</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">par</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">ig_ref_init</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="RLGrid.cont_state_space"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.cont_state_space">[docs]</a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">par</span><span class="o">=</span><span class="n">par</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="n">base</span><span class="p">,</span> <span class="n">conv</span><span class="o">=</span><span class="n">conv</span><span class="p">)</span></div>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_initial_state</span><span class="p">(</span><span class="n">ig_ref_init</span><span class="o">=</span><span class="n">ig_ref_init</span><span class="p">)</span>
 
 <div class="viewcode-block" id="RLGrid.set_initial_state"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.set_initial_state">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_initial_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -368,40 +376,29 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RLGrid.get_discrete_state_space"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.get_discrete_state_space">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_discrete_state_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v_dc</span><span class="p">,</span> <span class="n">Ts</span><span class="p">):</span>
+<div class="viewcode-block" id="RLGrid.get_continuous_state_space"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.get_continuous_state_space">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_continuous_state_space</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the discrete-time state-space model of the system.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        v_dc : float</span>
-<span class="sd">            The converter dc-link voltage [p.u.].</span>
-<span class="sd">        Ts : float</span>
-<span class="sd">            Sampling interval [s].</span>
+<span class="sd">        Calculate the continuous-time state-space model of the system.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        SimpleNamespace</span>
-<span class="sd">            The discrete-time state-space model of the system.</span>
+<span class="sd">            A SimpleNamespace object containing matrices F, G1 and G2 of the continuous-time </span>
+<span class="sd">            state-space model. </span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">Rg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Rg</span>
         <span class="n">Xg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xg</span>
-        <span class="n">Ts</span> <span class="o">=</span> <span class="n">Ts</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">w</span>
 
         <span class="c1"># Clarke transformation matrix</span>
         <span class="n">K</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">],</span>
                                 <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]])</span>
 
         <span class="n">F</span> <span class="o">=</span> <span class="o">-</span><span class="n">Rg</span> <span class="o">/</span> <span class="n">Xg</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">G1</span> <span class="o">=</span> <span class="n">v_dc</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">Xg</span> <span class="o">*</span> <span class="n">K</span>
+        <span class="n">G1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">Xg</span> <span class="o">*</span> <span class="n">K</span>
         <span class="n">G2</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">Xg</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 
-        <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">F</span> <span class="o">*</span> <span class="n">Ts</span>
-        <span class="n">B1</span> <span class="o">=</span> <span class="n">G1</span> <span class="o">*</span> <span class="n">Ts</span>
-        <span class="n">B2</span> <span class="o">=</span> <span class="n">G2</span> <span class="o">*</span> <span class="n">Ts</span>
-
-        <span class="k">return</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">A</span><span class="o">=</span><span class="n">A</span><span class="p">,</span> <span class="n">B1</span><span class="o">=</span><span class="n">B1</span><span class="p">,</span> <span class="n">B2</span><span class="o">=</span><span class="n">B2</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">F</span><span class="o">=</span><span class="n">F</span><span class="p">,</span> <span class="n">G1</span><span class="o">=</span><span class="n">G1</span><span class="p">,</span> <span class="n">G2</span><span class="o">=</span><span class="n">G2</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RLGrid.get_grid_voltage"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.get_grid_voltage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_grid_voltage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

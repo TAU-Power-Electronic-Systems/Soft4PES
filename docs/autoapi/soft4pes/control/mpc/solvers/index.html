@@ -436,7 +436,7 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.switching_constraint_violated" title="soft4pes.control.mpc.solvers.switching_constraint_violated"><code class="xref py py-obj docutils literal notranslate"><span class="pre">switching_constraint_violated</span></code></a>(nl, uk_abc, u_km1_abc)</p></td>
 <td><p>Check if a candidate three-phase switch position violates a switching constraint.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.make_QP_matrices" title="soft4pes.control.mpc.solvers.make_QP_matrices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_QP_matrices</span></code></a>(sys, conv, ctr)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.make_QP_matrices" title="soft4pes.control.mpc.solvers.make_QP_matrices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_QP_matrices</span></code></a>(sys, ctr)</p></td>
 <td><p>Create the QP matrices.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.make_Gamma" title="soft4pes.control.mpc.solvers.make_Gamma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_Gamma</span></code></a>(Np, C, A)</p></td>
@@ -467,13 +467,12 @@ document.write(`
 
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.IndirectMpcQP.__call__">
-<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_ref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/mpc_QP.html#IndirectMpcQP.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.IndirectMpcQP.__call__" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_ref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/mpc_QP.html#IndirectMpcQP.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.IndirectMpcQP.__call__" title="Permalink to this definition">#</a></dt>
 <dd><p>Formulate and solve the MPC QP.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sys</strong> (<em>system object</em>) – System model.</p></li>
-<li><p><strong>conv</strong> (<em>converter object</em>) – Converter model.</p></li>
 <li><p><strong>ctr</strong> (<em>controller object</em>) – Controller object.</p></li>
 <li><p><strong>y_ref</strong> (<em>ndarray</em><em> of </em><em>floats</em>) – Reference vector [p.u.].</p></li>
 </ul>
@@ -544,13 +543,12 @@ document.write(`
 
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.MpcBnB.__call__">
-<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_ref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/mpc_bnb.html#MpcBnB.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.MpcBnB.__call__" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_ref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/mpc_bnb.html#MpcBnB.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.MpcBnB.__call__" title="Permalink to this definition">#</a></dt>
 <dd><p>Solve MPC problem by using a simple BnB method.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sys</strong> (<em>system object</em>) – System model.</p></li>
-<li><p><strong>conv</strong> (<em>converter object</em>) – Converter model.</p></li>
 <li><p><strong>ctr</strong> (<em>controller object</em>) – Controller object.</p></li>
 <li><p><strong>y_ref</strong> (<em>ndarray</em><em> of </em><em>floats</em>) – Reference vector [p.u.].</p></li>
 </ul>
@@ -566,13 +564,12 @@ document.write(`
 
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.MpcBnB.solve">
-<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_ell</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_ell_abc_prev</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">J_prev</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/mpc_bnb.html#MpcBnB.solve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.MpcBnB.solve" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_ell</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_ell_abc_prev</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">J_prev</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/mpc_bnb.html#MpcBnB.solve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.MpcBnB.solve" title="Permalink to this definition">#</a></dt>
 <dd><p>Recursively compute the cost for different switching sequences.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sys</strong> (<em>object</em>) – System model.</p></li>
-<li><p><strong>conv</strong> (<em>object</em>) – Converter model.</p></li>
 <li><p><strong>ctr</strong> (<em>object</em>) – Controller object.</p></li>
 <li><p><strong>x_ell</strong> (<em>ndarray</em><em> of </em><em>floats</em>) – State vector [p.u.].</p></li>
 <li><p><strong>y_ref</strong> (<em>ndarray</em><em> of </em><em>floats</em>) – Reference vector [p.u.].</p></li>
@@ -619,13 +616,12 @@ document.write(`
 
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.MpcEnum.__call__">
-<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_ref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/mpc_enum.html#MpcEnum.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.MpcEnum.__call__" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_ref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/mpc_enum.html#MpcEnum.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.MpcEnum.__call__" title="Permalink to this definition">#</a></dt>
 <dd><p>Solve MPC problem with exhaustive enumeration.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sys</strong> (<em>system object</em>) – System model.</p></li>
-<li><p><strong>conv</strong> (<em>converter object</em>) – Converter model.</p></li>
 <li><p><strong>ctr</strong> (<em>controller object</em>) – Controller object.</p></li>
 <li><p><strong>y_ref</strong> (<em>ndarray</em><em> of </em><em>floats</em>) – Reference vector [p.u.].</p></li>
 </ul>
@@ -641,13 +637,12 @@ document.write(`
 
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.MpcEnum.solve">
-<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_km1_abc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/mpc_enum.html#MpcEnum.solve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.MpcEnum.solve" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_km1_abc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/mpc_enum.html#MpcEnum.solve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.MpcEnum.solve" title="Permalink to this definition">#</a></dt>
 <dd><p>Recursively compute the cost for different switching sequences</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sys</strong> (<em>system object</em>) – System model.</p></li>
-<li><p><strong>conv</strong> (<em>converter object.</em>) – Converter model.</p></li>
 <li><p><strong>ctr</strong> (<em>controller object.</em>) – Controller object.</p></li>
 <li><p><strong>xk</strong> (<em>ndarray</em><em> of </em><em>floats</em>) – Current state vector [p.u.].</p></li>
 <li><p><strong>y_ref</strong> (<em>ndarray</em><em> of </em><em>floats</em>) – Reference vector [p.u.].</p></li>
@@ -690,13 +685,12 @@ on one phase.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.make_QP_matrices">
-<span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.</span></span><span class="sig-name descname"><span class="pre">make_QP_matrices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/utils.html#make_QP_matrices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.make_QP_matrices" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.</span></span><span class="sig-name descname"><span class="pre">make_QP_matrices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/utils.html#make_QP_matrices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.make_QP_matrices" title="Permalink to this definition">#</a></dt>
 <dd><p>Create the QP matrices.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sys</strong> (<em>system object</em>) – System model.</p></li>
-<li><p><strong>conv</strong> (<em>converter object</em>) – Converter model.</p></li>
 <li><p><strong>ctr</strong> (<em>controller object</em>) – Controller object.</p></li>
 </ul>
 </dd>

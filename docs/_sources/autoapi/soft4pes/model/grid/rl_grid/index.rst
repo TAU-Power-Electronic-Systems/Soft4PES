@@ -22,7 +22,7 @@ Classes
 Module Contents
 ---------------
 
-.. py:class:: RLGrid(par, base, ig_ref_init=None)
+.. py:class:: RLGrid(par, conv, base, ig_ref_init=None)
 
    Bases: :py:obj:`soft4pes.model.common.system_model.SystemModel`
 
@@ -35,18 +35,32 @@ Module Contents
 
    This class can be used as a base class for other grid models.
 
-   :param par: Grid parameters in p.u..
+   :param par: Grid parameters in p.u.
    :type par: RLGridParameters
+   :param conv: Converter object.
+   :type conv: converter object
    :param base: Base values.
    :type base: base value object
    :param ig_ref_init: Reference at discrete time instant kTs = 0 for starting simulation from steady state.
    :type ig_ref_init: 1 x 2 ndarray of floats, optional
 
+   .. attribute:: data
+
+      Namespace for storing simulation data.
+
+      :type: SimpleNamespace
+
    .. attribute:: par
 
-      Grid parameters in p.u..
+      Grid parameters in p.u.
 
       :type: RLGridParameters
+
+   .. attribute:: conv
+
+      Converter object.
+
+      :type: converter object
 
    .. attribute:: x
 
@@ -59,6 +73,12 @@ Module Contents
       Base values.
 
       :type: base value object
+
+   .. attribute:: cont_state_space
+
+      The continuous-time state-space model of the system.
+
+      :type: SimpleNamespace
 
 
 
@@ -103,17 +123,13 @@ Module Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: get_discrete_state_space(v_dc, Ts)
+   .. py:method:: get_continuous_state_space()
 
       
-      Calculate the discrete-time state-space model of the system.
+      Calculate the continuous-time state-space model of the system.
 
-      :param v_dc: The converter dc-link voltage [p.u.].
-      :type v_dc: float
-      :param Ts: Sampling interval [s].
-      :type Ts: float
-
-      :returns: The discrete-time state-space model of the system.
+      :returns: A SimpleNamespace object containing matrices F, G1 and G2 of the continuous-time
+                state-space model.
       :rtype: SimpleNamespace
 
 

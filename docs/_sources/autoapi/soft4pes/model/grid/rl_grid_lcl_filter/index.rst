@@ -22,7 +22,7 @@ Classes
 Module Contents
 ---------------
 
-.. py:class:: RLGridLCLFilter(par_grid, par_lcl_filter, base)
+.. py:class:: RLGridLCLFilter(par_grid, par_lcl_filter, conv, base)
 
    Bases: :py:obj:`soft4pes.model.grid.rl_grid.RLGrid`
 
@@ -38,11 +38,32 @@ Module Contents
    filter to the grid for i_conv and ig, respectively. Knowledge of the grid impedance is required,
    and given to the model in the parent class RLGrid.
 
+   :param par_grid: Parameters of the grid.
+   :type par_grid: RLGridParameters
+   :param par_lcl_filter: Parameters of the LCL filter.
+   :type par_lcl_filter: LCLFilterParameters
+   :param conv: Converter object.
+   :type conv: converter object
+   :param base: Base values.
+   :type base: base value object
+
+   .. attribute:: data
+
+      Namespace for storing simulation data.
+
+      :type: SimpleNamespace
+
    .. attribute:: par
 
       Combined RLGridParameters and LCLFilterParameters.
 
       :type: System parameters
+
+   .. attribute:: conv
+
+      Converter object.
+
+      :type: converter object
 
    .. attribute:: x
 
@@ -55,6 +76,12 @@ Module Contents
       Base values.
 
       :type: base value object
+
+   .. attribute:: cont_state_space
+
+      The continuous-time state-space model of the system.
+
+      :type: SimpleNamespace
 
 
 
@@ -97,18 +124,12 @@ Module Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: get_discrete_state_space(v_dc, Ts)
+   .. py:method:: get_continuous_state_space()
 
       
-      Get the discrete state-space model of the system in alpha-beta frame. The system is
-      discretized using exact discretization.
+      Get the continuous-time state-space model of the system in alpha-beta frame.
 
-      :param v_dc: Converter dc-link voltage [p.u.].
-      :type v_dc: float
-      :param Ts: Sampling interval [s].
-      :type Ts: float
-
-      :returns: A SimpleNamespace object containing matrices A, B1 and B2 of the
+      :returns: A SimpleNamespace object containing matrices F, G1 and G2 of the continuous-time
                 state-space model.
       :rtype: SimpleNamespace
 

@@ -398,7 +398,7 @@ document.write(`
                                         <span class="n">k_ii</span><span class="o">=</span><span class="n">k_ii</span><span class="p">,</span>
                                         <span class="n">k_ti</span><span class="o">=</span><span class="n">k_ti</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LCLConvCurrCtr.execute"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/lcl_conv_curr_ctr/index.html#soft4pes.control.lin.LCLConvCurrCtr.execute">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
+<div class="viewcode-block" id="LCLConvCurrCtr.execute"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/lcl_conv_curr_ctr/index.html#soft4pes.control.lin.LCLConvCurrCtr.execute">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Execute the Current Controller (CC) and save the controller data.</span>
 
@@ -406,8 +406,6 @@ document.write(`
 <span class="sd">        ----------</span>
 <span class="sd">        sys : object</span>
 <span class="sd">            System model.</span>
-<span class="sd">        conv : object</span>
-<span class="sd">            Converter model.</span>
 <span class="sd">        kTs : float</span>
 <span class="sd">            Current discrete time instant [s].</span>
 
@@ -442,7 +440,7 @@ document.write(`
 
         <span class="c1"># Limiting the converter voltage reference</span>
         <span class="n">v_conv_ref_comp</span> <span class="o">=</span> <span class="n">magnitude_limiter</span><span class="p">(</span><span class="n">v_conv_ref_unlim_comp</span><span class="p">,</span>
-                                            <span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+                                            <span class="n">sys</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">v_conv_kp1_comp</span> <span class="o">=</span> <span class="n">v_conv_ref_comp</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">u_ii_comp</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr_pars</span><span class="o">.</span><span class="n">k_ii</span> <span class="o">*</span> <span class="p">(</span>
@@ -454,7 +452,7 @@ document.write(`
         <span class="n">uk_abc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">u_km1_abc</span>
         <span class="n">v_conv_ref_dq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">v_conv_ref_comp</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">v_conv_ref_comp</span><span class="o">.</span><span class="n">imag</span><span class="p">])</span>
         <span class="n">v_conv_ref</span> <span class="o">=</span> <span class="n">dq_2_alpha_beta</span><span class="p">(</span><span class="n">v_conv_ref_dq</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">u_km1_abc</span> <span class="o">=</span> <span class="n">get_modulating_signal</span><span class="p">(</span><span class="n">v_conv_ref</span><span class="p">,</span> <span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">u_km1_abc</span> <span class="o">=</span> <span class="n">get_modulating_signal</span><span class="p">(</span><span class="n">v_conv_ref</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">uk_abc</span><span class="o">=</span><span class="n">uk_abc</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span></div></div>

@@ -86,7 +86,7 @@ Module Contents
    ..
        !! processed by numpydoc !!
 
-   .. py:method:: __call__(sys, conv, kTs)
+   .. py:method:: __call__(sys, kTs)
 
       
       Execute the control system for a given discrete time step. The control system
@@ -96,8 +96,6 @@ Module Contents
 
       :param sys: System model.
       :type sys: object
-      :param conv: Converter model.
-      :type conv: object
       :param kTs: Current discrete time instant [s].
       :type kTs: float
 
