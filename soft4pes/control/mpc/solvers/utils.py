@@ -33,7 +33,7 @@ def switching_constraint_violated(nl, uk_abc, u_km1_abc):
     return res
 
 
-def make_QP_matrices(sys, conv, ctr):
+def make_QP_matrices(sys, ctr):
     """
     Create the QP matrices.
 
@@ -41,8 +41,6 @@ def make_QP_matrices(sys, conv, ctr):
     ----------
     sys : system object
         System model.
-    conv : converter object
-        Converter model.
     ctr : controller object
         Controller object.
 
@@ -52,7 +50,7 @@ def make_QP_matrices(sys, conv, ctr):
         Namespace containing the QP matrices.
     """
 
-    model = sys.get_discrete_state_space(conv.v_dc, ctr.Ts)
+    model = ctr.state_space
     A_QP = model.A
     C = ctr.C
 

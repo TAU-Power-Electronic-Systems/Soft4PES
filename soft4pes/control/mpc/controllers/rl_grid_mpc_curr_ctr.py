@@ -21,6 +21,8 @@ class RLGridMpcCurrCtr(Controller):
         Weighting factor for the control effort.
     Np : int
         Prediction horizon steps.
+    disc_method : str, optional
+        Discretization method for the state-space model. Default is 'forward_euler'.
 
     Attributes
     ----------
@@ -28,6 +30,8 @@ class RLGridMpcCurrCtr(Controller):
         Weighting factor for the control effort.
     Np : int
         Prediction horizon.
+    disc_method : str
+        Discretization method for the state-space model.
     u_km1_abc : 1 x 3 ndarray of floats
         Previous (step k-1) three-phase switch position or modulating signal.
     state_space : SimpleNamespace 
@@ -40,19 +44,20 @@ class RLGridMpcCurrCtr(Controller):
         Output matrix.
     """
 
-    def __init__(self, solver, lambda_u, Np):
+    def __init__(self, solver, lambda_u, Np, disc_method='forward_euler'):
         super().__init__()
         self.lambda_u = lambda_u
         self.Np = Np
         self.u_km1_abc = np.array([0, 0, 0])
-        self.state_space = SimpleNamespace()
+        self.state_space = None
         self.solver = solver
         self.vg = np.array([0, 0])
+        self.disc_method = disc_method
 
         # Output matrix
         self.C = np.array([[1, 0], [0, 1]])
 
-    def execute(self, sys, conv, kTs):
+    def execute(self, sys, kTs):
         """
         Perform MPC and save the controller data.
 
@@ -60,8 +65,6 @@ class RLGridMpcCurrCtr(Controller):
         ----------
         sys : system object
             System model.
-        conv : converter object
-            Converter model.
         kTs : float
             Current discrete time instant [s].
 
@@ -72,7 +75,9 @@ class RLGridMpcCurrCtr(Controller):
         """
 
         # Get the discrete state-space model of the system
-        self.state_space = sys.get_discrete_state_space(conv.v_dc, self.Ts)
+        if self.state_space is None:
+            self.state_space = sys.get_discrete_state_space(
+                self.Ts, self.disc_method)
 
         # Get the grid voltage and save it for future use
         self.vg = sys.get_grid_voltage(kTs)
@@ -98,7 +103,7 @@ class RLGridMpcCurrCtr(Controller):
             y_ref[ell + 1, :] = np.dot(R_ref, y_ref[ell, :])
 
         # Solve the control problem
-        uk_abc = self.solver(sys, conv, self, y_ref)
+        uk_abc = self.solver(sys, self, y_ref)
         self.u_km1_abc = uk_abc
 
         self.output = SimpleNamespace(uk_abc=uk_abc)

@@ -87,7 +87,7 @@ class LCLConvCurrCtr(Controller):
                                         k_ii=k_ii,
                                         k_ti=k_ti)
 
-    def execute(self, sys, conv, kTs):
+    def execute(self, sys, kTs):
         """
         Execute the Current Controller (CC) and save the controller data.
 
@@ -95,8 +95,6 @@ class LCLConvCurrCtr(Controller):
         ----------
         sys : object
             System model.
-        conv : object
-            Converter model.
         kTs : float
             Current discrete time instant [s].
 
@@ -131,7 +129,7 @@ class LCLConvCurrCtr(Controller):
 
         # Limiting the converter voltage reference
         v_conv_ref_comp = magnitude_limiter(v_conv_ref_unlim_comp,
-                                            conv.v_dc / 2)
+                                            sys.conv.v_dc / 2)
         self.v_conv_kp1_comp = v_conv_ref_comp
 
         self.u_ii_comp += self.ctr_pars.k_ii * (
@@ -143,7 +141,7 @@ class LCLConvCurrCtr(Controller):
         uk_abc = self.u_km1_abc
         v_conv_ref_dq = np.array([v_conv_ref_comp.real, v_conv_ref_comp.imag])
         v_conv_ref = dq_2_alpha_beta(v_conv_ref_dq, theta)
-        self.u_km1_abc = get_modulating_signal(v_conv_ref, conv.v_dc)
+        self.u_km1_abc = get_modulating_signal(v_conv_ref, sys.conv.v_dc)
         self.output = SimpleNamespace(uk_abc=uk_abc)
 
         return self.output

@@ -53,8 +53,6 @@ class Simulation:
     ----------
     sys : system object
         System model.
-    conv : converter object
-        Converter model.
     ctr : controller object
         Control system.
     Ts_sim : float
@@ -64,8 +62,6 @@ class Simulation:
     ----------
     sys : system object
         System model.
-    conv : converter object
-        Converter model.
     ctr : controller object.
         Control system.
     Ts_sim : float
@@ -78,14 +74,13 @@ class Simulation:
         Data from the simulation.
     """
 
-    def __init__(self, sys, conv, ctr, Ts_sim):
+    def __init__(self, sys, ctr, Ts_sim, disc_method='forward_euler'):
         self.sys = sys
-        self.conv = conv
         self.ctr = ctr
         self.Ts_sim = Ts_sim
         self.t_stop = 0
         self.matrices = self.sys.get_discrete_state_space(
-            self.conv.v_dc, self.Ts_sim)
+            self.Ts_sim, disc_method)
         self.simulation_data = None
 
         # Check if self.ctr.Ts/Ts_sim is an integer. Use tolerance to prevent
@@ -113,7 +108,7 @@ class Simulation:
 
             # Execute the controller
             kTs = k * self.ctr.Ts
-            uk_abc = self.ctr(self.sys, self.conv, kTs)
+            uk_abc = self.ctr(self.sys, kTs)
 
             for k_sim in range(int(self.ctr.Ts / self.Ts_sim)):
 

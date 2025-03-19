@@ -140,7 +140,7 @@ class LCLVcCtr(Controller):
                                         k_iu=k_iu,
                                         k_tu=k_tu)
 
-    def execute(self, sys, conv, kTs):
+    def execute(self, sys, kTs):
         """
         Execute the Voltage Controller (VC) and save the controller data.
 
@@ -148,8 +148,6 @@ class LCLVcCtr(Controller):
         ----------
         sys : object
             System model.
-        conv : object
-            Converter model.
         kTs : float
             Current discrete time instant [s].
 

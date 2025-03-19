@@ -59,7 +59,7 @@ class RFPSC(Controller):
             Vg = np.sqrt(2 / 3) * sys.par.Vg
             self.Kp = sys.par.wg * self.Ra / Vg
 
-    def execute(self, sys, conv, kTs):
+    def execute(self, sys, kTs):
         """
         Execute the RFPSC control algorithm.
 
@@ -67,8 +67,6 @@ class RFPSC(Controller):
         ----------
         sys : system object
             The system model.
-        conv : converter object
-            The converter model.
         kTs : float
             Current discrete time instant [s].
 
@@ -108,7 +106,7 @@ class RFPSC(Controller):
         v_ref_dq = alpha_beta_2_dq(v_ref, theta)
 
         self.output = SimpleNamespace(
-            uk_abc=get_modulating_signal(v_ref, conv.v_dc),
+            uk_abc=get_modulating_signal(v_ref, sys.conv.v_dc),
             vc_ref_dq=v_ref_dq,
         )
 

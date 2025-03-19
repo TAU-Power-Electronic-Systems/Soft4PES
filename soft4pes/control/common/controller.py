@@ -45,7 +45,7 @@ class Controller(ABC):
         self.Ts = Ts
 
     @abstractmethod
-    def execute(self, sys, conv, kTs):
+    def execute(self, sys, kTs):
         """
         Execute the controller.
 
@@ -53,8 +53,6 @@ class Controller(ABC):
         ----------
         sys : object
             System model.
-        conv : object
-            Converter model.
         kTs : float
             Current discrete time instant [s].
 

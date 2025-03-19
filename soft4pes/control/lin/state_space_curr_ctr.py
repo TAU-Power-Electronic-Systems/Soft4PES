@@ -60,7 +60,7 @@ class RLGridStateSpaceCurrCtr:
             't': [],
         }
 
-    def __call__(self, sys, conv, kTs):
+    def __call__(self, sys, kTs):
         """
         Perform control.
 
@@ -68,8 +68,6 @@ class RLGridStateSpaceCurrCtr:
         ----------
         sys : system object
             System model.
-        conv : converter object
-            Converter model.
         kTs : float
             Current discrete time instant [s].
 
@@ -91,7 +89,7 @@ class RLGridStateSpaceCurrCtr:
         ic_dq = alpha_beta_2_dq(sys.x, theta)
 
         # Maximum converter output voltage
-        u_max = conv.v_dc / 2
+        u_max = sys.conv.v_dc / 2
 
         # As the filter is not concidered, the filter capacitor voltage is assumed to be the same
         # as the grid voltage after the grid indutance.
@@ -103,7 +101,7 @@ class RLGridStateSpaceCurrCtr:
         # Transform the converter voltage reference back to abc frame
         uc_abc = dq_2_abc(uc_dq, theta)
 
-        uk_abc = uc_abc / (conv.v_dc / 2)
+        uk_abc = uc_abc / (sys.conv.v_dc / 2)
 
         # Save controller data
         ig_ref = dq_2_alpha_beta(ic_ref_dq, theta)

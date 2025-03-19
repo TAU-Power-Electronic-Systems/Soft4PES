@@ -46,7 +46,7 @@ class ControlSystem:
         for control_loop in self.control_loops:
             control_loop.set_sampling_interval(Ts)
 
-    def __call__(self, sys, conv, kTs):
+    def __call__(self, sys, kTs):
         """
         Execute the control system for a given discrete time step. The control system
         1. Gets the references for the current time step.
@@ -57,8 +57,6 @@ class ControlSystem:
         ----------
         sys : object
             System model.
-        conv : object
-            Converter model.
         kTs : float
             Current discrete time instant [s].
 
@@ -74,7 +72,7 @@ class ControlSystem:
         # Execute the control loops
         for control_loop in self.control_loops:
             control_loop.input = ctr_input
-            ctr_input = control_loop.execute(sys, conv, kTs)
+            ctr_input = control_loop.execute(sys, kTs)
             control_loop.save_data()
 
         self.save_data(kTs=kTs)

@@ -48,12 +48,12 @@ im_params = model.machine.InductionMachineParameters(fs_SI=50,
                                                      base=base)
 
 # Define system models
+conv = model.conv.Converter(v_dc_SI=600, nl=3, base=base)
 sys = model.machine.InductionMachine(par=im_params,
+                                     conv=conv,
                                      base=base,
                                      psiS_mag_ref=1,
                                      T_ref_init=T_ref_seq(0))
-
-conv = model.conv.Converter(v_dc_SI=600, nl=3, base=base)
 
 # Define solver to be enumeration based
 solver = mpc.solvers.MpcEnum(conv=conv)
@@ -66,6 +66,6 @@ ctr = mpc.controllers.IMMpcCurrCtr(solver, lambda_u=10e-3, Np=1)
 ctr_sys = common.ControlSystem(control_loops=[ctr], ref_seq=ref_seq, Ts=100e-6)
 
 # Simulate system
-sim = Simulation(sys=sys, conv=conv, ctr=ctr_sys, Ts_sim=5e-6)
+sim = Simulation(sys=sys, ctr=ctr_sys, Ts_sim=5e-6)
 sim.simulate(t_stop=0.2)
 sim.save_data()

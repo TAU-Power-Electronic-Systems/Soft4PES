@@ -19,7 +19,9 @@ class RLGrid(SystemModel):
     Parameters
     ----------
     par : RLGridParameters
-        Grid parameters in p.u..
+        Grid parameters in p.u.
+    conv : converter object
+        Converter object.
     base : base value object
         Base values.
     ig_ref_init : 1 x 2 ndarray of floats, optional
@@ -27,16 +29,22 @@ class RLGrid(SystemModel):
 
     Attributes
     ----------
+    data : SimpleNamespace
+        Namespace for storing simulation data.
     par : RLGridParameters
-        Grid parameters in p.u..
+        Grid parameters in p.u.
+    conv : converter object
+        Converter object.
     x : 1 x 2 ndarray of floats
         Current state of the grid [p.u.].
     base : base value object
         Base values.
+    cont_state_space : SimpleNamespace
+        The continuous-time state-space model of the system.
     """
 
-    def __init__(self, par, base, ig_ref_init=None):
-        super().__init__(par=par, base=base)
+    def __init__(self, par, conv, base, ig_ref_init=None):
+        super().__init__(par=par, base=base, conv=conv)
         self.set_initial_state(ig_ref_init=ig_ref_init)
 
     def set_initial_state(self, **kwargs):
@@ -57,40 +65,29 @@ class RLGrid(SystemModel):
         else:
             self.x = np.zeros(2)
 
-    def get_discrete_state_space(self, v_dc, Ts):
+    def get_continuous_state_space(self):
         """
-        Calculate the discrete-time state-space model of the system.
-
-        Parameters
-        ----------
-        v_dc : float
-            The converter dc-link voltage [p.u.].
-        Ts : float
-            Sampling interval [s].
+        Calculate the continuous-time state-space model of the system.
 
         Returns
         -------
         SimpleNamespace
-            The discrete-time state-space model of the system.
+            A SimpleNamespace object containing matrices F, G1 and G2 of the continuous-time 
+            state-space model. 
         """
 
         Rg = self.par.Rg
         Xg = self.par.Xg
-        Ts = Ts * self.base.w
 
         # Clarke transformation matrix
         K = (2 / 3) * np.array([[1, -1 / 2, -1 / 2],
                                 [0, np.sqrt(3) / 2, -np.sqrt(3) / 2]])
 
         F = -Rg / Xg * np.eye(2)
-        G1 = v_dc / 2 * 1 / Xg * K
+        G1 = self.conv.v_dc / 2 * 1 / Xg * K
         G2 = -1 / Xg * np.eye(2)
 
-        A = np.eye(2) + F * Ts
-        B1 = G1 * Ts
-        B2 = G2 * Ts
-
-        return SimpleNamespace(A=A, B1=B1, B2=B2)
+        return SimpleNamespace(F=F, G1=G1, G2=G2)
 
     def get_grid_voltage(self, kTs):
         """

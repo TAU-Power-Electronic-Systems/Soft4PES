@@ -40,7 +40,7 @@ class MpcBnB:
         # Create all possible three-phase switch positions
         self.SW_COMB = np.array(list(product(sw_pos_3ph, repeat=3)))
 
-    def __call__(self, sys, conv, ctr, y_ref):
+    def __call__(self, sys, ctr, y_ref):
         """
         Solve MPC problem by using a simple BnB method.
 
@@ -48,8 +48,6 @@ class MpcBnB:
         ----------
         sys : system object
             System model.
-        conv : converter object
-            Converter model.
         ctr : controller object
             Controller object.
         y_ref : ndarray of floats
@@ -65,20 +63,12 @@ class MpcBnB:
         self.U_seq = np.zeros(3 * ctr.Np)
         self.U_temp = np.zeros(3 * ctr.Np)
 
-        self.solve(sys, conv, ctr, sys.x, y_ref, ctr.u_km1_abc)
+        self.solve(sys, ctr, sys.x, y_ref, ctr.u_km1_abc)
 
         uk_abc = self.U_seq[0:3]
         return uk_abc
 
-    def solve(self,
-              sys,
-              conv,
-              ctr,
-              x_ell,
-              y_ref,
-              u_ell_abc_prev,
-              ell=0,
-              J_prev=0):
+    def solve(self, sys, ctr, x_ell, y_ref, u_ell_abc_prev, ell=0, J_prev=0):
         """
         Recursively compute the cost for different switching sequences.
 
@@ -86,8 +76,6 @@ class MpcBnB:
         ----------
         sys : object
             System model.
-        conv : object
-            Converter model.
         ctr : object
             Controller object.
         x_ell : ndarray of floats
@@ -106,7 +94,7 @@ class MpcBnB:
         for u_ell_abc in self.SW_COMB:
 
             # Check if switching constraint is violated or cost is infinite
-            if not switching_constraint_violated(conv.nl, u_ell_abc,
+            if not switching_constraint_violated(sys.conv.nl, u_ell_abc,
                                                  u_ell_abc_prev):
 
                 # Compute the next state
@@ -124,8 +112,8 @@ class MpcBnB:
                     # If not at the last prediction step, move to the next prediction step
                     if ell < ctr.Np - 1:
                         self.U_temp[3 * ell:3 * (ell + 1)] = u_ell_abc
-                        self.solve(sys, conv, ctr, x_ell_next, y_ref,
-                                   u_ell_abc, ell + 1, J_temp)
+                        self.solve(sys, ctr, x_ell_next, y_ref, u_ell_abc,
+                                   ell + 1, J_temp)
                     else:
                         # If at the last prediction step, store the three-phase switch position and
                         # update the minimum cost
