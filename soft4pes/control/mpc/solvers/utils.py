@@ -26,11 +26,32 @@ def switching_constraint_violated(nl, uk_abc, u_km1_abc):
     """
 
     if nl == 2:
-        res = False
+        return False
     elif nl == 3:
-        res = np.linalg.norm(uk_abc - u_km1_abc, np.inf) >= 2
+        return np.linalg.norm(uk_abc - u_km1_abc, np.inf) >= 2
+    else:
+        raise ValueError('Only two- and three-level converters are supported.')
 
-    return res
+
+def weighted_second_norm(vector, Q):
+    """
+    Compute the weighted second norm of a vector. The elements of the norm are weighted by the
+    weighting matrix Q.
+    
+    Parameters
+    ----------
+    vector : ndarray
+        Vector.
+    Q : ndarray
+        Weighting matrix.
+
+    Returns
+    -------
+    float
+        Weighted second norm.
+    """
+
+    return np.sqrt(np.dot(vector.T, Q).dot(vector))
 
 
 def make_QP_matrices(sys, ctr):
