@@ -19,7 +19,7 @@ class RLGrid(SystemModel):
     Parameters
     ----------
     par : RLGridParameters
-        Grid parameters in p.u..
+        Grid parameters in p.u.
     conv : converter object
         Converter object.
     base : base value object
@@ -32,7 +32,7 @@ class RLGrid(SystemModel):
     data : SimpleNamespace
         Namespace for storing simulation data.
     par : RLGridParameters
-        Grid parameters in p.u..
+        Grid parameters in p.u.
     conv : converter object
         Converter object.
     x : 1 x 2 ndarray of floats

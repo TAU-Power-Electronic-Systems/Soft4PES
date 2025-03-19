@@ -19,7 +19,7 @@ class InductionMachine(SystemModel):
     Parameters
     ----------
     par : InductionMachineParameters
-        Induction machine parameters in p.u..
+        Induction machine parameters in p.u.
     conv : converter object
         Converter object.
     base : base value object
@@ -34,7 +34,7 @@ class InductionMachine(SystemModel):
     data : SimpleNamespace
         Namespace for storing simulation data.
     par : InductionMachineParameters
-        Induction machine parameters in p.u..
+        Induction machine parameters in p.u.
     conv : converter object
         Converter object.
     base : base value object
