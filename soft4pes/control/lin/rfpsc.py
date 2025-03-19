@@ -73,7 +73,7 @@ class RFPSC(Controller):
         Returns
         -------
         SimpleNamespace
-            A SimpleNamespace object containing the modulating signal for the converter (uk_abc) and
+            A SimpleNamespace object containing the modulating signal for the converter (u_abc) and
             a capacitor voltage reference in case LC(L) filter is used (vc_ref).
         """
 
@@ -106,7 +106,7 @@ class RFPSC(Controller):
         v_ref_dq = alpha_beta_2_dq(v_ref, theta)
 
         self.output = SimpleNamespace(
-            uk_abc=get_modulating_signal(v_ref, sys.conv.v_dc),
+            u_abc=get_modulating_signal(v_ref, sys.conv.v_dc),
             vc_ref_dq=v_ref_dq,
         )
 

@@ -62,7 +62,7 @@ class ControlSystem:
 
         Returns
         -------
-        uk_abc : ndarray
+        u_abc : ndarray
             Three-phase switch position or modulating signal.
         """
 
@@ -80,10 +80,10 @@ class ControlSystem:
         # Form the three-phase switch position if PWM is used, otherwise use the output of the inner
         # (i.e., last) loop as a feedforward signal
         if self.pwm is not None:
-            uk_abc = self.pwm(ctr_input)
+            u_abc = self.pwm(ctr_input)
         else:
-            uk_abc = ctr_input.uk_abc
-        return uk_abc
+            u_abc = ctr_input.u_abc
+        return u_abc
 
     def get_references(self, kTs):
         """
