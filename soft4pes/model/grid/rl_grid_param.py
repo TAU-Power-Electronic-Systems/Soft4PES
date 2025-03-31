@@ -3,6 +3,7 @@ Parameters for a grid with a stiff voltage source and RL-load.
 """
 
 import numpy as np
+from soft4pes.utils import Sequence
 
 
 class RLGridParameters:
@@ -35,7 +36,19 @@ class RLGridParameters:
     """
 
     def __init__(self, Vg_SI, fg_SI, Rg_SI, Lg_SI, base):
-        self.Vg = Vg_SI / base.V
+        if isinstance(Vg_SI, Sequence):
+            # If Vg_SI is a Sequence, convert its values to p.u.
+            self.Vg = Sequence(times=Vg_SI.times, values=Vg_SI.values / base.V)
+        else:
+            # If Vg_SI is a float, convert to p.u.
+            self.Vg = Vg_SI / base.V
+
         self.wg = 2 * np.pi * fg_SI / base.w
         self.Rg = Rg_SI / base.Z
         self.Xg = Lg_SI / base.L
+
+    def __call__(self, kTs):
+        # If Vg is a Sequence, get the value at the specific time step
+        if isinstance(self.Vg, Sequence):
+            return self.Vg(kTs)
+        return self.Vg
