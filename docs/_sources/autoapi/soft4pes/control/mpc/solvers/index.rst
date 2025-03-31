@@ -55,6 +55,7 @@ Functions
 .. autoapisummary::
 
    soft4pes.control.mpc.solvers.switching_constraint_violated
+   soft4pes.control.mpc.solvers.squared_weighted_second_norm
    soft4pes.control.mpc.solvers.make_QP_matrices
    soft4pes.control.mpc.solvers.make_Gamma
    soft4pes.control.mpc.solvers.make_Upsilon
@@ -367,6 +368,37 @@ Package Contents
 
    :returns: Constraint violated.
    :rtype: bool
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: squared_weighted_second_norm(vector, Q)
+
+   
+   Compute the squared weighted second norm of a vector. The elements of the norm are weighted by
+   the weighting matrix Q, i.e. sqrt(x.T * Q * x)^2 = x.T * Q * x.
+
+   :param vector: Vector.
+   :type vector: ndarray
+   :param Q: Weighting matrix.
+   :type Q: ndarray
+
+   :returns: Squared weighted second norm.
+   :rtype: float
 
 
 

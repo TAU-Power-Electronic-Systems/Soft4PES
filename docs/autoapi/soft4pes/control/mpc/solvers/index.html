@@ -383,6 +383,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.switching_constraint_violated"><code class="docutils literal notranslate"><span class="pre">switching_constraint_violated()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.squared_weighted_second_norm"><code class="docutils literal notranslate"><span class="pre">squared_weighted_second_norm()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.make_QP_matrices"><code class="docutils literal notranslate"><span class="pre">make_QP_matrices()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.make_Gamma"><code class="docutils literal notranslate"><span class="pre">make_Gamma()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.make_Upsilon"><code class="docutils literal notranslate"><span class="pre">make_Upsilon()</span></code></a></li>
@@ -436,13 +437,16 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.switching_constraint_violated" title="soft4pes.control.mpc.solvers.switching_constraint_violated"><code class="xref py py-obj docutils literal notranslate"><span class="pre">switching_constraint_violated</span></code></a>(nl, uk_abc, u_km1_abc)</p></td>
 <td><p>Check if a candidate three-phase switch position violates a switching constraint.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.make_QP_matrices" title="soft4pes.control.mpc.solvers.make_QP_matrices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_QP_matrices</span></code></a>(sys, ctr)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.squared_weighted_second_norm" title="soft4pes.control.mpc.solvers.squared_weighted_second_norm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">squared_weighted_second_norm</span></code></a>(vector, Q)</p></td>
+<td><p>Compute the squared weighted second norm of a vector. The elements of the norm are weighted by</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.make_QP_matrices" title="soft4pes.control.mpc.solvers.make_QP_matrices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_QP_matrices</span></code></a>(sys, ctr)</p></td>
 <td><p>Create the QP matrices.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.make_Gamma" title="soft4pes.control.mpc.solvers.make_Gamma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_Gamma</span></code></a>(Np, C, A)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.make_Gamma" title="soft4pes.control.mpc.solvers.make_Gamma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_Gamma</span></code></a>(Np, C, A)</p></td>
 <td><p>Make Gamma matrix for the QP.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.make_Upsilon" title="soft4pes.control.mpc.solvers.make_Upsilon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_Upsilon</span></code></a>(Np, C, A, B)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.make_Upsilon" title="soft4pes.control.mpc.solvers.make_Upsilon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_Upsilon</span></code></a>(Np, C, A, B)</p></td>
 <td><p>Make Upsilon matrix for the QP.</p></td>
 </tr>
 </tbody>
@@ -684,6 +688,27 @@ on one phase.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.squared_weighted_second_norm">
+<span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.</span></span><span class="sig-name descname"><span class="pre">squared_weighted_second_norm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Q</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/utils.html#squared_weighted_second_norm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.squared_weighted_second_norm" title="Permalink to this definition">#</a></dt>
+<dd><p>Compute the squared weighted second norm of a vector. The elements of the norm are weighted by
+the weighting matrix Q, i.e. sqrt(x.T * Q * x)^2 = x.T * Q * x.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vector</strong> (<em>ndarray</em>) – Vector.</p></li>
+<li><p><strong>Q</strong> (<em>ndarray</em>) – Weighting matrix.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Squared weighted second norm.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.make_QP_matrices">
 <span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.</span></span><span class="sig-name descname"><span class="pre">make_QP_matrices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/utils.html#make_QP_matrices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.make_QP_matrices" title="Permalink to this definition">#</a></dt>
 <dd><p>Create the QP matrices.</p>
@@ -819,6 +844,7 @@ on one phase.</p>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.switching_constraint_violated"><code class="docutils literal notranslate"><span class="pre">switching_constraint_violated()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.squared_weighted_second_norm"><code class="docutils literal notranslate"><span class="pre">squared_weighted_second_norm()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.make_QP_matrices"><code class="docutils literal notranslate"><span class="pre">make_QP_matrices()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.make_Gamma"><code class="docutils literal notranslate"><span class="pre">make_Gamma()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.make_Upsilon"><code class="docutils literal notranslate"><span class="pre">make_Upsilon()</span></code></a></li>

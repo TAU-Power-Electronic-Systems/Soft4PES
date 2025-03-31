@@ -313,7 +313,8 @@ document.write(`
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">product</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.control.mpc.solvers.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">switching_constraint_violated</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.control.mpc.solvers.utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">switching_constraint_violated</span><span class="p">,</span>
+                                                <span class="n">squared_weighted_second_norm</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="MpcEnum"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/mpc_enum/index.html#soft4pes.control.mpc.solvers.MpcEnum">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">MpcEnum</span><span class="p">:</span>
@@ -337,9 +338,11 @@ document.write(`
 <div class="viewcode-block" id="MpcEnum.U_seq"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/mpc_enum/index.html#soft4pes.control.mpc.solvers.MpcEnum.U_seq">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">U_seq</span> <span class="o">=</span> <span class="kc">None</span></div>
         <span class="k">if</span> <span class="n">conv</span><span class="o">.</span><span class="n">nl</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sw_pos_3ph</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-
         <span class="k">elif</span> <span class="n">conv</span><span class="o">.</span><span class="n">nl</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sw_pos_3ph</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Only two- and three-level converters are supported.&#39;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="MpcEnum.__call__"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/mpc_enum/index.html#soft4pes.control.mpc.solvers.MpcEnum.__call__">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">ctr</span><span class="p">,</span> <span class="n">y_ref</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -425,7 +428,9 @@ document.write(`
 
                     <span class="c1"># Calculate the cost of the reference tracking and the control effort</span>
                     <span class="n">y_ell_next</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ctr</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">x_ell_next</span><span class="p">)</span>
-                    <span class="n">y_error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">y_ref</span><span class="p">[</span><span class="n">ell</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_ell_next</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+                    <span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">y_ref</span><span class="p">[</span><span class="n">ell</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]))</span>
+                    <span class="n">y_error</span> <span class="o">=</span> <span class="n">squared_weighted_second_norm</span><span class="p">(</span>
+                        <span class="n">y_ref</span><span class="p">[</span><span class="n">ell</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_ell_next</span><span class="p">,</span> <span class="n">Q</span><span class="p">)</span>
                     <span class="n">delta_u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">u_ell_abc</span> <span class="o">-</span> <span class="n">u_ell_abc_prev</span><span class="p">,</span> <span class="nb">ord</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
                     <span class="n">J</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">y_error</span> <span class="o">+</span> <span class="n">ctr</span><span class="o">.</span><span class="n">lambda_u</span> <span class="o">*</span> <span class="n">delta_u</span>
 
