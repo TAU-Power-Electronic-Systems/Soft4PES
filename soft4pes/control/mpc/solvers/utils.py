@@ -33,10 +33,10 @@ def switching_constraint_violated(nl, uk_abc, u_km1_abc):
         raise ValueError('Only two- and three-level converters are supported.')
 
 
-def weighted_second_norm(vector, Q):
+def squared_weighted_second_norm(vector, Q):
     """
-    Compute the weighted second norm of a vector. The elements of the norm are weighted by the
-    weighting matrix Q.
+    Compute the squared weighted second norm of a vector. The elements of the norm are weighted by 
+    the weighting matrix Q, i.e. sqrt(x.T * Q * x)^2 = x.T * Q * x.
     
     Parameters
     ----------
@@ -48,10 +48,10 @@ def weighted_second_norm(vector, Q):
     Returns
     -------
     float
-        Weighted second norm.
+        Squared weighted second norm.
     """
 
-    return np.sqrt(np.dot(vector.T, Q).dot(vector))
+    return np.dot(vector.T, Q).dot(vector)
 
 
 def make_QP_matrices(sys, ctr):

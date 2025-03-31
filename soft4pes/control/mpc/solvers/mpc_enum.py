@@ -3,7 +3,7 @@
 from itertools import product
 import numpy as np
 from soft4pes.control.mpc.solvers.utils import (switching_constraint_violated,
-                                                weighted_second_norm)
+                                                squared_weighted_second_norm)
 
 
 class MpcEnum:
@@ -118,8 +118,8 @@ class MpcEnum:
                     # Calculate the cost of the reference tracking and the control effort
                     y_ell_next = np.dot(ctr.C, x_ell_next)
                     Q = np.eye(np.size(y_ref[ell + 1]))
-                    y_error = weighted_second_norm(y_ref[ell + 1] - y_ell_next,
-                                                   Q)**2
+                    y_error = squared_weighted_second_norm(
+                        y_ref[ell + 1] - y_ell_next, Q)
                     delta_u = np.linalg.norm(u_ell_abc - u_ell_abc_prev, ord=1)
                     J[i] += y_error + ctr.lambda_u * delta_u
 
