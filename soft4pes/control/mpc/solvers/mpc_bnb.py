@@ -2,7 +2,8 @@
 
 from itertools import product
 import numpy as np
-from soft4pes.control.mpc.solvers.utils import switching_constraint_violated
+from soft4pes.control.mpc.solvers.utils import (switching_constraint_violated,
+                                                squared_weighted_second_norm)
 
 
 class MpcBnB:
@@ -33,9 +34,11 @@ class MpcBnB:
 
         if conv.nl == 2:
             sw_pos_3ph = np.array([-1, 1])
-
         elif conv.nl == 3:
             sw_pos_3ph = np.array([-1, 0, 1])
+        else:
+            raise ValueError(
+                'Only two- and three-level converters are supported.')
 
         # Create all possible three-phase switch positions
         self.SW_COMB = np.array(list(product(sw_pos_3ph, repeat=3)))
@@ -102,7 +105,9 @@ class MpcBnB:
 
                 # Calculate the cost of reference tracking and control effort
                 y_ell_next = np.dot(ctr.C, x_ell_next)
-                y_error = np.linalg.norm(y_ref[ell + 1] - y_ell_next)**2
+                Q = np.eye(np.size(y_ref[ell + 1]))
+                y_error = squared_weighted_second_norm(
+                    y_ref[ell + 1] - y_ell_next, Q)
                 delta_u = np.linalg.norm(u_ell_abc - u_ell_abc_prev, ord=1)
                 J_temp = J_prev + y_error + ctr.lambda_u * delta_u
 
