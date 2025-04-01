@@ -412,13 +412,13 @@ document.write(`
         <span class="c1"># Transform the converter voltage reference back to abc frame</span>
         <span class="n">uc_abc</span> <span class="o">=</span> <span class="n">dq_2_abc</span><span class="p">(</span><span class="n">uc_dq</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
 
-        <span class="n">uk_abc</span> <span class="o">=</span> <span class="n">uc_abc</span> <span class="o">/</span> <span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">u_abc</span> <span class="o">=</span> <span class="n">uc_abc</span> <span class="o">/</span> <span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
 
         <span class="c1"># Save controller data</span>
         <span class="n">ig_ref</span> <span class="o">=</span> <span class="n">dq_2_alpha_beta</span><span class="p">(</span><span class="n">ic_ref_dq</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">save_data</span><span class="p">(</span><span class="n">ig_ref</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">,</span> <span class="n">kTs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_data</span><span class="p">(</span><span class="n">ig_ref</span><span class="p">,</span> <span class="n">u_abc</span><span class="p">,</span> <span class="n">kTs</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">uk_abc</span></div>
+        <span class="k">return</span> <span class="n">u_abc</span></div>
 
 <div class="viewcode-block" id="RLGridStateSpaceCurrCtr.get_state_space_ctr_pars"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#soft4pes.control.lin.RLGridStateSpaceCurrCtr.get_state_space_ctr_pars">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_state_space_ctr_pars</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -528,7 +528,7 @@ document.write(`
 
         <span class="k">return</span> <span class="n">uc_ref_dq</span></div>
 
-<div class="viewcode-block" id="RLGridStateSpaceCurrCtr.save_data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#soft4pes.control.lin.RLGridStateSpaceCurrCtr.save_data">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">save_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ig_ref</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
+<div class="viewcode-block" id="RLGridStateSpaceCurrCtr.save_data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#soft4pes.control.lin.RLGridStateSpaceCurrCtr.save_data">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">save_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ig_ref</span><span class="p">,</span> <span class="n">u_abc</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Save controller data.</span>
 
@@ -536,13 +536,13 @@ document.write(`
 <span class="sd">        ----------</span>
 <span class="sd">        ig_ref : 1 x 2 ndarray of floats</span>
 <span class="sd">            Current reference in alpha-beta frame.</span>
-<span class="sd">        uk_abc : 1 x 3 ndarray of floats</span>
+<span class="sd">        u_abc : 1 x 3 ndarray of floats</span>
 <span class="sd">            Converter three-phase switch position or modulating signal.</span>
 <span class="sd">        kTs : float</span>
 <span class="sd">            Current discrete time instant [s].</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ig_ref&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ig_ref</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;u&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">uk_abc</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;u&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">u_abc</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kTs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RLGridStateSpaceCurrCtr.get_control_system_data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#soft4pes.control.lin.RLGridStateSpaceCurrCtr.get_control_system_data">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_control_system_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

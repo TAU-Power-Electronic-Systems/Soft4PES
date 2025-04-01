@@ -373,7 +373,7 @@ document.write(`
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        uk_abc : ndarray</span>
+<span class="sd">        u_abc : ndarray</span>
 <span class="sd">            Three-phase switch position or modulating signal.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -391,10 +391,10 @@ document.write(`
         <span class="c1"># Form the three-phase switch position if PWM is used, otherwise use the output of the inner</span>
         <span class="c1"># (i.e., last) loop as a feedforward signal</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pwm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">uk_abc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pwm</span><span class="p">(</span><span class="n">ctr_input</span><span class="p">)</span>
+            <span class="n">u_abc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pwm</span><span class="p">(</span><span class="n">ctr_input</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">uk_abc</span> <span class="o">=</span> <span class="n">ctr_input</span><span class="o">.</span><span class="n">uk_abc</span>
-        <span class="k">return</span> <span class="n">uk_abc</span></div>
+            <span class="n">u_abc</span> <span class="o">=</span> <span class="n">ctr_input</span><span class="o">.</span><span class="n">u_abc</span>
+        <span class="k">return</span> <span class="n">u_abc</span></div>
 
 <div class="viewcode-block" id="ControlSystem.get_references"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/index.html#soft4pes.control.common.control_system.ControlSystem.get_references">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_references</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

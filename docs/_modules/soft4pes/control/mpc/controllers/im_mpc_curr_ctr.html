@@ -409,14 +409,14 @@ document.write(`
             <span class="n">y_ref</span><span class="p">[</span><span class="n">ell</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R_ref</span><span class="p">,</span> <span class="n">y_ref</span><span class="p">[</span><span class="n">ell</span><span class="p">,</span> <span class="p">:])</span>
 
         <span class="c1"># Solve the control problem</span>
-        <span class="n">uk_abc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">y_ref</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">u_km1_abc</span> <span class="o">=</span> <span class="n">uk_abc</span>
+        <span class="n">u_abc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">y_ref</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">u_km1_abc</span> <span class="o">=</span> <span class="n">u_abc</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">uk_abc</span><span class="o">=</span><span class="n">uk_abc</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">u_abc</span><span class="o">=</span><span class="n">u_abc</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span></div>
 
-<div class="viewcode-block" id="IMMpcCurrCtr.get_next_state"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.get_next_state">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_next_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">xk</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<div class="viewcode-block" id="IMMpcCurrCtr.get_next_state"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.get_next_state">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_next_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">xk</span><span class="p">,</span> <span class="n">u_abc</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the next state of the system.</span>
 
@@ -426,7 +426,7 @@ document.write(`
 <span class="sd">            The system model.</span>
 <span class="sd">        xk : 1 x 4 ndarray of floats</span>
 <span class="sd">            The current state of the system.</span>
-<span class="sd">        uk_abc : 1 x 3 ndarray of floats</span>
+<span class="sd">        u_abc : 1 x 3 ndarray of floats</span>
 <span class="sd">            Converter three-phase switch position or modulating signal.</span>
 <span class="sd">        k : int</span>
 <span class="sd">            The solver prediction step.</span>
@@ -438,7 +438,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_space</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">xk</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_space</span><span class="o">.</span><span class="n">B</span><span class="p">,</span>
-                                                       <span class="n">uk_abc</span><span class="p">)</span></div></div>
+                                                       <span class="n">u_abc</span><span class="p">)</span></div></div>
 </pre></div>
 
                 </article>

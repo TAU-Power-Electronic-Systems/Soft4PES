@@ -98,7 +98,7 @@ Module Contents
       :param kTs: Current discrete time instant [s].
       :type kTs: float
 
-      :returns: A SimpleNamespace object containing the modulating signal for the converter (uk_abc) and
+      :returns: A SimpleNamespace object containing the modulating signal for the converter (u_abc) and
                 a capacitor voltage reference in case LC(L) filter is used (vc_ref).
       :rtype: SimpleNamespace
 

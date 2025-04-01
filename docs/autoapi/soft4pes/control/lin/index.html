@@ -684,13 +684,13 @@ RL load.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.control.lin.RLGridStateSpaceCurrCtr.save_data">
-<span class="sig-name descname"><span class="pre">save_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ig_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uk_abc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/lin/state_space_curr_ctr.html#RLGridStateSpaceCurrCtr.save_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.lin.RLGridStateSpaceCurrCtr.save_data" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">save_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ig_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_abc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/lin/state_space_curr_ctr.html#RLGridStateSpaceCurrCtr.save_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.lin.RLGridStateSpaceCurrCtr.save_data" title="Permalink to this definition">#</a></dt>
 <dd><p>Save controller data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ig_ref</strong> (<em>1 x 2 ndarray</em><em> of </em><em>floats</em>) – Current reference in alpha-beta frame.</p></li>
-<li><p><strong>uk_abc</strong> (<em>1 x 3 ndarray</em><em> of </em><em>floats</em>) – Converter three-phase switch position or modulating signal.</p></li>
+<li><p><strong>u_abc</strong> (<em>1 x 3 ndarray</em><em> of </em><em>floats</em>) – Converter three-phase switch position or modulating signal.</p></li>
 <li><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p></li>
 </ul>
 </dd>
@@ -983,7 +983,7 @@ is set to -pi/2 to align the q-axis with the grid voltage.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A SimpleNamespace object containing the modulating signal for the converter (uk_abc) and
+<dd class="field-even"><p>A SimpleNamespace object containing the modulating signal for the converter (u_abc) and
 a capacitor voltage reference in case LC(L) filter is used (vc_ref).</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>

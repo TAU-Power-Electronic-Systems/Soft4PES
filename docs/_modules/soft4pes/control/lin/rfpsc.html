@@ -384,7 +384,7 @@ document.write(`
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        SimpleNamespace</span>
-<span class="sd">            A SimpleNamespace object containing the modulating signal for the converter (uk_abc) and</span>
+<span class="sd">            A SimpleNamespace object containing the modulating signal for the converter (u_abc) and</span>
 <span class="sd">            a capacitor voltage reference in case LC(L) filter is used (vc_ref).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -417,7 +417,7 @@ document.write(`
         <span class="n">v_ref_dq</span> <span class="o">=</span> <span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="n">v_ref</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span>
-            <span class="n">uk_abc</span><span class="o">=</span><span class="n">get_modulating_signal</span><span class="p">(</span><span class="n">v_ref</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span><span class="p">),</span>
+            <span class="n">u_abc</span><span class="o">=</span><span class="n">get_modulating_signal</span><span class="p">(</span><span class="n">v_ref</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span><span class="p">),</span>
             <span class="n">vc_ref_dq</span><span class="o">=</span><span class="n">v_ref_dq</span><span class="p">,</span>
         <span class="p">)</span>
 

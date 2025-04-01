@@ -138,7 +138,7 @@ Package Contents
       :param kTs: Current discrete time instant [s].
       :type kTs: float
 
-      :returns: **uk_abc** -- Three-phase switch position or modulating signal.
+      :returns: **u_abc** -- Three-phase switch position or modulating signal.
       :rtype: ndarray
 
 

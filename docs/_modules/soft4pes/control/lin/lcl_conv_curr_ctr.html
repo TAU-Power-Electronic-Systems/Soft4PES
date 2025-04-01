@@ -449,11 +449,11 @@ document.write(`
 
         <span class="c1"># Get the modulating signal and Hold it for one cycle before sending it out from the</span>
         <span class="c1"># controller</span>
-        <span class="n">uk_abc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">u_km1_abc</span>
+        <span class="n">u_abc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">u_km1_abc</span>
         <span class="n">v_conv_ref_dq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">v_conv_ref_comp</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">v_conv_ref_comp</span><span class="o">.</span><span class="n">imag</span><span class="p">])</span>
         <span class="n">v_conv_ref</span> <span class="o">=</span> <span class="n">dq_2_alpha_beta</span><span class="p">(</span><span class="n">v_conv_ref_dq</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">u_km1_abc</span> <span class="o">=</span> <span class="n">get_modulating_signal</span><span class="p">(</span><span class="n">v_conv_ref</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">uk_abc</span><span class="o">=</span><span class="n">uk_abc</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">u_abc</span><span class="o">=</span><span class="n">u_abc</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span></div></div>
 </pre></div>

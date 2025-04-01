@@ -315,7 +315,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleNamespace</span>
 
 
-<div class="viewcode-block" id="switching_constraint_violated"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/utils/index.html#soft4pes.control.mpc.solvers.switching_constraint_violated">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">switching_constraint_violated</span><span class="p">(</span><span class="n">nl</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">,</span> <span class="n">u_km1_abc</span><span class="p">):</span>
+<div class="viewcode-block" id="switching_constraint_violated"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/utils/index.html#soft4pes.control.mpc.solvers.switching_constraint_violated">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">switching_constraint_violated</span><span class="p">(</span><span class="n">nl</span><span class="p">,</span> <span class="n">u_abc</span><span class="p">,</span> <span class="n">u_km1_abc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check if a candidate three-phase switch position violates a switching constraint. </span>
 <span class="sd">    A three-level converter is not allowed to directly switch from -1 and 1 (and vice versa) </span>
@@ -325,7 +325,7 @@ document.write(`
 <span class="sd">    ----------</span>
 <span class="sd">    nl : int</span>
 <span class="sd">        Number of converter voltage levels.</span>
-<span class="sd">    uk_abc : 1 x 3 ndarray of ints</span>
+<span class="sd">    u_abc : 1 x 3 ndarray of ints</span>
 <span class="sd">        three-phase switch position.</span>
 <span class="sd">    u_km1_abc : 1 x 3 ndarray of ints</span>
 <span class="sd">        Previously applied three-phase switch position.</span>

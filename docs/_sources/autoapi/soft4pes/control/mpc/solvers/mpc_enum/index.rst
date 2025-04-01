@@ -71,7 +71,7 @@ Module Contents
       :param y_ref: Reference vector [p.u.].
       :type y_ref: ndarray of floats
 
-      :returns: **uk_abc** -- The three-phase switch position with the lowest cost.
+      :returns: **u_abc** -- The three-phase switch position with the lowest cost.
       :rtype: 1 x 3 ndarray of ints
 
 

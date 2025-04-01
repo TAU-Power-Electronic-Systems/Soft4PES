@@ -83,7 +83,7 @@ Module Contents
       :param y_ref: Reference vector [p.u.].
       :type y_ref: ndarray of floats
 
-      :returns: **uk_abc** -- The three-phase switch position.
+      :returns: **u_abc** -- The three-phase switch position.
       :rtype: 1 x 3 ndarray of ints
 
 

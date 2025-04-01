@@ -369,7 +369,7 @@ document.write(`
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        uk_abc : 1 x 3 ndarray of ints</span>
+<span class="sd">        u_abc : 1 x 3 ndarray of ints</span>
 <span class="sd">            The three-phase switch position.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -379,8 +379,8 @@ document.write(`
 
         <span class="bp">self</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="n">ctr</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y_ref</span><span class="p">,</span> <span class="n">ctr</span><span class="o">.</span><span class="n">u_km1_abc</span><span class="p">)</span>
 
-        <span class="n">uk_abc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">U_seq</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">uk_abc</span></div>
+        <span class="n">u_abc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">U_seq</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">u_abc</span></div>
 
 <div class="viewcode-block" id="MpcBnB.solve"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/mpc_bnb/index.html#soft4pes.control.mpc.solvers.MpcBnB.solve">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">ctr</span><span class="p">,</span> <span class="n">x_ell</span><span class="p">,</span> <span class="n">y_ref</span><span class="p">,</span> <span class="n">u_ell_abc_prev</span><span class="p">,</span> <span class="n">ell</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">J_prev</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

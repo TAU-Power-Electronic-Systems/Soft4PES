@@ -503,13 +503,13 @@ document.write(`
         <span class="n">psiR</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">kT</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xm</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xr</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">psiR</span><span class="p">,</span> <span class="n">iS</span><span class="p">)</span>
 
-<div class="viewcode-block" id="InductionMachine.get_next_state"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.get_next_state">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_next_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matrices</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
+<div class="viewcode-block" id="InductionMachine.get_next_state"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.get_next_state">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_next_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matrices</span><span class="p">,</span> <span class="n">u_abc</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the next state of the system.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        uk_abc : 1 x 3 ndarray of floats</span>
+<span class="sd">        u_abc : 1 x 3 ndarray of floats</span>
 <span class="sd">            Converter three-phase switch position or modulating signal.</span>
 <span class="sd">        matrices : SimpleNamespace</span>
 <span class="sd">            A SimpleNamespace object containing the state-space model matrices.</span>
@@ -522,7 +522,7 @@ document.write(`
 <span class="sd">            The next state of the system.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">x_kp1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">matrices</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">matrices</span><span class="o">.</span><span class="n">B</span><span class="p">,</span> <span class="n">uk_abc</span><span class="p">)</span>
+        <span class="n">x_kp1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">matrices</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">matrices</span><span class="o">.</span><span class="n">B</span><span class="p">,</span> <span class="n">u_abc</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">x_kp1</span></div>
 
 <div class="viewcode-block" id="InductionMachine.get_measurements"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.InductionMachine.get_measurements">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_measurements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>

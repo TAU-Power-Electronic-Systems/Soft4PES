@@ -491,13 +491,13 @@ Package Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: get_next_state(matrices, uk_abc, kTs)
+   .. py:method:: get_next_state(matrices, u_abc, kTs)
 
       
       Calculate the next state of the system.
 
-      :param uk_abc: Converter three-phase switch position or modulating signal.
-      :type uk_abc: 1 x 3 ndarray of floats
+      :param u_abc: Converter three-phase switch position or modulating signal.
+      :type u_abc: 1 x 3 ndarray of floats
       :param matrices: A SimpleNamespace object containing the state-space model matrices.
       :type matrices: SimpleNamespace
       :param kTs: Current discrete time instant [s].

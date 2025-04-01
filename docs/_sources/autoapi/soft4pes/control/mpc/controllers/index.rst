@@ -193,7 +193,7 @@ Package Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: get_next_state(sys, xk, uk_abc, k)
+   .. py:method:: get_next_state(sys, xk, u_abc, k)
 
       
       Get the next state of the system.
@@ -202,8 +202,8 @@ Package Contents
       :type sys: system object
       :param xk: The current state of the system.
       :type xk: 1 x 6 ndarray of floats
-      :param uk_abc: Converter three-phase switch position or modulating signal.
-      :type uk_abc: 1 x 3 ndarray of floats
+      :param u_abc: Converter three-phase switch position or modulating signal.
+      :type u_abc: 1 x 3 ndarray of floats
       :param k: The solver prediction step.
       :type k: int
 
@@ -337,7 +337,7 @@ Package Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: get_next_state(sys, xk, uk_abc, k)
+   .. py:method:: get_next_state(sys, xk, u_abc, k)
 
       
       Get the next state of the system.
@@ -346,8 +346,8 @@ Package Contents
       :type sys: system object
       :param xk: The current state of the system.
       :type xk: 1 x 4 ndarray of floats
-      :param uk_abc: Converter three-phase switch position or modulating signal.
-      :type uk_abc: 1 x 3 ndarray of floats
+      :param u_abc: Converter three-phase switch position or modulating signal.
+      :type u_abc: 1 x 3 ndarray of floats
       :param k: The solver prediction step.
       :type k: int
 
@@ -486,7 +486,7 @@ Package Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: get_next_state(sys, xk, uk_abc, k)
+   .. py:method:: get_next_state(sys, xk, u_abc, k)
 
       
       Get the next state of the system.
@@ -495,8 +495,8 @@ Package Contents
       :type sys: system object
       :param xk: The current state of the system.
       :type xk: 1 x 2 ndarray of floats
-      :param uk_abc: Converter three-phase switch position or modulating signal.
-      :type uk_abc: 1 x 3 ndarray of floats
+      :param u_abc: Converter three-phase switch position or modulating signal.
+      :type u_abc: 1 x 3 ndarray of floats
       :param k: The solver prediction step.
       :type k: int
 

@@ -104,7 +104,7 @@ Package Contents
       :param y_ref: Reference vector [p.u.].
       :type y_ref: ndarray of floats
 
-      :returns: **uk_abc** -- The three-phase modulating signal.
+      :returns: **u_abc** -- The three-phase modulating signal.
       :rtype: 1 x 3 ndarray of floats
 
 
@@ -186,7 +186,7 @@ Package Contents
       :param y_ref: Reference vector [p.u.].
       :type y_ref: ndarray of floats
 
-      :returns: **uk_abc** -- The three-phase switch position.
+      :returns: **u_abc** -- The three-phase switch position.
       :rtype: 1 x 3 ndarray of ints
 
 
@@ -294,7 +294,7 @@ Package Contents
       :param y_ref: Reference vector [p.u.].
       :type y_ref: ndarray of floats
 
-      :returns: **uk_abc** -- The three-phase switch position with the lowest cost.
+      :returns: **u_abc** -- The three-phase switch position with the lowest cost.
       :rtype: 1 x 3 ndarray of ints
 
 
@@ -352,7 +352,7 @@ Package Contents
           !! processed by numpydoc !!
 
 
-.. py:function:: switching_constraint_violated(nl, uk_abc, u_km1_abc)
+.. py:function:: switching_constraint_violated(nl, u_abc, u_km1_abc)
 
    
    Check if a candidate three-phase switch position violates a switching constraint.
@@ -361,8 +361,8 @@ Package Contents
 
    :param nl: Number of converter voltage levels.
    :type nl: int
-   :param uk_abc: three-phase switch position.
-   :type uk_abc: 1 x 3 ndarray of ints
+   :param u_abc: three-phase switch position.
+   :type u_abc: 1 x 3 ndarray of ints
    :param u_km1_abc: Previously applied three-phase switch position.
    :type u_km1_abc: 1 x 3 ndarray of ints
 
