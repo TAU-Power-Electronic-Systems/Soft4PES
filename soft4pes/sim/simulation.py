@@ -108,12 +108,12 @@ class Simulation:
 
             # Execute the controller
             kTs = k * self.ctr.Ts
-            uk_abc = self.ctr(self.sys, kTs)
+            u_abc = self.ctr(self.sys, kTs)
 
             for k_sim in range(int(self.ctr.Ts / self.Ts_sim)):
 
                 kTs_sim = kTs + k_sim * self.Ts_sim
-                self.sys.update(self.matrices, uk_abc, kTs_sim)
+                self.sys.update(self.matrices, u_abc, kTs_sim)
 
             progress_printer(k)
 

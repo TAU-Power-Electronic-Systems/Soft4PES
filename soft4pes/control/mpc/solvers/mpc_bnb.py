@@ -58,7 +58,7 @@ class MpcBnB:
 
         Returns
         -------
-        uk_abc : 1 x 3 ndarray of ints
+        u_abc : 1 x 3 ndarray of ints
             The three-phase switch position.
         """
 
@@ -68,8 +68,8 @@ class MpcBnB:
 
         self.solve(sys, ctr, sys.x, y_ref, ctr.u_km1_abc)
 
-        uk_abc = self.U_seq[0:3]
-        return uk_abc
+        u_abc = self.U_seq[0:3]
+        return u_abc
 
     def solve(self, sys, ctr, x_ell, y_ref, u_ell_abc_prev, ell=0, J_prev=0):
         """

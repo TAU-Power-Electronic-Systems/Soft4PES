@@ -4,7 +4,7 @@ import numpy as np
 from types import SimpleNamespace
 
 
-def switching_constraint_violated(nl, uk_abc, u_km1_abc):
+def switching_constraint_violated(nl, u_abc, u_km1_abc):
     """
     Check if a candidate three-phase switch position violates a switching constraint. 
     A three-level converter is not allowed to directly switch from -1 and 1 (and vice versa) 
@@ -14,7 +14,7 @@ def switching_constraint_violated(nl, uk_abc, u_km1_abc):
     ----------
     nl : int
         Number of converter voltage levels.
-    uk_abc : 1 x 3 ndarray of ints
+    u_abc : 1 x 3 ndarray of ints
         three-phase switch position.
     u_km1_abc : 1 x 3 ndarray of ints
         Previously applied three-phase switch position.

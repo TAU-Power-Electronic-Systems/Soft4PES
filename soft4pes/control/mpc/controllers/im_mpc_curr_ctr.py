@@ -98,14 +98,14 @@ class IMMpcCurrCtr(Controller):
             y_ref[ell + 1, :] = np.dot(R_ref, y_ref[ell, :])
 
         # Solve the control problem
-        uk_abc = self.solver(sys, self, y_ref)
-        self.u_km1_abc = uk_abc
+        u_abc = self.solver(sys, self, y_ref)
+        self.u_km1_abc = u_abc
 
-        self.output = SimpleNamespace(uk_abc=uk_abc)
+        self.output = SimpleNamespace(u_abc=u_abc)
 
         return self.output
 
-    def get_next_state(self, sys, xk, uk_abc, k):
+    def get_next_state(self, sys, xk, u_abc, k):
         """
         Get the next state of the system.
 
@@ -115,7 +115,7 @@ class IMMpcCurrCtr(Controller):
             The system model.
         xk : 1 x 4 ndarray of floats
             The current state of the system.
-        uk_abc : 1 x 3 ndarray of floats
+        u_abc : 1 x 3 ndarray of floats
             Converter three-phase switch position or modulating signal.
         k : int
             The solver prediction step.
@@ -127,4 +127,4 @@ class IMMpcCurrCtr(Controller):
         """
 
         return np.dot(self.state_space.A, xk) + np.dot(self.state_space.B,
-                                                       uk_abc)
+                                                       u_abc)
