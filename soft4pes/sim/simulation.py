@@ -6,6 +6,7 @@ Simulation environment for power electronic systems.
 import os
 import numpy as np
 from scipy.io import savemat
+from types import SimpleNamespace
 
 
 class ProgressPrinter:
@@ -52,8 +53,6 @@ class Simulation:
     ----------
     sys : system object
         System model.
-    conv : converter object
-        Converter model.
     ctr : controller object
         Control system.
     Ts_sim : float
@@ -63,8 +62,6 @@ class Simulation:
     ----------
     sys : system object
         System model.
-    conv : converter object
-        Converter model.
     ctr : controller object.
         Control system.
     Ts_sim : float
@@ -77,14 +74,13 @@ class Simulation:
         Data from the simulation.
     """
 
-    def __init__(self, sys, conv, ctr, Ts_sim):
+    def __init__(self, sys, ctr, Ts_sim, disc_method='forward_euler'):
         self.sys = sys
-        self.conv = conv
         self.ctr = ctr
         self.Ts_sim = Ts_sim
         self.t_stop = 0
         self.matrices = self.sys.get_discrete_state_space(
-            self.conv.v_dc, self.Ts_sim)
+            self.Ts_sim, disc_method)
         self.simulation_data = None
 
         # Check if self.ctr.Ts/Ts_sim is an integer. Use tolerance to prevent
@@ -112,16 +108,21 @@ class Simulation:
 
             # Execute the controller
             kTs = k * self.ctr.Ts
-            uk_abc = self.ctr(self.sys, self.conv, kTs)
+            u_abc = self.ctr(self.sys, kTs)
 
             for k_sim in range(int(self.ctr.Ts / self.Ts_sim)):
 
                 kTs_sim = kTs + k_sim * self.Ts_sim
-                self.sys.update_state(self.matrices, uk_abc, kTs_sim)
+                self.sys.update(self.matrices, u_abc, kTs_sim)
 
             progress_printer(k)
 
-        self.simulation_data = {'ctr': self.ctr.sim_data, 'sys': self.sys.data}
+        # Get the simulation data
+        self.ctr.get_control_system_data()
+        self.simulation_data = {'ctr': self.ctr.data, 'sys': self.sys.data}
+
+        return self.process_simulation_data(
+            SimpleNamespace(sys=self.sys.data, ctr=self.ctr.data))
 
     def save_data(self, filename='sim_data.mat', path=''):
         """
@@ -146,3 +147,33 @@ class Simulation:
 
         full_path = os.path.join(path, filename)
         savemat(full_path, self.simulation_data)
+
+    def process_simulation_data(self, data):
+        """
+        Recursively convert lists of arrays in a SimpleNamespace to NumPy arrays.
+
+        Parameters
+        ----------
+        data : SimpleNamespace or list of ndarray
+            The data to be converted. Can be a SimpleNamespace or a list of arrays.
+
+        Returns
+        -------
+        SimpleNamespace or ndarray
+            A SimpleNamespace with lists of arrays converted to NumPy arrays, or a NumPy array if the input is a list of arrays.
+        """
+        if isinstance(data, list):
+            # If data is a list of arrays, convert it to a single NumPy array
+            stacked_array = np.array(data)
+            return stacked_array
+
+        elif isinstance(data, SimpleNamespace):
+            # If data is a SimpleNamespace, recursively process its attributes
+            for attr in data.__dict__:
+                setattr(data, attr,
+                        self.process_simulation_data(getattr(data, attr)))
+            return data
+
+        else:
+            # If data is neither a list nor a SimpleNamespace, return it as is
+            return data

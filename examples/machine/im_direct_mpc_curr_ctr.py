@@ -5,9 +5,9 @@ the stator flux magnitude and torque. The machine operates at a constant (nomina
 """
 
 #pylint: disable=wrong-import-position
+from types import SimpleNamespace
 import sys as system
 import os
-
 import numpy as np
 
 ## -------------------------------------------------------------------- ##
@@ -19,7 +19,7 @@ system.path.append(os.path.abspath(os.path.join(current_dir, '..', '..')))
 ## -------------------------------------------------------------------- ##
 
 from soft4pes import model
-from soft4pes.control import mpc
+from soft4pes.control import mpc, common
 from soft4pes.utils import Sequence
 from soft4pes.sim import Simulation
 
@@ -35,6 +35,7 @@ T_ref_seq = Sequence(
     np.array([0, 0.1, 0.1, 0.2]),
     np.array([1, 1, 0, 0]),
 )
+ref_seq = SimpleNamespace(T_ref_seq=T_ref_seq)
 
 # Define induction machine parameters
 im_params = model.machine.InductionMachineParameters(fs_SI=50,
@@ -47,12 +48,12 @@ im_params = model.machine.InductionMachineParameters(fs_SI=50,
                                                      base=base)
 
 # Define system models
+conv = model.conv.Converter(v_dc_SI=600, nl=3, base=base)
 sys = model.machine.InductionMachine(par=im_params,
+                                     conv=conv,
                                      base=base,
                                      psiS_mag_ref=1,
                                      T_ref_init=T_ref_seq(0))
-
-conv = model.conv.Converter(v_dc_SI=600, nl=3, base=base)
 
 # Define solver to be enumeration based
 solver = mpc.solvers.MpcEnum(conv=conv)
@@ -61,13 +62,10 @@ solver = mpc.solvers.MpcEnum(conv=conv)
 # solver = mpc.solvers.MpcBnB(conv=conv)
 
 # Define controller
-ctr = mpc.controllers.IMMpcCurrCtr(solver,
-                                   lambda_u=10e-3,
-                                   Np=1,
-                                   Ts=100e-6,
-                                   T_ref=T_ref_seq)
+ctr = mpc.controllers.IMMpcCurrCtr(solver, lambda_u=10e-3, Np=1)
+ctr_sys = common.ControlSystem(control_loops=[ctr], ref_seq=ref_seq, Ts=100e-6)
 
 # Simulate system
-sim = Simulation(sys=sys, conv=conv, ctr=ctr, Ts_sim=5e-6)
+sim = Simulation(sys=sys, ctr=ctr_sys, Ts_sim=5e-6)
 sim.simulate(t_stop=0.2)
 sim.save_data()

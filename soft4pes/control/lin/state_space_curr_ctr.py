@@ -19,7 +19,7 @@ class RLGridStateSpaceCurrCtr:
         Base values.
     Ts : float
         Sampling interval [s].
-    i_ref_seq_dq : Sequence object
+    ig_ref_seq_dq : Sequence object
         Current reference sequence instance in dq-frame [p.u.].
 
     Attributes
@@ -38,13 +38,13 @@ class RLGridStateSpaceCurrCtr:
         Converter voltage reference after current controller integrator in dq frame [p.u.].
     uc_km1_dq : 1 x 2 ndarray of floats
         Previous converter voltage reference in dq frame [p.u.].                                    
-    i_ref_seq_dq : Sequence object
+    ig_ref_seq_dq : Sequence object
         Current reference sequence instance in dq-frame [p.u.].   
-    sim_data : dict
+    data : dict
         Controller data.
     """
 
-    def __init__(self, sys, base, Ts, i_ref_seq_dq):
+    def __init__(self, sys, base, Ts, ig_ref_seq_dq):
         self.Xf = sys.par.Xg  # Assume the inductances are equal
         self.Rf = sys.par.Rg  # Assume the resitances are equal
         self.Ts = Ts
@@ -52,15 +52,15 @@ class RLGridStateSpaceCurrCtr:
         self.ctr_pars = self.get_state_space_ctr_pars()
         self.u_ii_dq = np.zeros(2)
         self.uc_km1_dq = np.zeros(2)
-        self.i_ref_seq_dq = i_ref_seq_dq
+        self.ig_ref_seq_dq = ig_ref_seq_dq
 
-        self.sim_data = {
+        self.data = {
             'ig_ref': [],
             'u': [],
             't': [],
         }
 
-    def __call__(self, sys, conv, kTs):
+    def __call__(self, sys, kTs):
         """
         Perform control.
 
@@ -68,8 +68,6 @@ class RLGridStateSpaceCurrCtr:
         ----------
         sys : system object
             System model.
-        conv : converter object
-            Converter model.
         kTs : float
             Current discrete time instant [s].
 
@@ -82,7 +80,7 @@ class RLGridStateSpaceCurrCtr:
         vg = sys.get_grid_voltage(kTs)
 
         # Get the reference for current step
-        ic_ref_dq = self.i_ref_seq_dq(kTs)
+        ic_ref_dq = self.ig_ref_seq_dq(kTs)
 
         # Calculate the transformation angle
         theta = np.arctan2(vg[1], vg[0])
@@ -91,9 +89,10 @@ class RLGridStateSpaceCurrCtr:
         ic_dq = alpha_beta_2_dq(sys.x, theta)
 
         # Maximum converter output voltage
-        u_max = conv.v_dc / 2
+        u_max = sys.conv.v_dc / 2
 
-        # Assume filter capacitor voltage equals grid voltage (No filter considered)
+        # As the filter is not concidered, the filter capacitor voltage is assumed to be the same
+        # as the grid voltage after the grid indutance.
         uf_dq = vg
 
         # Compute the converter voltage reference using the state space controller with anti-windup
@@ -102,13 +101,13 @@ class RLGridStateSpaceCurrCtr:
         # Transform the converter voltage reference back to abc frame
         uc_abc = dq_2_abc(uc_dq, theta)
 
-        uk_abc = uc_abc / (conv.v_dc / 2)
+        u_abc = uc_abc / (sys.conv.v_dc / 2)
 
         # Save controller data
         ig_ref = dq_2_alpha_beta(ic_ref_dq, theta)
-        self.save_data(ig_ref, uk_abc, kTs)
+        self.save_data(ig_ref, u_abc, kTs)
 
-        return uk_abc
+        return u_abc
 
     def get_state_space_ctr_pars(self):
         """
@@ -218,7 +217,7 @@ class RLGridStateSpaceCurrCtr:
 
         return uc_ref_dq
 
-    def save_data(self, ig_ref, uk_abc, kTs):
+    def save_data(self, ig_ref, u_abc, kTs):
         """
         Save controller data.
 
@@ -226,11 +225,17 @@ class RLGridStateSpaceCurrCtr:
         ----------
         ig_ref : 1 x 2 ndarray of floats
             Current reference in alpha-beta frame.
-        uk_abc : 1 x 3 ndarray of floats
+        u_abc : 1 x 3 ndarray of floats
             Converter three-phase switch position or modulating signal.
         kTs : float
             Current discrete time instant [s].
         """
-        self.sim_data['ig_ref'].append(ig_ref)
-        self.sim_data['u'].append(uk_abc)
-        self.sim_data['t'].append(kTs)
+        self.data['ig_ref'].append(ig_ref)
+        self.data['u'].append(u_abc)
+        self.data['t'].append(kTs)
+
+    def get_control_system_data(self):
+        """
+        This is a empty method to make different controllers compatible when building the new 
+        control system structure.
+        """

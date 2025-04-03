@@ -2,7 +2,8 @@
 
 from itertools import product
 import numpy as np
-from soft4pes.control.mpc.solvers.utils import switching_constraint_violated
+from soft4pes.control.mpc.solvers.utils import (switching_constraint_violated,
+                                                squared_weighted_second_norm)
 
 
 class MpcEnum:
@@ -26,11 +27,13 @@ class MpcEnum:
         self.U_seq = None
         if conv.nl == 2:
             self.sw_pos_3ph = np.array([-1, 1])
-
         elif conv.nl == 3:
             self.sw_pos_3ph = np.array([-1, 0, 1])
+        else:
+            raise ValueError(
+                'Only two- and three-level converters are supported.')
 
-    def __call__(self, sys, conv, ctr, y_ref):
+    def __call__(self, sys, ctr, y_ref):
         """
         Solve MPC problem with exhaustive enumeration.
 
@@ -38,8 +41,6 @@ class MpcEnum:
         ----------
         sys : system object
             System model.
-        conv : converter object
-            Converter model.
         ctr : controller object
             Controller object.
         y_ref : ndarray of floats
@@ -47,7 +48,7 @@ class MpcEnum:
 
         Returns
         -------
-        uk_abc : 1 x 3 ndarray of ints
+        u_abc : 1 x 3 ndarray of ints
             The three-phase switch position with the lowest cost.
         """
 
@@ -56,14 +57,14 @@ class MpcEnum:
             self.U_seq = np.array(
                 list(product(self.sw_pos_3ph, repeat=3 * ctr.Np)))
 
-        J = self.solve(sys, conv, ctr, sys.x, y_ref, ctr.u_km1_abc)
+        J = self.solve(sys, ctr, sys.x, y_ref, ctr.u_km1_abc)
 
         # Find the switching sequences with the lowest cost
         min_index = np.argmin(J)
-        uk_abc = self.U_seq[min_index, 0:3]
-        return uk_abc
+        u_abc = self.U_seq[min_index, 0:3]
+        return u_abc
 
-    def solve(self, sys, conv, ctr, xk, y_ref, u_km1_abc):
+    def solve(self, sys, ctr, xk, y_ref, u_km1_abc):
         """
         Recursively compute the cost for different switching sequences
 
@@ -71,8 +72,6 @@ class MpcEnum:
         ----------
         sys : system object
             System model.
-        conv : converter object.
-            Converter model.
         ctr : controller object.
             Controller object.
         xk : ndarray of floats
@@ -90,7 +89,7 @@ class MpcEnum:
         """
 
         # Initialize the cost array
-        J = np.zeros((conv.nl**(3 * ctr.Np), 1))
+        J = np.zeros((sys.conv.nl**(3 * ctr.Np), 1))
 
         # Iterate over all possible switching sequences and three-phase switch positionss
         for i, u_seq in enumerate(self.U_seq):
@@ -107,7 +106,8 @@ class MpcEnum:
 
                 # Check if switching constraint is violated or the cost is already infinite
                 if switching_constraint_violated(
-                        conv.nl, u_ell_abc, u_ell_abc_prev) or J[i] == np.inf:
+                        sys.conv.nl, u_ell_abc,
+                        u_ell_abc_prev) or J[i] == np.inf:
                     # Set the cost to infinity and the next state to infinity
                     J[i] = np.inf
                     x_ell_next = np.full_like(x_ell, np.inf)
@@ -117,7 +117,9 @@ class MpcEnum:
 
                     # Calculate the cost of the reference tracking and the control effort
                     y_ell_next = np.dot(ctr.C, x_ell_next)
-                    y_error = np.linalg.norm(y_ref[ell + 1] - y_ell_next)**2
+                    Q = np.eye(np.size(y_ref[ell + 1]))
+                    y_error = squared_weighted_second_norm(
+                        y_ref[ell + 1] - y_ell_next, Q)
                     delta_u = np.linalg.norm(u_ell_abc - u_ell_abc_prev, ord=1)
                     J[i] += y_error + ctr.lambda_u * delta_u
 

@@ -19,7 +19,9 @@ class InductionMachine(SystemModel):
     Parameters
     ----------
     par : InductionMachineParameters
-        Induction machine parameters in p.u..
+        Induction machine parameters in p.u.
+    conv : converter object
+        Converter object.
     base : base value object
         Base values.
     psiS_mag_ref : float
@@ -29,20 +31,29 @@ class InductionMachine(SystemModel):
 
     Attributes
     ----------
+    data : SimpleNamespace
+        Namespace for storing simulation data.
     par : InductionMachineParameters
-        Induction machine parameters in p.u..
+        Induction machine parameters in p.u.
+    conv : converter object
+        Converter object.
     base : base value object
         Base values.
     x : 1 x 4 ndarray of floats
         Current state of the machine [p.u.].
     psiR_mag_ref : float
         Rotor flux magnitude reference [p.u.].
+    wr : float
+        Electrical angular rotor speed [p.u.].
+    cont_state_space : SimpleNamespace
+        The continuous-time state-space model of the system.
     """
 
-    def __init__(self, par, base, psiS_mag_ref, T_ref_init):
-        super().__init__(par=par, base=base)
+    def __init__(self, par, conv, base, psiS_mag_ref, T_ref_init):
+        self.par = par
         self.set_initial_state(psiS_mag_ref=psiS_mag_ref,
                                T_ref_init=T_ref_init)
+        super().__init__(par=par, conv=conv, base=base)
         self.psiR_mag_ref = np.linalg.norm(self.x[2:4])
 
     def set_initial_state(self, **kwargs):
@@ -142,7 +153,17 @@ class InductionMachine(SystemModel):
         iS_q = T_ref / psiR_mag * self.par.Xr / self.par.Xm / self.par.kT
         return np.array([iS_d, iS_q])
 
-    def get_discrete_state_space(self, v_dc, Ts):
+    def get_continuous_state_space(self):
+        """
+        Calculate the continuous-time state-space model of the system.
+
+        Returns
+        -------
+        SimpleNamespace
+            A SimpleNamespace object containing matrices F and G of the continuous-time state-space 
+            model.
+        """
+
         wr = self.wr
         Rs = self.par.Rs
         Rr = self.par.Rr
@@ -152,8 +173,6 @@ class InductionMachine(SystemModel):
         tauS = Xr * D / (Rs * Xr**2 + Rr * Xm**2)
         tauR = Xr / Rr
 
-        Ts_pu = Ts * self.base.w
-
         K = (2 / 3) * np.array([[1, -1 / 2, -1 / 2],
                                 [0, np.sqrt(3) / 2, -np.sqrt(3) / 2]])
 
@@ -162,12 +181,10 @@ class InductionMachine(SystemModel):
                       [Xm / tauR, 0, -1 / tauR, -wr],
                       [0, Xm / tauR, wr, -1 / tauR]])
 
-        G = Xr / D * np.dot(np.array([[1, 0], [0, 1], [0, 0], [0, 0]]),
-                            K) * v_dc / 2
+        G = Xr / D * np.dot(np.block([[np.eye(2), np.zeros(
+            (2, 2))]]).T, K) * self.conv.v_dc / 2
 
-        A = np.eye(4) + F * Ts_pu
-        B = G * Ts_pu
-        return SimpleNamespace(A=A, B=B)
+        return SimpleNamespace(F=F, G=G)
 
     @property
     def Te(self):
@@ -175,7 +192,40 @@ class InductionMachine(SystemModel):
         psiR = self.x[2:4]
         return self.par.kT * (self.par.Xm / self.par.Xr) * np.cross(psiR, iS)
 
-    def update_state(self, matrices, uk_abc, kTs):
-        meas = SimpleNamespace(Te=self.Te)
-        x_kp1 = np.dot(matrices.A, self.x) + np.dot(matrices.B, uk_abc)
-        super().update(x_kp1, uk_abc, kTs, meas)
+    def get_next_state(self, matrices, u_abc, kTs):
+        """
+        Calculate the next state of the system.
+
+        Parameters
+        ----------
+        u_abc : 1 x 3 ndarray of floats
+            Converter three-phase switch position or modulating signal.
+        matrices : SimpleNamespace
+            A SimpleNamespace object containing the state-space model matrices.
+        kTs : float
+            Current discrete time instant [s].
+
+        Returns
+        -------
+        1 x 4 ndarray of floats
+            The next state of the system.
+        """
+
+        x_kp1 = np.dot(matrices.A, self.x) + np.dot(matrices.B, u_abc)
+        return x_kp1
+
+    def get_measurements(self, kTs):
+        """
+        Update the measurement data of the system.
+
+        Parameters
+        ----------
+        kTs : float
+            Current discrete time instant [s].
+
+        Returns
+        -------
+        SimpleNamespace
+            A SimpleNamespace object containing the machine torque.
+        """
+        return SimpleNamespace(Te=self.Te)
