@@ -46,9 +46,3 @@ class RLGridParameters:
         self.wg = 2 * np.pi * fg_SI / base.w
         self.Rg = Rg_SI / base.Z
         self.Xg = Lg_SI / base.L
-
-    def __call__(self, kTs):
-        # If Vg is a Sequence, get the value at the specific time step
-        if isinstance(self.Vg, Sequence):
-            return self.Vg(kTs)
-        return self.Vg

@@ -2,7 +2,7 @@
 
 from types import SimpleNamespace
 import numpy as np
-from soft4pes.utils import abc_2_alpha_beta
+from soft4pes.utils import Sequence, abc_2_alpha_beta
 from soft4pes.model.common.system_model import SystemModel
 from soft4pes.utils.conversions import dq_2_alpha_beta
 
@@ -107,15 +107,11 @@ class RLGrid(SystemModel):
         theta = self.par.wg * (kTs * self.base.w)
 
         # Handle both constant and sequence-based Vg
-        if hasattr(self.par.Vg, '__call__'):
-            # If Vg is a Sequence, get its value at the current time step
-            Vg_value = self.par.Vg(kTs)
+        if isinstance(self.par.Vg, Sequence):
+            # Grid peak voltage
+            Vg = np.sqrt(2 / 3) * self.par.Vg(kTs)
         else:
-            # If Vg is a constant
-            Vg_value = self.par.Vg
-
-        # Grid peak voltage
-        Vg = np.sqrt(2 / 3) * Vg_value
+            Vg = np.sqrt(2 / 3) * self.par.Vg
 
         vg_abc = Vg * np.sin(theta + 2 * np.pi / 3 * np.array([0, -1, 1]))
 
