@@ -1,5 +1,6 @@
 """
-Parameters for a grid with a stiff voltage source and RL-load.
+Parameters for a grid with a voltage source and an RL-load. The grid voltage can be given as a 
+constant or as a function of time using a Sequence object. 
 """
 
 import numpy as np
@@ -8,11 +9,12 @@ from soft4pes.utils import Sequence
 
 class RLGridParameters:
     """
-    Parameters for a grid with a stiff voltage source and RL-load.
+    Parameters for a grid with a voltage source and an RL-load. The grid voltage can be given as a 
+    constant or as a function of time using a Sequence object. 
 
     Parameters
     ----------
-    Vg_SI : float
+    Vg_SI : float or Sequence
         Grid voltage [V] (line-to-line rms voltage).
     fg_SI : float
         Grid frequency [Hz].
@@ -25,7 +27,7 @@ class RLGridParameters:
 
     Attributes
     ----------
-    Vg : float
+    Vg : float or Sequence
         Grid voltage [p.u.] (line-to-line rms voltage).
     wg : float
         Angular frequency [p.u.].
@@ -37,10 +39,8 @@ class RLGridParameters:
 
     def __init__(self, Vg_SI, fg_SI, Rg_SI, Lg_SI, base):
         if isinstance(Vg_SI, Sequence):
-            # If Vg_SI is a Sequence, convert its values to p.u.
             self.Vg = Sequence(times=Vg_SI.times, values=Vg_SI.values / base.V)
         else:
-            # If Vg_SI is a float, convert to p.u.
             self.Vg = Vg_SI / base.V
 
         self.wg = 2 * np.pi * fg_SI / base.w

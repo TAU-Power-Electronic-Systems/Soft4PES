@@ -42,7 +42,10 @@ class RFPSC(Controller):
     ig_filter : FirstOrderFilter
         First-order filter for the current.
     Kp : float
-        Proportional gain of the active power droop control [p.u.].
+        Proportional gain of the active power droop control [p.u.]. Recommended selection is 
+        Kp = wg * Ra / Vg, where wg is the nominal grid frequency, Ra is the virtual damping
+        resistance (default 0.2) and Vg is the nominal grid peak voltage. If value is not provided, 
+        nominal grid frequency and nominal grid peak voltage are assumed to be 1 p.u.
     """
 
     def __init__(self, sys, Ra=0.2, Kp=None, w_bw=0.1):
@@ -55,9 +58,11 @@ class RFPSC(Controller):
             self.Kp = Kp
         else:
             # If Kp is not provided, calculate it based on the nominal frequency, nominal grid peak
-            # voltage and the virtual damping resistance according to the reference
-            Vg = np.sqrt(2 / 3) * sys.par.Vg
-            self.Kp = sys.par.wg * self.Ra / Vg
+            # voltage and the virtual damping resistance according to the reference. Nominal grid
+            # frequency and nominal grid peak voltage are assumed to be 1 p.u.
+            Vg = 1
+            wg = 1
+            self.Kp = wg * self.Ra / Vg
 
     def execute(self, sys, kTs):
         """
