@@ -45,6 +45,90 @@ class ProgressPrinter:
             self.last_printed_percent = current_percent
 
 
+class SwitchingLogic:
+    """
+    A class to handle switching-related logic, such as quantizing switching times and 
+    extracting three-phase switch position or modulating signal.
+
+    Parameters
+    ----------
+    Ts_sim : float
+        Simulation sampling interval [s].
+    Ts : float
+        Control system sampling interval [s].
+
+    Attributes
+    ----------
+    Ts_sim : float
+        Simulation sampling interval [s].
+    Ts : float
+        Control system sampling interval [s].
+    k_switch : ndarray
+        Quantized switching times.
+    u_abc : ndarray
+        Three-phase switch position or modulating signal.
+    """
+
+    def __init__(self, Ts_sim, Ts):
+        self.Ts_sim = Ts_sim
+        self.Ts = Ts
+        self.k_switch = 0
+        self.u_abc = np.zeros(3)
+
+    def quantize_switching_times(self, t_switch):
+        """
+        Quantize the switching time instants.
+
+        Parameters
+        ----------
+        t_switch : ndarray
+            Switching times. 
+
+        Returns
+        -------
+        ndarray
+            Quantized switching time instants.
+        """
+
+        return np.round(t_switch * self.Ts / self.Ts_sim)
+
+    def get_switch_positions(self, ctr_output, k_sim):
+        """
+        Get the three-phase switch position or modulating signal for the current discrete time 
+        instant. The switching times are quantized to the simulation sampling interval in the 
+        begining of the control interval.
+
+        Parameters
+        ----------
+        ctr_output : SimpleNamespace
+            Output from the controller including the switching times and the corresponding switch 
+            positions or modulating signal.
+        k_sim : int
+            Current simulation step within the control interval.
+
+        Returns
+        -------
+        ndarray
+            Three-phase switch positions or modulating signal for current simulation step.
+        """
+
+        # Get the quantized switching times. The quantization is done only once at the beginning of
+        # the control interval.
+        if k_sim == 0:
+            self.k_switch = self.quantize_switching_times(ctr_output.t_switch)
+
+        # Get the three-phase switch positions or modulating signal for the current simulation step.
+        # The output is updated if a switching time equals the current simulation step.
+        if np.any(k_sim == self.k_switch):
+            # Get the three-phase switch positions or modulating signal for the current simulation
+            # step. Multiple switching times can be equal to the current simulation step. If this is
+            # the case, the last entry is used, as it includes the preceding ones.
+            self.u_abc = ctr_output.switch_pos[k_sim == self.k_switch]
+            if self.u_abc.ndim == 2:
+                self.u_abc = self.u_abc[-1]
+        return self.u_abc
+
+
 class Simulation:
     """
     Simulation environment.
@@ -72,6 +156,8 @@ class Simulation:
         Discrete state-space matrices of the simulated system.
     simulation_data : dict
         Data from the simulation.
+    switching_logic : SwitchingLogic
+        Object for handling switching logic.
     """
 
     def __init__(self, sys, ctr, Ts_sim, disc_method='forward_euler'):
@@ -82,6 +168,7 @@ class Simulation:
         self.matrices = self.sys.get_discrete_state_space(
             self.Ts_sim, disc_method)
         self.simulation_data = None
+        self.switching_logic = SwitchingLogic(Ts_sim, ctr.Ts)
 
         # Check if self.ctr.Ts/Ts_sim is an integer. Use tolerance to prevent
         # floating point errors
@@ -105,14 +192,19 @@ class Simulation:
         self.t_stop = t_stop
 
         for k in range(int(self.t_stop / self.ctr.Ts)):
+            kTs = k * self.ctr.Ts
 
             # Execute the controller
-            kTs = k * self.ctr.Ts
-            u_abc = self.ctr(self.sys, kTs)
+            ctr_output = self.ctr(self.sys, kTs)
 
             for k_sim in range(int(self.ctr.Ts / self.Ts_sim)):
-
                 kTs_sim = kTs + k_sim * self.Ts_sim
+
+                # Extract the three-phase switch position or modulating signal
+                u_abc = self.switching_logic.get_switch_positions(
+                    ctr_output, k_sim)
+
+                # Update the system state
                 self.sys.update(self.matrices, u_abc, kTs_sim)
 
             progress_printer(k)
@@ -160,7 +252,8 @@ class Simulation:
         Returns
         -------
         SimpleNamespace or ndarray
-            A SimpleNamespace with lists of arrays converted to NumPy arrays, or a NumPy array if the input is a list of arrays.
+            A SimpleNamespace with lists of arrays converted to NumPy arrays, or a NumPy array if 
+            the input is a list of arrays.
         """
         if isinstance(data, list):
             # If data is a list of arrays, convert it to a single NumPy array

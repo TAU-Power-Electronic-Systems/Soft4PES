@@ -41,8 +41,16 @@ class ControlSystem:
         self.ref_seq = ref_seq
         self.data = SimpleNamespace(t=[])
         self.Ts = Ts
-        self.pwm = pwm
+
+        # If PWM is provided, it is added to the control loops list to be the last loop of the
+        # control system.
+        if pwm is not None:
+            control_loops = control_loops + [pwm]
+
         self.control_loops = control_loops
+        self.pwm = pwm
+
+        # Initialize the control loops with the given sampling interval
         for control_loop in self.control_loops:
             control_loop.set_sampling_interval(Ts)
 
@@ -51,7 +59,7 @@ class ControlSystem:
         Execute the control system for a given discrete time step. The control system
         1. Gets the references for the current time step.
         2. Executes the control loops in the order they appear in the list.
-        3. Generates the three-phase switch position if modulator is used.
+        3. Outputs a three-phase switch positions and the corresponding switching times.  
 
         Parameters
         ----------
@@ -72,18 +80,20 @@ class ControlSystem:
         # Execute the control loops
         for control_loop in self.control_loops:
             control_loop.input = ctr_input
-            ctr_input = control_loop.execute(sys, kTs)
+            ctr_output = control_loop.execute(sys, kTs)
+            ctr_input = ctr_output
             control_loop.save_data()
 
         self.save_data(kTs=kTs)
 
-        # Form the three-phase switch position if PWM is used, otherwise use the output of the inner
-        # (i.e., last) loop as a feedforward signal
-        if self.pwm is not None:
-            u_abc = self.pwm(ctr_input)
-        else:
-            u_abc = ctr_input.u_abc
-        return u_abc
+        # Use the output of the inmost (i.e., last) loop of the control system as a feedforward
+        # signal if PWM is not used. This can be modulating signal or a switch position (in the case
+        # of direct MPC). The three-phase switch position or modulating signal is constant over the
+        # control sampling interval.
+        if self.pwm is None:
+            return SimpleNamespace(t_switch=0, switch_pos=ctr_output.u_abc)
+
+        return ctr_output
 
     def get_references(self, kTs):
         """

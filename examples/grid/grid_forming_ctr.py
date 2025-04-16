@@ -23,7 +23,7 @@ system.path.append(os.path.abspath(os.path.join(current_dir, '..', '..')))
 ## -------------------------------------------------------------------- ##
 
 from soft4pes import model
-from soft4pes.control import common, lin, mpc
+from soft4pes.control import common, lin, mpc, modulation
 from soft4pes.utils import Sequence
 from soft4pes.sim import Simulation
 from plotters.plot_grid_forming_ctr import plot_gfm_example
@@ -66,7 +66,7 @@ rfpsc = lin.RFPSC(sys)
 # Define indirect MPC
 solver = mpc.solvers.IndirectMpcQP()
 vc_mpc = mpc.controllers.LCLVcMpcCtr(solver=solver,
-                                     lambda_u=1e-4,
+                                     lambda_u=1e-2,
                                      Np=4,
                                      I_conv_max=1.3)
 
@@ -80,13 +80,14 @@ control_loops = [rfpsc, vc_mpc]  # Use MPC with RFPSC
 # Uncomment the following line to use the cascade controller instead of MPC
 # control_loops = [rfpsc, vc_ctr, ic_ctr] # Use cascade controller with RFPSC
 
-# Define the control system
+# Define the control system. Set pwm to None to disable PWM.
 ctr_sys = common.ControlSystem(control_loops=control_loops,
                                ref_seq=ref_seq,
-                               Ts=100e-6)
+                               Ts=100e-6,
+                               pwm=modulation.CarrierPWM())
 
 # Simulate the system
-sim = Simulation(sys=sys, ctr=ctr_sys, Ts_sim=5e-6)
+sim = Simulation(sys=sys, ctr=ctr_sys, Ts_sim=0.5e-6)
 sim_data = sim.simulate(t_stop=0.5)
 
 # Save the simulation data to a .mat file
