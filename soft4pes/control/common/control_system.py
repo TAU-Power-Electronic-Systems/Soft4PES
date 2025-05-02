@@ -59,7 +59,7 @@ class ControlSystem:
         Execute the control system for a given discrete time step. The control system
         1. Gets the references for the current time step.
         2. Executes the control loops in the order they appear in the list.
-        3. Outputs a three-phase switch positions and the corresponding switching times.  
+        3. Outputs a three-phase switch position and the corresponding switching times.  
 
         Parameters
         ----------

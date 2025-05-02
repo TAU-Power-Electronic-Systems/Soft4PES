@@ -47,8 +47,8 @@ class ProgressPrinter:
 
 class SwitchingLogic:
     """
-    A class to handle switching-related logic, such as quantizing switching times and 
-    extracting three-phase switch position or modulating signal.
+    A class to handle switching-related logic, such as quantizing switching time instants and 
+    extracting the three-phase switch position or modulating signal.
 
     Parameters
     ----------
@@ -75,14 +75,14 @@ class SwitchingLogic:
         self.k_switch = 0
         self.u_abc = np.zeros(3)
 
-    def quantize_switching_times(self, t_switch):
+    def quantize_switching_time_instants(self, t_switch):
         """
         Quantize the switching time instants.
 
         Parameters
         ----------
         t_switch : ndarray
-            Switching times. 
+            Switching time instants. 
 
         Returns
         -------
@@ -95,16 +95,16 @@ class SwitchingLogic:
     def get_switch_positions(self, ctr_output, k_sim):
         """
         Get the three-phase switch position or modulating signal for the current discrete time 
-        instant. The switching times are quantized to the simulation sampling interval in the 
-        begining of the control interval.
+        instant. The switching time instants are quantized to the simulation sampling interval in 
+        the beginning of the control interval.
 
         Parameters
         ----------
         ctr_output : SimpleNamespace
-            Output from the controller including the switching times and the corresponding switch 
-            positions or modulating signal.
+            Output from the controller including the switching time instants and the corresponding 
+            switch position or modulating signal.
         k_sim : int
-            Current simulation step within the control interval.
+            The current simulation step within the control interval.
 
         Returns
         -------
@@ -112,17 +112,18 @@ class SwitchingLogic:
             Three-phase switch positions or modulating signal for current simulation step.
         """
 
-        # Get the quantized switching times. The quantization is done only once at the beginning of
-        # the control interval.
+        # Get the quantized switching time instants. The quantization is done only once at the
+        # beginning of the control interval.
         if k_sim == 0:
-            self.k_switch = self.quantize_switching_times(ctr_output.t_switch)
+            self.k_switch = self.quantize_switching_time_instants(
+                ctr_output.t_switch)
 
         # Get the three-phase switch positions or modulating signal for the current simulation step.
-        # The output is updated if a switching time equals the current simulation step.
+        # The output is updated if a switching time instant equals the current simulation step.
         if np.any(k_sim == self.k_switch):
-            # Get the three-phase switch positions or modulating signal for the current simulation
-            # step. Multiple switching times can be equal to the current simulation step. If this is
-            # the case, the last entry is used, as it includes the preceding ones.
+            # Get the three-phase switch position or modulating signal for the current simulation
+            # step. Multiple switching time instants can be equal to the current simulation step. If
+            # this is the case, the last entry is used, as it includes the preceding ones.
             self.u_abc = ctr_output.switch_pos[k_sim == self.k_switch]
             if self.u_abc.ndim == 2:
                 self.u_abc = self.u_abc[-1]
