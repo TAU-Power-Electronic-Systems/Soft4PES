@@ -45,11 +45,21 @@ class RLGridLCLFilter(RLGrid):
         Base values.
     cont_state_space : SimpleNamespace
         The continuous-time state-space model of the system.
+    state_map : dict
+        A dictionary mapping state names to slices of the state vector.
     """
 
     def __init__(self, par_grid, par_lcl_filter, conv, base):
         par = SimpleNamespace(**vars(par_grid), **vars(par_lcl_filter))
-        super().__init__(par, conv, base)
+        super().__init__(par=par, conv=conv, base=base)
+        state_map = {
+            'i_conv': slice(0, 2),  # Converter current (x[0:2])
+            'ig': slice(2, 4),  # Grid current (x[2:4])
+            'vc': slice(4, 6),  # Capacitor voltage (x[4:6])
+        }
+        # Overwrite the state map of RLGrid with the one of RLGridLCLFilter
+        self.x_size = 6
+        self.state_map = state_map
         self.set_initial_state()
 
     def set_initial_state(self, **kwargs):
