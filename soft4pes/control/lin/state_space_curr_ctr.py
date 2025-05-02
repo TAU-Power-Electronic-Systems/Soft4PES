@@ -86,7 +86,7 @@ class RLGridStateSpaceCurrCtr:
         theta = np.arctan2(vg[1], vg[0])
 
         # Get dq frame current (converter current equals grid current due to lack of a filter)
-        ic_dq = alpha_beta_2_dq(sys.x, theta)
+        ic_dq = alpha_beta_2_dq(sys.i_conv, theta)
 
         # Maximum converter output voltage
         u_max = sys.conv.v_dc / 2

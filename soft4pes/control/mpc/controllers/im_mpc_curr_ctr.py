@@ -80,7 +80,7 @@ class IMMpcCurrCtr(Controller):
         iS_ref_dq = sys.calc_stator_current(sys.psiR_mag_ref, T_ref)
 
         # Get the rotor flux angle and calculate the reference in alpha-beta frame
-        theta = np.arctan2(sys.x[3], sys.x[2])
+        theta = np.arctan2(sys.psiR[1], sys.psiR[0])
         iS_ref = dq_2_alpha_beta(iS_ref_dq, theta)
         self.input.iS_ref = iS_ref
 

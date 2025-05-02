@@ -28,7 +28,7 @@ def switching_constraint_violated(nl, u_abc, u_km1_abc):
     if nl == 2:
         return False
     elif nl == 3:
-        return np.linalg.norm(uk_abc - u_km1_abc, np.inf) >= 2
+        return np.linalg.norm(u_abc - u_km1_abc, np.inf) >= 2
     else:
         raise ValueError('Only two- and three-level converters are supported.')
 

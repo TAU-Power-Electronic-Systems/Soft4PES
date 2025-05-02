@@ -33,18 +33,56 @@ class SystemModel(ABC):
         Converter object.
     x : ndarray
         Current state of the system.
+    state_map : dict
+        A dictionary mapping state names to slices of the state vector.
     cont_state_space : SimpleNamespace
         The continuous-time state-space model of the system.
     """
 
-    def __init__(self, par, base, conv):
+    def __init__(self, par, base, conv, x_size, state_map):
+        """
+        Initialize the system model.
+
+        Parameters
+        ----------
+        par : system parameters
+            System parameters in p.u.
+        base : base value object
+            Base values.
+        conv : converter object
+            Converter object.
+        x_size : int
+            Length of the state vector.
+        state_map : dict
+            A dictionary mapping state names to slices of the state vector.
+        """
         self.base = base
         self.data = SimpleNamespace(x=[], t=[], u_abc=[])
         self.par = par
         self.conv = conv
         if not hasattr(self, 'x'):
-            self.x = 0
+            self.x = np.zeros(x_size)
+        self.state_map = state_map
         self.cont_state_space = self.get_continuous_state_space()
+
+    def __getattr__(self, name):
+        """
+        Dynamically retrieve slices of the state vector based on the state map.
+
+        Parameters
+        ----------
+        name : str
+            The name of the state to retrieve.
+
+        Returns
+        -------
+        ndarray
+            The corresponding entries in the state vector.
+        """
+        if 'state_map' in self.__dict__ and name in self.state_map:
+            return self.x[self.state_map[name]]
+        raise AttributeError(
+            f"'{self.__class__.__name__}' object has no attribute '{name}'")
 
     @abstractmethod
     def get_continuous_state_space(self):

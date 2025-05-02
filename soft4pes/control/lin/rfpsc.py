@@ -81,13 +81,8 @@ class RFPSC(Controller):
         P_ref = self.input.P_ref
 
         vg = sys.get_grid_voltage(kTs)
-        if isinstance(sys, RLGridLCLFilter):
-            ig = sys.x[2:4]
-        else:
-            ig = sys.x
-
-        ig_dq = alpha_beta_2_dq(ig, self.theta_c)
-        P = np.dot(vg, ig)
+        ig_dq = alpha_beta_2_dq(sys.ig, self.theta_c)
+        P = np.dot(vg, sys.ig)
 
         # Droop control
         wc = sys.par.wg + self.Kp * (P_ref - P)
