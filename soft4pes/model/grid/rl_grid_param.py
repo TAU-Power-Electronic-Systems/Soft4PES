@@ -1,5 +1,5 @@
 """
-Parameters for a grid with a voltage source and an RL-load. The grid voltage can be given as a 
+Parameters for a grid with a voltage source and an RL impedance. The grid voltage can be given as a 
 constant or as a function of time using a Sequence object. 
 """
 
@@ -9,8 +9,8 @@ from soft4pes.utils import Sequence
 
 class RLGridParameters:
     """
-    Parameters for a grid with a voltage source and an RL-load. The grid voltage can be given as a 
-    constant or as a function of time using a Sequence object. 
+    Parameters for a grid with a voltage source and an RL impedance. The grid voltage can be given 
+    as a constant or as a function of time using a Sequence object. 
 
     Parameters
     ----------
