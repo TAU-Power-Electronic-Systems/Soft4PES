@@ -1,18 +1,19 @@
-""" Model of a grid with stiff voltage source and RL-load in alpha-beta frame"""
+""" Model of a grid with a voltage source and an RL impedance in alpha-beta frame. The magnitude of 
+the grid voltage is configurable as a function of time. """
 
 from types import SimpleNamespace
 import numpy as np
-from soft4pes.utils import abc_2_alpha_beta
+from soft4pes.utils import Sequence, abc_2_alpha_beta
 from soft4pes.model.common.system_model import SystemModel
 from soft4pes.utils.conversions import dq_2_alpha_beta
 
 
 class RLGrid(SystemModel):
     """
-    Model of a grid with stiff voltage source and RL-load in alpha-beta frame. The state of the 
-    system is the grid current in the alpha-beta frame. The system input is the converter 
-    three-phase switch position or modulating signal. The grid voltage is considered to be a 
-    disturbance.
+    Model of a grid with a voltage source and an RL impedance in alpha-beta frame. The magnitude of 
+    the grid voltage is configurable as a function of time using a Sequence object. The system input
+    is the converter three-phase switch position or modulating signal. The grid voltage is 
+    considered to be a disturbance.
 
     This class can be used as a base class for other grid models.
 
@@ -106,8 +107,11 @@ class RLGrid(SystemModel):
 
         theta = self.par.wg * (kTs * self.base.w)
 
-        # Grid peak voltage
-        Vg = np.sqrt(2 / 3) * self.par.Vg
+        # Get grid peak voltage
+        if isinstance(self.par.Vg, Sequence):
+            Vg = np.sqrt(2 / 3) * self.par.Vg(kTs)
+        else:
+            Vg = np.sqrt(2 / 3) * self.par.Vg
 
         vg_abc = Vg * np.sin(theta + 2 * np.pi / 3 * np.array([0, -1, 1]))
 
