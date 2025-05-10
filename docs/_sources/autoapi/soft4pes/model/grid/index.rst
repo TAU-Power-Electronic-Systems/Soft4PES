@@ -211,8 +211,8 @@ Package Contents
 
 
    
-   Model of a grid with stiff voltage source, RL-load and an LC(L) filter in alpha-beta frame. If
-   the grid side inductance is not provided, the filter is in LC configuration.
+   Model of a grid with stiff voltage source, RL impedance and an LC(L) filter in alpha-beta frame.
+   If the grid side inductance is not provided, the filter is in LC configuration.
 
    The state of the system is the converter current, the capacitor voltage and the grid current in
    the alpha-beta frame, i.e. x = [i_conv^T, ig^T, vc^T]^T. The system input is the converter
@@ -340,10 +340,10 @@ Package Contents
 
 
    
-   Model of a grid with stiff voltage source and RL-load in alpha-beta frame. The state of the
-   system is the grid current in the alpha-beta frame. The system input is the converter
-   three-phase switch position or modulating signal. The grid voltage is considered to be a
-   disturbance.
+   Model of a grid with a voltage source and an RL impedance in alpha-beta frame. The magnitude of
+   the grid voltage is configurable as a function of time using a Sequence object. The system input
+   is the converter three-phase switch position or modulating signal. The grid voltage is
+   considered to be a disturbance.
 
    This class can be used as a base class for other grid models.
 
@@ -556,10 +556,11 @@ Package Contents
 .. py:class:: RLGridParameters(Vg_SI, fg_SI, Rg_SI, Lg_SI, base)
 
    
-   Parameters for a grid with a stiff voltage source and RL-load.
+   Parameters for a grid with a voltage source and an RL impedance. The grid voltage can be given
+   as a constant or as a function of time using a Sequence object.
 
    :param Vg_SI: Grid voltage [V] (line-to-line rms voltage).
-   :type Vg_SI: float
+   :type Vg_SI: float or Sequence
    :param fg_SI: Grid frequency [Hz].
    :type fg_SI: float
    :param Rg_SI: Resistance [Ohm].
@@ -573,7 +574,7 @@ Package Contents
 
       Grid voltage [p.u.] (line-to-line rms voltage).
 
-      :type: float
+      :type: float or Sequence
 
    .. attribute:: wg
 

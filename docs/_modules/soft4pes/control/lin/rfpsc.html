@@ -353,7 +353,11 @@ document.write(`
 <span class="sd">    ig_filter : FirstOrderFilter</span>
 <span class="sd">        First-order filter for the current.</span>
 <span class="sd">    Kp : float</span>
-<span class="sd">        Proportional gain of the active power droop control [p.u.].</span>
+<span class="sd">        Proportional gain of the active power droop control [p.u.]. Recommended selection is </span>
+<span class="sd">        Kp = wg * Ra / Vg, where wg is the nominal grid angular frequency, Ra is the virtual damping</span>
+<span class="sd">        resistance (default 0.2 p.u.) and Vg is the nominal grid peak voltage. If value is not </span>
+<span class="sd">        provided, nominal grid angular frequency and nominal grid peak voltage are assumed to be </span>
+<span class="sd">        1 p.u. For more details on the tuning and default values, see the reference above.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">Ra</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">Kp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">w_bw</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
@@ -366,9 +370,11 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">Kp</span> <span class="o">=</span> <span class="n">Kp</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># If Kp is not provided, calculate it based on the nominal frequency, nominal grid peak</span>
-            <span class="c1"># voltage and the virtual damping resistance according to the reference</span>
-            <span class="n">Vg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Vg</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">Kp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">wg</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ra</span> <span class="o">/</span> <span class="n">Vg</span>
+            <span class="c1"># voltage and the virtual damping resistance according to the reference. Nominal grid</span>
+            <span class="c1"># frequency and nominal grid peak voltage are assumed to be 1 p.u.</span>
+            <span class="n">Vg</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">wg</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Kp</span> <span class="o">=</span> <span class="n">wg</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ra</span> <span class="o">/</span> <span class="n">Vg</span>
 
 <div class="viewcode-block" id="RFPSC.execute"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/rfpsc/index.html#soft4pes.control.lin.RFPSC.execute">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

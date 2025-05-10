@@ -388,13 +388,14 @@ document.write(`
                   
   <section id="module-soft4pes.model.grid.rl_grid">
 <span id="soft4pes-model-grid-rl-grid"></span><h1>soft4pes.model.grid.rl_grid<a class="headerlink" href="#module-soft4pes.model.grid.rl_grid" title="Permalink to this heading">#</a></h1>
-<p>Model of a grid with stiff voltage source and RL-load in alpha-beta frame</p>
+<p>Model of a grid with a voltage source and an RL impedance in alpha-beta frame. The magnitude of
+the grid voltage is configurable as a function of time.</p>
 <section id="classes">
 <h2>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h2>
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.model.grid.rl_grid.RLGrid" title="soft4pes.model.grid.rl_grid.RLGrid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RLGrid</span></code></a></p></td>
-<td><p>Model of a grid with stiff voltage source and RL-load in alpha-beta frame. The state of the</p></td>
+<td><p>Model of a grid with a voltage source and an RL impedance in alpha-beta frame. The magnitude of</p></td>
 </tr>
 </tbody>
 </table>
@@ -405,10 +406,10 @@ document.write(`
 <dt class="sig sig-object py" id="soft4pes.model.grid.rl_grid.RLGrid">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.model.grid.rl_grid.</span></span><span class="sig-name descname"><span class="pre">RLGrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">par</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ig_ref_init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/model/grid/rl_grid.html#RLGrid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.rl_grid.RLGrid" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.model.common.system_model.SystemModel</span></code></p>
-<p>Model of a grid with stiff voltage source and RL-load in alpha-beta frame. The state of the
-system is the grid current in the alpha-beta frame. The system input is the converter
-three-phase switch position or modulating signal. The grid voltage is considered to be a
-disturbance.</p>
+<p>Model of a grid with a voltage source and an RL impedance in alpha-beta frame. The magnitude of
+the grid voltage is configurable as a function of time using a Sequence object. The system input
+is the converter three-phase switch position or modulating signal. The grid voltage is
+considered to be a disturbance.</p>
 <p>This class can be used as a base class for other grid models.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>

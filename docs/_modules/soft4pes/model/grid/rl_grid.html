@@ -309,21 +309,22 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <h1>Source code for soft4pes.model.grid.rl_grid</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; Model of a grid with stiff voltage source and RL-load in alpha-beta frame&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot; Model of a grid with a voltage source and an RL impedance in alpha-beta frame. The magnitude of </span>
+<span class="sd">the grid voltage is configurable as a function of time. &quot;&quot;&quot;</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleNamespace</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">abc_2_alpha_beta</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">abc_2_alpha_beta</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.model.common.system_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">SystemModel</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.utils.conversions</span><span class="w"> </span><span class="kn">import</span> <span class="n">dq_2_alpha_beta</span>
 
 
 <div class="viewcode-block" id="RLGrid"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RLGrid</span><span class="p">(</span><span class="n">SystemModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Model of a grid with stiff voltage source and RL-load in alpha-beta frame. The state of the </span>
-<span class="sd">    system is the grid current in the alpha-beta frame. The system input is the converter </span>
-<span class="sd">    three-phase switch position or modulating signal. The grid voltage is considered to be a </span>
-<span class="sd">    disturbance.</span>
+<span class="sd">    Model of a grid with a voltage source and an RL impedance in alpha-beta frame. The magnitude of </span>
+<span class="sd">    the grid voltage is configurable as a function of time using a Sequence object. The system input</span>
+<span class="sd">    is the converter three-phase switch position or modulating signal. The grid voltage is </span>
+<span class="sd">    considered to be a disturbance.</span>
 
 <span class="sd">    This class can be used as a base class for other grid models.</span>
 
@@ -348,14 +349,14 @@ document.write(`
 <span class="sd">        Converter object.</span>
 <span class="sd">    x : 1 x 2 ndarray of floats</span>
 <span class="sd">        Current state of the grid [p.u.].</span>
-<span class="sd">    base : base value object</span>
-<div class="viewcode-block" id="RLGrid.base"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.base">[docs]</a><span class="sd">        Base values.</span></div>
-<div class="viewcode-block" id="RLGrid.data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.data">[docs]</a><span class="sd">    cont_state_space : SimpleNamespace</span></div>
-<div class="viewcode-block" id="RLGrid.par"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.par">[docs]</a><span class="sd">        The continuous-time state-space model of the system.</span></div>
-<div class="viewcode-block" id="RLGrid.conv"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.conv">[docs]</a><span class="sd">    &quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="RLGrid.base"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.base">[docs]</a><span class="sd">    base : base value object</span></div>
+<div class="viewcode-block" id="RLGrid.data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.data">[docs]</a><span class="sd">        Base values.</span></div>
+<div class="viewcode-block" id="RLGrid.par"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.par">[docs]</a><span class="sd">    cont_state_space : SimpleNamespace</span></div>
+<div class="viewcode-block" id="RLGrid.conv"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.conv">[docs]</a><span class="sd">        The continuous-time state-space model of the system.</span></div>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">par</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">ig_ref_init</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<div class="viewcode-block" id="RLGrid.cont_state_space"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.cont_state_space">[docs]</a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">par</span><span class="o">=</span><span class="n">par</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="n">base</span><span class="p">,</span> <span class="n">conv</span><span class="o">=</span><span class="n">conv</span><span class="p">)</span></div>
+<div class="viewcode-block" id="RLGrid.cont_state_space"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.cont_state_space">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">par</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">ig_ref_init</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">par</span><span class="o">=</span><span class="n">par</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="n">base</span><span class="p">,</span> <span class="n">conv</span><span class="o">=</span><span class="n">conv</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_initial_state</span><span class="p">(</span><span class="n">ig_ref_init</span><span class="o">=</span><span class="n">ig_ref_init</span><span class="p">)</span>
 
 <div class="viewcode-block" id="RLGrid.set_initial_state"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.set_initial_state">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_initial_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -417,8 +418,11 @@ document.write(`
 
         <span class="n">theta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">wg</span> <span class="o">*</span> <span class="p">(</span><span class="n">kTs</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">w</span><span class="p">)</span>
 
-        <span class="c1"># Grid peak voltage</span>
-        <span class="n">Vg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Vg</span>
+        <span class="c1"># Get grid peak voltage</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Vg</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">):</span>
+            <span class="n">Vg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Vg</span><span class="p">(</span><span class="n">kTs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">Vg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Vg</span>
 
         <span class="n">vg_abc</span> <span class="o">=</span> <span class="n">Vg</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
 

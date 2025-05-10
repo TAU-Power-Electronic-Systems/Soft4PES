@@ -453,7 +453,11 @@ is set to -pi/2 to align the q-axis with the grid voltage.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="soft4pes.control.lin.rfpsc.RFPSC.Kp">
 <span class="sig-name descname"><span class="pre">Kp</span></span><a class="headerlink" href="#soft4pes.control.lin.rfpsc.RFPSC.Kp" title="Permalink to this definition">#</a></dt>
-<dd><p>Proportional gain of the active power droop control [p.u.].</p>
+<dd><p>Proportional gain of the active power droop control [p.u.]. Recommended selection is
+Kp = wg * Ra / Vg, where wg is the nominal grid angular frequency, Ra is the virtual damping
+resistance (default 0.2 p.u.) and Vg is the nominal grid peak voltage. If value is not
+provided, nominal grid angular frequency and nominal grid peak voltage are assumed to be
+1 p.u. For more details on the tuning and default values, see the reference above.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>

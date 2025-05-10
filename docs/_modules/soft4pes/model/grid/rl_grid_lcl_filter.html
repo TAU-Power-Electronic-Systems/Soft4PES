@@ -310,7 +310,7 @@ document.write(`
                   
   <h1>Source code for soft4pes.model.grid.rl_grid_lcl_filter</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot; </span>
-<span class="sd">Model of a grid with stiff voltage source, RL-load and an LC(L) filter in alpha-beta frame.</span>
+<span class="sd">Model of a grid with stiff voltage source, RL impedance and an LC(L) filter in alpha-beta frame.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleNamespace</span>
@@ -321,8 +321,8 @@ document.write(`
 
 <div class="viewcode-block" id="RLGridLCLFilter"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_lcl_filter/index.html#soft4pes.model.grid.RLGridLCLFilter">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RLGridLCLFilter</span><span class="p">(</span><span class="n">RLGrid</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Model of a grid with stiff voltage source, RL-load and an LC(L) filter in alpha-beta frame. If </span>
-<span class="sd">    the grid side inductance is not provided, the filter is in LC configuration.</span>
+<span class="sd">    Model of a grid with stiff voltage source, RL impedance and an LC(L) filter in alpha-beta frame.</span>
+<span class="sd">    If the grid side inductance is not provided, the filter is in LC configuration.</span>
 <span class="sd">    </span>
 <span class="sd">    The state of the system is the converter current, the capacitor voltage and the grid current in </span>
 <span class="sd">    the alpha-beta frame, i.e. x = [i_conv^T, ig^T, vc^T]^T. The system input is the converter </span>

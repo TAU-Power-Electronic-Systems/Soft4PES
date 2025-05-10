@@ -381,13 +381,14 @@ document.write(`
                   
   <section id="module-soft4pes.model.grid.rl_grid_param">
 <span id="soft4pes-model-grid-rl-grid-param"></span><h1>soft4pes.model.grid.rl_grid_param<a class="headerlink" href="#module-soft4pes.model.grid.rl_grid_param" title="Permalink to this heading">#</a></h1>
-<p>Parameters for a grid with a stiff voltage source and RL-load.</p>
+<p>Parameters for a grid with a voltage source and an RL impedance. The grid voltage can be given as a
+constant or as a function of time using a Sequence object.</p>
 <section id="classes">
 <h2>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h2>
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.model.grid.rl_grid_param.RLGridParameters" title="soft4pes.model.grid.rl_grid_param.RLGridParameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RLGridParameters</span></code></a></p></td>
-<td><p>Parameters for a grid with a stiff voltage source and RL-load.</p></td>
+<td><p>Parameters for a grid with a voltage source and an RL impedance. The grid voltage can be given</p></td>
 </tr>
 </tbody>
 </table>
@@ -397,11 +398,12 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="soft4pes.model.grid.rl_grid_param.RLGridParameters">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.model.grid.rl_grid_param.</span></span><span class="sig-name descname"><span class="pre">RLGridParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Vg_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fg_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Rg_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Lg_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/model/grid/rl_grid_param.html#RLGridParameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.rl_grid_param.RLGridParameters" title="Permalink to this definition">#</a></dt>
-<dd><p>Parameters for a grid with a stiff voltage source and RL-load.</p>
+<dd><p>Parameters for a grid with a voltage source and an RL impedance. The grid voltage can be given
+as a constant or as a function of time using a Sequence object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>Vg_SI</strong> (<em>float</em>) – Grid voltage [V] (line-to-line rms voltage).</p></li>
+<li><p><strong>Vg_SI</strong> (<em>float</em><em> or </em><a class="reference internal" href="../../../utils/index.html#soft4pes.utils.Sequence" title="soft4pes.utils.Sequence"><em>Sequence</em></a>) – Grid voltage [V] (line-to-line rms voltage).</p></li>
 <li><p><strong>fg_SI</strong> (<em>float</em>) – Grid frequency [Hz].</p></li>
 <li><p><strong>Rg_SI</strong> (<em>float</em>) – Resistance [Ohm].</p></li>
 <li><p><strong>Lg_SI</strong> (<em>float</em>) – Inductance [H].</p></li>
@@ -411,11 +413,11 @@ document.write(`
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="soft4pes.model.grid.rl_grid_param.RLGridParameters.Vg">
-<span class="sig-name descname"><span class="pre">Vg</span></span><a class="reference internal" href="../../../../../_modules/soft4pes/model/grid/rl_grid_param.html#RLGridParameters.Vg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.rl_grid_param.RLGridParameters.Vg" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">Vg</span></span><a class="headerlink" href="#soft4pes.model.grid.rl_grid_param.RLGridParameters.Vg" title="Permalink to this definition">#</a></dt>
 <dd><p>Grid voltage [p.u.] (line-to-line rms voltage).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
+<dd class="field-odd"><p>float or <a class="reference internal" href="../../../utils/index.html#soft4pes.utils.Sequence" title="soft4pes.utils.Sequence">Sequence</a></p>
 </dd>
 </dl>
 </dd></dl>

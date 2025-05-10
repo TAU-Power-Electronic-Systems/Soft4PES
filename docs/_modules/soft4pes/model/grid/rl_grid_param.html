@@ -310,19 +310,22 @@ document.write(`
                   
   <h1>Source code for soft4pes.model.grid.rl_grid_param</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Parameters for a grid with a stiff voltage source and RL-load.</span>
+<span class="sd">Parameters for a grid with a voltage source and an RL impedance. The grid voltage can be given as a </span>
+<span class="sd">constant or as a function of time using a Sequence object. </span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
 
 
 <div class="viewcode-block" id="RLGridParameters"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_param/index.html#soft4pes.model.grid.RLGridParameters">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RLGridParameters</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Parameters for a grid with a stiff voltage source and RL-load.</span>
+<span class="sd">    Parameters for a grid with a voltage source and an RL impedance. The grid voltage can be given </span>
+<span class="sd">    as a constant or as a function of time using a Sequence object. </span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    Vg_SI : float</span>
+<span class="sd">    Vg_SI : float or Sequence</span>
 <span class="sd">        Grid voltage [V] (line-to-line rms voltage).</span>
 <span class="sd">    fg_SI : float</span>
 <span class="sd">        Grid frequency [Hz].</span>
@@ -335,7 +338,7 @@ document.write(`
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">    Vg : float</span>
+<span class="sd">    Vg : float or Sequence</span>
 <span class="sd">        Grid voltage [p.u.] (line-to-line rms voltage).</span>
 <span class="sd">    wg : float</span>
 <span class="sd">        Angular frequency [p.u.].</span>
@@ -346,7 +349,11 @@ document.write(`
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Vg_SI</span><span class="p">,</span> <span class="n">fg_SI</span><span class="p">,</span> <span class="n">Rg_SI</span><span class="p">,</span> <span class="n">Lg_SI</span><span class="p">,</span> <span class="n">base</span><span class="p">):</span>
-<div class="viewcode-block" id="RLGridParameters.Vg"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_param/index.html#soft4pes.model.grid.RLGridParameters.Vg">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Vg</span> <span class="o">=</span> <span class="n">Vg_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">V</span></div>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Vg_SI</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Vg</span> <span class="o">=</span> <span class="n">Sequence</span><span class="p">(</span><span class="n">times</span><span class="o">=</span><span class="n">Vg_SI</span><span class="o">.</span><span class="n">times</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">Vg_SI</span><span class="o">.</span><span class="n">values</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">V</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Vg</span> <span class="o">=</span> <span class="n">Vg_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">V</span>
+
 <div class="viewcode-block" id="RLGridParameters.wg"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_param/index.html#soft4pes.model.grid.RLGridParameters.wg">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">wg</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">fg_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">w</span></div>
 <div class="viewcode-block" id="RLGridParameters.Rg"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_param/index.html#soft4pes.model.grid.RLGridParameters.Rg">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Rg</span> <span class="o">=</span> <span class="n">Rg_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">Z</span></div>
 <div class="viewcode-block" id="RLGridParameters.Xg"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_param/index.html#soft4pes.model.grid.RLGridParameters.Xg">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Xg</span> <span class="o">=</span> <span class="n">Lg_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">L</span></div></div>

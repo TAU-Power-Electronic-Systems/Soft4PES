@@ -385,13 +385,13 @@ document.write(`
                   
   <section id="module-soft4pes.model.grid.rl_grid_lcl_filter">
 <span id="soft4pes-model-grid-rl-grid-lcl-filter"></span><h1>soft4pes.model.grid.rl_grid_lcl_filter<a class="headerlink" href="#module-soft4pes.model.grid.rl_grid_lcl_filter" title="Permalink to this heading">#</a></h1>
-<p>Model of a grid with stiff voltage source, RL-load and an LC(L) filter in alpha-beta frame.</p>
+<p>Model of a grid with stiff voltage source, RL impedance and an LC(L) filter in alpha-beta frame.</p>
 <section id="classes">
 <h2>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h2>
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.model.grid.rl_grid_lcl_filter.RLGridLCLFilter" title="soft4pes.model.grid.rl_grid_lcl_filter.RLGridLCLFilter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RLGridLCLFilter</span></code></a></p></td>
-<td><p>Model of a grid with stiff voltage source, RL-load and an LC(L) filter in alpha-beta frame. If</p></td>
+<td><p>Model of a grid with stiff voltage source, RL impedance and an LC(L) filter in alpha-beta frame.</p></td>
 </tr>
 </tbody>
 </table>
@@ -402,8 +402,8 @@ document.write(`
 <dt class="sig sig-object py" id="soft4pes.model.grid.rl_grid_lcl_filter.RLGridLCLFilter">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.model.grid.rl_grid_lcl_filter.</span></span><span class="sig-name descname"><span class="pre">RLGridLCLFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">par_grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">par_lcl_filter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/model/grid/rl_grid_lcl_filter.html#RLGridLCLFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.rl_grid_lcl_filter.RLGridLCLFilter" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../rl_grid/index.html#soft4pes.model.grid.rl_grid.RLGrid" title="soft4pes.model.grid.rl_grid.RLGrid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.model.grid.rl_grid.RLGrid</span></code></a></p>
-<p>Model of a grid with stiff voltage source, RL-load and an LC(L) filter in alpha-beta frame. If
-the grid side inductance is not provided, the filter is in LC configuration.</p>
+<p>Model of a grid with stiff voltage source, RL impedance and an LC(L) filter in alpha-beta frame.
+If the grid side inductance is not provided, the filter is in LC configuration.</p>
 <p>The state of the system is the converter current, the capacitor voltage and the grid current in
 the alpha-beta frame, i.e. x = [i_conv^T, ig^T, vc^T]^T. The system input is the converter
 three-phase switch position or modulating signal. The grid voltage is considered to be a

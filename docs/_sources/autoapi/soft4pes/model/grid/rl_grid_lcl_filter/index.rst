@@ -5,7 +5,7 @@ soft4pes.model.grid.rl_grid_lcl_filter
 
 .. autoapi-nested-parse::
 
-   Model of a grid with stiff voltage source, RL-load and an LC(L) filter in alpha-beta frame.
+   Model of a grid with stiff voltage source, RL impedance and an LC(L) filter in alpha-beta frame.
 
    ..
        !! processed by numpydoc !!
@@ -28,8 +28,8 @@ Module Contents
 
 
    
-   Model of a grid with stiff voltage source, RL-load and an LC(L) filter in alpha-beta frame. If
-   the grid side inductance is not provided, the filter is in LC configuration.
+   Model of a grid with stiff voltage source, RL impedance and an LC(L) filter in alpha-beta frame.
+   If the grid side inductance is not provided, the filter is in LC configuration.
 
    The state of the system is the converter current, the capacitor voltage and the grid current in
    the alpha-beta frame, i.e. x = [i_conv^T, ig^T, vc^T]^T. The system input is the converter
