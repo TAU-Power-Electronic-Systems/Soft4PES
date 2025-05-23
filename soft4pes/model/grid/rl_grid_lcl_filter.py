@@ -46,7 +46,7 @@ class RLGridLCLFilter(RLGrid):
     cont_state_space : SimpleNamespace
         The continuous-time state-space model of the system.
     state_map : dict
-        A dictionary mapping state names to slices of the state vector.
+        A dictionary mapping states to elements of the state vector.
     """
 
     def __init__(self, par_grid, par_lcl_filter, conv, base):

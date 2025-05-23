@@ -34,7 +34,7 @@ class SystemModel(ABC):
     x : ndarray
         Current state of the system.
     state_map : dict
-        A dictionary mapping state names to slices of the state vector.
+        A dictionary mapping states to elements of the state vector.
     cont_state_space : SimpleNamespace
         The continuous-time state-space model of the system.
     """
@@ -54,7 +54,7 @@ class SystemModel(ABC):
         x_size : int
             Length of the state vector.
         state_map : dict
-            A dictionary mapping state names to slices of the state vector.
+            A dictionary mapping states to elements of the state vector.
         """
         self.base = base
         self.data = SimpleNamespace(x=[], t=[], u_abc=[])
@@ -67,7 +67,7 @@ class SystemModel(ABC):
 
     def __getattr__(self, name):
         """
-        Dynamically retrieve slices of the state vector based on the state map.
+        Dynamically retrieve elements of the state vector based on the state map.
 
         Parameters
         ----------
