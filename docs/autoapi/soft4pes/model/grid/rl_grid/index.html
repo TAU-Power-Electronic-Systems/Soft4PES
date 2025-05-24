@@ -366,6 +366,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.x"><code class="docutils literal notranslate"><span class="pre">RLGrid.x</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.base"><code class="docutils literal notranslate"><span class="pre">RLGrid.base</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.cont_state_space"><code class="docutils literal notranslate"><span class="pre">RLGrid.cont_state_space</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.state_map"><code class="docutils literal notranslate"><span class="pre">RLGrid.state_map</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.set_initial_state"><code class="docutils literal notranslate"><span class="pre">RLGrid.set_initial_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.get_continuous_state_space"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_continuous_state_space()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.get_grid_voltage"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_grid_voltage()</span></code></a></li>
@@ -395,7 +396,7 @@ the grid voltage is configurable as a function of time.</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.model.grid.rl_grid.RLGrid" title="soft4pes.model.grid.rl_grid.RLGrid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RLGrid</span></code></a></p></td>
-<td><p>Model of a grid with a voltage source and an RL impedance in alpha-beta frame. The magnitude of</p></td>
+<td><p>Model of a grid with a voltage source and an RL impedance in alpha-beta frame. The state of the</p></td>
 </tr>
 </tbody>
 </table>
@@ -406,10 +407,11 @@ the grid voltage is configurable as a function of time.</p>
 <dt class="sig sig-object py" id="soft4pes.model.grid.rl_grid.RLGrid">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.model.grid.rl_grid.</span></span><span class="sig-name descname"><span class="pre">RLGrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">par</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ig_ref_init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/model/grid/rl_grid.html#RLGrid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.rl_grid.RLGrid" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.model.common.system_model.SystemModel</span></code></p>
-<p>Model of a grid with a voltage source and an RL impedance in alpha-beta frame. The magnitude of
-the grid voltage is configurable as a function of time using a Sequence object. The system input
-is the converter three-phase switch position or modulating signal. The grid voltage is
-considered to be a disturbance.</p>
+<p>Model of a grid with a voltage source and an RL impedance in alpha-beta frame. The state of the
+system is the grid current (same as the converter current). The system input is the converter
+three-phase switch position or modulating signal. The grid voltage is considered to be a
+disturbance and the magnitude of the grid voltage is configurable as a function of time using a
+Sequence object.</p>
 <p>This class can be used as a base class for other grid models.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -483,6 +485,17 @@ considered to be a disturbance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>SimpleNamespace</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.model.grid.rl_grid.RLGrid.state_map">
+<span class="sig-name descname"><span class="pre">state_map</span></span><a class="reference internal" href="../../../../../_modules/soft4pes/model/grid/rl_grid.html#RLGrid.state_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.rl_grid.RLGrid.state_map" title="Permalink to this definition">#</a></dt>
+<dd><p>A dictionary mapping states to elements of the state vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -626,6 +639,7 @@ state-space model.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.x"><code class="docutils literal notranslate"><span class="pre">RLGrid.x</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.base"><code class="docutils literal notranslate"><span class="pre">RLGrid.base</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.cont_state_space"><code class="docutils literal notranslate"><span class="pre">RLGrid.cont_state_space</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.state_map"><code class="docutils literal notranslate"><span class="pre">RLGrid.state_map</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.set_initial_state"><code class="docutils literal notranslate"><span class="pre">RLGrid.set_initial_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.get_continuous_state_space"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_continuous_state_space()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.get_grid_voltage"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_grid_voltage()</span></code></a></li>

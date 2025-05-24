@@ -397,7 +397,7 @@ document.write(`
         <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">vg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">vg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
         <span class="c1"># Get dq frame current (converter current equals grid current due to lack of a filter)</span>
-        <span class="n">ic_dq</span> <span class="o">=</span> <span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+        <span class="n">ic_dq</span> <span class="o">=</span> <span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">i_conv</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
 
         <span class="c1"># Maximum converter output voltage</span>
         <span class="n">u_max</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span> <span class="o">/</span> <span class="mi">2</span>

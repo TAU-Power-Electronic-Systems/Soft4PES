@@ -477,10 +477,10 @@ document.write(`
         <span class="n">vc_ref_comp</span> <span class="o">=</span> <span class="nb">complex</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">vc_ref_dq</span><span class="p">)</span>
 
         <span class="c1"># Get the converter current in dq-frame</span>
-        <span class="n">i_conv_comp</span> <span class="o">=</span> <span class="nb">complex</span><span class="p">(</span><span class="o">*</span><span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">x</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="n">theta</span><span class="p">))</span>
+        <span class="n">i_conv_comp</span> <span class="o">=</span> <span class="nb">complex</span><span class="p">(</span><span class="o">*</span><span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">i_conv</span><span class="p">,</span> <span class="n">theta</span><span class="p">))</span>
 
         <span class="c1"># Get the capacitor voltage in dq-frame</span>
-        <span class="n">vc_comp</span> <span class="o">=</span> <span class="nb">complex</span><span class="p">(</span><span class="o">*</span><span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">],</span> <span class="n">theta</span><span class="p">))</span>
+        <span class="n">vc_comp</span> <span class="o">=</span> <span class="nb">complex</span><span class="p">(</span><span class="o">*</span><span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">vc</span><span class="p">,</span> <span class="n">theta</span><span class="p">))</span>
 
         <span class="c1"># Get the converter voltage</span>
         <span class="n">v_conv_comp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curr_ctr</span><span class="o">.</span><span class="n">v_conv_kp1_comp</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr_pars</span><span class="o">.</span><span class="n">delta</span>

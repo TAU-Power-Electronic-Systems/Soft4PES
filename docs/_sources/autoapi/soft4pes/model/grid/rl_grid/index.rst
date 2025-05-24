@@ -29,10 +29,11 @@ Module Contents
 
 
    
-   Model of a grid with a voltage source and an RL impedance in alpha-beta frame. The magnitude of
-   the grid voltage is configurable as a function of time using a Sequence object. The system input
-   is the converter three-phase switch position or modulating signal. The grid voltage is
-   considered to be a disturbance.
+   Model of a grid with a voltage source and an RL impedance in alpha-beta frame. The state of the
+   system is the grid current (same as the converter current). The system input is the converter
+   three-phase switch position or modulating signal. The grid voltage is considered to be a
+   disturbance and the magnitude of the grid voltage is configurable as a function of time using a
+   Sequence object.
 
    This class can be used as a base class for other grid models.
 
@@ -80,6 +81,12 @@ Module Contents
       The continuous-time state-space model of the system.
 
       :type: SimpleNamespace
+
+   .. attribute:: state_map
+
+      A dictionary mapping states to elements of the state vector.
+
+      :type: dict
 
 
 

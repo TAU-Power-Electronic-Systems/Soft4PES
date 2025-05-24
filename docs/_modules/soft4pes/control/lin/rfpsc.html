@@ -398,13 +398,8 @@ document.write(`
         <span class="n">P_ref</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">P_ref</span>
 
         <span class="n">vg</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">get_grid_voltage</span><span class="p">(</span><span class="n">kTs</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="n">RLGridLCLFilter</span><span class="p">):</span>
-            <span class="n">ig</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">ig</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">x</span>
-
-        <span class="n">ig_dq</span> <span class="o">=</span> <span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="n">ig</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_c</span><span class="p">)</span>
-        <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">vg</span><span class="p">,</span> <span class="n">ig</span><span class="p">)</span>
+        <span class="n">ig_dq</span> <span class="o">=</span> <span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">ig</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_c</span><span class="p">)</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">vg</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">ig</span><span class="p">)</span>
 
         <span class="c1"># Droop control</span>
         <span class="n">wc</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">wg</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Kp</span> <span class="o">*</span> <span class="p">(</span><span class="n">P_ref</span> <span class="o">-</span> <span class="n">P</span><span class="p">)</span>

@@ -93,6 +93,12 @@ Module Contents
 
       :type: SimpleNamespace
 
+   .. attribute:: state_map
+
+      A dictionary mapping states to elements of the state vector.
+
+      :type: dict
+
 
 
 
