@@ -113,10 +113,10 @@ class LCLConvCurrCtr(Controller):
         i_conv_ref_comp = complex(*self.input.i_conv_ref_dq)
 
         # Get the converter current in dq-frame
-        i_conv_comp = complex(*alpha_beta_2_dq(sys.x[:2], theta))
+        i_conv_comp = complex(*alpha_beta_2_dq(sys.i_conv, theta))
 
         # Get the capacitor voltage in dq-frame
-        vc_comp = complex(*alpha_beta_2_dq(sys.x[4:6], theta))
+        vc_comp = complex(*alpha_beta_2_dq(sys.vc, theta))
 
         # Get the converter voltage
         v_conv_comp = self.v_conv_kp1_comp * self.ctr_pars.delta

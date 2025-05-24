@@ -10,10 +10,11 @@ from soft4pes.utils.conversions import dq_2_alpha_beta
 
 class RLGrid(SystemModel):
     """
-    Model of a grid with a voltage source and an RL impedance in alpha-beta frame. The magnitude of 
-    the grid voltage is configurable as a function of time using a Sequence object. The system input
-    is the converter three-phase switch position or modulating signal. The grid voltage is 
-    considered to be a disturbance.
+    Model of a grid with a voltage source and an RL impedance in alpha-beta frame. The state of the 
+    system is the grid current (same as the converter current). The system input is the converter 
+    three-phase switch position or modulating signal. The grid voltage is considered to be a 
+    disturbance and the magnitude of the grid voltage is configurable as a function of time using a 
+    Sequence object.
 
     This class can be used as a base class for other grid models.
 
@@ -42,10 +43,19 @@ class RLGrid(SystemModel):
         Base values.
     cont_state_space : SimpleNamespace
         The continuous-time state-space model of the system.
+    state_map : dict
+        A dictionary mapping states to elements of the state vector.
     """
 
     def __init__(self, par, conv, base, ig_ref_init=None):
-        super().__init__(par=par, base=base, conv=conv)
+        super().__init__(par=par,
+                         base=base,
+                         conv=conv,
+                         x_size=2,
+                         state_map={
+                             'ig': slice(0, 2),
+                             'i_conv': slice(0, 2)
+                         })
         self.set_initial_state(ig_ref_init=ig_ref_init)
 
     def set_initial_state(self, **kwargs):

@@ -47,14 +47,25 @@ class InductionMachine(SystemModel):
         Electrical angular rotor speed [p.u.].
     cont_state_space : SimpleNamespace
         The continuous-time state-space model of the system.
+    state_map : dict
+        A dictionary mapping states to elements of the state vector.
     """
 
     def __init__(self, par, conv, base, psiS_mag_ref, T_ref_init):
         self.par = par
         self.set_initial_state(psiS_mag_ref=psiS_mag_ref,
                                T_ref_init=T_ref_init)
-        super().__init__(par=par, conv=conv, base=base)
-        self.psiR_mag_ref = np.linalg.norm(self.x[2:4])
+        x_size = 4
+        state_map = {
+            'iS': slice(0, 2),  # Stator current (x[0:2])
+            'psiR': slice(2, 4),  # Rotor flux (x[2:4])
+        }
+        super().__init__(par=par,
+                         conv=conv,
+                         base=base,
+                         x_size=x_size,
+                         state_map=state_map)
+        self.psiR_mag_ref = np.linalg.norm(self.psiR)
 
     def set_initial_state(self, **kwargs):
         """
@@ -188,9 +199,8 @@ class InductionMachine(SystemModel):
 
     @property
     def Te(self):
-        iS = self.x[0:2]
-        psiR = self.x[2:4]
-        return self.par.kT * (self.par.Xm / self.par.Xr) * np.cross(psiR, iS)
+        return self.par.kT * (self.par.Xm / self.par.Xr) * np.cross(
+            self.psiR, self.iS)
 
     def get_next_state(self, matrices, u_abc, kTs):
         """
