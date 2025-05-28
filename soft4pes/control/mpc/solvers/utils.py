@@ -99,11 +99,13 @@ def make_QP_matrices(sys, ctr):
         Upsilon = make_Upsilon(Np, C, A_QP, B1)
         Upsilon_constraints = make_Upsilon(Np, ctr.C_constr, A_QP, B1)
         Psi = make_Upsilon(Np, C, A_QP, B2)
+        Psi_constraints = make_Upsilon(Np, ctr.C_constr, A_QP, B2)
     else:
         B = model.B
         Upsilon = make_Upsilon(Np, C, A_QP, B)
         Upsilon_constraints = make_Upsilon(Np, ctr.C_constr, A_QP, B)
         Psi = None
+        Psi_constraints = None
 
     # Form the quadric objective matrix H_tilde
     H = Upsilon.T.dot(Q_tilde).dot(Upsilon) + lambda_u * S.T.dot(S)
@@ -142,18 +144,21 @@ def make_QP_matrices(sys, ctr):
     A_QP = np.block([[Omega, np.zeros((6 * Np, R_size * Np))],
                      [np.dot(Pi, Upsilon_constraints), Z]])
 
-    return SimpleNamespace(R_size=R_size,
-                           Gamma=Gamma,
-                           Gamma_constraints=Gamma_constraints,
-                           Upsilon=Upsilon,
-                           S=S,
-                           E=E,
-                           H_tilde=H_tilde,
-                           Q_tilde=Q_tilde,
-                           Delta=Delta,
-                           Pi=Pi,
-                           A_QP=A_QP,
-                           Psi=Psi)
+    return SimpleNamespace(
+        R_size=R_size,
+        Gamma=Gamma,
+        Gamma_constraints=Gamma_constraints,
+        Upsilon=Upsilon,
+        S=S,
+        E=E,
+        H_tilde=H_tilde,
+        Q_tilde=Q_tilde,
+        Delta=Delta,
+        Pi=Pi,
+        A_QP=A_QP,
+        Psi=Psi,
+        Psi_constraints=Psi_constraints,
+    )
 
 
 def make_Gamma(Np, C, A):
