@@ -36,7 +36,7 @@ class GridCurrRefGen(Controller):
         theta = np.arctan2(vg[1], vg[0])
         vg_dq = alpha_beta_2_dq(vg, theta)
         ig_ref_d = self.input.P_ref / vg_dq[0]
-        ig_ref_q = self.input.Q_ref / vg_dq[0]
+        ig_ref_q = -self.input.Q_ref / vg_dq[0]
         self.output.ig_ref_dq = np.array([ig_ref_d, ig_ref_q])
 
         return self.output
