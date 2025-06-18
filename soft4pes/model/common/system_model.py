@@ -56,6 +56,8 @@ class SystemModel(ABC):
         state_map : dict
             A dictionary mapping states to elements of the state vector.
         """
+        self.time_varying_model = False
+        self.theta_el = 0
         self.base = base
         self.data = SimpleNamespace(x=[], t=[], u_abc=[])
         self.par = par

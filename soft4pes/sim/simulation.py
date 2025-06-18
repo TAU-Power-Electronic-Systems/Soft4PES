@@ -165,9 +165,13 @@ class Simulation:
         self.sys = sys
         self.ctr = ctr
         self.Ts_sim = Ts_sim
+        self.disc_method = disc_method
         self.t_stop = 0
-        self.matrices = self.sys.get_discrete_state_space(
-            self.Ts_sim, disc_method)
+        if sys.time_varying_model:
+            self.matrices = None
+        else:
+            self.matrices = self.sys.get_discrete_state_space(
+                self.Ts_sim, disc_method)
         self.simulation_data = None
         self.switching_logic = SwitchingLogic(Ts_sim, ctr.Ts)
 
@@ -192,6 +196,11 @@ class Simulation:
         progress_printer = ProgressPrinter(int(t_stop / self.ctr.Ts))
         self.t_stop = t_stop
 
+        if self.sys.time_varying_model:
+            print("Time variant system")
+        else:
+            print("Time invariant system")
+
         for k in range(int(self.t_stop / self.ctr.Ts)):
             kTs = k * self.ctr.Ts
 
@@ -199,6 +208,7 @@ class Simulation:
             ctr_output = self.ctr(self.sys, kTs)
 
             for k_sim in range(int(self.ctr.Ts / self.Ts_sim)):
+
                 kTs_sim = kTs + k_sim * self.Ts_sim
 
                 # Extract the three-phase switch position or modulating signal
