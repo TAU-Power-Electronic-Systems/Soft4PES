@@ -410,11 +410,13 @@ document.write(`
         <span class="n">Upsilon</span> <span class="o">=</span> <span class="n">make_Upsilon</span><span class="p">(</span><span class="n">Np</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">A_QP</span><span class="p">,</span> <span class="n">B1</span><span class="p">)</span>
         <span class="n">Upsilon_constraints</span> <span class="o">=</span> <span class="n">make_Upsilon</span><span class="p">(</span><span class="n">Np</span><span class="p">,</span> <span class="n">ctr</span><span class="o">.</span><span class="n">C_constr</span><span class="p">,</span> <span class="n">A_QP</span><span class="p">,</span> <span class="n">B1</span><span class="p">)</span>
         <span class="n">Psi</span> <span class="o">=</span> <span class="n">make_Upsilon</span><span class="p">(</span><span class="n">Np</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">A_QP</span><span class="p">,</span> <span class="n">B2</span><span class="p">)</span>
+        <span class="n">Psi_constraints</span> <span class="o">=</span> <span class="n">make_Upsilon</span><span class="p">(</span><span class="n">Np</span><span class="p">,</span> <span class="n">ctr</span><span class="o">.</span><span class="n">C_constr</span><span class="p">,</span> <span class="n">A_QP</span><span class="p">,</span> <span class="n">B2</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">B</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">B</span>
         <span class="n">Upsilon</span> <span class="o">=</span> <span class="n">make_Upsilon</span><span class="p">(</span><span class="n">Np</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">A_QP</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
         <span class="n">Upsilon_constraints</span> <span class="o">=</span> <span class="n">make_Upsilon</span><span class="p">(</span><span class="n">Np</span><span class="p">,</span> <span class="n">ctr</span><span class="o">.</span><span class="n">C_constr</span><span class="p">,</span> <span class="n">A_QP</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
         <span class="n">Psi</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">Psi_constraints</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="c1"># Form the quadric objective matrix H_tilde</span>
     <span class="n">H</span> <span class="o">=</span> <span class="n">Upsilon</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Q_tilde</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Upsilon</span><span class="p">)</span> <span class="o">+</span> <span class="n">lambda_u</span> <span class="o">*</span> <span class="n">S</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
@@ -453,18 +455,21 @@ document.write(`
     <span class="n">A_QP</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">block</span><span class="p">([[</span><span class="n">Omega</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">6</span> <span class="o">*</span> <span class="n">Np</span><span class="p">,</span> <span class="n">R_size</span> <span class="o">*</span> <span class="n">Np</span><span class="p">))],</span>
                      <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Pi</span><span class="p">,</span> <span class="n">Upsilon_constraints</span><span class="p">),</span> <span class="n">Z</span><span class="p">]])</span>
 
-    <span class="k">return</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">R_size</span><span class="o">=</span><span class="n">R_size</span><span class="p">,</span>
-                           <span class="n">Gamma</span><span class="o">=</span><span class="n">Gamma</span><span class="p">,</span>
-                           <span class="n">Gamma_constraints</span><span class="o">=</span><span class="n">Gamma_constraints</span><span class="p">,</span>
-                           <span class="n">Upsilon</span><span class="o">=</span><span class="n">Upsilon</span><span class="p">,</span>
-                           <span class="n">S</span><span class="o">=</span><span class="n">S</span><span class="p">,</span>
-                           <span class="n">E</span><span class="o">=</span><span class="n">E</span><span class="p">,</span>
-                           <span class="n">H_tilde</span><span class="o">=</span><span class="n">H_tilde</span><span class="p">,</span>
-                           <span class="n">Q_tilde</span><span class="o">=</span><span class="n">Q_tilde</span><span class="p">,</span>
-                           <span class="n">Delta</span><span class="o">=</span><span class="n">Delta</span><span class="p">,</span>
-                           <span class="n">Pi</span><span class="o">=</span><span class="n">Pi</span><span class="p">,</span>
-                           <span class="n">A_QP</span><span class="o">=</span><span class="n">A_QP</span><span class="p">,</span>
-                           <span class="n">Psi</span><span class="o">=</span><span class="n">Psi</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">SimpleNamespace</span><span class="p">(</span>
+        <span class="n">R_size</span><span class="o">=</span><span class="n">R_size</span><span class="p">,</span>
+        <span class="n">Gamma</span><span class="o">=</span><span class="n">Gamma</span><span class="p">,</span>
+        <span class="n">Gamma_constraints</span><span class="o">=</span><span class="n">Gamma_constraints</span><span class="p">,</span>
+        <span class="n">Upsilon</span><span class="o">=</span><span class="n">Upsilon</span><span class="p">,</span>
+        <span class="n">S</span><span class="o">=</span><span class="n">S</span><span class="p">,</span>
+        <span class="n">E</span><span class="o">=</span><span class="n">E</span><span class="p">,</span>
+        <span class="n">H_tilde</span><span class="o">=</span><span class="n">H_tilde</span><span class="p">,</span>
+        <span class="n">Q_tilde</span><span class="o">=</span><span class="n">Q_tilde</span><span class="p">,</span>
+        <span class="n">Delta</span><span class="o">=</span><span class="n">Delta</span><span class="p">,</span>
+        <span class="n">Pi</span><span class="o">=</span><span class="n">Pi</span><span class="p">,</span>
+        <span class="n">A_QP</span><span class="o">=</span><span class="n">A_QP</span><span class="p">,</span>
+        <span class="n">Psi</span><span class="o">=</span><span class="n">Psi</span><span class="p">,</span>
+        <span class="n">Psi_constraints</span><span class="o">=</span><span class="n">Psi_constraints</span><span class="p">,</span>
+    <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="make_Gamma"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/solvers/utils/index.html#soft4pes.control.mpc.solvers.make_Gamma">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">make_Gamma</span><span class="p">(</span><span class="n">Np</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">A</span><span class="p">):</span>
