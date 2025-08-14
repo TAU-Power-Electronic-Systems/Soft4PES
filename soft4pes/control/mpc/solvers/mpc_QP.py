@@ -77,15 +77,15 @@ class IndirectMpcQP:
             for k in range(2, ctr.Np * 2, 2):
                 Vg[k:k + 2] = np.dot(R_vg, Vg[k - 2:k])
 
-            Theta = Theta + m.Upsilon.T.dot(m.Psi).dot(Vg)
+            Theta = Theta + m.Upsilon.T.dot(m.Q_tilde).dot(m.Psi).dot(Vg)
 
         # Form the time varying linear objective vector d
         d = np.vstack([Theta, np.zeros((m.R_size * ctr.Np, 1))])
 
         # Form the time varying linear inequality constraint vector
         b_QP = np.vstack([
-            np.ones((6 * ctr.Np, 1)),
-            m.Delta - m.Pi.dot(m.Gamma_constraints).dot(x)
+            np.ones((6 * ctr.Np, 1)), m.Delta -
+            m.Pi.dot(m.Gamma_constraints.dot(x) + m.Psi_constraints.dot(Vg))
         ])
 
         # Solve the QP and return the solution to the controller
