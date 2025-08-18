@@ -4,9 +4,9 @@ Simulation environment for power electronic systems.
 """
 
 import os
+from types import SimpleNamespace
 import numpy as np
 from scipy.io import savemat
-from types import SimpleNamespace
 
 
 class ProgressPrinter:
@@ -172,16 +172,16 @@ class Simulation:
         else:
             self.matrices = self.sys.get_discrete_state_space(
                 self.Ts_sim, disc_method)
+
         self.simulation_data = None
         self.switching_logic = SwitchingLogic(Ts_sim, ctr.Ts)
 
-        # Check if self.ctr.Ts/Ts_sim is an integer. Use tolerance to prevent
-        # floating point errors
+        # Check if self.ctr.Ts/Ts_sim is an integer. Use tolerance to prevent floating point errors
         Ts_rat = self.ctr.Ts / self.Ts_sim
         if abs(Ts_rat - round(Ts_rat)) > 1e-10:
             raise ValueError(
-                "The ratio of control system sampling interval to "
-                "simulation sampling interval must be an integer.")
+                "The ratio of control system sampling interval to simulation sampling interval must"
+                " be an integer.")
 
     def simulate(self, t_stop):
         """
@@ -196,11 +196,6 @@ class Simulation:
         progress_printer = ProgressPrinter(int(t_stop / self.ctr.Ts))
         self.t_stop = t_stop
 
-        if self.sys.time_varying_model:
-            print("Time variant system")
-        else:
-            print("Time invariant system")
-
         for k in range(int(self.t_stop / self.ctr.Ts)):
             kTs = k * self.ctr.Ts
 
@@ -208,15 +203,21 @@ class Simulation:
             ctr_output = self.ctr(self.sys, kTs)
 
             for k_sim in range(int(self.ctr.Ts / self.Ts_sim)):
-
                 kTs_sim = kTs + k_sim * self.Ts_sim
 
                 # Extract the three-phase switch position or modulating signal
                 u_abc = self.switching_logic.get_switch_positions(
                     ctr_output, k_sim)
 
+                # Update the system matrices if the system is time-varying
+                if self.sys.time_varying_model:
+                    self.sys.cont_state_space = self.sys.get_continuous_state_space(
+                    )
+                    self.matrices = self.sys.get_discrete_state_space(
+                        self.Ts_sim, self.disc_method)
+
                 # Update the system state
-                self.sys.update(self.matrices, u_abc, kTs_sim)
+                self.sys.update_state(self.matrices, u_abc, kTs_sim)
 
             progress_printer(k)
 

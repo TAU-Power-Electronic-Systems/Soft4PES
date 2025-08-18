@@ -20,6 +20,10 @@ class SystemModel(ABC):
         Base values.
     conv : converter object
         Converter object.
+    x_size : int
+        Length of the state vector.
+    state_map : dict
+        A dictionary mapping states to elements of the state vector.
 
     Attributes
     ----------
@@ -35,6 +39,8 @@ class SystemModel(ABC):
         Current state of the system.
     state_map : dict
         A dictionary mapping states to elements of the state vector.
+    time_varying_model : bool
+        Indicates if the system model is time-varying.
     cont_state_space : SimpleNamespace
         The continuous-time state-space model of the system.
     """
@@ -56,8 +62,6 @@ class SystemModel(ABC):
         state_map : dict
             A dictionary mapping states to elements of the state vector.
         """
-        self.time_varying_model = False
-        self.theta_el = 0
         self.base = base
         self.data = SimpleNamespace(x=[], t=[], u_abc=[])
         self.par = par
@@ -65,6 +69,7 @@ class SystemModel(ABC):
         if not hasattr(self, 'x'):
             self.x = np.zeros(x_size)
         self.state_map = state_map
+        self.time_varying_model = False
         self.cont_state_space = self.get_continuous_state_space()
 
     def __getattr__(self, name):
@@ -187,7 +192,7 @@ class SystemModel(ABC):
             Current discrete time instant [s].
         """
 
-    def update(self, matrices, u_abc, kTs):
+    def update_state(self, matrices, u_abc, kTs):
         """
         Update the system state and save data.
 
@@ -206,6 +211,7 @@ class SystemModel(ABC):
         meas = self.get_measurements(kTs)
         self.save_data(kTs, u_abc, meas)
         self.x = self.get_next_state(matrices, u_abc, kTs)
+        self.update_internal_variables(kTs)
 
     def save_data(self, kTs, u_abc, meas):
         """
@@ -229,3 +235,14 @@ class SystemModel(ABC):
                 if not hasattr(self.data, key):
                     setattr(self.data, key, [])
                 getattr(self.data, key).append(value)
+
+    @abstractmethod
+    def update_internal_variables(self, kTs):
+        """
+        Update internal variables of the system.
+
+        Parameters
+        ----------
+        kTs : float
+            Current discrete time instant [s].
+        """

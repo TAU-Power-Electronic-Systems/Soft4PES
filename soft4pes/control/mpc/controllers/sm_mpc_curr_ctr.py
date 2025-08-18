@@ -3,13 +3,14 @@
 from types import SimpleNamespace
 import numpy as np
 from soft4pes.control.common.controller import Controller
+from soft4pes.utils.conversions import alpha_beta_2_dq, dq_2_alpha_beta
 
 
 class SMMpcCurrCtr(Controller):
     """
-    Model predictive current control for a synchornous machine. The controller aims to track
-    the stator current in the dq frame. The current reference is calculated based on the
-    torque reference.
+    Model predictive current control for a synchronous machine. The controller aims to track
+    the stator current in the dq-frame. The current reference is calculated based on the
+    torque reference using maximum torque per ampere (MTPA) trajectory.
 
     Parameters
     ----------
@@ -68,18 +69,26 @@ class SMMpcCurrCtr(Controller):
         1 x 3 ndarray of floats
             Three-phase switch position or modulating signals.
         """
-    
+
         T_ref = self.input.T_ref
 
         # Calculate the reference stator current based on the MTPA references
-        iS_ref_dq = sys.calc_stator_current(T_ref)
+        iS_ref_dq = sys.get_stator_current_ref_dq(T_ref)
         self.input.iS_ref_dq = iS_ref_dq
-        
-        # Create the references vector
+        iS_ref = dq_2_alpha_beta(iS_ref_dq, sys.theta_el)
+
+        # Predict the current reference over the prediction horizon
+        # Make a rotation matrix
+        Ts_pu = self.Ts * sys.base.w
+        delta_theta = sys.par.ws * Ts_pu
+        R_ref = np.array([[np.cos(delta_theta), -np.sin(delta_theta)], \
+                          [np.sin(delta_theta), np.cos(delta_theta)]])
+
+        # Predict the reference by rotating the current reference
         y_ref = np.zeros((self.Np + 1, 2))
-        y_ref[0, :] = iS_ref_dq
+        y_ref[0, :] = iS_ref
         for ell in range(self.Np):
-            y_ref[ell + 1, :] = y_ref[ell, :]
+            y_ref[ell + 1, :] = np.dot(R_ref, y_ref[ell, :])
 
         # Solve the control problem
         u_abc = self.solver(sys, self, y_ref)
@@ -109,10 +118,15 @@ class SMMpcCurrCtr(Controller):
         1 x 2 ndarray of floats
             The next state of the system.
         """
-        
-        # For Np > 1, the state-space model should be updated at each prediction step using the expected value of theta_el corresponding to that step.
-        delta_theta = self.Ts * sys.par.ws * sys.base.w        
-        sys.cont_state_space = sys.get_continuous_state_space(sys.theta_el + (k - 1) * delta_theta)
-        self.state_space = sys.get_discrete_state_space(self.Ts, self.disc_method)
 
-        return np.dot(self.state_space.A, xk) + np.dot(self.state_space.B1,u_abc) + self.state_space.B2
+        # Assume that the electrical rotor angle varies slowly, and the model is constant over the
+        # prediction horizon
+        sys.cont_state_space = sys.get_continuous_state_space()
+        self.state_space = sys.get_discrete_state_space(
+            self.Ts, self.disc_method)
+
+        xk_dq = alpha_beta_2_dq(xk, sys.theta_el)
+        x_kp1_dq = np.dot(self.state_space.A, xk_dq) + np.dot(
+            self.state_space.B1, u_abc) + self.state_space.B2
+
+        return dq_2_alpha_beta(x_kp1_dq, sys.theta_el)

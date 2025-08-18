@@ -1,7 +1,8 @@
 """
 Example of direct model predictive control (MPC) for a synchronous machine drive system. The 
 controller aims to track the stator current reference calculated based on the reference values of 
-the MTPA tajectory and torque. The machine operates at a constant (nominal) speed.
+the maximum torque per ampere (MTPA) trajectory and torque. The machine operates at a constant 
+(nominal) speed.
 """
 
 #pylint: disable=wrong-import-position
@@ -25,7 +26,7 @@ from soft4pes.utils import Sequence
 from soft4pes.sim import Simulation
 
 # Define base values
-# Example syncrhonous machine (https://ieeexplore.ieee.org/document/10227497)
+# Example synchronous machine (https://ieeexplore.ieee.org/document/10227497)
 base = model.machine.BaseMachine(Vm_R_SI=926,
                                  Im_R_SI=138,
                                  fm_R_SI=120,
@@ -41,7 +42,7 @@ ref_seq = SimpleNamespace(T_ref_seq=T_ref_seq)
 
 # Define induction machine parameters
 sm_params = model.machine.SynchronousMachineParameters(fs_SI=120,
-                                                       pf_S1=0.86,
+                                                       pf_SI=0.86,
                                                        Rs_SI=0.046,
                                                        Lsd_SI=1.58e-3,
                                                        Lsq_SI=6.48e-3,
@@ -59,10 +60,16 @@ sys = model.machine.SynchronousMachine(par=sm_params,
 solver = mpc.solvers.MpcEnum(conv=conv)
 
 # Define controller
-ctr = mpc.controllers.SMMpcCurrCtr(solver, lambda_u=1e-3, Np=1,disc_method='forward_euler')
-ctr_sys = common.ControlSystem(control_loops=[ctr], ref_seq=ref_seq, Ts=1/120/1000)
+ctr = mpc.controllers.SMMpcCurrCtr(solver,
+                                   lambda_u=1e-3,
+                                   Np=2,
+                                   disc_method='forward_euler')
+ctr_sys = common.ControlSystem(control_loops=[ctr], ref_seq=ref_seq, Ts=1e-4)
 
 # Simulate system
-sim = Simulation(sys=sys, ctr=ctr_sys, Ts_sim=1/120/5000,disc_method='forward_euler')
+sim = Simulation(sys=sys,
+                 ctr=ctr_sys,
+                 Ts_sim=1e-4,
+                 disc_method='forward_euler')
 sim.simulate(t_stop=0.6)
 sim.save_data()

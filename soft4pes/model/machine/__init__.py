@@ -13,5 +13,5 @@ __all__ = [
     "InductionMachine",
     "InductionMachineParameters",
     "SynchronousMachine",
-    "SynchronousMachineParameters"
+    "SynchronousMachineParameters",
 ]
