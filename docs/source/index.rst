@@ -8,7 +8,7 @@ The aim is to develop optimal control methods for power electronic systems, such
 Installation
 ------------
 
-**Install Python**: Ensure that you have Python installed on your machine. You can download and install the latest version from the `official website <https://www.python.org/>`_.
+**Install Python**: Ensure that you have Python installed on your machine. You can download and install the latest version from the `official website <https://www.python.org/>`_. Using a Python distribution like MiniForge is recommended. 
 
 **Clone the Repository**: To get started, clone the repository to your local machine by running the following command in your terminal or command prompt::
 
@@ -18,9 +18,18 @@ Installation
 
    cd Soft4PES
 
-**Install Required Dependencies**: Install the required Python packages listed in the ``requirements.txt`` file. It is recommended to either create a virtual environment or ensure that Python is added to your system's PATH variable. To install the dependencies, run:::
+**Create a Virtual Environment (Optional)**: It is recommended to create a virtual environment to manage dependencies. Using MiniForge, you can create a virtual environment with the following command::
 
-   pip install -r requirements.txt
+   conda create -n soft4pes python=3.12
+   conda activate soft4pes
+
+Note: Python 3.13 is not yet supported.
+
+**Install Soft4PES in developer mode**: To install the library in developer mode, which allows you to make changes to the source code and have them reflected immediately, run the following command::
+
+   pip install -e .
+
+This step is required in order to run the examples. Note that all the required packages will be installed automatically.
 
 **Run Example**: The repository includes example files located in the ``examples`` folder. You can test the library by running an example script. For instance, to run a grid-forming control example, use the following command:::
 

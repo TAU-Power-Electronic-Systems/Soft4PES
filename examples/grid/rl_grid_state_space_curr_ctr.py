@@ -3,19 +3,7 @@ Example of state-space control for a grid-connected power converter. The control
 track the reference of the grid current.
 """
 
-#pylint: disable=wrong-import-position
-import sys as system
-import os
-
 import numpy as np
-
-## -------------------------------------------------------------------- ##
-# These allow using soft4pes from this folder
-# Get the directory of the current file and add the grandparent directory
-# (soft4pes) to the path
-current_dir = os.path.dirname(os.path.abspath(__file__))
-system.path.append(os.path.abspath(os.path.join(current_dir, '..', '..')))
-## -------------------------------------------------------------------- ##
 
 from soft4pes import model
 from soft4pes.control.lin import RLGridStateSpaceCurrCtr

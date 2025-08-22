@@ -4,19 +4,8 @@ controller aims to track the stator current reference calculated based on the re
 the stator flux magnitude and torque. The machine operates at a constant (nominal) speed.
 """
 
-#pylint: disable=wrong-import-position
 from types import SimpleNamespace
-import sys as system
-import os
 import numpy as np
-
-## -------------------------------------------------------------------- ##
-# These allow using soft4pes from this folder
-# Get the directory of the current file and add the grandparent directory
-# (soft4pes) to the path
-current_dir = os.path.dirname(os.path.abspath(__file__))
-system.path.append(os.path.abspath(os.path.join(current_dir, '..', '..')))
-## -------------------------------------------------------------------- ##
 
 from soft4pes import model
 from soft4pes.control import mpc, common

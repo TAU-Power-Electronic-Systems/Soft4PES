@@ -5,28 +5,14 @@ synchronizes with the grid and generates the capacitor voltage reference, which 
 tracked by the cascade controller or MPC.
 """
 
-#pylint: disable=wrong-import-position
-#pylint: disable=wrong-import-order
-import sys as system
-import os
+from types import SimpleNamespace
 import numpy as np
 
-from types import SimpleNamespace
-
-## -------------------------------------------------------------------- ##
-# These allow using soft4pes from this folder
-# Get the directory of the current file and add the grandparent directory
-# (soft4pes) to the path
-current_dir = os.path.dirname(os.path.abspath(__file__))
-system.path.append(os.path.abspath(os.path.join(current_dir, '..')))
-system.path.append(os.path.abspath(os.path.join(current_dir, '..', '..')))
-## -------------------------------------------------------------------- ##
-
+from plotters.plot_grid_forming_ctr import plot_gfm_example
 from soft4pes import model
 from soft4pes.control import common, lin, mpc
 from soft4pes.utils import Sequence
 from soft4pes.sim import Simulation
-from plotters.plot_grid_forming_ctr import plot_gfm_example
 
 # Define the base values
 base = model.grid.BaseGrid(Vg_R_SI=400, Ig_R_SI=18, fg_R_SI=50)

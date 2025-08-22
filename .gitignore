@@ -14,3 +14,6 @@ __pycache__/
 
 # Exclude documentation build
 docs/build
+
+# Build and distribution files
+*.egg-info/
