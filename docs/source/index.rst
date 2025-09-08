@@ -8,7 +8,7 @@ The aim is to develop optimal control methods for power electronic systems, such
 Installation
 ------------
 
-**Install Python**: Ensure that you have Python installed on your machine. You can download and install the latest version from the `official website <https://www.python.org/>`_. Using a Python distribution like MiniForge is recommended. 
+**Install Python**: Ensure that you have Python installed on your machine. You can download and install the required version from the `official website <https://www.python.org/>`_. Using a Python distribution like MiniForge is recommended. The library is compatible with Python 3.12.
 
 **Clone the Repository**: To get started, clone the repository to your local machine by running the following command in your terminal or command prompt::
 
