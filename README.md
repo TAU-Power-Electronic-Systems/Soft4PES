@@ -5,4 +5,11 @@ The aim is to develop optimal control methods for power electronic systems, such
 The library consists of building blocks that allow for modular solutions, allowing for adaptation of the methods to different systems.
 This work is under continuous development, so stay tuned!
 
-The API documentation of the library can be found at: https://tau-power-electronic-systems.github.io/Soft4PES/
+## Installation
+Installation instructions can be found at https://tau-power-electronic-systems.github.io/Soft4PES/
+
+## Examples
+In order to use the library, follow the installation instructions and see the `examples/` folder for complete usage examples of grid-connected converters and motor drives.
+
+## API documentation 
+The API documentation of the library can be found at: https://tau-power-electronic-systems.github.io/Soft4PES/autoapi/soft4pes/
