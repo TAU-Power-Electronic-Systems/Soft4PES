@@ -95,6 +95,12 @@ Package Contents
 
       :type: dict
 
+   .. attribute:: switching_logic
+
+      Object for handling switching logic.
+
+      :type: SwitchingLogic
+
 
 
 
@@ -175,7 +181,8 @@ Package Contents
       :param data: The data to be converted. Can be a SimpleNamespace or a list of arrays.
       :type data: SimpleNamespace or list of ndarray
 
-      :returns: A SimpleNamespace with lists of arrays converted to NumPy arrays, or a NumPy array if the input is a list of arrays.
+      :returns: A SimpleNamespace with lists of arrays converted to NumPy arrays, or a NumPy array if
+                the input is a list of arrays.
       :rtype: SimpleNamespace or ndarray
 
 

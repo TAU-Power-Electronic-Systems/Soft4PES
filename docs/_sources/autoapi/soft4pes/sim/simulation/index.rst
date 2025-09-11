@@ -17,6 +17,7 @@ Classes
 .. autoapisummary::
 
    soft4pes.sim.simulation.ProgressPrinter
+   soft4pes.sim.simulation.SwitchingLogic
    soft4pes.sim.simulation.Simulation
 
 
@@ -86,6 +87,121 @@ Module Contents
           !! processed by numpydoc !!
 
 
+.. py:class:: SwitchingLogic(Ts_sim, Ts)
+
+   
+   A class to handle switching-related logic, such as quantizing switching time instants and
+   extracting the three-phase switch position or modulating signal.
+
+   :param Ts_sim: Simulation sampling interval [s].
+   :type Ts_sim: float
+   :param Ts: Control system sampling interval [s].
+   :type Ts: float
+
+   .. attribute:: Ts_sim
+
+      Simulation sampling interval [s].
+
+      :type: float
+
+   .. attribute:: Ts
+
+      Control system sampling interval [s].
+
+      :type: float
+
+   .. attribute:: k_switch
+
+      Quantized switching times.
+
+      :type: ndarray
+
+   .. attribute:: u_abc
+
+      Three-phase switch position or modulating signal.
+
+      :type: ndarray
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:method:: quantize_switching_time_instants(t_switch)
+
+      
+      Quantize the switching time instants.
+
+      :param t_switch: Switching time instants.
+      :type t_switch: ndarray
+
+      :returns: Quantized switching time instants.
+      :rtype: ndarray
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: get_switch_positions(ctr_output, k_sim)
+
+      
+      Get the three-phase switch position or modulating signal for the current discrete time
+      instant. The switching time instants are quantized to the simulation sampling interval in
+      the beginning of the control interval.
+
+      :param ctr_output: Output from the controller including the switching time instants and the corresponding
+                         switch position or modulating signal.
+      :type ctr_output: SimpleNamespace
+      :param k_sim: The current simulation step within the control interval.
+      :type k_sim: int
+
+      :returns: Three-phase switch positions or modulating signal for current simulation step.
+      :rtype: ndarray
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
 .. py:class:: Simulation(sys, ctr, Ts_sim, disc_method='forward_euler')
 
    
@@ -133,6 +249,12 @@ Module Contents
       Data from the simulation.
 
       :type: dict
+
+   .. attribute:: switching_logic
+
+      Object for handling switching logic.
+
+      :type: SwitchingLogic
 
 
 
@@ -214,7 +336,8 @@ Module Contents
       :param data: The data to be converted. Can be a SimpleNamespace or a list of arrays.
       :type data: SimpleNamespace or list of ndarray
 
-      :returns: A SimpleNamespace with lists of arrays converted to NumPy arrays, or a NumPy array if the input is a list of arrays.
+      :returns: A SimpleNamespace with lists of arrays converted to NumPy arrays, or a NumPy array if
+                the input is a list of arrays.
       :rtype: SimpleNamespace or ndarray
 
 

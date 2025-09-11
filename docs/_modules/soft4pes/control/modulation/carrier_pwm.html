@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>soft4pes.control.common.utils &#8212; Soft4PES  documentation</title>
+    <title>soft4pes.control.modulation.carrier_pwm &#8212; Soft4PES  documentation</title>
   
   
   
@@ -44,7 +44,7 @@
     <script src="../../../../_static/clipboard.min.js"></script>
     <script src="../../../../_static/copybutton.js"></script>
     <script src="../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/soft4pes/control/common/utils';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/soft4pes/control/modulation/carrier_pwm';</script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -312,122 +312,127 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <h1>Source code for soft4pes.control.common.utils</h1><div class="highlight"><pre>
+  <h1>Source code for soft4pes.control.modulation.carrier_pwm</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Utility functions and classes for the control module.</span>
+<span class="sd">Asynchronous carrier-based pulse width modulation (CB-PWM) for two and three-level converters.  </span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">alpha_beta_2_abc</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.control.common.controller</span><span class="w"> </span><span class="kn">import</span> <span class="n">Controller</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleNamespace</span>
 
 
-<div class="viewcode-block" id="wrap_theta"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/utils/index.html#soft4pes.control.common.wrap_theta">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">wrap_theta</span><span class="p">(</span><span class="n">theta</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Wrap the angle theta to the range [-pi, pi].</span>
+<div class="viewcode-block" id="CarrierPWM"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/modulation/index.html#soft4pes.control.modulation.carrier_pwm.CarrierPWM">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">CarrierPWM</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    theta : float</span>
-<span class="sd">        The angle in radians.</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">carrier_rising</span> <span class="o">=</span> <span class="kc">False</span>
 
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    float</span>
-<span class="sd">        The wrapped angle in radians.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">return</span> <span class="p">(</span><span class="n">theta</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span></div>
-
-
-<div class="viewcode-block" id="get_modulating_signal"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/utils/index.html#soft4pes.control.common.get_modulating_signal">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_modulating_signal</span><span class="p">(</span><span class="n">v_ref</span><span class="p">,</span> <span class="n">v_dc</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Convert a voltage reference to a modulating signal.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    v_ref : ndarray</span>
-<span class="sd">        The reference voltage in alpha-beta frame.</span>
-<span class="sd">    v_dc : float</span>
-<span class="sd">        The dc-link voltage.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    ndarray</span>
-<span class="sd">        The modulating signal in abc-frame.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">alpha_beta_2_abc</span><span class="p">(</span><span class="n">v_ref</span> <span class="o">/</span> <span class="p">(</span><span class="n">v_dc</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)),</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="magnitude_limiter"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/utils/index.html#soft4pes.control.common.magnitude_limiter">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">magnitude_limiter</span><span class="p">(</span><span class="n">input_signal</span><span class="p">,</span> <span class="n">limit</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Limit the input in to maximum magnitude. The input can be in alpha-beta or dq-frame, and given  </span>
-<span class="sd">    as a vector or complex number. </span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    limit : float</span>
-<span class="sd">        Maximum magnitude [p.u.].</span>
-<span class="sd">    input_signal : 1 x 2 ndarray of floats or complex</span>
-<span class="sd">        Unlimited input [p.u.].</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    1 x 2 ndarray of floats</span>
-<span class="sd">        Limited output [p.u.].</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_signal</span><span class="p">,</span> <span class="nb">complex</span><span class="p">):</span>
-        <span class="n">input_mag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">input_signal</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">input_mag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">input_signal</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">input_mag</span> <span class="o">&lt;=</span> <span class="n">limit</span><span class="p">:</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="n">input_signal</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="p">(</span><span class="n">input_signal</span> <span class="o">/</span> <span class="n">input_mag</span><span class="p">)</span> <span class="o">*</span> <span class="n">limit</span>
-
-    <span class="k">return</span> <span class="n">output</span></div>
-
-
-<div class="viewcode-block" id="FirstOrderFilter"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/utils/index.html#soft4pes.control.common.FirstOrderFilter">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">FirstOrderFilter</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    General first-order filter.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    w_bw : float</span>
-<span class="sd">        The bandwidth of the filter [p.u.].</span>
-<span class="sd">    size : int</span>
-<span class="sd">        The size of the signal to be filtered, i.e. the length of the input vector.</span>
-
-<span class="sd">    Attributes</span>
-<span class="sd">    ----------</span>
-<span class="sd">    w_bw : float</span>
-<span class="sd">        The bandwidth of the filter [p.u.].</span>
-<span class="sd">    output : ndarray</span>
-<span class="sd">        The filtered signal.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">w_bw</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
-<div class="viewcode-block" id="FirstOrderFilter.w_bw"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/utils/index.html#soft4pes.control.common.FirstOrderFilter.w_bw">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">w_bw</span> <span class="o">=</span> <span class="n">w_bw</span></div>
-<div class="viewcode-block" id="FirstOrderFilter.output"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/utils/index.html#soft4pes.control.common.FirstOrderFilter.output">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="FirstOrderFilter.update"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/utils/index.html#soft4pes.control.common.FirstOrderFilter.update">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value_in</span><span class="p">,</span> <span class="n">Ts</span><span class="p">,</span> <span class="n">base</span><span class="p">):</span>
+<div class="viewcode-block" id="CarrierPWM.execute"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/modulation/index.html#soft4pes.control.modulation.carrier_pwm.CarrierPWM.execute">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Update the filter with a new input signal of the defined size.</span>
+<span class="sd">        Generate switching time instants and switch positions using asynchronous carrier-based pulse </span>
+<span class="sd">        width modulation (CB-PWM). The modulating signal is sampled at the peaks of the carrier, </span>
+<span class="sd">        resulting in the device switching frequency of 1/(2Ts) for two-level converters. For three-</span>
+<span class="sd">        level converters, the device switching frequency is roughly half the apparent switching, ie.</span>
+<span class="sd">        the carrier frequency, when phase-disposition PWM is used.</span>
+
+<span class="sd">        The produced output is presented below. Note that the switching times are in ascending </span>
+<span class="sd">        order.</span>
+<div class="viewcode-block" id="CarrierPWM.data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/modulation/carrier_pwm/index.html#soft4pes.control.modulation.carrier_pwm.CarrierPWM.data">[docs]</a><span class="sd">        </span>
+<span class="sd">                                |      Switch positions       |</span>
+<span class="sd">        Switching time instants | Phase A | Phase B | Phase C | </span>
+<span class="sd">        ---------------         |---------|---------|---------|</span></div>
+<div class="viewcode-block" id="CarrierPWM.input"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/modulation/carrier_pwm/index.html#soft4pes.control.modulation.carrier_pwm.CarrierPWM.input">[docs]</a><span class="sd">                    0           | state   | state   | state</span></div>
+<div class="viewcode-block" id="CarrierPWM.output"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/modulation/carrier_pwm/index.html#soft4pes.control.modulation.carrier_pwm.CarrierPWM.output">[docs]</a><span class="sd">                    t_switch[1] | state   | state   | state</span></div>
+<div class="viewcode-block" id="CarrierPWM.Ts"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/modulation/carrier_pwm/index.html#soft4pes.control.modulation.carrier_pwm.CarrierPWM.Ts">[docs]</a><span class="sd">                    t_switch[2] | state   | state   | state</span></div>
+<span class="sd">                    t_switch[3] | state   | state   | state </span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        value_in : ndarray</span>
-<span class="sd">            The input signal to be filtered.</span>
-<span class="sd">        Ts : float</span>
-<span class="sd">            The sampling interval [s].</span>
-<span class="sd">        base : object</span>
-<span class="sd">            The base values object containing the base angular frequency.</span>
+<span class="sd">        sys : system object</span>
+<span class="sd">            The system model.</span>
+<span class="sd">        kTs : float</span>
+<span class="sd">            Current discrete time instant [s].</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        t_switch : ndarray</span>
+<span class="sd">            Switching time instants.</span>
+<span class="sd">        switch_array : ndarray</span>
+<span class="sd">            Switch positions.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">Ts_pu</span> <span class="o">=</span> <span class="n">Ts</span> <span class="o">*</span> <span class="n">base</span><span class="o">.</span><span class="n">w</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">+=</span> <span class="n">Ts_pu</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">w_bw</span> <span class="o">*</span> <span class="p">(</span><span class="n">value_in</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">)</span></div></div>
+
+        <span class="n">u_ref_abc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">u_abc</span>
+
+        <span class="c1"># Calculate the duty ratio, bound to [0 1]. Note that the full duty cycle corresponds to the</span>
+        <span class="c1"># controller sampling interval.</span>
+
+        <span class="c1"># For two-level converter, the duty ratio of a phase represents the fraction of the sampling</span>
+        <span class="c1"># interval that the upper switch in the corresponding phase is on. When the upper switch is</span>
+        <span class="c1"># on, the converter phase is in switch position 1, and when the upper switch is off, the</span>
+        <span class="c1"># switch position of the phase is -1.</span>
+
+        <span class="c1"># In the case of a three-level converter, the duty ratio represents the fraction of the</span>
+        <span class="c1"># sampling interval that</span>
+        <span class="c1"># - Switch S1 is on and S3 off, when the modulating signal is &gt;= 0. Switch S2 is always on</span>
+        <span class="c1">#   and S4 off in this case. The phase is then in switch position 1 when S1 is on and and 0</span>
+        <span class="c1">#   while S1 is off.</span>
+        <span class="c1"># - Switch S4 is on and S2 off, when the modulating signal is &lt; 0. Switch S1 is always off</span>
+        <span class="c1">#   and S3 on. The phase is then in switch position -1 when S4 is on and 0 when S4 is off</span>
+
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">nl</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">d_abc</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">u_ref_abc</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">nl</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">d_abc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">u_ref_abc</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">u_ref_abc</span><span class="p">,</span> <span class="n">u_ref_abc</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Only two- and three-level converters are supported.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Compute switching time instants and corresponding switch positions. Add a zero at the</span>
+        <span class="c1"># beginning of the array to include the switch position when the cycle starts</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">carrier_rising</span><span class="p">:</span>
+            <span class="c1"># If the carrier is rising, the duty ratio corresponds to the percentage the switch is</span>
+            <span class="c1"># on from the start of the cycle.</span>
+            <span class="n">t_switch</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(([</span><span class="mi">0</span><span class="p">],</span> <span class="n">d_abc</span><span class="p">))</span>
+            <span class="n">switch_pos</span> <span class="o">=</span> <span class="p">(</span><span class="n">d_abc</span> <span class="o">&gt;</span> <span class="n">t_switch</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># If the carrier is falling, calculate the time the switch is off from the start of the</span>
+            <span class="c1"># cycle (d-1).</span>
+            <span class="n">t_switch</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(([</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">d_abc</span><span class="p">))</span>
+            <span class="n">switch_pos</span> <span class="o">=</span> <span class="p">(</span><span class="o">~</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">d_abc</span> <span class="o">&gt;</span> <span class="n">t_switch</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+        <span class="c1"># Switch positions are 1 and 0, corresponding the state of the individual switches (S1 for</span>
+        <span class="c1"># two-level converter, S1/S4 for three-level converter depending on the sign of the</span>
+        <span class="c1"># modulating signal). Deduce the phase switch positions.</span>
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">nl</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="c1"># Map 0 → -1 and 1 → 1</span>
+            <span class="n">switch_pos_phase</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">switch_pos</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">nl</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="c1"># Map 0 → 0 and 1 → 1. The negative phase switch position -1 is selected when the</span>
+            <span class="c1"># modulating signal is negative. Then, map 1 -&gt; 0 and 0 -&gt; -1.</span>
+            <span class="n">switch_pos_phase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">u_ref_abc</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">switch_pos</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+                                        <span class="n">switch_pos</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Only two- and three-level converters are supported.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Sort switching time instants and switch positions to ensure that the switching time</span>
+        <span class="c1"># instants are in ascending order. This is important in case two switching instants appear</span>
+        <span class="c1"># at (almost) the same time. By sorting, we can pick only the latter switch position, as it</span>
+        <span class="c1"># also includes the former switch position</span>
+        <span class="n">sorted_t_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">t_switch</span><span class="p">)</span>
+        <span class="n">t_switch</span> <span class="o">=</span> <span class="n">t_switch</span><span class="p">[</span><span class="n">sorted_t_indices</span><span class="p">]</span>
+        <span class="n">switch_pos_phase</span> <span class="o">=</span> <span class="n">switch_pos_phase</span><span class="p">[</span><span class="n">sorted_t_indices</span><span class="p">]</span>
+
+        <span class="c1"># Toggle the carrier direction</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">carrier_rising</span> <span class="o">=</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">carrier_rising</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span>
+            <span class="n">t_switch</span><span class="o">=</span><span class="n">t_switch</span><span class="p">,</span>
+            <span class="n">switch_pos</span><span class="o">=</span><span class="n">switch_pos_phase</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span></div></div>
 </pre></div>
 
                 </article>

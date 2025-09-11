@@ -131,7 +131,7 @@ Package Contents
       Execute the control system for a given discrete time step. The control system
       1. Gets the references for the current time step.
       2. Executes the control loops in the order they appear in the list.
-      3. Generates the three-phase switch position if modulator is used.
+      3. Outputs a three-phase switch position and the corresponding switching times.
 
       :param sys: System model.
       :type sys: object
