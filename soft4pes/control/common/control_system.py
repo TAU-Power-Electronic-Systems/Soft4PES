@@ -86,10 +86,10 @@ class ControlSystem:
 
         self.save_data(kTs=kTs)
 
-        # Use the output of the inmost (i.e., last) loop of the control system as a feedforward
-        # signal if PWM is not used. This can be modulating signal or a switch position (in the case
-        # of direct MPC). The three-phase switch position or modulating signal is constant over the
-        # control sampling interval.
+        # Use the output of the innermost (i.e., last) loop of the control system as a feedforward
+        # signal if PWM is not used. This can be the modulating signal or the three-phase switch
+        # position (in the case of direct MPC). These are kept constant over the (control) sampling
+        # interval.
         if self.pwm is None:
             return SimpleNamespace(t_switch=0, switch_pos=ctr_output.u_abc)
 

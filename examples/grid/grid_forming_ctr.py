@@ -63,7 +63,8 @@ sys = model.grid.RLGridLCLFilter(grid_params, lcl_params, conv, base)
 # Build the reference-feedforward power synchronization control (RFPSC)
 rfpsc = lin.RFPSC(sys)
 
-# Define indirect MPC
+# Define indirect MPC. When PWM is used, lambda_u, which penalizes the control effort, should be set
+# to relatively low value to prevent MPC from reacting to the switching ripple.
 solver = mpc.solvers.IndirectMpcQP()
 vc_mpc = mpc.controllers.LCLVcMpcCtr(solver=solver,
                                      lambda_u=1e-2,
@@ -87,7 +88,7 @@ ctr_sys = common.ControlSystem(control_loops=control_loops,
                                pwm=modulation.CarrierPWM())
 
 # Simulate the system
-sim = Simulation(sys=sys, ctr=ctr_sys, Ts_sim=0.5e-6)
+sim = Simulation(sys=sys, ctr=ctr_sys, Ts_sim=1e-6)
 sim_data = sim.simulate(t_stop=0.5)
 
 # Save the simulation data to a .mat file
