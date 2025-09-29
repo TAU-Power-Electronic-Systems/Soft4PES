@@ -2,7 +2,7 @@
 Example of grid-forming control of converter with LC filter using reference-feedforward power
 synchronization control (RFPSC) and cascade controller or model predictive control (MPC). The RFPSC 
 synchronizes with the grid and generates the capacitor voltage reference, which is subsequently 
-tracked by the cascade controller or MPC. MPC can also be replaced by a cascade controller. 
+tracked by the cascade controller or MPC.
 """
 
 from types import SimpleNamespace
@@ -18,6 +18,8 @@ from soft4pes.utils.plotter import Plotter
 base = model.grid.BaseGrid(Vg_R_SI=400, Ig_R_SI=18, fg_R_SI=50)
 
 # Define the active power and capacitor voltage magnitude reference sequences
+# The first array contains the time instants (in seconds) and the second array the corresponding
+# reference values (in per unit). The reference is interpolated linearly between the time instants.
 P_ref_seq = Sequence(
     times=np.array([0, 0.1, 0.1, 0.2, 0.2, 0.3, 0.3, 0.4]),
     values=np.array([0, 0, 0.5, 0.5, 1, 1, 0, 0]),
@@ -61,9 +63,9 @@ vc_mpc = mpc.controllers.LCLVcMpcCtr(solver=solver,
 control_loops = [rfpsc, vc_mpc]  # Use MPC with RFPSC
 
 # Uncomment the following line to use the cascade controller instead of MPC
-ic_ctr = lin.LCLConvCurrCtr(sys=sys)
-vc_ctr = lin.LCLVcCtr(sys=sys, I_conv_max=1.3, curr_ctr=ic_ctr)
-control_loops = [rfpsc, vc_ctr, ic_ctr]
+# ic_ctr = lin.LCLConvCurrCtr(sys=sys)
+# vc_ctr = lin.LCLVcCtr(sys=sys, I_conv_max=1.3, curr_ctr=ic_ctr)
+# control_loops = [rfpsc, vc_ctr, ic_ctr]
 
 # Define the control system. Set pwm to None to disable PWM.
 ctr_sys = common.ControlSystem(control_loops=control_loops,

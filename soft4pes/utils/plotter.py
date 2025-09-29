@@ -5,6 +5,9 @@ Plotting functionality for system states and control signals.
 import matplotlib.pyplot as plt
 import numpy as np
 
+from soft4pes.model.grid import RLGrid
+from soft4pes.model.machine import InductionMachine
+
 from soft4pes.utils.conversions import (alpha_beta_2_abc, alpha_beta_2_dq,
                                         abc_2_alpha_beta)
 
@@ -279,10 +282,12 @@ class Plotter:
         Parameters
         ----------
         states_to_plot : list of str
-            List of state names to plot (e.g., ['vc', 'ig', 'i_conv'])
+            List of state names to plot (e.g., ['vc', 'ig', 'i_conv']). The existing states can be
+            confirmed by checking the model class documentation. 
         frames : list of str, optional
             Reference frames for each state ('abc', 'alpha-beta', 'dq').
-            If None, defaults to 'alpha-beta' for all states.
+            If None, defaults to 'alpha-beta' for all states. The dq-frame is aligned with the
+            grid voltage for grid-connected systems and with the rotor flux for induction machines.
         plot_u_abc_ref : bool, optional
             Plot modulating signal u_abc_ref in one subplot (default: False)
         plot_u_abc : bool, optional
@@ -332,10 +337,9 @@ class Plotter:
             axs = [axs]
 
         # Plot system states
-        for i, state in enumerate(states_to_plot):
-            y = state_data[state]
+        for i, (state, frame) in enumerate(zip(states_to_plot, frames)):
+            y = state_data[(state, frame)]
             ax = axs[i]
-            frame = frames[i]
             ref_frame_subscripts = self._get_frame_components(
                 frame, y.shape[1])
 
@@ -393,12 +397,10 @@ class Plotter:
                 ax = axs[current_subplot + phase]
                 ax.plot(t_plot_sys,
                         u_abc[:, phase],
-                        label=fr"$u_{{{phase_labels[phase]}}}$",
                         color=self.phase_colors[phase],
                         linewidth=0.8)
                 ax.set_ylabel(fr"$u_{{{phase_labels[phase]}}}$")
                 ax.grid(True)
-                ax.legend(loc='upper left')
                 ax.set_xlim([
                     self.t_start,
                     self.t_end if self.t_end is not None else t_sys[-1]
@@ -445,7 +447,7 @@ class Plotter:
     def _get_masked_states_in_frames(self, states_to_plot, frames, t_idx):
         """
         Extract and convert states to specified reference frames.
-        
+
         Parameters
         ----------
         states_to_plot : list of str
@@ -454,14 +456,14 @@ class Plotter:
             Target reference frames for each state
         t_idx : ndarray
             Boolean mask for time indices
-        
+
         Returns
         -------
         dict
-            Dictionary mapping state names to converted data arrays
+            Dictionary mapping (state, frame) tuples to converted data arrays
         """
         data_sys = self.data.sys
-        x = data_sys.x[t_idx, :]
+        x = data_sys.x
         state_map = self.sys.state_map
         result = {}
         for state, frame in zip(states_to_plot, frames):
@@ -472,7 +474,8 @@ class Plotter:
                 )
             idx_state = state_map[state]
             quantity_ab = x[:, idx_state]
-            result[state] = self._to_frame(quantity_ab, frame)
+            converted = self._to_frame(quantity_ab, frame)
+            result[(state, frame)] = converted[t_idx, ...]
         return result
 
     def _get_frame_components(self, frame, n_comp):
@@ -534,8 +537,21 @@ class Plotter:
         elif frame == 'abc':
             return np.array([alpha_beta_2_abc(q) for q in quantity_ab])
         elif frame == 'dq':
-            # Use synchronous reference frame aligned with grid voltage
-            theta = 2 * np.pi * 50 * self.data.sys.t - np.pi / 2
+            if isinstance(self.sys, RLGrid):
+                # Use grid angle for RL grid systems
+                theta = np.arctan2(
+                    self.data.sys.vg[:, 1],
+                    self.data.sys.vg[:, 0],
+                )
+
+            elif isinstance(self.sys, InductionMachine):
+                # Use rotor flux angle for induction machines
+                theta = np.arctan2(
+                    self.data.sys.x[:, 3],
+                    self.data.sys.x[:, 2],
+                )
+            else:
+                theta = 2 * np.pi * 50 * self.data.sys.t - np.pi / 2
             return np.array(
                 [alpha_beta_2_dq(q, th) for q, th in zip(quantity_ab, theta)])
         else:

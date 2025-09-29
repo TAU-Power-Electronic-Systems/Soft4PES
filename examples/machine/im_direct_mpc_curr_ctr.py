@@ -20,7 +20,9 @@ base = model.machine.BaseMachine(Vm_R_SI=400,
                                  npp=1,
                                  pf=0.85)
 
-# Define torque reference sequence
+# Define torque reference sequence using a sequence object
+# The first array contains the time instants (in seconds) and the second array the corresponding
+# reference values (in per unit). The reference is interpolated linearly between the time instants.
 T_ref_seq = Sequence(
     np.array([0, 0.05, 0.05, 0.15, 0.15, 0.2]),
     np.array([0, 0, 1, 1, 0.5, 0.5]),
@@ -38,7 +40,7 @@ im_params = model.machine.InductionMachineParameters(fs_SI=50,
                                                      base=base)
 
 # Define system models
-conv = model.conv.Converter(v_dc_SI=600, nl=3, base=base)
+conv = model.conv.Converter(v_dc_SI=650, nl=3, base=base)
 sys = model.machine.InductionMachine(
     par=im_params,
     conv=conv,
@@ -70,7 +72,7 @@ sim.save_data()
 
 plotter = Plotter(sim_data, sys)
 plotter.plot_states(states_to_plot=['iS', 'psiR'],
-                    frames=['abc', 'abc'],
+                    frames=['dq', 'abc'],
                     plot_u_abc=True)
 plotter.plot_control_signals_machine(plot_T=True, T_ref=T_ref_seq)
 plotter.show_all()

@@ -17,6 +17,8 @@ from soft4pes.utils.plotter import Plotter
 base = model.grid.BaseGrid(Vg_R_SI=3300, Ig_R_SI=1575, fg_R_SI=50)
 
 # Define power reference sequences
+# The first array contains the time instants (in seconds) and the second array the corresponding
+# reference values (in per unit). The reference is interpolated linearly between the time instants.
 P_ref_seq = Sequence(np.array([0, 0.1, 0.1, 0.3]), np.array([1, 1, 0, 0]))
 Q_ref_seq = Sequence(np.array([0, 0.2, 0.2, 0.3]), np.array([0, 0, 0.5, 0.5]))
 ref_seq = SimpleNamespace(P_ref_seq=P_ref_seq, Q_ref_seq=Q_ref_seq)
