@@ -8,6 +8,7 @@ from soft4pes.control.lin.state_space_curr_ctr import RLGridStateSpaceCurrCtr
 from soft4pes.control.lin.lcl_conv_curr_ctr import LCLConvCurrCtr
 from soft4pes.control.lin.lcl_vc_ctr import LCLVcCtr
 from soft4pes.control.lin.rfpsc import RFPSC
+from soft4pes.control.lin.l_conv_curr_ctr import LConvCurrCtr
 
 __all__ = [
     "GridCurrRefGen",
@@ -15,4 +16,5 @@ __all__ = [
     "LCLConvCurrCtr",
     "LCLVcCtr",
     "RFPSC",
+    "LConvCurrCtr",
 ]
