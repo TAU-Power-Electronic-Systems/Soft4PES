@@ -26,9 +26,32 @@ def plot_gfl_example(data, t_start=0):
 
     # Extract system state variables
     x = data.sys.x
-    i_conv = x[:, 0:2]  # Converter currents
-    ig = i_conv # Grid currents (L filter)
-    i_conv_ref_dq = data.ctr.LConvCurrCtr.input.ig_ref_dq  # Current reference in dq frame
+
+    # Converter current (always first two states)
+    i_conv = x[:, 0:2]
+
+    # Grid current: if extra states exist, take columns 2:4, else fall back to i_conv
+    ig = x[:, 2:4] if x.shape[1] >= 4 else i_conv
+
+    # Current-reference: prefer LConvCurrCtr, else fall back to LCLConvCurrCtr
+    i_conv_ref_dq = None
+    ctr = getattr(data, "ctr", None)
+
+    if ctr is not None:
+        # Try LConvCurrCtr
+        lctr = getattr(ctr, "LConvCurrCtr", None)
+        if lctr is not None and hasattr(lctr, "input"):
+            i_conv_ref_dq = getattr(lctr.input, "ig_ref_dq", None)
+
+        # Fallback to LCLConvCurrCtr if needed
+        if i_conv_ref_dq is None:
+            lclctr = getattr(ctr, "LCLConvCurrCtr", None)
+            if lclctr is not None and hasattr(lclctr, "input"):
+                i_conv_ref_dq = getattr(lclctr.input, "ig_ref_dq", None)
+            if i_conv_ref_dq is None:
+                raise AttributeError(
+                    "Could not find ig_ref_dq in LConvCurrCtr or LCLConvCurrCtr inputs."
+                    )
     vg = data.sys.vg  # Grid voltages
 
     # Calculate power and capacitor voltage magnitude
@@ -42,7 +65,7 @@ def plot_gfl_example(data, t_start=0):
     # Get dq frame current (converter current equals grid current due to lack of a filter)
     i_conv_dq = np.empty_like(i_conv)
     for k in range(i_conv.shape[0]):
-     i_conv_dq[k, :] = alpha_beta_2_dq(i_conv[k, :], theta[k])
+        i_conv_dq[k, :] = alpha_beta_2_dq(i_conv[k, :], theta[k])
 
     # Define plot limits
     x_lim = [0, t_sim[-1]]

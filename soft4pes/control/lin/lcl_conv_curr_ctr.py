@@ -110,7 +110,12 @@ class LCLConvCurrCtr(Controller):
         theta = np.arctan2(vg[1], vg[0])
 
         # Get the reference for current step
-        i_conv_ref_comp = complex(*self.input.i_conv_ref_dq)
+        ref_dq = getattr(self.input, "i_conv_ref_dq", None)
+        if ref_dq is None:
+           ref_dq = getattr(self.input, "ig_ref_dq", None)
+        if ref_dq is None:
+           raise ValueError("No current reference provided: expected i_conv_ref_dq or ig_ref_dq.")
+        i_conv_ref_comp = complex(float(ref_dq[0]), float(ref_dq[1]))
 
         # Get the converter current in dq-frame
         i_conv_comp = complex(*alpha_beta_2_dq(sys.i_conv, theta))
