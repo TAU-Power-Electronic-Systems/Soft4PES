@@ -36,11 +36,7 @@ class LFilterParameters():
     def __init__(self,
                  L_fc_SI,
                  base,
-                 L_fg_SI=0,
-                 R_fc_SI=0,
-                 R_fg_SI=0):
+                 R_fc_SI=0):
         self.X_fc = L_fc_SI / base.L
         self.R_fc = R_fc_SI / base.Z
-        self.X_fg = L_fg_SI / base.L
-        self.R_fg = R_fg_SI / base.Z
         self.base = base
