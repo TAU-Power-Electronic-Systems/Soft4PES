@@ -13,12 +13,9 @@ class LFilterParameters():
         Inductance of the converter side filter inductor [H].
     base : base value object
         Base values.
-    L_fg_SI : float, optional
-        Inductance of the grid side filter inductor [H].
     R_fc_SI : float, optional
         Resistance of the converter side filter inductor [Ohm].
-    R_fg_SI : float, optional
-        Resistance of the grid side filter inductor [Ohm].
+
 
     Attributes
     ----------
@@ -26,10 +23,6 @@ class LFilterParameters():
         Reactance of the converter side filter inductor [p.u.].
     R_fc : float
         Resistance of the converter side filter inductor [p.u.].
-    X_fg : float
-        Reactance of the grid side filter inductor [p.u.].
-    R_fg : float
-        Resistance of the grid side filter inductor [p.u.].
     base : base value object
     """
 
