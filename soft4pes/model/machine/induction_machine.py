@@ -161,7 +161,7 @@ class InductionMachine(SystemModel):
         psiR_mag = np.linalg.norm(psiR_dq)
 
         iS_d = psiR_mag / self.par.Xm
-        iS_q = T_ref / psiR_mag * self.par.Xr / self.par.Xm / self.par.kT
+        iS_q = T_ref / (psiR_mag * self.par.Xm / self.par.Xr)
         return np.array([iS_d, iS_q])
 
     def get_continuous_state_space(self):
@@ -199,8 +199,7 @@ class InductionMachine(SystemModel):
 
     @property
     def Te(self):
-        return self.par.kT * (self.par.Xm / self.par.Xr) * np.cross(
-            self.psiR, self.iS)
+        return (self.par.Xm / self.par.Xr) * np.cross(self.psiR, self.iS)
 
     def get_next_state(self, matrices, u_abc, kTs):
         """
