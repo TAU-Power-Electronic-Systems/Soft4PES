@@ -1,0 +1,943 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>soft4pes.utils.plotter &#8212; Soft4PES  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/soft4pes/utils/plotter';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Soft4PES  documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../autoapi/soft4pes/index.html">API</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../autoapi/soft4pes/control/index.html">soft4pes.control</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../autoapi/soft4pes/control/common/index.html">soft4pes.control.common</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/control/common/control_system/index.html">soft4pes.control.common.control_system</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/control/common/controller/index.html">soft4pes.control.common.controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/control/common/utils/index.html">soft4pes.control.common.utils</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../autoapi/soft4pes/control/lin/index.html">soft4pes.control.lin</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/control/lin/grid_curr_ref_gen/index.html">soft4pes.control.lin.grid_curr_ref_gen</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/control/lin/lcl_conv_curr_ctr/index.html">soft4pes.control.lin.lcl_conv_curr_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/control/lin/rfpsc/index.html">soft4pes.control.lin.rfpsc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../autoapi/soft4pes/control/modulation/index.html">soft4pes.control.modulation</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/control/modulation/carrier_pwm/index.html">soft4pes.control.modulation.carrier_pwm</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../autoapi/soft4pes/control/mpc/index.html">soft4pes.control.mpc</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/control/mpc/controllers/index.html">soft4pes.control.mpc.controllers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/control/mpc/solvers/index.html">soft4pes.control.mpc.solvers</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../autoapi/soft4pes/model/index.html">soft4pes.model</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../autoapi/soft4pes/model/conv/index.html">soft4pes.model.conv</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/model/conv/converter/index.html">soft4pes.model.conv.converter</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../autoapi/soft4pes/model/grid/index.html">soft4pes.model.grid</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/model/grid/base_grid/index.html">soft4pes.model.grid.base_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/model/grid/lcl_filter_param/index.html">soft4pes.model.grid.lcl_filter_param</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/model/grid/rl_grid/index.html">soft4pes.model.grid.rl_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/model/grid/rl_grid_lcl_filter/index.html">soft4pes.model.grid.rl_grid_lcl_filter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/model/grid/rl_grid_param/index.html">soft4pes.model.grid.rl_grid_param</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../autoapi/soft4pes/model/machine/index.html">soft4pes.model.machine</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/model/machine/base_machine/index.html">soft4pes.model.machine.base_machine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/model/machine/induction_machine/index.html">soft4pes.model.machine.induction_machine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/model/machine/induction_machine_param/index.html">soft4pes.model.machine.induction_machine_param</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../autoapi/soft4pes/sim/index.html">soft4pes.sim</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/soft4pes/sim/simulation/index.html">soft4pes.sim.simulation</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../autoapi/soft4pes/utils/index.html">soft4pes.utils</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/soft4pes/utils/conversions/index.html">soft4pes.utils.conversions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/soft4pes/utils/plotter/index.html">soft4pes.utils.plotter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/soft4pes/utils/sequence/index.html">soft4pes.utils.sequence</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/TAU-Power-Electronic-Systems/Soft4PES" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for soft4pes.utils.plotter</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Plotting functionality for system states and control signals.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.model.grid</span><span class="w"> </span><span class="kn">import</span> <span class="n">RLGrid</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.model.machine</span><span class="w"> </span><span class="kn">import</span> <span class="n">InductionMachine</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.utils.conversions</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">alpha_beta_2_abc</span><span class="p">,</span> <span class="n">alpha_beta_2_dq</span><span class="p">,</span>
+                                        <span class="n">abc_2_alpha_beta</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Plotter"><a class="viewcode-back" href="../../../autoapi/soft4pes/utils/plotter/index.html#soft4pes.utils.Plotter">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Plotter</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class provides methods to plot system states, switching behavior, and control signals. It </span>
+<span class="sd">    supports multiple reference frames (abc, alpha-beta, dq). The main functions of the class are:</span>
+<span class="sd">    - plot_states: Plot system states in specified reference frames.</span>
+<span class="sd">    - plot_control_signals_grid: Plot control signals for grid-connected systems (active/reactive</span>
+<span class="sd">      power, voltage magnitude).</span>
+<span class="sd">    - plot_control_signals_machine: Plot control signals for electric machines (torque).</span>
+<span class="sd">    - show_all: Display all generated plots.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : SimulationData</span>
+<span class="sd">        Simulation data containing system and controller results</span>
+<span class="sd">    sys : System</span>
+<span class="sd">        System object with state mapping and configuration</span>
+<span class="sd">    t_start : float, optional</span>
+<span class="sd">        Start time for all plots (default: 0)</span>
+<span class="sd">    t_end : float, optional</span>
+<span class="sd">        End time for all plots (default: None, uses full simulation time)</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; plotter = SystemPlotter(data, sys, t_start=0, t_end=0.2)</span>
+<span class="sd">    &gt;&gt;&gt; plotter.plot_states([&#39;vc&#39;, &#39;ig&#39;], frames=[&#39;abc&#39;, &#39;alpha-beta&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; plotter.plot_control_signals_grid(plot_P=True, plot_Q=True, P_ref=P_ref_seq)</span>
+<span class="sd">    &gt;&gt;&gt; plotter.show_all()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">t_start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">t_end</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sys</span> <span class="o">=</span> <span class="n">sys</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_start</span> <span class="o">=</span> <span class="n">t_start</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_end</span> <span class="o">=</span> <span class="n">t_end</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_figures</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Define consistent phase colors: Blue, Red, Green for phases a, b, c</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">phase_colors</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>  <span class="c1"># Blue for phase a / alpha / d</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># Red for phase b / beta / q  </span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># Green for phase c</span>
+        <span class="p">]</span>
+
+        <span class="c1"># Define signal-specific colors for control plots</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">signal_colors</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;reference&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.55</span><span class="p">,</span> <span class="mf">0.55</span><span class="p">,</span> <span class="mf">0.55</span><span class="p">],</span>  <span class="c1"># Grey for all reference signals</span>
+            <span class="s1">&#39;P&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.75</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">],</span>  <span class="c1"># Magenta for active power</span>
+            <span class="s1">&#39;Q&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># Green for reactive power</span>
+            <span class="s1">&#39;V&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>  <span class="c1"># Blue for voltage magnitude</span>
+            <span class="s1">&#39;torque&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.75</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">]</span>  <span class="c1"># Magenta for torque</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_register_figure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fig</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Store figure to keep it alive until show_all() is called.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_figures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_time_mask_and_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t_sys</span><span class="p">,</span> <span class="n">t_start</span><span class="p">,</span> <span class="n">t_end</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create time mask and subplot structure for control signal plots.&quot;&quot;&quot;</span>
+        <span class="n">t_idx</span> <span class="o">=</span> <span class="p">(</span><span class="n">t_sys</span> <span class="o">&gt;=</span> <span class="n">t_start</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">t_end</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">t_idx</span> <span class="o">=</span> <span class="n">t_idx</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">t_sys</span> <span class="o">&lt;=</span> <span class="n">t_end</span><span class="p">)</span>
+        <span class="n">t_plot</span> <span class="o">=</span> <span class="n">t_sys</span><span class="p">[</span><span class="n">t_idx</span><span class="p">]</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">n_vars</span><span class="p">,</span>
+                                <span class="mi">1</span><span class="p">,</span>
+                                <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">2.5</span> <span class="o">*</span> <span class="n">n_vars</span><span class="p">),</span>
+                                <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_register_figure</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">n_vars</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">axs</span> <span class="o">=</span> <span class="p">[</span><span class="n">axs</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">t_idx</span><span class="p">,</span> <span class="n">t_plot</span><span class="p">,</span> <span class="n">axs</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_plot_signal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">t_plot</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">signal_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot a signal with specified color based on signal type.&quot;&quot;&quot;</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">signal_colors</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">signal_type</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_plot</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_plot_reference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">ref_seq</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">linestyle</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot a reference sequence with grey color and specified linestyle.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">ref_seq</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ref_seq</span><span class="o">.</span><span class="n">times</span><span class="p">,</span>
+                    <span class="n">ref_seq</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+                    <span class="n">linestyle</span><span class="o">=</span><span class="n">linestyle</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">signal_colors</span><span class="p">[</span><span class="s1">&#39;reference&#39;</span><span class="p">])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_finalize_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">t_start</span><span class="p">,</span> <span class="n">t_end</span><span class="p">,</span> <span class="n">t_sys</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply consistent formatting to subplot axes.&quot;&quot;&quot;</span>
+        <span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">labels</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="n">t_start</span><span class="p">,</span> <span class="n">t_end</span> <span class="k">if</span> <span class="n">t_end</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">t_sys</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+
+<div class="viewcode-block" id="Plotter.plot_control_signals_grid"><a class="viewcode-back" href="../../../autoapi/soft4pes/utils/plotter/index.html#soft4pes.utils.Plotter.plot_control_signals_grid">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">plot_control_signals_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                  <span class="n">plot_P</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                  <span class="n">plot_Q</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                  <span class="n">plot_V</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                  <span class="n">P_ref</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">Q_ref</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">V_ref</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot grid-connected system control signals (active/reactive power, voltage magnitude). The </span>
+<span class="sd">        voltage magnitude corresponds to converter output voltage (no LCL filter) or capacitor</span>
+<span class="sd">        voltage (with LCL filter).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        plot_P : bool, optional</span>
+<span class="sd">            Plot active power P (default: False)</span>
+<span class="sd">        plot_Q : bool, optional</span>
+<span class="sd">            Plot reactive power Q (default: False)</span>
+<span class="sd">        plot_V : bool, optional</span>
+<span class="sd">            Plot voltage magnitude (converter or capacitor) (default: False)</span>
+<span class="sd">        P_ref : Sequence, optional</span>
+<span class="sd">            Active power reference trajectory</span>
+<span class="sd">        Q_ref : Sequence, optional</span>
+<span class="sd">            Reactive power reference trajectory</span>
+<span class="sd">        V_ref : Sequence, optional</span>
+<span class="sd">            Voltage magnitude reference trajectory</span>
+<span class="sd">        </span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        - If both plot_P and plot_Q are True, they are plotted together</span>
+<span class="sd">        - Voltage plots either converter voltage (if no capacitor) or capacitor voltage</span>
+<span class="sd">        - Power is calculated as:</span>
+<span class="sd">          P = vg_alpha*ig_alpha + vg_beta*ig_beta, </span>
+<span class="sd">          Q = vg_beta*ig_alpha - vg_alpha*ig_beta</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sys</span><span class="p">,</span> <span class="s1">&#39;vg&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                <span class="s2">&quot;No &#39;vg&#39; attribute in system. This system is not a grid.&quot;</span><span class="p">)</span>
+
+        <span class="n">x_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">x</span>
+        <span class="n">t_sys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">t</span>
+        <span class="n">state_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">state_map</span>
+        <span class="n">vg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">vg</span>
+
+        <span class="n">variables</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">plot_P</span> <span class="ow">and</span> <span class="n">plot_Q</span><span class="p">:</span>
+            <span class="n">variables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;PQ&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">plot_P</span><span class="p">:</span>
+            <span class="n">variables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;P&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">plot_Q</span><span class="p">:</span>
+            <span class="n">variables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Q&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">plot_V</span><span class="p">:</span>
+            <span class="n">variables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;V&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">variables</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No variables selected for plotting.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">t_idx</span><span class="p">,</span> <span class="n">t_plot</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_time_mask_and_plot</span><span class="p">(</span>
+            <span class="n">t_sys</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_start</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_end</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">variables</span><span class="p">))</span>
+
+        <span class="c1"># Calculate instantaneous power if needed</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">var</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;PQ&#39;</span><span class="p">,</span> <span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="s1">&#39;Q&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">):</span>
+            <span class="n">ig</span> <span class="o">=</span> <span class="n">x_data</span><span class="p">[:,</span> <span class="n">state_map</span><span class="p">[</span><span class="s1">&#39;ig&#39;</span><span class="p">]]</span>
+            <span class="n">P</span> <span class="o">=</span> <span class="n">vg</span><span class="p">[</span><span class="n">t_idx</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">ig</span><span class="p">[</span><span class="n">t_idx</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">vg</span><span class="p">[</span><span class="n">t_idx</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">ig</span><span class="p">[</span><span class="n">t_idx</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">Q</span> <span class="o">=</span> <span class="n">vg</span><span class="p">[</span><span class="n">t_idx</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">ig</span><span class="p">[</span><span class="n">t_idx</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">vg</span><span class="p">[</span><span class="n">t_idx</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">ig</span><span class="p">[</span><span class="n">t_idx</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">variables</span><span class="p">):</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">var</span> <span class="o">==</span> <span class="s1">&#39;PQ&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_plot_signal</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">t_plot</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;$P$&quot;</span><span class="p">,</span> <span class="n">signal_type</span><span class="o">=</span><span class="s1">&#39;P&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_plot_reference</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span>
+                                     <span class="n">P_ref</span><span class="p">,</span>
+                                     <span class="sa">r</span><span class="s2">&quot;$P_{\mathrm</span><span class="si">{ref}</span><span class="s2">}$&quot;</span><span class="p">,</span>
+                                     <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_plot_signal</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">t_plot</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;$Q$&quot;</span><span class="p">,</span> <span class="n">signal_type</span><span class="o">=</span><span class="s1">&#39;Q&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_plot_reference</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span>
+                                     <span class="n">Q_ref</span><span class="p">,</span>
+                                     <span class="sa">r</span><span class="s2">&quot;$Q_{\mathrm</span><span class="si">{ref}</span><span class="s2">}$&quot;</span><span class="p">,</span>
+                                     <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-.&#39;</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Power [p.u.]&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">var</span> <span class="o">==</span> <span class="s1">&#39;P&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_plot_signal</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">t_plot</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;$P$&quot;</span><span class="p">,</span> <span class="n">signal_type</span><span class="o">=</span><span class="s1">&#39;P&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_plot_reference</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span>
+                                     <span class="n">P_ref</span><span class="p">,</span>
+                                     <span class="sa">r</span><span class="s2">&quot;$P_{\mathrm</span><span class="si">{ref}</span><span class="s2">}$&quot;</span><span class="p">,</span>
+                                     <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Power [p.u.]&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">var</span> <span class="o">==</span> <span class="s1">&#39;Q&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_plot_signal</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">t_plot</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;$Q$&quot;</span><span class="p">,</span> <span class="n">signal_type</span><span class="o">=</span><span class="s1">&#39;Q&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_plot_reference</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span>
+                                     <span class="n">Q_ref</span><span class="p">,</span>
+                                     <span class="sa">r</span><span class="s2">&quot;$Q_{\mathrm</span><span class="si">{ref}</span><span class="s2">}$&quot;</span><span class="p">,</span>
+                                     <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Power [p.u.]&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">var</span> <span class="o">==</span> <span class="s1">&#39;V&#39;</span><span class="p">:</span>
+                <span class="c1"># Determine voltage source: converter output or capacitor</span>
+                <span class="k">if</span> <span class="s1">&#39;vc&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">state_map</span><span class="p">:</span>
+                    <span class="c1"># Plot converter voltage magnitude</span>
+                    <span class="n">v_abc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">u_abc</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span> <span class="o">/</span> <span class="mi">2</span>
+                    <span class="n">v_alpha_beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">abc_2_alpha_beta</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">v_abc</span><span class="p">])</span>
+                    <span class="n">V_mag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">v_alpha_beta</span><span class="p">[</span><span class="n">t_idx</span><span class="p">,</span> <span class="p">:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                    <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$V_{\mathrm</span><span class="si">{conv}</span><span class="s2">}$&quot;</span>
+                    <span class="n">ref_label</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$V_{\mathrm{conv,ref}}$&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># Plot capacitor voltage magnitude</span>
+                    <span class="n">vc</span> <span class="o">=</span> <span class="n">x_data</span><span class="p">[:,</span> <span class="n">state_map</span><span class="p">[</span><span class="s1">&#39;vc&#39;</span><span class="p">]]</span>
+                    <span class="n">V_mag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vc</span><span class="p">[</span><span class="n">t_idx</span><span class="p">,</span> <span class="p">:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                    <span class="n">label</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$V_c$&quot;</span>
+                    <span class="n">ref_label</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$V_{c,\mathrm</span><span class="si">{ref}</span><span class="s2">}$&quot;</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">_plot_signal</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">t_plot</span><span class="p">,</span> <span class="n">V_mag</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">signal_type</span><span class="o">=</span><span class="s1">&#39;V&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_plot_reference</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">V_ref</span><span class="p">,</span> <span class="n">ref_label</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Voltage [p.u.]&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_finalize_axis</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_start</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_end</span><span class="p">,</span> <span class="n">t_sys</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Plotter.plot_control_signals_machine"><a class="viewcode-back" href="../../../autoapi/soft4pes/utils/plotter/index.html#soft4pes.utils.Plotter.plot_control_signals_machine">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">plot_control_signals_machine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plot_T</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">T_ref</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot machine control signals (electromagnetic torque).</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        plot_T : bool, optional</span>
+<span class="sd">            Plot electromagnetic torque Te (default: False)</span>
+<span class="sd">        T_ref : Sequence, optional</span>
+<span class="sd">            Torque reference trajectory</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">t_sys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">t</span>
+
+        <span class="n">variables</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">plot_T</span><span class="p">:</span>
+            <span class="n">variables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Te&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">variables</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No variables selected for plotting.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">t_idx</span><span class="p">,</span> <span class="n">t_plot</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_time_mask_and_plot</span><span class="p">(</span>
+            <span class="n">t_sys</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_start</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_end</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">variables</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">variables</span><span class="p">):</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">var</span> <span class="o">==</span> <span class="s1">&#39;Te&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sys</span><span class="p">,</span> <span class="s1">&#39;Te&#39;</span><span class="p">):</span>
+                    <span class="n">Te</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">Te</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                        <span class="s2">&quot;System is not a machine (no Te available).&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_plot_signal</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span>
+                                  <span class="n">t_plot</span><span class="p">,</span>
+                                  <span class="n">Te</span><span class="p">[</span><span class="n">t_idx</span><span class="p">],</span>
+                                  <span class="sa">r</span><span class="s2">&quot;$T_e$&quot;</span><span class="p">,</span>
+                                  <span class="n">signal_type</span><span class="o">=</span><span class="s1">&#39;torque&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_plot_reference</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span>
+                                     <span class="n">T_ref</span><span class="p">,</span>
+                                     <span class="sa">r</span><span class="s2">&quot;$T_{\mathrm</span><span class="si">{ref}</span><span class="s2">}$&quot;</span><span class="p">,</span>
+                                     <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$T_e [p.u.]$&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_finalize_axis</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_start</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_end</span><span class="p">,</span> <span class="n">t_sys</span><span class="p">)</span>
+
+        <span class="n">axs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Time [s]&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Plotter.plot_states"><a class="viewcode-back" href="../../../autoapi/soft4pes/utils/plotter/index.html#soft4pes.utils.Plotter.plot_states">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">plot_states</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                    <span class="n">states_to_plot</span><span class="p">,</span>
+                    <span class="n">frames</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">plot_u_abc_ref</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="n">plot_u_abc</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot system states in specified reference frames. Moreover, the modulating signal u_abc_ref</span>
+<span class="sd">        and/or the actual converter output can be plotted. In case modulator is not used, </span>
+<span class="sd">        u_abc_ref=u_abc. </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        states_to_plot : list of str</span>
+<span class="sd">            List of state names to plot (e.g., [&#39;vc&#39;, &#39;ig&#39;, &#39;i_conv&#39;]). The existing states can be</span>
+<span class="sd">            confirmed by checking the model class documentation. </span>
+<span class="sd">        frames : list of str, optional</span>
+<span class="sd">            Reference frames for each state (&#39;abc&#39;, &#39;alpha-beta&#39;, &#39;dq&#39;).</span>
+<span class="sd">            If None, defaults to &#39;alpha-beta&#39; for all states. The dq-frame is aligned with the</span>
+<span class="sd">            grid voltage for grid-connected systems and with the rotor flux for induction machines.</span>
+<span class="sd">        plot_u_abc_ref : bool, optional</span>
+<span class="sd">            Plot modulating signal u_abc_ref in one subplot (default: False)</span>
+<span class="sd">        plot_u_abc : bool, optional</span>
+<span class="sd">            Plot actual converter output u_abc in separate subplots (default: False)</span>
+<span class="sd">        </span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; plotter.plot_states([&#39;vc&#39;, &#39;ig&#39;], frames=[&#39;abc&#39;, &#39;alpha-beta&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; plotter.plot_states([&#39;i_conv&#39;], frames=[&#39;dq&#39;], plot_u_abc=True)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data_sys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sys</span>
+        <span class="n">data_ctr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">ctr</span>
+        <span class="n">t_sys</span> <span class="o">=</span> <span class="n">data_sys</span><span class="o">.</span><span class="n">t</span>
+        <span class="n">t_ctr</span> <span class="o">=</span> <span class="n">data_ctr</span><span class="o">.</span><span class="n">t</span>
+
+        <span class="c1"># Default to alpha-beta frame for all states if not specified</span>
+        <span class="k">if</span> <span class="n">frames</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">frames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;alpha-beta&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">states_to_plot</span><span class="p">)</span>
+
+        <span class="n">t_idx_sys</span><span class="p">,</span> <span class="n">t_plot_sys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_time_mask</span><span class="p">(</span><span class="n">t_sys</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_start</span><span class="p">,</span>
+                                                    <span class="bp">self</span><span class="o">.</span><span class="n">t_end</span><span class="p">)</span>
+        <span class="n">t_idx_ctr</span><span class="p">,</span> <span class="n">t_plot_ctr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_time_mask</span><span class="p">(</span><span class="n">t_ctr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_start</span><span class="p">,</span>
+                                                    <span class="bp">self</span><span class="o">.</span><span class="n">t_end</span><span class="p">)</span>
+
+        <span class="c1"># Convert states to requested reference frames</span>
+        <span class="n">state_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_masked_states_in_frames</span><span class="p">(</span><span class="n">states_to_plot</span><span class="p">,</span> <span class="n">frames</span><span class="p">,</span>
+                                                       <span class="n">t_idx_sys</span><span class="p">)</span>
+
+        <span class="n">n_states</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">states_to_plot</span><span class="p">)</span>
+        <span class="n">n_plots</span> <span class="o">=</span> <span class="n">n_states</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="n">plot_u_abc_ref</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">3</span> <span class="k">if</span> <span class="n">plot_u_abc</span>
+                                                             <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Configure subplot heights: normal for states/u_abc_ref, smaller for individual u_abc</span>
+        <span class="n">heights</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">n_states</span>
+        <span class="k">if</span> <span class="n">plot_u_abc_ref</span><span class="p">:</span>
+            <span class="n">heights</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">plot_u_abc</span><span class="p">:</span>
+            <span class="n">heights</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">])</span>
+
+        <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">n_plots</span><span class="p">,</span>
+                                <span class="mi">1</span><span class="p">,</span>
+                                <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="nb">sum</span><span class="p">(</span><span class="n">heights</span><span class="p">)</span> <span class="o">*</span> <span class="mi">3</span><span class="p">),</span>
+                                <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;height_ratios&#39;</span><span class="p">:</span> <span class="n">heights</span><span class="p">},</span>
+                                <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_register_figure</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">n_plots</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">axs</span> <span class="o">=</span> <span class="p">[</span><span class="n">axs</span><span class="p">]</span>
+
+        <span class="c1"># Plot system states</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">states_to_plot</span><span class="p">,</span> <span class="n">frames</span><span class="p">)):</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">state_data</span><span class="p">[(</span><span class="n">state</span><span class="p">,</span> <span class="n">frame</span><span class="p">)]</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">ref_frame_subscripts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_frame_components</span><span class="p">(</span>
+                <span class="n">frame</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">frame_subscript</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ref_frame_subscripts</span><span class="p">):</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_label</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">frame_subscript</span><span class="p">)</span>
+                <span class="c1"># Apply consistent colors based on reference frame</span>
+                <span class="k">if</span> <span class="n">frame</span> <span class="o">==</span> <span class="s1">&#39;abc&#39;</span> <span class="ow">and</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">phase_colors</span><span class="p">):</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">phase_colors</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">frame</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;alpha-beta&#39;</span><span class="p">,</span> <span class="s1">&#39;dq&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">phase_colors</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>  <span class="c1"># Blue for α/d, Red for β/q</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Use matplotlib default colors</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_plot_sys</span><span class="p">,</span>
+                        <span class="n">y</span><span class="p">[:,</span> <span class="n">j</span><span class="p">],</span>
+                        <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+                        <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+                        <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="n">state_label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_label</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; [p.u.]&quot;</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">state_label</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">t_start</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">t_end</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_end</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">t_sys</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="p">])</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
+
+        <span class="n">current_subplot</span> <span class="o">=</span> <span class="n">n_states</span>
+
+        <span class="c1"># Plot reference voltage waveforms (all phases in one subplot)</span>
+        <span class="k">if</span> <span class="n">plot_u_abc_ref</span><span class="p">:</span>
+            <span class="n">u_abc</span> <span class="o">=</span> <span class="n">data_ctr</span><span class="o">.</span><span class="n">u_abc_ref</span><span class="p">[</span><span class="n">t_idx_ctr</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">phase_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">]</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="n">current_subplot</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">phase</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_plot_ctr</span><span class="p">,</span>
+                        <span class="n">u_abc</span><span class="p">[:,</span> <span class="n">phase</span><span class="p">],</span>
+                        <span class="n">label</span><span class="o">=</span><span class="sa">fr</span><span class="s2">&quot;$u_</span><span class="se">{{</span><span class="si">{</span><span class="n">phase_labels</span><span class="p">[</span><span class="n">phase</span><span class="p">]</span><span class="si">}</span><span class="s2">,\mathrm</span><span class="se">{{</span><span class="s2">ref</span><span class="se">}}}}</span><span class="s2">$&quot;</span><span class="p">,</span>
+                        <span class="n">color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">phase_colors</span><span class="p">[</span><span class="n">phase</span><span class="p">],</span>
+                        <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$u_{\mathrm{abc,ref}}$&quot;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">t_start</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">t_end</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_end</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">t_sys</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="p">])</span>
+            <span class="n">current_subplot</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># Plot actual voltage waveforms (separate subplot per phase)</span>
+        <span class="k">if</span> <span class="n">plot_u_abc</span><span class="p">:</span>
+            <span class="n">u_abc</span> <span class="o">=</span> <span class="n">data_sys</span><span class="o">.</span><span class="n">u_abc</span><span class="p">[</span><span class="n">t_idx_sys</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">phase_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">phase</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+                <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="n">current_subplot</span> <span class="o">+</span> <span class="n">phase</span><span class="p">]</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_plot_sys</span><span class="p">,</span>
+                        <span class="n">u_abc</span><span class="p">[:,</span> <span class="n">phase</span><span class="p">],</span>
+                        <span class="n">color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">phase_colors</span><span class="p">[</span><span class="n">phase</span><span class="p">],</span>
+                        <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">fr</span><span class="s2">&quot;$u_</span><span class="se">{{</span><span class="si">{</span><span class="n">phase_labels</span><span class="p">[</span><span class="n">phase</span><span class="p">]</span><span class="si">}</span><span class="se">}}</span><span class="s2">$&quot;</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">t_start</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">t_end</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_end</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">t_sys</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="p">])</span>
+
+        <span class="n">axs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Time [s]&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Plotter.show_all"><a class="viewcode-back" href="../../../autoapi/soft4pes/utils/plotter/index.html#soft4pes.utils.Plotter.show_all">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">show_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Display all registered figures and keep them open.</span>
+<span class="sd">        </span>
+<span class="sd">        This method should be called after creating all desired plots to display</span>
+<span class="sd">        them simultaneously. Figures remain open until manually closed by the user.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_time_mask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">t_start</span><span class="p">,</span> <span class="n">t_end</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create boolean mask for time vector within specified window.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        t : ndarray</span>
+<span class="sd">            Time vector</span>
+<span class="sd">        t_start : float</span>
+<span class="sd">            Start time</span>
+<span class="sd">        t_end : float or None</span>
+<span class="sd">            End time (if None, use full time range)</span>
+<span class="sd">            </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        t_idx : ndarray</span>
+<span class="sd">            Boolean mask for time indices</span>
+<span class="sd">        t_plot : ndarray</span>
+<span class="sd">            Masked time vector</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">t_idx</span> <span class="o">=</span> <span class="p">(</span><span class="n">t</span> <span class="o">&gt;=</span> <span class="n">t_start</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">t_end</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">t_idx</span> <span class="o">=</span> <span class="n">t_idx</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">t</span> <span class="o">&lt;=</span> <span class="n">t_end</span><span class="p">)</span>
+        <span class="n">t_plot</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="n">t_idx</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">t_idx</span><span class="p">,</span> <span class="n">t_plot</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_masked_states_in_frames</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">states_to_plot</span><span class="p">,</span> <span class="n">frames</span><span class="p">,</span> <span class="n">t_idx</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Extract and convert states to specified reference frames.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        states_to_plot : list of str</span>
+<span class="sd">            State names to extract</span>
+<span class="sd">        frames : list of str</span>
+<span class="sd">            Target reference frames for each state</span>
+<span class="sd">        t_idx : ndarray</span>
+<span class="sd">            Boolean mask for time indices</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            Dictionary mapping (state, frame) tuples to converted data arrays</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data_sys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sys</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">data_sys</span><span class="o">.</span><span class="n">x</span>
+        <span class="n">state_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">state_map</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">state</span><span class="p">,</span> <span class="n">frame</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">states_to_plot</span><span class="p">,</span> <span class="n">frames</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">state</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">state_map</span><span class="p">:</span>
+                <span class="n">available</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">state_map</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;State &#39;</span><span class="si">{</span><span class="n">state</span><span class="si">}</span><span class="s2">&#39; not found in state_map. Available states: </span><span class="si">{</span><span class="n">available</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="n">idx_state</span> <span class="o">=</span> <span class="n">state_map</span><span class="p">[</span><span class="n">state</span><span class="p">]</span>
+            <span class="n">quantity_ab</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:,</span> <span class="n">idx_state</span><span class="p">]</span>
+            <span class="n">converted</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_frame</span><span class="p">(</span><span class="n">quantity_ab</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
+            <span class="n">result</span><span class="p">[(</span><span class="n">state</span><span class="p">,</span> <span class="n">frame</span><span class="p">)]</span> <span class="o">=</span> <span class="n">converted</span><span class="p">[</span><span class="n">t_idx</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_frame_components</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">n_comp</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get subscript labels for reference frame components.&quot;&quot;&quot;</span>
+        <span class="n">frame_letters</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;alpha-beta&#39;</span><span class="p">:</span> <span class="p">[</span><span class="sa">r</span><span class="s1">&#39;\alpha&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\beta&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;abc&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;dq&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;q&#39;</span><span class="p">]</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">frame_letters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_comp</span><span class="p">)])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_make_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">comp</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate LaTeX-formatted labels for states and components.</span>
+<span class="sd">        </span>
+<span class="sd">        Handles special cases for flux linkages (psiR, psiS) and composite</span>
+<span class="sd">        state names with underscores.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">state</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;psiR&#39;</span><span class="p">,</span> <span class="s1">&#39;psiS&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">comp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="sa">fr</span><span class="s2">&quot;$\psi_</span><span class="se">{{</span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="se">}}</span><span class="s2">$&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="sa">fr</span><span class="s2">&quot;$\psi_</span><span class="se">{{</span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="se">}}</span><span class="s2">$&quot;</span>
+        <span class="k">elif</span> <span class="s1">&#39;_&#39;</span> <span class="ow">in</span> <span class="n">state</span><span class="p">:</span>
+            <span class="n">var</span><span class="p">,</span> <span class="n">sub</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">comp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="sa">fr</span><span class="s2">&quot;$</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2">_</span><span class="se">{{</span><span class="si">{</span><span class="n">sub</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="se">}}</span><span class="s2">$&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="sa">fr</span><span class="s2">&quot;$</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2">_</span><span class="se">{{</span><span class="si">{</span><span class="n">sub</span><span class="si">}</span><span class="se">}}</span><span class="s2">$&quot;</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">comp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="sa">fr</span><span class="s2">&quot;$</span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">_</span><span class="se">{{</span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="se">}}</span><span class="s2">$&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="sa">fr</span><span class="s2">&quot;$</span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">_</span><span class="se">{{</span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="se">}}</span><span class="s2">$&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">comp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="sa">fr</span><span class="s2">&quot;$</span><span class="si">{</span><span class="n">state</span><span class="si">}</span><span class="s2">_</span><span class="se">{{</span><span class="si">{</span><span class="n">comp</span><span class="si">}</span><span class="se">}}</span><span class="s2">$&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="sa">fr</span><span class="s2">&quot;$</span><span class="si">{</span><span class="n">state</span><span class="si">}</span><span class="s2">$&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_to_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">quantity_ab</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert quantities from alpha-beta to specified reference frame.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        quantity_ab : ndarray</span>
+<span class="sd">            Data in alpha-beta coordinates (N x 2)</span>
+<span class="sd">        frame : str</span>
+<span class="sd">            Target reference frame (&#39;alpha-beta&#39;, &#39;abc&#39;, &#39;dq&#39;)</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ndarray</span>
+<span class="sd">            Converted data in target frame</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">frame</span> <span class="o">==</span> <span class="s1">&#39;alpha-beta&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">quantity_ab</span>
+        <span class="k">elif</span> <span class="n">frame</span> <span class="o">==</span> <span class="s1">&#39;abc&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">alpha_beta_2_abc</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">quantity_ab</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">frame</span> <span class="o">==</span> <span class="s1">&#39;dq&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="p">,</span> <span class="n">RLGrid</span><span class="p">):</span>
+                <span class="c1"># Use grid angle for RL grid systems</span>
+                <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">vg</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">vg</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+                <span class="p">)</span>
+
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="p">,</span> <span class="n">InductionMachine</span><span class="p">):</span>
+                <span class="c1"># Use rotor flux angle for induction machines</span>
+                <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">x</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">x</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">theta</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mi">50</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">t</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">th</span><span class="p">)</span> <span class="k">for</span> <span class="n">q</span><span class="p">,</span> <span class="n">th</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">quantity_ab</span><span class="p">,</span> <span class="n">theta</span><span class="p">)])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown frame: </span><span class="si">{</span><span class="n">frame</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By TAU Power Electronic Systems
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024 TAU Power Electronic Systems.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

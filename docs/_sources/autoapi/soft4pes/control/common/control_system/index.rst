@@ -150,13 +150,15 @@ Module Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: save_data(kTs)
+   .. py:method:: save_data(kTs, u_abc_ref)
 
       
       Save the current time step to the control system data.
 
       :param kTs: Current discrete time instant [s].
       :type kTs: float
+      :param u_abc_ref: Three-phase switch position or modulating signal.
+      :type u_abc_ref: 1 x 3 ndarray
 
 
 

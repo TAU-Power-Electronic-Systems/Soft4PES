@@ -190,6 +190,7 @@
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/utils/index.html">soft4pes.utils</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../../autoapi/soft4pes/utils/conversions/index.html">soft4pes.utils.conversions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../autoapi/soft4pes/utils/plotter/index.html">soft4pes.utils.plotter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../autoapi/soft4pes/utils/sequence/index.html">soft4pes.utils.sequence</a></li>
 </ul>
 </li>
@@ -318,6 +319,7 @@ document.write(`
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleNamespace</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 
 <div class="viewcode-block" id="ControlSystem"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/index.html#soft4pes.control.common.control_system.ControlSystem">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ControlSystem</span><span class="p">:</span>
@@ -354,7 +356,7 @@ document.write(`
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">control_loops</span><span class="p">,</span> <span class="n">ref_seq</span><span class="p">,</span> <span class="n">Ts</span><span class="p">,</span> <span class="n">pwm</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <div class="viewcode-block" id="ControlSystem.ref_seq"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/control_system/index.html#soft4pes.control.common.control_system.ControlSystem.ref_seq">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">ref_seq</span> <span class="o">=</span> <span class="n">ref_seq</span></div>
-<div class="viewcode-block" id="ControlSystem.data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/control_system/index.html#soft4pes.control.common.control_system.ControlSystem.data">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="p">[])</span></div>
+<div class="viewcode-block" id="ControlSystem.data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/control_system/index.html#soft4pes.control.common.control_system.ControlSystem.data">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="p">[],</span> <span class="n">u_abc_ref</span><span class="o">=</span><span class="p">[])</span></div>
 <div class="viewcode-block" id="ControlSystem.Ts"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/control_system/index.html#soft4pes.control.common.control_system.ControlSystem.Ts">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Ts</span> <span class="o">=</span> <span class="n">Ts</span></div>
 
         <span class="c1"># If PWM is provided, it is added to the control loops list to be the last loop of the</span>
@@ -399,14 +401,16 @@ document.write(`
             <span class="n">ctr_input</span> <span class="o">=</span> <span class="n">ctr_output</span>
             <span class="n">control_loop</span><span class="o">.</span><span class="n">save_data</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">save_data</span><span class="p">(</span><span class="n">kTs</span><span class="o">=</span><span class="n">kTs</span><span class="p">)</span>
-
         <span class="c1"># Use the output of the innermost (i.e., last) loop of the control system as a feedforward</span>
         <span class="c1"># signal if PWM is not used. This can be the modulating signal or the three-phase switch</span>
         <span class="c1"># position (in the case of direct MPC). These are kept constant over the (control) sampling</span>
         <span class="c1"># interval.</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pwm</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">t_switch</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">switch_pos</span><span class="o">=</span><span class="n">ctr_output</span><span class="o">.</span><span class="n">u_abc</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">save_data</span><span class="p">(</span><span class="n">kTs</span><span class="o">=</span><span class="n">kTs</span><span class="p">,</span> <span class="n">u_abc_ref</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">ctr_output</span><span class="o">.</span><span class="n">u_abc</span><span class="p">))</span>
+            <span class="n">ctr_output</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">t_switch</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                                         <span class="n">switch_pos</span><span class="o">=</span><span class="n">ctr_output</span><span class="o">.</span><span class="n">u_abc</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">save_data</span><span class="p">(</span><span class="n">kTs</span><span class="o">=</span><span class="n">kTs</span><span class="p">,</span> <span class="n">u_abc_ref</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pwm</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">u_abc</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="n">ctr_output</span></div>
 
@@ -433,7 +437,7 @@ document.write(`
             <span class="nb">setattr</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">(</span><span class="n">kTs</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">ref</span></div>
 
-<div class="viewcode-block" id="ControlSystem.save_data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/index.html#soft4pes.control.common.control_system.ControlSystem.save_data">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">save_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
+<div class="viewcode-block" id="ControlSystem.save_data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/index.html#soft4pes.control.common.control_system.ControlSystem.save_data">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">save_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kTs</span><span class="p">,</span> <span class="n">u_abc_ref</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Save the current time step to the control system data.</span>
 
@@ -441,9 +445,12 @@ document.write(`
 <span class="sd">        ----------</span>
 <span class="sd">        kTs : float</span>
 <span class="sd">            Current discrete time instant [s].</span>
+<span class="sd">        u_abc_ref : 1 x 3 ndarray</span>
+<span class="sd">            Three-phase switch position or modulating signal.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kTs</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kTs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">u_abc_ref</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">u_abc_ref</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ControlSystem.get_control_system_data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/index.html#soft4pes.control.common.control_system.ControlSystem.get_control_system_data">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_control_system_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

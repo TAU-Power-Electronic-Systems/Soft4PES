@@ -193,6 +193,7 @@
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../utils/index.html">soft4pes.utils</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../utils/conversions/index.html">soft4pes.utils.conversions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/plotter/index.html">soft4pes.utils.plotter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../utils/sequence/index.html">soft4pes.utils.sequence</a></li>
 </ul>
 </li>
@@ -518,11 +519,14 @@ the ‘_seq’ subscript is removed from the attribute names.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.control.common.control_system.ControlSystem.save_data">
-<span class="sig-name descname"><span class="pre">save_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/common/control_system.html#ControlSystem.save_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.common.control_system.ControlSystem.save_data" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">save_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_abc_ref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/common/control_system.html#ControlSystem.save_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.common.control_system.ControlSystem.save_data" title="Permalink to this definition">#</a></dt>
 <dd><p>Save the current time step to the control system data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p></li>
+<li><p><strong>u_abc_ref</strong> (<em>1 x 3 ndarray</em>) – Three-phase switch position or modulating signal.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
