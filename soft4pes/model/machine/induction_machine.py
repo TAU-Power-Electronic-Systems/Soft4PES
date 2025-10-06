@@ -238,3 +238,13 @@ class InductionMachine(SystemModel):
             A SimpleNamespace object containing the machine torque.
         """
         return SimpleNamespace(Te=self.Te)
+
+    def update_internal_variables(self, kTs):
+        """
+        Update internal variables of the system.
+
+        Parameters
+        ----------
+        kTs : float
+            Current discrete time instant [s].
+        """

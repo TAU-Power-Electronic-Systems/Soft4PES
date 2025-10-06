@@ -168,3 +168,13 @@ class RLGrid(SystemModel):
         """
 
         return SimpleNamespace(vg=self.get_grid_voltage(kTs))
+
+    def update_internal_variables(self, kTs):
+        """
+        Update internal variables of the system.
+
+        Parameters
+        ----------
+        kTs : float
+            Current discrete time instant [s].
+        """
