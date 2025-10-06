@@ -1,18 +1,18 @@
 """
-Parameters for a permanent magnet synchronous machine.
+Parameters for a permanent magnet synchronous machine (PMSM).
 """
 
 import numpy as np
 
 
-class SynchronousMachineParameters:
+class PMSMParameters:
     """
-    Parameters for a permanent magnet synchronous machine.
+    Parameters for a permanent magnet synchronous machine (PMSM).
 
     Parameters
     ----------
     fs_SI : float
-        Synchronous (stator) electrical frequency [Hz].
+        Synchronous electrical frequency [Hz].
     pf_SI : float
         Power factor.
     Rs_SI : float
@@ -29,7 +29,7 @@ class SynchronousMachineParameters:
     Attributes
     ----------
     ws : float
-        Synchronous (stator) electrical angular frequency [p.u.].
+        Synchronous electrical angular frequency [p.u.].
     pf : float
         Power factor.
     Rs : float

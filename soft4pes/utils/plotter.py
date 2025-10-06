@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from soft4pes.model.grid import RLGrid
-from soft4pes.model.machine import InductionMachine
+from soft4pes.model.machine import InductionMachine, PMSM
 
 from soft4pes.utils.conversions import (alpha_beta_2_abc, alpha_beta_2_dq,
                                         abc_2_alpha_beta)
@@ -286,8 +286,10 @@ class Plotter:
             confirmed by checking the model class documentation. 
         frames : list of str, optional
             Reference frames for each state ('abc', 'alpha-beta', 'dq').
-            If None, defaults to 'alpha-beta' for all states. The dq-frame is aligned with the
-            grid voltage for grid-connected systems and with the rotor flux for induction machines.
+            If None, defaults to 'alpha-beta' for all states. The dq-frame is aligned with 
+            - the grid voltage for grid-connected systems 
+            - the rotor flux for induction machines
+            - the rotor angle for PMSMs
         plot_u_abc_ref : bool, optional
             Plot modulating signal u_abc_ref in one subplot (default: False)
         plot_u_abc : bool, optional
@@ -550,6 +552,9 @@ class Plotter:
                     self.data.sys.x[:, 3],
                     self.data.sys.x[:, 2],
                 )
+            elif isinstance(self.sys, PMSM):
+                # Use machine electrical angle for PMSM
+                theta = self.data.sys.theta_el
             else:
                 theta = 2 * np.pi * 50 * self.data.sys.t - np.pi / 2
             return np.array(

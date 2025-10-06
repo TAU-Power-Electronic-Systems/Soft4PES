@@ -1,4 +1,4 @@
-""" Model predictive current control for a synchronous machine."""
+""" Model predictive current control for a permanent magnet synchronous machine (PMSM)."""
 
 from types import SimpleNamespace
 import numpy as np
@@ -8,9 +8,8 @@ from soft4pes.utils.conversions import alpha_beta_2_dq, dq_2_alpha_beta
 
 class SMMpcCurrCtr(Controller):
     """
-    Model predictive current control for a synchronous machine. The controller aims to track
-    the stator current in the dq-frame. The current reference is calculated based on the
-    torque reference using maximum torque per ampere (MTPA) trajectory.
+    Model predictive current control for a permanent magnet synchronous machine (PMSM). 
+    The controller aims to track the stator current reference, provided by the outer loop or user.
 
     Parameters
     ----------
@@ -19,7 +18,7 @@ class SMMpcCurrCtr(Controller):
     lambda_u : float
         Weighting factor for the control effort.
     Np : int
-        Prediction horizon.
+        Prediction horizon steps.
     disc_method : str, optional
         Discretization method for the state-space model. Default is 'forward_euler'.
 
@@ -70,10 +69,7 @@ class SMMpcCurrCtr(Controller):
             Three-phase switch position or modulating signals.
         """
 
-        T_ref = self.input.T_ref
-
-        # Calculate the reference stator current based on the MTPA references
-        iS_ref_dq = sys.get_stator_current_ref_dq(T_ref)
+        iS_ref_dq = self.input.iS_ref_dq
         self.input.iS_ref_dq = iS_ref_dq
         iS_ref = dq_2_alpha_beta(iS_ref_dq, sys.theta_el)
 
