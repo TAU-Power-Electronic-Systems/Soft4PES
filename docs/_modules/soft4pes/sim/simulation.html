@@ -180,6 +180,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/model/machine/base_machine/index.html">soft4pes.model.machine.base_machine</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/model/machine/induction_machine/index.html">soft4pes.model.machine.induction_machine</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/model/machine/induction_machine_param/index.html">soft4pes.model.machine.induction_machine_param</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/model/machine/pmsm/index.html">soft4pes.model.machine.pmsm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/model/machine/pmsm_param/index.html">soft4pes.model.machine.pmsm_param</a></li>
 </ul>
 </li>
 </ul>
@@ -320,9 +322,9 @@ document.write(`
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleNamespace</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.io</span><span class="w"> </span><span class="kn">import</span> <span class="n">savemat</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleNamespace</span>
 
 
 <div class="viewcode-block" id="ProgressPrinter"><a class="viewcode-back" href="../../../autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.ProgressPrinter">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ProgressPrinter</span><span class="p">:</span>
@@ -481,19 +483,23 @@ document.write(`
 <div class="viewcode-block" id="Simulation.sys"><a class="viewcode-back" href="../../../autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.Simulation.sys">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">sys</span> <span class="o">=</span> <span class="n">sys</span></div>
 <div class="viewcode-block" id="Simulation.ctr"><a class="viewcode-back" href="../../../autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.Simulation.ctr">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">ctr</span> <span class="o">=</span> <span class="n">ctr</span></div>
 <div class="viewcode-block" id="Simulation.Ts_sim"><a class="viewcode-back" href="../../../autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.Simulation.Ts_sim">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Ts_sim</span> <span class="o">=</span> <span class="n">Ts_sim</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">disc_method</span> <span class="o">=</span> <span class="n">disc_method</span>
 <div class="viewcode-block" id="Simulation.t_stop"><a class="viewcode-back" href="../../../autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.Simulation.t_stop">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">t_stop</span> <span class="o">=</span> <span class="mi">0</span></div>
-<div class="viewcode-block" id="Simulation.matrices"><a class="viewcode-back" href="../../../autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.Simulation.matrices">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">matrices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">get_discrete_state_space</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">Ts_sim</span><span class="p">,</span> <span class="n">disc_method</span><span class="p">)</span></div>
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">time_varying_model</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">matrices</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">matrices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">get_discrete_state_space</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">Ts_sim</span><span class="p">,</span> <span class="n">disc_method</span><span class="p">)</span>
+
 <div class="viewcode-block" id="Simulation.simulation_data"><a class="viewcode-back" href="../../../autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.Simulation.simulation_data">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">simulation_data</span> <span class="o">=</span> <span class="kc">None</span></div>
 <div class="viewcode-block" id="Simulation.switching_logic"><a class="viewcode-back" href="../../../autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.Simulation.switching_logic">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">switching_logic</span> <span class="o">=</span> <span class="n">SwitchingLogic</span><span class="p">(</span><span class="n">Ts_sim</span><span class="p">,</span> <span class="n">ctr</span><span class="o">.</span><span class="n">Ts</span><span class="p">)</span></div>
 
-        <span class="c1"># Check if self.ctr.Ts/Ts_sim is an integer. Use tolerance to prevent</span>
-        <span class="c1"># floating point errors</span>
+        <span class="c1"># Check if self.ctr.Ts/Ts_sim is an integer. Use tolerance to prevent floating point errors</span>
         <span class="n">Ts_rat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr</span><span class="o">.</span><span class="n">Ts</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ts_sim</span>
         <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Ts_rat</span> <span class="o">-</span> <span class="nb">round</span><span class="p">(</span><span class="n">Ts_rat</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mf">1e-10</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;The ratio of control system sampling interval to &quot;</span>
-                <span class="s2">&quot;simulation sampling interval must be an integer.&quot;</span><span class="p">)</span>
+                <span class="s2">&quot;The ratio of control system sampling interval to simulation sampling interval must&quot;</span>
+                <span class="s2">&quot; be an integer.&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Simulation.simulate"><a class="viewcode-back" href="../../../autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.Simulation.simulate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">simulate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t_stop</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -521,8 +527,15 @@ document.write(`
                 <span class="n">u_abc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">switching_logic</span><span class="o">.</span><span class="n">get_switch_positions</span><span class="p">(</span>
                     <span class="n">ctr_output</span><span class="p">,</span> <span class="n">k_sim</span><span class="p">)</span>
 
+                <span class="c1"># Update the system matrices if the system is time-varying</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">time_varying_model</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">cont_state_space</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">get_continuous_state_space</span><span class="p">(</span>
+                    <span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">matrices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">get_discrete_state_space</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">Ts_sim</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">disc_method</span><span class="p">)</span>
+
                 <span class="c1"># Update the system state</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">matrices</span><span class="p">,</span> <span class="n">u_abc</span><span class="p">,</span> <span class="n">kTs_sim</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">update_state</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">matrices</span><span class="p">,</span> <span class="n">u_abc</span><span class="p">,</span> <span class="n">kTs_sim</span><span class="p">)</span>
 
             <span class="n">progress_printer</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
 

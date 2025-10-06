@@ -180,6 +180,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/machine/base_machine/index.html">soft4pes.model.machine.base_machine</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html">soft4pes.model.machine.induction_machine</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/machine/induction_machine_param/index.html">soft4pes.model.machine.induction_machine_param</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html">soft4pes.model.machine.pmsm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/machine/pmsm_param/index.html">soft4pes.model.machine.pmsm_param</a></li>
 </ul>
 </li>
 </ul>
@@ -372,21 +374,21 @@ document.write(`
                              <span class="s1">&#39;ig&#39;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
                              <span class="s1">&#39;i_conv&#39;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
                          <span class="p">})</span>
-<div class="viewcode-block" id="RLGrid.base"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.base">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">set_initial_state</span><span class="p">(</span><span class="n">ig_ref_init</span><span class="o">=</span><span class="n">ig_ref_init</span><span class="p">)</span></div>
-<div class="viewcode-block" id="RLGrid.data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.data">[docs]</a></div>
-<div class="viewcode-block" id="RLGrid.par"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.par">[docs]</a><div class="viewcode-block" id="RLGrid.set_initial_state"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.set_initial_state">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_initial_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span></div>
-<div class="viewcode-block" id="RLGrid.conv"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.conv">[docs]</a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_initial_state</span><span class="p">(</span><span class="n">ig_ref_init</span><span class="o">=</span><span class="n">ig_ref_init</span><span class="p">)</span>
+
+<div class="viewcode-block" id="RLGrid.set_initial_state"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.set_initial_state">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_initial_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the initial state of the system based on the grid current reference, if provided.</span>
 
-<div class="viewcode-block" id="RLGrid.state_map"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.state_map">[docs]</a><span class="sd">        Parameters</span></div>
-<div class="viewcode-block" id="RLGrid.cont_state_space"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.cont_state_space">[docs]</a><span class="sd">        ----------</span></div>
-<span class="sd">        ig_ref_init : 1 x 2 ndarray of floats, optional</span>
-<span class="sd">            Reference at discrete time instant kTs = 0 for starting simulation from steady state.</span>
+<div class="viewcode-block" id="RLGrid.base"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.base">[docs]</a><span class="sd">        Parameters</span></div>
+<div class="viewcode-block" id="RLGrid.data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.data">[docs]</a><span class="sd">        ----------</span></div>
+<div class="viewcode-block" id="RLGrid.par"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.par">[docs]</a><span class="sd">        ig_ref_init : 1 x 2 ndarray of floats, optional</span></div>
+<div class="viewcode-block" id="RLGrid.conv"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.conv">[docs]</a><span class="sd">            Reference at discrete time instant kTs = 0 for starting simulation from steady state.</span></div>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">ig_ref_init</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ig_ref_init&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="RLGrid.state_map"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.state_map">[docs]</a>        <span class="n">ig_ref_init</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ig_ref_init&#39;</span><span class="p">)</span></div>
         <span class="k">if</span> <span class="n">ig_ref_init</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">vg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_grid_voltage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<div class="viewcode-block" id="RLGrid.cont_state_space"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.cont_state_space">[docs]</a>            <span class="n">vg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_grid_voltage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
             <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">vg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">vg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">dq_2_alpha_beta</span><span class="p">(</span><span class="n">ig_ref_init</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -483,7 +485,17 @@ document.write(`
 <span class="sd">            A SimpleNamespace object containing the grid voltage in alpha-beta frame.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">vg</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_grid_voltage</span><span class="p">(</span><span class="n">kTs</span><span class="p">))</span></div></div>
+        <span class="k">return</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">vg</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_grid_voltage</span><span class="p">(</span><span class="n">kTs</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="RLGrid.update_internal_variables"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.RLGrid.update_internal_variables">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">update_internal_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update internal variables of the system.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        kTs : float</span>
+<span class="sd">            Current discrete time instant [s].</span>
+<span class="sd">        &quot;&quot;&quot;</span></div></div>
 </pre></div>
 
                 </article>

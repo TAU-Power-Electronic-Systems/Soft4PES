@@ -566,6 +566,32 @@ Package Contents
           !! processed by numpydoc !!
 
 
+   .. py:method:: update_internal_variables(kTs)
+
+      
+      Update internal variables of the system.
+
+      :param kTs: Current discrete time instant [s].
+      :type kTs: float
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
 .. py:class:: RLGridParameters(Vg_SI, fg_SI, Rg_SI, Lg_SI, base)
 
    

@@ -183,6 +183,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../../model/machine/base_machine/index.html">soft4pes.model.machine.base_machine</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../model/machine/induction_machine/index.html">soft4pes.model.machine.induction_machine</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../model/machine/induction_machine_param/index.html">soft4pes.model.machine.induction_machine_param</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../model/machine/pmsm/index.html">soft4pes.model.machine.pmsm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../model/machine/pmsm_param/index.html">soft4pes.model.machine.pmsm_param</a></li>
 </ul>
 </li>
 </ul>
@@ -484,8 +486,10 @@ u_abc_ref=u_abc.</p>
 <li><p><strong>states_to_plot</strong> (<em>list</em><em> of </em><em>str</em>) – List of state names to plot (e.g., [‘vc’, ‘ig’, ‘i_conv’]). The existing states can be
 confirmed by checking the model class documentation.</p></li>
 <li><p><strong>frames</strong> (<em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – Reference frames for each state (‘abc’, ‘alpha-beta’, ‘dq’).
-If None, defaults to ‘alpha-beta’ for all states. The dq-frame is aligned with the
-grid voltage for grid-connected systems and with the rotor flux for induction machines.</p></li>
+If None, defaults to ‘alpha-beta’ for all states. The dq-frame is aligned with
+- the grid voltage for grid-connected systems
+- the rotor flux for induction machines
+- the rotor angle for PMSMs</p></li>
 <li><p><strong>plot_u_abc_ref</strong> (<em>bool</em><em>, </em><em>optional</em>) – Plot modulating signal u_abc_ref in one subplot (default: False)</p></li>
 <li><p><strong>plot_u_abc</strong> (<em>bool</em><em>, </em><em>optional</em>) – Plot actual converter output u_abc in separate subplots (default: False)</p></li>
 </ul>

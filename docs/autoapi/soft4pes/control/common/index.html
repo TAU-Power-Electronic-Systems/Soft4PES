@@ -183,6 +183,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../../model/machine/base_machine/index.html">soft4pes.model.machine.base_machine</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../model/machine/induction_machine/index.html">soft4pes.model.machine.induction_machine</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../model/machine/induction_machine_param/index.html">soft4pes.model.machine.induction_machine_param</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../model/machine/pmsm/index.html">soft4pes.model.machine.pmsm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../model/machine/pmsm_param/index.html">soft4pes.model.machine.pmsm_param</a></li>
 </ul>
 </li>
 </ul>
@@ -397,6 +399,12 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.FirstOrderFilter.update"><code class="docutils literal notranslate"><span class="pre">FirstOrderFilter.update()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.MTPALookupTable"><code class="docutils literal notranslate"><span class="pre">MTPALookupTable</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.MTPALookupTable.generate_mtpa_trajectory"><code class="docutils literal notranslate"><span class="pre">MTPALookupTable.generate_mtpa_trajectory()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.MTPALookupTable.get_optimal_current"><code class="docutils literal notranslate"><span class="pre">MTPALookupTable.get_optimal_current()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.MTPALookupTable.execute"><code class="docutils literal notranslate"><span class="pre">MTPALookupTable.execute()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -435,6 +443,9 @@ document.write(`
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.common.FirstOrderFilter" title="soft4pes.control.common.FirstOrderFilter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FirstOrderFilter</span></code></a></p></td>
 <td><p>General first-order filter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.common.MTPALookupTable" title="soft4pes.control.common.MTPALookupTable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MTPALookupTable</span></code></a></p></td>
+<td><p>Maximum Torque Per Ampere (MTPA) lookup table for permanent magnet synchronous machines (PMSM).</p></td>
 </tr>
 </tbody>
 </table>
@@ -792,6 +803,53 @@ as a vector or complex number.</p>
 
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="soft4pes.control.common.MTPALookupTable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.common.</span></span><span class="sig-name descname"><span class="pre">MTPALookupTable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">par</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iS_mag_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">101</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2001</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/common/pmsm_mtpa.html#MTPALookupTable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.common.MTPALookupTable" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="controller/index.html#soft4pes.control.common.controller.Controller" title="soft4pes.control.common.controller.Controller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.control.common.controller.Controller</span></code></a></p>
+<p>Maximum Torque Per Ampere (MTPA) lookup table for permanent magnet synchronous machines (PMSM).</p>
+<p>This class generates and manages the MTPA trajectory, providing optimal
+current references for given torque demands.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.control.common.MTPALookupTable.generate_mtpa_trajectory">
+<span class="sig-name descname"><span class="pre">generate_mtpa_trajectory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/common/pmsm_mtpa.html#MTPALookupTable.generate_mtpa_trajectory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.common.MTPALookupTable.generate_mtpa_trajectory" title="Permalink to this definition">#</a></dt>
+<dd><p>Generate the maximum torque per ampere (MTPA) trajectory.</p>
+<p>Creates a lookup table mapping torque values to optimal stator current references.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.control.common.MTPALookupTable.get_optimal_current">
+<span class="sig-name descname"><span class="pre">get_optimal_current</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Te_ref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/common/pmsm_mtpa.html#MTPALookupTable.get_optimal_current"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.common.MTPALookupTable.get_optimal_current" title="Permalink to this definition">#</a></dt>
+<dd><p>Get optimal stator current reference for given torque reference.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Te_ref</strong> (<em>float</em>) – Torque reference [p.u.].</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Optimal stator current reference [p.u.].</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.control.common.MTPALookupTable.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/common/pmsm_mtpa.html#MTPALookupTable.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.common.MTPALookupTable.execute" title="Permalink to this definition">#</a></dt>
+<dd><p>Execute MTPA lookup.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optimal stator current reference [p.u.].</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>1 x 2 ndarray of floats</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 
@@ -872,6 +930,12 @@ as a vector or complex number.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.FirstOrderFilter.w_bw"><code class="docutils literal notranslate"><span class="pre">FirstOrderFilter.w_bw</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.FirstOrderFilter.output"><code class="docutils literal notranslate"><span class="pre">FirstOrderFilter.output</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.FirstOrderFilter.update"><code class="docutils literal notranslate"><span class="pre">FirstOrderFilter.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.MTPALookupTable"><code class="docutils literal notranslate"><span class="pre">MTPALookupTable</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.MTPALookupTable.generate_mtpa_trajectory"><code class="docutils literal notranslate"><span class="pre">MTPALookupTable.generate_mtpa_trajectory()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.MTPALookupTable.get_optimal_current"><code class="docutils literal notranslate"><span class="pre">MTPALookupTable.get_optimal_current()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.common.MTPALookupTable.execute"><code class="docutils literal notranslate"><span class="pre">MTPALookupTable.execute()</span></code></a></li>
 </ul>
 </li>
 </ul>

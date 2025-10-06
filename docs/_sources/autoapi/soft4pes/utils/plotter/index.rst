@@ -151,8 +151,10 @@ Module Contents
                              confirmed by checking the model class documentation.
       :type states_to_plot: list of str
       :param frames: Reference frames for each state ('abc', 'alpha-beta', 'dq').
-                     If None, defaults to 'alpha-beta' for all states. The dq-frame is aligned with the
-                     grid voltage for grid-connected systems and with the rotor flux for induction machines.
+                     If None, defaults to 'alpha-beta' for all states. The dq-frame is aligned with
+                     - the grid voltage for grid-connected systems
+                     - the rotor flux for induction machines
+                     - the rotor angle for PMSMs
       :type frames: list of str, optional
       :param plot_u_abc_ref: Plot modulating signal u_abc_ref in one subplot (default: False)
       :type plot_u_abc_ref: bool, optional

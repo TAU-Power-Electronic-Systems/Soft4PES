@@ -46,6 +46,7 @@ Classes
    soft4pes.control.common.ControlSystem
    soft4pes.control.common.Controller
    soft4pes.control.common.FirstOrderFilter
+   soft4pes.control.common.MTPALookupTable
 
 
 Functions
@@ -516,6 +517,114 @@ Package Contents
       :type Ts: float
       :param base: The base values object containing the base angular frequency.
       :type base: object
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: MTPALookupTable(par, iS_mag_points=101, theta_points=2001)
+
+   Bases: :py:obj:`soft4pes.control.common.controller.Controller`
+
+
+   
+   Maximum Torque Per Ampere (MTPA) lookup table for permanent magnet synchronous machines (PMSM).
+
+   This class generates and manages the MTPA trajectory, providing optimal
+   current references for given torque demands.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:method:: generate_mtpa_trajectory()
+
+      
+      Generate the maximum torque per ampere (MTPA) trajectory.
+
+      Creates a lookup table mapping torque values to optimal stator current references.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: get_optimal_current(Te_ref)
+
+      
+      Get optimal stator current reference for given torque reference.
+
+      :param Te_ref: Torque reference [p.u.].
+      :type Te_ref: float
+
+      :returns: Optimal stator current reference [p.u.].
+      :rtype: ndarray
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: execute(sys, kTs)
+
+      
+      Execute MTPA lookup.
+
+      :returns: Optimal stator current reference [p.u.].
+      :rtype: 1 x 2 ndarray of floats
 
 
 

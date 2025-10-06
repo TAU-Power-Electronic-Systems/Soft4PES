@@ -183,6 +183,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../../machine/base_machine/index.html">soft4pes.model.machine.base_machine</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../machine/induction_machine/index.html">soft4pes.model.machine.induction_machine</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../machine/induction_machine_param/index.html">soft4pes.model.machine.induction_machine_param</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../machine/pmsm/index.html">soft4pes.model.machine.pmsm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../machine/pmsm_param/index.html">soft4pes.model.machine.pmsm_param</a></li>
 </ul>
 </li>
 </ul>
@@ -377,6 +379,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.get_grid_voltage"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_grid_voltage()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.get_next_state"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_next_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.get_measurements"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_measurements()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.update_internal_variables"><code class="docutils literal notranslate"><span class="pre">RLGrid.update_internal_variables()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -586,6 +589,17 @@ state-space model.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.model.grid.rl_grid.RLGrid.update_internal_variables">
+<span class="sig-name descname"><span class="pre">update_internal_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/model/grid/rl_grid.html#RLGrid.update_internal_variables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.rl_grid.RLGrid.update_internal_variables" title="Permalink to this definition">#</a></dt>
+<dd><p>Update internal variables of the system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -650,6 +664,7 @@ state-space model.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.get_grid_voltage"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_grid_voltage()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.get_next_state"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_next_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.get_measurements"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_measurements()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.update_internal_variables"><code class="docutils literal notranslate"><span class="pre">RLGrid.update_internal_variables()</span></code></a></li>
 </ul>
 </li>
 </ul>

@@ -180,6 +180,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/model/machine/base_machine/index.html">soft4pes.model.machine.base_machine</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/model/machine/induction_machine/index.html">soft4pes.model.machine.induction_machine</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/model/machine/induction_machine_param/index.html">soft4pes.model.machine.induction_machine_param</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/model/machine/pmsm/index.html">soft4pes.model.machine.pmsm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../autoapi/soft4pes/model/machine/pmsm_param/index.html">soft4pes.model.machine.pmsm_param</a></li>
 </ul>
 </li>
 </ul>
@@ -322,7 +324,7 @@ document.write(`
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.model.grid</span><span class="w"> </span><span class="kn">import</span> <span class="n">RLGrid</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.model.machine</span><span class="w"> </span><span class="kn">import</span> <span class="n">InductionMachine</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.model.machine</span><span class="w"> </span><span class="kn">import</span> <span class="n">InductionMachine</span><span class="p">,</span> <span class="n">PMSM</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.utils.conversions</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">alpha_beta_2_abc</span><span class="p">,</span> <span class="n">alpha_beta_2_dq</span><span class="p">,</span>
                                         <span class="n">abc_2_alpha_beta</span><span class="p">)</span>
@@ -602,8 +604,10 @@ document.write(`
 <span class="sd">            confirmed by checking the model class documentation. </span>
 <span class="sd">        frames : list of str, optional</span>
 <span class="sd">            Reference frames for each state (&#39;abc&#39;, &#39;alpha-beta&#39;, &#39;dq&#39;).</span>
-<span class="sd">            If None, defaults to &#39;alpha-beta&#39; for all states. The dq-frame is aligned with the</span>
-<span class="sd">            grid voltage for grid-connected systems and with the rotor flux for induction machines.</span>
+<span class="sd">            If None, defaults to &#39;alpha-beta&#39; for all states. The dq-frame is aligned with </span>
+<span class="sd">            - the grid voltage for grid-connected systems </span>
+<span class="sd">            - the rotor flux for induction machines</span>
+<span class="sd">            - the rotor angle for PMSMs</span>
 <span class="sd">        plot_u_abc_ref : bool, optional</span>
 <span class="sd">            Plot modulating signal u_abc_ref in one subplot (default: False)</span>
 <span class="sd">        plot_u_abc : bool, optional</span>
@@ -866,6 +870,9 @@ document.write(`
                     <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">x</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">],</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">x</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span>
                 <span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="p">,</span> <span class="n">PMSM</span><span class="p">):</span>
+                <span class="c1"># Use machine electrical angle for PMSM</span>
+                <span class="n">theta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">theta_el</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">theta</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mi">50</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">t</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>

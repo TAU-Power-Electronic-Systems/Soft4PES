@@ -180,6 +180,8 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/machine/base_machine/index.html">soft4pes.model.machine.base_machine</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html">soft4pes.model.machine.induction_machine</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/machine/induction_machine_param/index.html">soft4pes.model.machine.induction_machine_param</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html">soft4pes.model.machine.pmsm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/machine/pmsm_param/index.html">soft4pes.model.machine.pmsm_param</a></li>
 </ul>
 </li>
 </ul>
@@ -372,21 +374,21 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">set_initial_state</span><span class="p">(</span><span class="n">psiS_mag_ref</span><span class="o">=</span><span class="n">psiS_mag_ref</span><span class="p">,</span>
                                <span class="n">T_ref_init</span><span class="o">=</span><span class="n">T_ref_init</span><span class="p">)</span>
         <span class="n">x_size</span> <span class="o">=</span> <span class="mi">4</span>
-<div class="viewcode-block" id="InductionMachine.base"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.induction_machine.InductionMachine.base">[docs]</a>        <span class="n">state_map</span> <span class="o">=</span> <span class="p">{</span></div>
-<div class="viewcode-block" id="InductionMachine.data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.induction_machine.InductionMachine.data">[docs]</a>            <span class="s1">&#39;iS&#39;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>  <span class="c1"># Stator current (x[0:2])</span></div>
+        <span class="n">state_map</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;iS&#39;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>  <span class="c1"># Stator current (x[0:2])</span>
             <span class="s1">&#39;psiR&#39;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>  <span class="c1"># Rotor flux (x[2:4])</span>
-<div class="viewcode-block" id="InductionMachine.conv"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.induction_machine.InductionMachine.conv">[docs]</a>        <span class="p">}</span></div>
+        <span class="p">}</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">par</span><span class="o">=</span><span class="n">par</span><span class="p">,</span>
                          <span class="n">conv</span><span class="o">=</span><span class="n">conv</span><span class="p">,</span>
-<div class="viewcode-block" id="InductionMachine.state_map"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.induction_machine.InductionMachine.state_map">[docs]</a>                         <span class="n">base</span><span class="o">=</span><span class="n">base</span><span class="p">,</span></div>
-<div class="viewcode-block" id="InductionMachine.cont_state_space"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.induction_machine.InductionMachine.cont_state_space">[docs]</a>                         <span class="n">x_size</span><span class="o">=</span><span class="n">x_size</span><span class="p">,</span></div>
+<div class="viewcode-block" id="InductionMachine.base"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.induction_machine.InductionMachine.base">[docs]</a>                         <span class="n">base</span><span class="o">=</span><span class="n">base</span><span class="p">,</span></div>
+<div class="viewcode-block" id="InductionMachine.data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.induction_machine.InductionMachine.data">[docs]</a>                         <span class="n">x_size</span><span class="o">=</span><span class="n">x_size</span><span class="p">,</span></div>
                          <span class="n">state_map</span><span class="o">=</span><span class="n">state_map</span><span class="p">)</span>
-<div class="viewcode-block" id="InductionMachine.psiR_mag_ref"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.induction_machine.InductionMachine.psiR_mag_ref">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">psiR_mag_ref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">psiR</span><span class="p">)</span></div>
+<div class="viewcode-block" id="InductionMachine.psiR_mag_ref"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.induction_machine.InductionMachine.psiR_mag_ref">[docs]</a><div class="viewcode-block" id="InductionMachine.conv"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.induction_machine.InductionMachine.conv">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">psiR_mag_ref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">psiR</span><span class="p">)</span></div></div>
 
 <div class="viewcode-block" id="InductionMachine.set_initial_state"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.induction_machine.InductionMachine.set_initial_state">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_initial_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="InductionMachine.state_map"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.induction_machine.InductionMachine.state_map">[docs]</a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span></div>
 <span class="sd">        Calculates the initial state of the machine based on the torque reference and </span>
-<span class="sd">        stator flux magnitude reference.</span>
+<div class="viewcode-block" id="InductionMachine.cont_state_space"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.induction_machine.InductionMachine.cont_state_space">[docs]</a><span class="sd">        stator flux magnitude reference.</span></div>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -553,7 +555,17 @@ document.write(`
 <span class="sd">        SimpleNamespace</span>
 <span class="sd">            A SimpleNamespace object containing the machine torque.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">Te</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Te</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">Te</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Te</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InductionMachine.update_internal_variables"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.induction_machine.InductionMachine.update_internal_variables">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">update_internal_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update internal variables of the system.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        kTs : float</span>
+<span class="sd">            Current discrete time instant [s].</span>
+<span class="sd">        &quot;&quot;&quot;</span></div></div>
 </pre></div>
 
                 </article>
