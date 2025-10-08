@@ -1,0 +1,58 @@
+{
+    "parameter_sets": {
+        "weak_LV_grid_LCL": {
+            "description": "Weak low voltage grid with LCL filter",
+            "system_type": "RLGridLCLFilter",
+            "ratings": {
+                "Vg_R_SI": 400,
+                "Ig_R_SI": 18,
+                "fg_R_SI": 50,
+                "Vdc_SI": 750,
+                "conv_nl": 2
+            },
+            "grid": {
+                "Rg_SI": 0.07,
+                "Lg_SI": 0.03
+            },
+            "lcl_filter": {
+                "L_fc_SI": 0.003,
+                "R_fc_SI": 0.1,
+                "C_SI": 1e-5,
+                "R_c_SI": 0.001
+            },
+            "specifications": {
+                "grid_voltage": "400V (line-to-line RMS)",
+                "current_rating": "18A (per phase)",
+                "frequency": "50Hz",
+                "dc_bus_voltage": "750V",
+                "converter_type": "2-level",
+                "grid_strength": "Weak (Rg=0.07Ω, Lg=30mH)",
+                "filter_type": "LCL (L=3mH, C=10μF)"
+            }
+        },
+        "weak_LV_grid_direct": {
+            "description": "Weak low voltage grid without filter (direct connection)",
+            "system_type": "RLGrid",
+            "ratings": {
+                "Vg_R_SI": 400,
+                "Ig_R_SI": 18,
+                "fg_R_SI": 50,
+                "Vdc_SI": 750,
+                "conv_nl": 2
+            },
+            "grid": {
+                "Rg_SI": 0.1,
+                "Lg_SI": 0.005
+            },
+            "specifications": {
+                "grid_voltage": "400V (line-to-line RMS)",
+                "current_rating": "18A (per phase)",
+                "frequency": "50Hz",
+                "dc_bus_voltage": "750V",
+                "converter_type": "2-level",
+                "grid_strength": "Weak (Rg=0.1Ω, Lg=5mH)",
+                "filter_type": "None (direct connection)"
+            }
+        }
+    }
+}

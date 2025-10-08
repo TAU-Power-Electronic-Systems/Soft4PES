@@ -31,9 +31,7 @@ grid_params = model.grid.RLGridParameters(Vg_SI=3300,
                                           base=base)
 
 # Define L-filter parameters
-l_params = model.grid.LFilterParameters(L_fc_SI=0.5e-3,
-                                        R_fc_SI=0.1,
-                                        base=base)
+l_params = model.grid.LFilterParameters(L_fc_SI=0.5e-3, R_fc_SI=0.1, base=base)
 
 # Define system models
 conv = model.conv.Converter(v_dc_SI=5600, nl=3, base=base)
@@ -60,7 +58,7 @@ sim_data = sim.simulate(t_stop=0.3)
 sim.save_data()
 
 # Plot the results
-plotter = Plotter(sim_data, sys)
+plotter = Plotter(data=sim_data, sys=sys)
 plotter.plot_states(states_to_plot=['ig'], frames=['abc'], plot_u_abc=True)
 plotter.plot_control_signals_grid(plot_P=True,
                                   plot_Q=True,

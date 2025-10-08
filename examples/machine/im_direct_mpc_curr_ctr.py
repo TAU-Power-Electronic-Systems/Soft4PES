@@ -70,7 +70,7 @@ sim = Simulation(sys=sys,
 sim_data = sim.simulate(t_stop=0.2)
 sim.save_data()
 
-plotter = Plotter(sim_data, sys)
+plotter = Plotter(data=sim_data, sys=sys)
 plotter.plot_states(states_to_plot=['iS', 'psiR'],
                     frames=['dq', 'abc'],
                     plot_u_abc=True)

@@ -8,7 +8,8 @@ tracked by the cascade controller or MPC.
 from types import SimpleNamespace
 import numpy as np
 
-from pars.grid_parameters import weak_LV_grid as config
+# from pars.grid_parameters import weak_LV_grid as config
+from pars.grid_configs import get_parameter_set
 
 from soft4pes import model
 from soft4pes.control import common, lin, mpc, modulation
@@ -30,11 +31,12 @@ V_ref_seq = Sequence(
 ref_seq = SimpleNamespace(P_ref_seq=P_ref_seq, V_ref_seq=V_ref_seq)
 
 # Define the system model
+config = get_parameter_set('weak_LV_grid_LCL')
 sys = model.grid.RLGridLCLFilter(config.grid_params, config.lcl_params,
                                  config.conv, config.base)
 
 # Build the reference-feedforward power synchronization control (RFPSC)
-rfpsc = lin.RFPSC(sys)
+rfpsc = lin.RFPSC(sys=sys)
 
 # Define indirect MPC. When PWM is used, lambda_u, which penalizes the control effort, should be set
 # to relatively low value to prevent MPC from reacting to the switching ripple.
@@ -67,7 +69,7 @@ sim_data = sim.simulate(t_stop=0.4)
 sim.save_data()
 
 # Plot the simulation results, excluding the initial transient
-plotter = Plotter(sim_data, sys, t_start=0.05)
+plotter = Plotter(data=sim_data, sys=sys, t_start=0.05)
 plotter.plot_states(states_to_plot=['vc', 'i_conv', 'ig'],
                     frames=['abc', 'abc', 'abc'],
                     plot_u_abc_ref=True)

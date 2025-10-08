@@ -75,7 +75,7 @@ sim_data = sim.simulate(t_stop=0.15)
 sim.save_data()
 
 # Plot results
-plotter = Plotter(sim_data, sys)
+plotter = Plotter(data=sim_data, sys=sys)
 plotter.plot_states(states_to_plot=['iS'], frames=['dq'], plot_u_abc=True)
 plotter.plot_control_signals_machine(plot_T=True, T_ref=T_ref_seq)
 plotter.show_all()
