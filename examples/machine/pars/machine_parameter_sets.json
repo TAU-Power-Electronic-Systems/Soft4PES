@@ -1,0 +1,81 @@
+{
+    "machines": {
+        "LV_Induction_Machine": {
+            "type": "Induction_Machine",
+            "Vm_R_SI": 400,
+            "Im_R_SI": 4.4,
+            "fm_R_SI": 50,
+            "npp": 1,
+            "pf": 0.85,
+            "Rs_SI": 2.7,
+            "Rr_SI": 2.4,
+            "Lls_SI": 9.868e-3,
+            "Llr_SI": 11.777e-3,
+            "Lm_SI": 394.704e-3
+        },
+        "MV_Induction_Machine": {
+            "type": "Induction_Machine",
+            "Vm_R_SI": 3300,
+            "Im_R_SI": 356,
+            "fm_R_SI": 50,
+            "npp": 5,
+            "pf": 0.85,
+            "Rs_SI": 57.61,
+            "Rr_SI": 48.89,
+            "Lls_SI": 2.544e-3,
+            "Llr_SI": 1.881e-3,
+            "Lm_SI": 40.01e-3
+        },
+        "LV_PMSM": {
+            "type": "PMSM",
+            "Vm_R_SI": 318,
+            "Im_R_SI": 138,
+            "fm_R_SI": 120,
+            "pf": 0.86,
+            "Rs_SI": 0.046,
+            "Lsd_SI": 1.58e-3,
+            "Lsq_SI": 6.48e-3,
+            "LambdaPM_SI": 0.684
+        }
+    },
+    "converters": {
+        "2L_LV_Converter": {
+            "type": "2-Level",
+            "Vdc_SI": 980,
+            "conv_nl": 2
+        },
+        "3L_LV_Converter": {
+            "type": "3-Level",
+            "Vdc_SI": 980,
+            "conv_nl": 3
+        },
+        "2L_MV_Converter": {
+            "type": "2-Level",
+            "Vdc_SI": 5200,
+            "conv_nl": 2
+        },
+        "3L_MV_Converter": {
+            "type": "3-Level",
+            "Vdc_SI": 5200,
+            "conv_nl": 3
+        }
+    },
+    "parameter_sets": {
+        "LV_Induction_Machine_2L_Converter": {
+            "machine": "LV_Induction_Machine",
+            "converter": "2L_LV_Converter"
+        },
+        "MV_Induction_Machine_3L_Converter": {
+            "machine": "MV_Induction_Machine",
+            "converter": "3L_MV_Converter"
+        },
+        "LV_PMSM_2L_Converter": {
+            "machine": "LV_PMSM",
+            "converter": "2L_LV_Converter"
+        },
+        "LV_PMSM_3L_Converter": {
+            "machine": "LV_PMSM",
+            "converter": "3L_LV_Converter"
+        }
+    }
+}

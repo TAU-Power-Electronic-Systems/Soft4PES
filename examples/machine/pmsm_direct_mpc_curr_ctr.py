@@ -8,6 +8,7 @@ at a constant (nominal) speed.
 from types import SimpleNamespace
 import numpy as np
 
+from pars.machine_config import get_default_system
 from soft4pes import model
 from soft4pes.control import mpc, common
 from soft4pes.utils import Sequence
@@ -15,7 +16,6 @@ from soft4pes.sim import Simulation
 from soft4pes.utils.plotter import Plotter
 
 # Define base values
-# Example PMSM (https://ieeexplore.ieee.org/document/10227497)
 base = model.machine.BaseMachine(Vm_R_SI=318,
                                  Im_R_SI=138,
                                  fm_R_SI=120,
@@ -26,10 +26,13 @@ base = model.machine.BaseMachine(Vm_R_SI=318,
 # The first array contains the time instants (in seconds) and the second array the corresponding
 # reference values (in per unit). The reference is interpolated linearly between the time instants.
 T_ref_seq = Sequence(
-    np.array([0, 0.05, 0.05, 0.1, 0.1, 0.15]),
-    np.array([0, 0, 0.5, 0.5, 1, 1]),
+    times=np.array([0, 0.05, 0.05, 0.1, 0.1, 0.15]),
+    values=np.array([0, 0, 0.5, 0.5, 1, 1]),
 )
 ref_seq = SimpleNamespace(T_ref_seq=T_ref_seq)
+
+# Define converter parameters
+conv = model.conv.Converter(v_dc_SI=980, nl=2, base=base)
 
 # Define PMSM parameters
 sm_params = model.machine.PMSMParameters(fs_SI=120,
@@ -40,11 +43,19 @@ sm_params = model.machine.PMSMParameters(fs_SI=120,
                                          LambdaPM_SI=0.684,
                                          base=base)
 
+# Uncomment the following lines to use the ready made configuration. All the available components
+# and systems are defined in the examples/machines/pars/machine_parameter_sets.json file, and given
+# in the online documentation.
+# config = get_default_system("LV_PMSM_2L_Converter")
+# sm_params = config.machine_params
+# conv = config.conv
+# base = config.base
+
 # Create a MTPA lookup table for current reference calculation
 MPTA_lut = common.MTPALookupTable(par=sm_params)
 
-# Define system models. The MTPA lookup table is passed to the PMSM model to set the initial state.
-conv = model.conv.Converter(v_dc_SI=980, nl=2, base=base)
+# Define system models. The torque reference and the MTPA lookup table are passed to the PMSM model
+# to set the initial state.
 sys = model.machine.PMSM(par=sm_params,
                          conv=conv,
                          base=base,
@@ -55,10 +66,10 @@ sys = model.machine.PMSM(par=sm_params,
 solver = mpc.solvers.MpcBnB(conv=conv)
 
 # Define current controller
-ctr = mpc.controllers.SMMpcCurrCtr(solver,
-                                   lambda_u=1e-3,
-                                   Np=2,
-                                   disc_method='forward_euler')
+ctr = mpc.controllers.PMSMMpcCurrCtr(solver=solver,
+                                     lambda_u=1e-4,
+                                     Np=2,
+                                     disc_method='forward_euler')
 
 # Define control system, which includes the MTPA lookup table as an outer control loop and the MPC
 # current controller as an inner control loop
@@ -66,15 +77,17 @@ ctr_sys = common.ControlSystem(control_loops=[MPTA_lut, ctr],
                                ref_seq=ref_seq,
                                Ts=25e-6)
 
-# Simulate system
+# Simulate the system
 sim = Simulation(sys=sys,
                  ctr=ctr_sys,
                  Ts_sim=25e-6,
                  disc_method='forward_euler')
 sim_data = sim.simulate(t_stop=0.15)
+
+# Save the simulation data to a .mat file
 sim.save_data()
 
-# Plot results
+# Plot the results
 plotter = Plotter(data=sim_data, sys=sys)
 plotter.plot_states(states_to_plot=['iS'], frames=['dq'], plot_u_abc=True)
 plotter.plot_control_signals_machine(plot_T=True, T_ref=T_ref_seq)

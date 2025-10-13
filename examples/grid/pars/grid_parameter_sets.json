@@ -1,58 +1,92 @@
 {
-    "parameter_sets": {
-        "weak_LV_grid_LCL": {
-            "description": "Weak low voltage grid with LCL filter",
-            "system_type": "RLGridLCLFilter",
-            "ratings": {
-                "Vg_R_SI": 400,
-                "Ig_R_SI": 18,
-                "fg_R_SI": 50,
-                "Vdc_SI": 750,
-                "conv_nl": 2
-            },
-            "grid": {
-                "Rg_SI": 0.07,
-                "Lg_SI": 0.03
-            },
-            "lcl_filter": {
-                "L_fc_SI": 0.003,
-                "R_fc_SI": 0.1,
-                "C_SI": 1e-5,
-                "R_c_SI": 0.001
-            },
-            "specifications": {
-                "grid_voltage": "400V (line-to-line RMS)",
-                "current_rating": "18A (per phase)",
-                "frequency": "50Hz",
-                "dc_bus_voltage": "750V",
-                "converter_type": "2-level",
-                "grid_strength": "Weak (Rg=0.07Ω, Lg=30mH)",
-                "filter_type": "LCL (L=3mH, C=10μF)"
-            }
+    "grids": {
+        "Weak_LV_Grid": {
+            "Vg_R_SI": 400,
+            "Ig_R_SI": 18,
+            "fg_R_SI": 50,
+            "Rg_SI": 0.07,
+            "Lg_SI": 30e-3
         },
-        "weak_LV_grid_direct": {
-            "description": "Weak low voltage grid without filter (direct connection)",
-            "system_type": "RLGrid",
-            "ratings": {
-                "Vg_R_SI": 400,
-                "Ig_R_SI": 18,
-                "fg_R_SI": 50,
-                "Vdc_SI": 750,
-                "conv_nl": 2
-            },
-            "grid": {
-                "Rg_SI": 0.1,
-                "Lg_SI": 0.005
-            },
-            "specifications": {
-                "grid_voltage": "400V (line-to-line RMS)",
-                "current_rating": "18A (per phase)",
-                "frequency": "50Hz",
-                "dc_bus_voltage": "750V",
-                "converter_type": "2-level",
-                "grid_strength": "Weak (Rg=0.1Ω, Lg=5mH)",
-                "filter_type": "None (direct connection)"
-            }
+        "Strong_LV_Grid": {
+            "Vg_R_SI": 400,
+            "Ig_R_SI": 25,
+            "fg_R_SI": 50,
+            "Rg_SI": 0.02,
+            "Lg_SI": 5e-3
+        },
+        "Strong_MV_Grid": {
+            "Vg_R_SI": 3300,
+            "Ig_R_SI": 1575,
+            "fg_R_SI": 50,
+            "Rg_SI": 0.006,
+            "Lg_SI": 0.19e-3
+        }
+    },
+    "filters": {
+        "LCL_Filter_fr_1300": {
+            "L_fc_SI": 3e-3,
+            "R_fc_SI": 0.1,
+            "C_SI": 10e-6,
+            "R_c_SI": 1e-3,
+            "L_fg_SI": 3e-3,
+            "R_fg_SI": 0.1
+        },
+        "LCL_Filter_fr_380": {
+            "L_fc_SI": 0.4e-3,
+            "R_fc_SI": 0.5e-3,
+            "C_SI": 850e-6,
+            "R_c_SI": 0.4e-3,
+            "L_fg_SI": 0.4e-3,
+            "R_fg_SI": 0.5e-3
+        },
+        "No_Filter": null
+    },
+    "converters": {
+        "2L_LV_Converter": {
+            "Vdc_SI": 750,
+            "conv_nl": 2
+        },
+        "3L_LV_Converter": {
+            "Vdc_SI": 750,
+            "conv_nl": 3
+        },
+        "3L_MV_Converter": {
+            "Vdc_SI": 5200,
+            "conv_nl": 3
+        }
+    },
+    "parameter_sets": {
+        "Weak_LV_Grid_LCL_Filter_2L_conv": {
+            "description": [
+                "2-level converter connected to a weak low voltage grid via an LCL filter"
+            ],
+            "grid": "Weak_LV_Grid",
+            "filter": "LCL_Filter_fr_1300",
+            "converter": "2L_LV_Converter"
+        },
+        "Strong_LV_Grid_LCL_Filter_2L_conv": {
+            "description": [
+                "2-level converter connected to a strong low voltage grid via an LCL filter"
+            ],
+            "grid": "Strong_LV_Grid",
+            "filter": "LCL_Filter_fr_1300",
+            "converter": "2L_LV_Converter"
+        },
+        "Strong_MV_Grid_No_Filter_3L_conv": {
+            "description": [
+                "3-level converter connected to a strong medium voltage grid without a filter"
+            ],
+            "grid": "Strong_MV_Grid",
+            "filter": "No_Filter",
+            "converter": "3L_MV_Converter"
+        },
+        "Strong_MV_Grid_LCL_3L_conv": {
+            "description": [
+                "3-level converter connected to a strong medium voltage grid via an LCL filter"
+            ],
+            "grid": "Strong_MV_Grid",
+            "filter": "LCL_Filter_fr_380",
+            "converter": "3L_MV_Converter"
         }
     }
 }

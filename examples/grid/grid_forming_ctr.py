@@ -8,14 +8,22 @@ tracked by the cascade controller or MPC.
 from types import SimpleNamespace
 import numpy as np
 
-# from pars.grid_parameters import weak_LV_grid as config
-from pars.grid_configs import get_parameter_set
-
+from pars.grid_config import get_default_system
 from soft4pes import model
 from soft4pes.control import common, lin, mpc, modulation
 from soft4pes.utils import Sequence
 from soft4pes.sim import Simulation
 from soft4pes.utils.plotter import Plotter
+
+# Get the system parameters from the ready made components. All the available components and systems
+# are defined in the examples/grid/pars/grid_parameter_sets.json file, and given in the
+# documentation. Here, a 2-level converter connected to a weak, low voltage grid via an LCL filter
+# is used.
+config = get_default_system(name='Weak_LV_Grid_LCL_Filter_2L_conv')
+sys = model.grid.RLGridLCLFilter(par_grid=config.grid_params,
+                                 par_lcl_filter=config.lcl_params,
+                                 conv=config.conv,
+                                 base=config.base)
 
 # Define the active power and capacitor voltage magnitude reference sequences
 # The first array contains the time instants (in seconds) and the second array the corresponding
@@ -30,16 +38,13 @@ V_ref_seq = Sequence(
 )
 ref_seq = SimpleNamespace(P_ref_seq=P_ref_seq, V_ref_seq=V_ref_seq)
 
-# Define the system model
-config = get_parameter_set('weak_LV_grid_LCL')
-sys = model.grid.RLGridLCLFilter(config.grid_params, config.lcl_params,
-                                 config.conv, config.base)
-
-# Build the reference-feedforward power synchronization control (RFPSC)
+# Start building the grid-forming control system. First, define the reference-feedforward power
+# synchronization control (RFPSC), which will be the outermost control loop.
 rfpsc = lin.RFPSC(sys=sys)
 
-# Define indirect MPC. When PWM is used, lambda_u, which penalizes the control effort, should be set
-# to relatively low value to prevent MPC from reacting to the switching ripple.
+# Define indirect MPC, used as an inner loop tracking the capacitor voltage reference provided by
+# RFPSC. When PWM is used, lambda_u, which penalizes the control effort, should be set to relatively
+# low value to prevent MPC from reacting to the switching ripple.
 solver = mpc.solvers.IndirectMpcQP()
 vc_mpc = mpc.controllers.LCLVcMpcCtr(solver=solver,
                                      lambda_u=1e-2,
@@ -50,8 +55,8 @@ vc_mpc = mpc.controllers.LCLVcMpcCtr(solver=solver,
 control_loops = [rfpsc, vc_mpc]  # Use MPC with RFPSC
 
 # Uncomment the following line to use the cascade controller instead of MPC
-# ic_ctr = lin.LCLConvCurrCtr(sys=sys)
-# vc_ctr = lin.LCLVcCtr(sys=sys, I_conv_max=1.3, curr_ctr=ic_ctr)
+# ic_ctr = lin.LCLConvCurrCtr(sys=config.sys)
+# vc_ctr = lin.LCLVcCtr(sys=config.sys, I_conv_max=1.3, curr_ctr=ic_ctr)
 # control_loops = [rfpsc, vc_ctr, ic_ctr]
 
 # Define the control system. Set pwm to None to disable PWM.
