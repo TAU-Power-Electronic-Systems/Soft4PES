@@ -42,3 +42,12 @@ This step is required in order to run the examples. Note that all the required p
    :maxdepth: 1
 
    API <autoapi/soft4pes/index>
+
+.. toctree::
+   :titlesonly:
+   :caption: Parameter Sets
+   :name: parameter_sets  
+   :maxdepth: 1
+   
+   parameter_sets/grid_parameter_sets
+   parameter_sets/machine_parameter_sets
