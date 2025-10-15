@@ -29,9 +29,15 @@ grid_params = model.grid.RLGridParameters(Vg_SI=3300,
                                           Rg_SI=0.01815,
                                           Lg_SI=5.7773e-4,
                                           base=base)
+
+# Define L-filter parameters
+l_params = model.grid.LFilterParameters(L_fc_SI=0.5e-3,
+                                        R_fc_SI=0.1,
+                                        base=base)
+
 # Define system models
-conv = model.conv.Converter(v_dc_SI=5200, nl=3, base=base)
-sys = model.grid.RLGrid(grid_params, conv, base)
+conv = model.conv.Converter(v_dc_SI=5600, nl=3, base=base)
+sys = model.grid.RLGridLFilter(grid_params, l_params, conv, base)
 
 # Define solver to be enumeration based
 solver = mpc.solvers.MpcEnum(conv=conv)
