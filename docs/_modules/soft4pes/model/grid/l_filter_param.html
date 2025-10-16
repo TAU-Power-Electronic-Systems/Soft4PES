@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>soft4pes.model.grid.lcl_filter_param &#8212; Soft4PES  documentation</title>
+    <title>soft4pes.model.grid.l_filter_param &#8212; Soft4PES  documentation</title>
   
   
   
@@ -44,7 +44,7 @@
     <script src="../../../../_static/clipboard.min.js"></script>
     <script src="../../../../_static/copybutton.js"></script>
     <script src="../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/soft4pes/model/grid/lcl_filter_param';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/soft4pes/model/grid/l_filter_param';</script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -317,65 +317,42 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <h1>Source code for soft4pes.model.grid.lcl_filter_param</h1><div class="highlight"><pre>
+  <h1>Source code for soft4pes.model.grid.l_filter_param</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Parameters for an LCL-filter.</span>
+<span class="sd">Parameters for an L-filter.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 
-<div class="viewcode-block" id="LCLFilterParameters"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/lcl_filter_param/index.html#soft4pes.model.grid.LCLFilterParameters">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">LCLFilterParameters</span><span class="p">():</span>
+<div class="viewcode-block" id="LFilterParameters"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/l_filter_param/index.html#soft4pes.model.grid.LFilterParameters">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">LFilterParameters</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Parameters for an LCL-filter.</span>
+<span class="sd">    Parameters for an L-filter.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    L_fc_SI : float</span>
-<span class="sd">        Inductance of the converter side filter inductor [H].</span>
-<span class="sd">    C_SI : float</span>
-<span class="sd">        Capacitance of the filter capacitor [F].</span>
+<span class="sd">        Inductance of the filter inductor [H].</span>
 <span class="sd">    base : base value object</span>
 <span class="sd">        Base values.</span>
-<span class="sd">    L_fg_SI : float, optional</span>
-<span class="sd">        Inductance of the grid side filter inductor [H].</span>
 <span class="sd">    R_fc_SI : float, optional</span>
-<span class="sd">        Resistance of the converter side filter inductor [Ohm].</span>
-<span class="sd">    R_c_SI : float, optional</span>
-<span class="sd">        Resistance of the filter capacitor [Ohm].</span>
-<span class="sd">    R_fg_SI : float, optional</span>
-<span class="sd">        Resistance of the grid side filter inductor [Ohm].</span>
+<span class="sd">        Resistance of the filter inductor [Ohm].</span>
+
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    X_fc : float</span>
-<span class="sd">        Reactance of the converter side filter inductor [p.u.].</span>
+<span class="sd">        Reactance of the filter inductor [p.u.].</span>
 <span class="sd">    R_fc : float</span>
-<span class="sd">        Resistance of the converter side filter inductor [p.u.].</span>
-<span class="sd">    Xc : float</span>
-<span class="sd">        Reactance of the filter capacitor [p.u.].</span>
-<span class="sd">    Rc : float</span>
-<span class="sd">        Resistance of the filter capacitor [p.u.].</span>
-<span class="sd">    X_fg : float</span>
-<span class="sd">        Reactance of the grid side filter inductor [p.u.].</span>
-<span class="sd">    R_fg : float</span>
-<span class="sd">        Resistance of the grid side filter inductor [p.u.].</span>
+<span class="sd">        Resistance of the filter inductor [p.u.].</span>
 <span class="sd">    base : base value object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">L_fc_SI</span><span class="p">,</span>
-                 <span class="n">C_SI</span><span class="p">,</span>
                  <span class="n">base</span><span class="p">,</span>
-                 <span class="n">L_fg_SI</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                 <span class="n">R_fc_SI</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                 <span class="n">R_c_SI</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                 <span class="n">R_fg_SI</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-<div class="viewcode-block" id="LCLFilterParameters.X_fc"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/lcl_filter_param/index.html#soft4pes.model.grid.LCLFilterParameters.X_fc">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">X_fc</span> <span class="o">=</span> <span class="n">L_fc_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">L</span></div>
-<div class="viewcode-block" id="LCLFilterParameters.R_fc"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/lcl_filter_param/index.html#soft4pes.model.grid.LCLFilterParameters.R_fc">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">R_fc</span> <span class="o">=</span> <span class="n">R_fc_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">Z</span></div>
-<div class="viewcode-block" id="LCLFilterParameters.Xc"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/lcl_filter_param/index.html#soft4pes.model.grid.LCLFilterParameters.Xc">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Xc</span> <span class="o">=</span> <span class="n">C_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">C</span></div>
-<div class="viewcode-block" id="LCLFilterParameters.Rc"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/lcl_filter_param/index.html#soft4pes.model.grid.LCLFilterParameters.Rc">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Rc</span> <span class="o">=</span> <span class="n">R_c_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">Z</span></div>
-<div class="viewcode-block" id="LCLFilterParameters.X_fg"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/lcl_filter_param/index.html#soft4pes.model.grid.LCLFilterParameters.X_fg">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">X_fg</span> <span class="o">=</span> <span class="n">L_fg_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">L</span></div>
-<div class="viewcode-block" id="LCLFilterParameters.R_fg"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/lcl_filter_param/index.html#soft4pes.model.grid.LCLFilterParameters.R_fg">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">R_fg</span> <span class="o">=</span> <span class="n">R_fg_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">Z</span></div>
-<div class="viewcode-block" id="LCLFilterParameters.base"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/lcl_filter_param/index.html#soft4pes.model.grid.LCLFilterParameters.base">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">base</span> <span class="o">=</span> <span class="n">base</span></div></div>
+                 <span class="n">R_fc_SI</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<div class="viewcode-block" id="LFilterParameters.X_fc"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/l_filter_param/index.html#soft4pes.model.grid.LFilterParameters.X_fc">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">X_fc</span> <span class="o">=</span> <span class="n">L_fc_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">L</span></div>
+<div class="viewcode-block" id="LFilterParameters.R_fc"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/l_filter_param/index.html#soft4pes.model.grid.LFilterParameters.R_fc">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">R_fc</span> <span class="o">=</span> <span class="n">R_fc_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">Z</span></div>
+<div class="viewcode-block" id="LFilterParameters.base"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/l_filter_param/index.html#soft4pes.model.grid.LFilterParameters.base">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">base</span> <span class="o">=</span> <span class="n">base</span></div></div>
 </pre></div>
 
                 </article>

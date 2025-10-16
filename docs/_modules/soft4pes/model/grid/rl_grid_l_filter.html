@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>soft4pes.model.grid.lcl_filter_param &#8212; Soft4PES  documentation</title>
+    <title>soft4pes.model.grid.rl_grid_l_filter &#8212; Soft4PES  documentation</title>
   
   
   
@@ -44,7 +44,7 @@
     <script src="../../../../_static/clipboard.min.js"></script>
     <script src="../../../../_static/copybutton.js"></script>
     <script src="../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/soft4pes/model/grid/lcl_filter_param';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/soft4pes/model/grid/rl_grid_l_filter';</script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -317,65 +317,87 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <h1>Source code for soft4pes.model.grid.lcl_filter_param</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Parameters for an LCL-filter.</span>
+  <h1>Source code for soft4pes.model.grid.rl_grid_l_filter</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">Model of a grid with stiff voltage source, RL impedance and an L filter in alpha-beta frame.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleNamespace</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<div class="viewcode-block" id="LCLFilterParameters"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/lcl_filter_param/index.html#soft4pes.model.grid.LCLFilterParameters">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">LCLFilterParameters</span><span class="p">():</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.model.grid.rl_grid</span><span class="w"> </span><span class="kn">import</span> <span class="n">RLGrid</span>
+
+
+<div class="viewcode-block" id="RLGridLFilter"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RLGridLFilter</span><span class="p">(</span><span class="n">RLGrid</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Parameters for an LCL-filter.</span>
+<span class="sd">    Model of a grid with stiff voltage source, RL impedance and an L filter in alpha-beta frame.</span>
+<span class="sd">    </span>
+<span class="sd">    The state of the system is the converter current (or the grid current) in </span>
+<span class="sd">    the alpha-beta frame, i.e. x = [i_conv^T]^T or x = [ig^T]^T. The system input is the converter </span>
+<span class="sd">    three-phase switch position or modulating signal. The grid voltage is considered to be a </span>
+<span class="sd">    disturbance. The positive current direction is from the converter to the grid for i_conv </span>
+<span class="sd">    and ig, respectively. Knowledge of the grid impedance is required,</span>
+<span class="sd">    and given to the model in the parent class RLGrid.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    L_fc_SI : float</span>
-<span class="sd">        Inductance of the converter side filter inductor [H].</span>
-<span class="sd">    C_SI : float</span>
-<span class="sd">        Capacitance of the filter capacitor [F].</span>
+<span class="sd">    par_grid : RLGridParameters</span>
+<span class="sd">        Parameters of the grid.</span>
+<span class="sd">    par_l_filter : LFilterParameters</span>
+<span class="sd">        Parameters of the L-filter.</span>
+<span class="sd">    conv : converter object</span>
+<span class="sd">        Converter object.</span>
 <span class="sd">    base : base value object</span>
 <span class="sd">        Base values.</span>
-<span class="sd">    L_fg_SI : float, optional</span>
-<span class="sd">        Inductance of the grid side filter inductor [H].</span>
-<span class="sd">    R_fc_SI : float, optional</span>
-<span class="sd">        Resistance of the converter side filter inductor [Ohm].</span>
-<span class="sd">    R_c_SI : float, optional</span>
-<span class="sd">        Resistance of the filter capacitor [Ohm].</span>
-<span class="sd">    R_fg_SI : float, optional</span>
-<span class="sd">        Resistance of the grid side filter inductor [Ohm].</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">    X_fc : float</span>
-<span class="sd">        Reactance of the converter side filter inductor [p.u.].</span>
-<span class="sd">    R_fc : float</span>
-<span class="sd">        Resistance of the converter side filter inductor [p.u.].</span>
-<span class="sd">    Xc : float</span>
-<span class="sd">        Reactance of the filter capacitor [p.u.].</span>
-<span class="sd">    Rc : float</span>
-<span class="sd">        Resistance of the filter capacitor [p.u.].</span>
-<span class="sd">    X_fg : float</span>
-<span class="sd">        Reactance of the grid side filter inductor [p.u.].</span>
-<span class="sd">    R_fg : float</span>
-<span class="sd">        Resistance of the grid side filter inductor [p.u.].</span>
+<span class="sd">    data : SimpleNamespace</span>
+<span class="sd">        Namespace for storing simulation data.</span>
+<span class="sd">    par : System parameters</span>
+<span class="sd">        Combined RLGridParameters and L-FilterParameters.</span>
+<span class="sd">    conv : converter object</span>
+<span class="sd">        Converter object.</span>
+<span class="sd">    x : 1 x 2 ndarray of floats</span>
+<span class="sd">        Current state of the grid [p.u.].</span>
 <span class="sd">    base : base value object</span>
+<span class="sd">        Base values.</span>
+<span class="sd">    cont_state_space : SimpleNamespace</span>
+<span class="sd">        The continuous-time state-space model of the system.</span>
+<span class="sd">    state_map : dict</span>
+<span class="sd">        A dictionary mapping states to elements of the state vector.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">L_fc_SI</span><span class="p">,</span>
-                 <span class="n">C_SI</span><span class="p">,</span>
-                 <span class="n">base</span><span class="p">,</span>
-                 <span class="n">L_fg_SI</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                 <span class="n">R_fc_SI</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                 <span class="n">R_c_SI</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                 <span class="n">R_fg_SI</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-<div class="viewcode-block" id="LCLFilterParameters.X_fc"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/lcl_filter_param/index.html#soft4pes.model.grid.LCLFilterParameters.X_fc">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">X_fc</span> <span class="o">=</span> <span class="n">L_fc_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">L</span></div>
-<div class="viewcode-block" id="LCLFilterParameters.R_fc"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/lcl_filter_param/index.html#soft4pes.model.grid.LCLFilterParameters.R_fc">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">R_fc</span> <span class="o">=</span> <span class="n">R_fc_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">Z</span></div>
-<div class="viewcode-block" id="LCLFilterParameters.Xc"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/lcl_filter_param/index.html#soft4pes.model.grid.LCLFilterParameters.Xc">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Xc</span> <span class="o">=</span> <span class="n">C_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">C</span></div>
-<div class="viewcode-block" id="LCLFilterParameters.Rc"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/lcl_filter_param/index.html#soft4pes.model.grid.LCLFilterParameters.Rc">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Rc</span> <span class="o">=</span> <span class="n">R_c_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">Z</span></div>
-<div class="viewcode-block" id="LCLFilterParameters.X_fg"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/lcl_filter_param/index.html#soft4pes.model.grid.LCLFilterParameters.X_fg">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">X_fg</span> <span class="o">=</span> <span class="n">L_fg_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">L</span></div>
-<div class="viewcode-block" id="LCLFilterParameters.R_fg"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/lcl_filter_param/index.html#soft4pes.model.grid.LCLFilterParameters.R_fg">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">R_fg</span> <span class="o">=</span> <span class="n">R_fg_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">Z</span></div>
-<div class="viewcode-block" id="LCLFilterParameters.base"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/lcl_filter_param/index.html#soft4pes.model.grid.LCLFilterParameters.base">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">base</span> <span class="o">=</span> <span class="n">base</span></div></div>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">par_grid</span><span class="p">,</span> <span class="n">par_l_filter</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">ig_ref_init</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">par</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="o">**</span><span class="nb">vars</span><span class="p">(</span><span class="n">par_grid</span><span class="p">),</span> <span class="o">**</span><span class="nb">vars</span><span class="p">(</span><span class="n">par_l_filter</span><span class="p">))</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">par</span><span class="o">=</span><span class="n">par</span><span class="p">,</span> <span class="n">conv</span><span class="o">=</span><span class="n">conv</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="n">base</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_initial_state</span><span class="p">(</span><span class="n">ig_ref_init</span><span class="o">=</span><span class="n">ig_ref_init</span><span class="p">)</span>
+
+<div class="viewcode-block" id="RLGridLFilter.get_continuous_state_space"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter.get_continuous_state_space">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_continuous_state_space</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the continuous-time state-space model of the system in alpha-beta frame. </span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        SimpleNamespace</span>
+<span class="sd">            A SimpleNamespace object containing matrices F, G1 and G2 of the continuous-time </span>
+<span class="sd">            state-space model. </span>
+<div class="viewcode-block" id="RLGridLFilter.base"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter.base">[docs]</a><span class="sd">        &quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="RLGridLFilter.data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter.data">[docs]</a></div>
+<div class="viewcode-block" id="RLGridLFilter.par"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter.par">[docs]</a>        <span class="n">X_fc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">X_fc</span></div>
+<div class="viewcode-block" id="RLGridLFilter.conv"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter.conv">[docs]</a>        <span class="n">R_fc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">R_fc</span></div>
+        <span class="n">Xg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xg</span>
+        <span class="n">Rg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Rg</span>
+<div class="viewcode-block" id="RLGridLFilter.state_map"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter.state_map">[docs]</a></div>
+        <span class="c1"># Clarke transformation matrix</span>
+<div class="viewcode-block" id="RLGridLFilter.cont_state_space"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter.cont_state_space">[docs]</a>        <span class="n">K</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">],</span></div>
+                                <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]])</span>
+
+        <span class="n">F</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">Rg</span><span class="o">+</span><span class="n">R_fc</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">Xg</span><span class="o">+</span><span class="n">X_fc</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">G1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">Xg</span><span class="o">+</span><span class="n">X_fc</span><span class="p">)</span> <span class="o">*</span> <span class="n">K</span>
+        <span class="n">G2</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">Xg</span><span class="o">+</span><span class="n">X_fc</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">F</span><span class="o">=</span><span class="n">F</span><span class="p">,</span> <span class="n">G1</span><span class="o">=</span><span class="n">G1</span><span class="p">,</span> <span class="n">G2</span><span class="o">=</span><span class="n">G2</span><span class="p">)</span></div></div>
 </pre></div>
 
                 </article>
