@@ -1,5 +1,5 @@
 """
-Example of grid-following control of converter with L or LCL filter.
+Example of grid-following control of converter with L filter.
 """
 
 from types import SimpleNamespace
