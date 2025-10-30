@@ -1,7 +1,25 @@
 Grids
 =====
 
-The following predefined grid models are available. The models can be called by their names, given in parentheses.
+The predefined grid models are are presented after the example. 
+
+In order to create a custom grid, a new entry can be added to ``examples/grid/pars/grid_parameter_sets.json`` under ``grids`` following the structure of the existing ones. Required parameters are an unique name for the grid model, rated voltage and current, grid frequency, grid resistance and inductance.
+
+.. rubric:: Example — Adding a grid to grid_parameter_sets.json
+
+.. code-block:: json
+
+   "Weak_LV_Grid": {
+       "Vg_R_SI": 400,
+       "Ig_R_SI": 18,
+       "fg_R_SI": 50,
+       "Rg_SI": 0.07,
+       "Lg_SI": 30e-3
+   }
+
+
+Predefined Grids
+----------------
 
 .. _weak-lv-grid:
 
