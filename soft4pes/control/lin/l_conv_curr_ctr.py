@@ -1,5 +1,9 @@
 """
 Current Controller (CC) for the control of the converter (or grid) current with L filter.
+Based on the following reference:
+E. Pouresmaeil, C. Miguel-Espinar, M. Massot-Campos, D. Montesinos-Miracle and O. Gomis-Bellmunt, 
+"A Control Technique for Integration of DG Units to the Electrical Networks," in IEEE Transactions 
+on Industrial Electronics, vol. 60, no. 7, pp. 2881-2893, July 2013, doi: 10.1109/TIE.2012.2209616.
 
 """
 
@@ -7,7 +11,7 @@ from types import SimpleNamespace
 import numpy as np
 from soft4pes.utils import alpha_beta_2_dq, dq_2_alpha_beta
 from soft4pes.control.common.controller import Controller
-from soft4pes.control.common.utils import get_modulating_signal, magnitude_limiter
+from soft4pes.control.common.utils import get_modulating_signal
 
 
 class LConvCurrCtr(Controller):
@@ -21,14 +25,10 @@ class LConvCurrCtr(Controller):
     
     Attributes
     ----------
-    u_ii_comp : complex
-        Integrator state for the converter voltage reference in the dq-frame.
-    uc_km1_dq : complex
-        Previous converter voltage reference in dq frame [p.u.].     
-    v_conv_kp1_comp : complex
-        Next converter voltage reference in the dq-frame.
-    u_km1_abc : ndarray (3,)
-        Previous converter voltage reference in the abc-frame.
+    i_conv_ii_d : float
+        Integrator state for the converter current reference in the d-axis.
+    i_conv_ii_q : float
+        Integrator state for the converter current reference in the q-axis.
     sys : object
         System model containing electrical parameters and base values.
     ctr_pars : SimpleNamespace
@@ -37,10 +37,8 @@ class LConvCurrCtr(Controller):
 
     def __init__(self, sys):
         super().__init__()
-        self.u_ii_comp = complex(0, 0)
-        self.uc_km1_dq = complex(0, 0)
-        self.v_conv_kp1_comp = complex(0, 0)
-        self.u_km1_abc = np.array([0, 0, 0])
+        self.i_conv_ii_d = 0
+        self.i_conv_ii_q = 0
         self.sys = sys
         self.ctr_pars = None
 
@@ -56,39 +54,23 @@ class LConvCurrCtr(Controller):
         self.Ts = Ts
         Ts_pu = self.Ts * self.sys.base.w
 
-        # Closed-loop controller bandwidth (10x crossover frequency)
-        alpha_c = 2 * np.pi / 10 / Ts_pu
+        # Natural undamped angular frequency
+        wn = 2 * np.pi / 10 / Ts_pu
 
-        # Consider delta equals to one due to not considering delay
-        delta = 1
-
-        # Coefficients
-        phi = np.exp((-self.sys.par.R_fc / self.sys.par.X_fc) * Ts_pu) * delta
-        landa = (delta - phi) / self.sys.par.R_fc
-
-        # The closed-loop pole locations
-        p_1 = 0
-        p_2 = np.exp(-alpha_c * Ts_pu)
-        p_3 = p_2
-
-        # Coefficients
-        k_2 = -p_1 - p_2 - p_3 + phi + 1
-        k_1 = (p_1 * p_2 + p_1 * p_3 + p_2 * p_3 + k_2 * phi + k_2 -
-               phi) / landa
-
-        # State feedback gain
-        K_i = np.array([k_1, 0, k_2 * 0])
+        # Damping ratio
+        zeta = np.sqrt(2) / 2
 
         # Integral gain
-        k_ii = (-p_1 * p_2 * p_3 + k_1 * landa - k_2 * phi) / landa
+        k_i = wn**2 * self.sys.par.X_fc
 
-        # Feedforward gain
-        k_ti = k_ii / (1 - p_3)
+        # Proportional gain
+        k_p = 2 * wn * zeta * self.sys.par.X_fc - self.sys.par.R_fc
 
-        self.ctr_pars = SimpleNamespace(delta=delta,
-                                        K_i=K_i,
-                                        k_ii=k_ii,
-                                        k_ti=k_ti)     
+        # To faster dynamics response, uncomment the following line
+        #k_i = (wn**2 * self.sys.par.X_fc)/5
+        #k_p = (2 * wn * zeta *self.sys.par.X_fc - self.sys.par.R_fc)*10
+
+        self.ctr_pars = SimpleNamespace(k_i=k_i, k_p=k_p)
 
     def execute(self, sys, kTs):
         """
@@ -113,36 +95,32 @@ class LConvCurrCtr(Controller):
         theta = np.arctan2(vg[1], vg[0])
 
         # Get the reference for current step (converter current equals grid current)
-        i_conv_ref_comp = complex(*self.input.ig_ref_dq)
+        i_conv_ref_d = self.input.ig_ref_dq[0]
+        i_conv_ref_q = self.input.ig_ref_dq[1]
 
-        # Get dq frame current (converter current equals grid current due to lack of a filter)
-        i_conv_comp = complex(*alpha_beta_2_dq(sys.i_conv, theta))
+        # Get dq frame current measurements
+        i_conv_dq = alpha_beta_2_dq(sys.i_conv, theta)
+        i_conv_d = i_conv_dq[0]
+        i_conv_q = i_conv_dq[1]
 
-        # As the filter is not concidered, the filter capacitor voltage is assumed to be the same
-        # as the grid voltage after the grid indutance.
-        uf_dq = complex(*alpha_beta_2_dq(vg-((self.sys.par.Rg+self.sys.par.Xg)* sys.i_conv), theta))
+        self.i_conv_ii_d += self.ctr_pars.k_i * (i_conv_ref_d - i_conv_d)
+        self.i_conv_ii_q += self.ctr_pars.k_i * (i_conv_ref_q - i_conv_q)
 
-        x_lc = np.array([i_conv_comp, uf_dq, self.uc_km1_dq])
+        lambda_d = self.ctr_pars.k_p * (i_conv_ref_d -
+                                        i_conv_d) + self.i_conv_ii_d
+        lambda_q = self.ctr_pars.k_p * (i_conv_ref_q -
+                                        i_conv_q) + self.i_conv_ii_q
 
-        # State space controller with anti-windup in dq frame
-        v_conv_ref_unlim_comp = (self.ctr_pars.k_ti * i_conv_ref_comp) - np.dot(
-            self.ctr_pars.K_i, x_lc) + self.u_ii_comp
+        # Calculate the switching state functions in the dq frame
+        d_nd = (lambda_d - self.sys.par.X_fc * self.sys.par.wg * i_conv_q +
+                vg[0]) / sys.conv.v_dc
+        d_nq = (lambda_q - self.sys.par.X_fc * self.sys.par.wg * i_conv_d +
+                vg[1]) / sys.conv.v_dc
 
-        # Limiting the converter voltage reference
-        v_conv_ref_comp = magnitude_limiter(v_conv_ref_unlim_comp,
-                                           sys.conv.v_dc / 2)
-
-        self.u_ii_comp += self.ctr_pars.k_ii * ((
-            (v_conv_ref_comp - v_conv_ref_unlim_comp) / self.ctr_pars.k_ti) +
-                                              (i_conv_ref_comp - i_conv_comp))
-        
-        # Get the modulating signal and Hold it for one cycle before sending it out from the
-        # controller
-        u_abc = self.u_km1_abc
-        v_conv_ref_dq = np.array([v_conv_ref_comp.real, v_conv_ref_comp.imag])
+        # Get the modulating signal in abc frame
+        v_conv_ref_dq = np.array([d_nd, d_nq])
         v_conv_ref = dq_2_alpha_beta(v_conv_ref_dq, theta)
-        self.uc_km1_dq = self.ctr_pars.delta * v_conv_ref_comp
-        self.u_km1_abc = get_modulating_signal(v_conv_ref, sys.conv.v_dc)
+        u_abc = get_modulating_signal(v_conv_ref, sys.conv.v_dc)
         self.output = SimpleNamespace(u_abc=u_abc)
 
         return self.output
