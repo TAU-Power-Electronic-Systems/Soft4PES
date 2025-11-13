@@ -25,10 +25,8 @@ class LConvCurrCtr(Controller):
     
     Attributes
     ----------
-    i_conv_ii_d : float
-        Integrator state for the converter current reference in the d-axis.
-    i_conv_ii_q : float
-        Integrator state for the converter current reference in the q-axis.
+    i_conv_ii_dq : ndarray (2,)
+        Integrator state for the converter current reference in the dq-axis.
     sys : object
         System model containing electrical parameters and base values.
     ctr_pars : SimpleNamespace
@@ -37,8 +35,7 @@ class LConvCurrCtr(Controller):
 
     def __init__(self, sys):
         super().__init__()
-        self.i_conv_ii_d = 0
-        self.i_conv_ii_q = 0
+        self.i_conv_ii_dq = np.zeros(2)
         self.sys = sys
         self.ctr_pars = None
 
@@ -67,8 +64,8 @@ class LConvCurrCtr(Controller):
         k_p = 2 * wn * zeta * self.sys.par.X_fc - self.sys.par.R_fc
 
         # To faster dynamics response, uncomment the following line
-        #k_i = (wn**2 * self.sys.par.X_fc)/5
-        #k_p = (2 * wn * zeta *self.sys.par.X_fc - self.sys.par.R_fc)*10
+        #k_i *= 0.2
+        #k_p *= 10
 
         self.ctr_pars = SimpleNamespace(k_i=k_i, k_p=k_p)
 
@@ -95,31 +92,30 @@ class LConvCurrCtr(Controller):
         theta = np.arctan2(vg[1], vg[0])
 
         # Get the reference for current step (converter current equals grid current)
-        i_conv_ref_d = self.input.ig_ref_dq[0]
-        i_conv_ref_q = self.input.ig_ref_dq[1]
+        i_conv_ref_dq = self.input.ig_ref_dq
 
         # Get dq frame current measurements
         i_conv_dq = alpha_beta_2_dq(sys.i_conv, theta)
-        i_conv_d = i_conv_dq[0]
-        i_conv_q = i_conv_dq[1]
 
-        self.i_conv_ii_d += self.ctr_pars.k_i * (i_conv_ref_d - i_conv_d)
-        self.i_conv_ii_q += self.ctr_pars.k_i * (i_conv_ref_q - i_conv_q)
+        e_i_conv_dq = i_conv_ref_dq - i_conv_dq
 
-        lambda_d = self.ctr_pars.k_p * (i_conv_ref_d -
-                                        i_conv_d) + self.i_conv_ii_d
-        lambda_q = self.ctr_pars.k_p * (i_conv_ref_q -
-                                        i_conv_q) + self.i_conv_ii_q
+        self.i_conv_ii_dq += self.ctr_pars.k_i * e_i_conv_dq
+
+        lambda_dq = self.ctr_pars.k_p * e_i_conv_dq + self.i_conv_ii_dq
+
+        # Calculate the PCC output voltage in dq frame
+        v_pcc_comp = (self.sys.par.Rg + 1j * self.sys.par.Xg *
+                      self.sys.par.wg) * complex(*i_conv_dq) + complex(*vg)
+
+        # Consider q-axis voltage equals to zero and only d-axis voltage remains
+        v_pcc_dq = np.array([v_pcc_comp.real, 0.0])
 
         # Calculate the switching state functions in the dq frame
-        d_nd = (lambda_d - self.sys.par.X_fc * self.sys.par.wg * i_conv_q +
-                vg[0]) / sys.conv.v_dc
-        d_nq = (lambda_q - self.sys.par.X_fc * self.sys.par.wg * i_conv_d +
-                vg[1]) / sys.conv.v_dc
+        dn_dq = (lambda_dq + self.sys.par.X_fc * self.sys.par.wg * np.array(
+            [-i_conv_dq[1], i_conv_dq[0]]) + v_pcc_dq) / sys.conv.v_dc
 
         # Get the modulating signal in abc frame
-        v_conv_ref_dq = np.array([d_nd, d_nq])
-        v_conv_ref = dq_2_alpha_beta(v_conv_ref_dq, theta)
+        v_conv_ref = dq_2_alpha_beta(dn_dq, theta)
         u_abc = get_modulating_signal(v_conv_ref, sys.conv.v_dc)
         self.output = SimpleNamespace(u_abc=u_abc)
 
