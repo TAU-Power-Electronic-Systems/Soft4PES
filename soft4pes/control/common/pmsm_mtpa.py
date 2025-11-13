@@ -6,8 +6,8 @@ class MTPALookupTable(Controller):
     """
     Maximum Torque Per Ampere (MTPA) lookup table for permanent magnet synchronous machines (PMSM).
     
-    This class generates and manages the MTPA trajectory, providing optimal
-    current references for given torque demands.
+    This class generates and manages the MTPA trajectory, providing optimal current references for 
+    given torque demands.
     """
 
     def __init__(self, par, iS_mag_points=101, theta_points=2001):

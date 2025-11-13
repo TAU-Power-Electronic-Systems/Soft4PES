@@ -217,7 +217,8 @@ class Simulation:
                         self.Ts_sim, self.disc_method)
 
                 # Update the system state
-                self.sys.update_state(self.matrices, u_abc, kTs_sim)
+                self.sys.update_state(self.matrices, u_abc, kTs_sim,
+                                      self.Ts_sim)
 
             progress_printer(k)
 
