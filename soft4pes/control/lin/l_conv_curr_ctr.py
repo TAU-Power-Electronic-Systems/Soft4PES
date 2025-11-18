@@ -52,7 +52,7 @@ class LConvCurrCtr(Controller):
         Ts_pu = self.Ts * self.sys.base.w
 
         # Natural undamped angular frequency
-        wn = 2 * np.pi / 10 / Ts_pu
+        wn = 2 * np.pi / 5 / Ts_pu
 
         # Damping ratio
         zeta = np.sqrt(2) / 2
@@ -62,10 +62,6 @@ class LConvCurrCtr(Controller):
 
         # Proportional gain
         k_p = 2 * wn * zeta * self.sys.par.X_fc - self.sys.par.R_fc
-
-        # To faster dynamics response, uncomment the following line
-        #k_i *= 0.2
-        #k_p *= 10
 
         self.ctr_pars = SimpleNamespace(k_i=k_i, k_p=k_p)
 
@@ -99,20 +95,21 @@ class LConvCurrCtr(Controller):
 
         e_i_conv_dq = i_conv_ref_dq - i_conv_dq
 
-        self.i_conv_ii_dq += self.ctr_pars.k_i * e_i_conv_dq
+        self.i_conv_ii_dq += (self.ctr_pars.k_i * e_i_conv_dq)
 
-        lambda_dq = self.ctr_pars.k_p * e_i_conv_dq + self.i_conv_ii_dq
+        lambda_dq = self.ctr_pars.k_p * e_i_conv_dq + (
+            self.i_conv_ii_dq * self.Ts * self.sys.base.w)
 
         # Calculate the PCC output voltage in dq frame
         v_pcc_comp = (self.sys.par.Rg + 1j * self.sys.par.Xg *
                       self.sys.par.wg) * complex(*i_conv_dq) + complex(*vg)
 
         # Consider q-axis voltage equals to zero and only d-axis voltage remains
-        v_pcc_dq = np.array([v_pcc_comp.real, 0.0])
+        v_pcc_dq = np.array([v_pcc_comp.real, v_pcc_comp.imag])
 
         # Calculate the switching state functions in the dq frame
-        dn_dq = (lambda_dq + self.sys.par.X_fc * self.sys.par.wg * np.array(
-            [-i_conv_dq[1], i_conv_dq[0]]) + v_pcc_dq) / sys.conv.v_dc
+        dn_dq = (lambda_dq + self.sys.par.X_fc * self.sys.par.wg *
+                 np.array([-i_conv_dq[1], i_conv_dq[0]]) + v_pcc_dq)
 
         # Get the modulating signal in abc frame
         v_conv_ref = dq_2_alpha_beta(dn_dq, theta)
