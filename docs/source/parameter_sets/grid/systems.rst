@@ -50,7 +50,7 @@ Predefined Grid Systems
      - :math:`f_R = 1300\,\mathrm{Hz}`
    * - Converter
      - :ref:`2-Level converter <2l-lv-converter>`
-     - :math:`V_{dc} = 750\,\mathrm{V}`
+     - :math:`V_{\mathrm{dc}} = 750\,\mathrm{V}`
 
 
 **2-level converter connected to a strong low-voltage grid via an** :math:`\mathrm{LCL}` **filter**
@@ -70,7 +70,7 @@ Predefined Grid Systems
      - :math:`f_R = 1300\,\mathrm{Hz}`
    * - Converter
      - :ref:`2-Level converter <2l-lv-converter>`
-     - :math:`V_{dc} = 750\,\mathrm{V}`
+     - :math:`V_{\mathrm{dc}} = 750\,\mathrm{V}`
 
 
 **3-level converter connected to a strong medium-voltage grid without a filter**
@@ -90,7 +90,7 @@ Predefined Grid Systems
      - no filter
    * - Converter
      - :ref:`3-Level converter <3l-mv-converter>`
-     - :math:`V_{dc} = 5200\,\mathrm{V}`
+     - :math:`V_{\mathrm{dc}} = 5200\,\mathrm{V}`
 
 
 **3-level converter connected to a strong medium-voltage grid via an** :math:`\mathrm{LCL}` **filter**
@@ -110,4 +110,4 @@ Predefined Grid Systems
      - :math:`f_R = 380\,\mathrm{Hz}`
    * - Converter
      - :ref:`3-Level converter <3l-mv-converter>`
-     - :math:`V_{dc} = 5200\,\mathrm{V}`
+     - :math:`V_{\mathrm{dc}} = 5200\,\mathrm{V}`

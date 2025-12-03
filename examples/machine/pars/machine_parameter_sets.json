@@ -28,25 +28,26 @@
         },
         "LV_PMSM": {
             "type": "PMSM",
-            "Vm_R_SI": 318,
-            "Im_R_SI": 138,
-            "fm_R_SI": 120,
-            "pf": 0.86,
-            "Rs_SI": 0.046,
-            "Lsd_SI": 1.58e-3,
-            "Lsq_SI": 6.48e-3,
-            "LambdaPM_SI": 0.684
+            "Vm_R_SI": 274,
+            "Im_R_SI": 71,
+            "fm_R_SI": 50,
+            "npp": 4,
+            "pf": 1,
+            "Rs_SI": 0.3,
+            "Lsd_SI": 4.5e-3,
+            "Lsq_SI": 5.5e-3,
+            "LambdaPM_SI": 0.7
         }
     },
     "converters": {
         "2L_LV_Converter": {
             "type": "2-Level",
-            "Vdc_SI": 980,
+            "Vdc_SI": 750,
             "conv_nl": 2
         },
         "3L_LV_Converter": {
             "type": "3-Level",
-            "Vdc_SI": 980,
+            "Vdc_SI": 750,
             "conv_nl": 3
         },
         "2L_MV_Converter": {

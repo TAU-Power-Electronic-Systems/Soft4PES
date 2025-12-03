@@ -10,7 +10,7 @@ In order to create a custom converter, a new entry can be added to ``examples/ma
 .. code-block:: json
 
    "2L_LV_Converter": {
-            "Vdc_SI": 980,
+            "Vdc_SI": 750,
             "conv_nl": 2
     }
 
@@ -30,7 +30,7 @@ Predefined Converters
      - Value
    * - Dc-link voltage
      - :math:`V_{\mathrm{dc}}`
-     - :math:`980\,\mathrm{V}`
+     - :math:`750\,\mathrm{V}`
    * - Converter voltage levels
      - :math:`n_{\mathrm{conv}}`
      - :math:`2`
@@ -49,7 +49,7 @@ Predefined Converters
      - Value
    * - Dc-link voltage
      - :math:`V_{\mathrm{dc}}`
-     - :math:`980\,\mathrm{V}`
+     - :math:`750\,\mathrm{V}`
    * - Converter voltage levels
      - :math:`n_{\mathrm{conv}}`
      - :math:`3`

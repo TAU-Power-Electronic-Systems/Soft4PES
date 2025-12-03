@@ -3,7 +3,7 @@ Grids
 
 The predefined grid models are are presented after the example. 
 
-In order to create a custom grid, a new entry can be added to ``examples/grid/pars/grid_parameter_sets.json`` under ``grids`` following the structure of the existing ones. Required parameters are an unique name for the grid model, rated voltage and current, grid frequency, grid resistance and inductance.
+In order to create a custom grid, a new entry can be added to ``examples/grid/pars/grid_parameter_sets.json`` under ``grids`` following the structure of the existing ones. Required parameters are an unique name for the grid model, rated voltage and current, grid frequency, grid resistance and inductance. Note that the rated voltage is the line-to-line rms voltage and the rated current is the rms current.
 
 .. rubric:: Example — Adding a grid to grid_parameter_sets.json
 
@@ -26,60 +26,96 @@ Predefined Grids
 **Weak low-voltage grid** (``Weak_LV_Grid``)
 
 .. list-table::
-   :widths: 30 70
+   :widths: 40 20 20 20
    :header-rows: 1
 
    * - Parameter
-     - Value 
-   * - :math:`V_{g,R}`
-     - :math:`400\,\mathrm{V}`
-   * - :math:`I_{g,R}`
-     - :math:`18\,\mathrm{A}`
-   * - :math:`f_{g,R}`
-     - :math:`50\,\mathrm{Hz}`
-   * - :math:`R_g`
+     - Symbol
+     - Value [SI]
+     - Value [pu]
+   * - Grid rated voltage (line-to-line, rms)
+     - :math:`V_{g,R}`
+     - :math:`400\,\text{V}`
+     - 
+   * - Grid rated current (rms)
+     - :math:`I_{g,R}`
+     - :math:`18\,\text{A}`
+     - 
+   * - Grid rated frequency
+     - :math:`f_{g,R}`
+     - :math:`50\,\text{Hz}`
+     - 
+   * - Grid resistance
+     - :math:`R_g`
      - :math:`0.07\,\Omega`
-   * - :math:`L_g`
-     - :math:`30\,\mathrm{mH}`
+     - :math:`0.006\,\text{p.u.}`
+   * - Grid inductance
+     - :math:`L_g`
+     - :math:`30\,\text{mH}`
+     - :math:`0.73\,\text{p.u.}`
 
 .. _strong-lv-grid:
 
 **Strong low-voltage grid** (``Strong_LV_Grid``)
 
 .. list-table::
-   :widths: 30 70
+   :widths: 40 20 20 20
    :header-rows: 1
 
    * - Parameter
-     - Value 
-   * - :math:`V_{g,R}`
-     - :math:`400\,\mathrm{V}`
-   * - :math:`I_{g,R}`
-     - :math:`18\,\mathrm{A}`
-   * - :math:`f_{g,R}`
-     - :math:`50\,\mathrm{Hz}`
-   * - :math:`R_g`
+     - Symbol
+     - Value [SI]
+     - Value [pu]
+   * - Grid rated voltage (line-to-line, rms)
+     - :math:`V_{g,R}`
+     - :math:`400\,\text{V}`
+     - 
+   * - Grid rated current (rms)
+     - :math:`I_{g,R}`
+     - :math:`18\,\text{A}`
+     - 
+   * - Grid rated frequency
+     - :math:`f_{g,R}`
+     - :math:`50\,\text{Hz}`
+     - 
+   * - Grid resistance
+     - :math:`R_g`
      - :math:`0.07\,\Omega`
-   * - :math:`L_g`
-     - :math:`5\,\mathrm{mH}`
+     - :math:`0.006\,\text{p.u.}`
+   * - Grid inductance
+     - :math:`L_g`
+     - :math:`5\,\text{mH}`
+     - :math:`0.12\,\text{p.u.}`
 
 .. _strong-mv-grid:
 
 **Strong medium-voltage grid** (``Strong_MV_Grid``)
 
 .. list-table::
-   :widths: 30 70
+   :widths: 40 20 20 20
    :header-rows: 1
 
    * - Parameter
-     - Value 
-   * - :math:`V_{g,R}`
-     - :math:`3300\,\mathrm{V}`
-   * - :math:`I_{g,R}`
-     - :math:`1575\,\mathrm{A}`
-   * - :math:`f_{g,R}`
-     - :math:`50\,\mathrm{Hz}`
-   * - :math:`R_g`
+     - Symbol
+     - Value [SI]
+     - Value [pu]
+   * - Grid rated voltage (line-to-line, rms)
+     - :math:`V_{g,R}`
+     - :math:`3300\,\text{V}`
+     - 
+   * - Grid rated current (rms)
+     - :math:`I_{g,R}`
+     - :math:`1575\,\text{A}`
+     - 
+   * - Grid rated frequency
+     - :math:`f_{g,R}`
+     - :math:`50\,\text{Hz}`
+     - 
+   * - Grid resistance
+     - :math:`R_g`
      - :math:`0.006\,\Omega`
-   * - :math:`L_g`
-     - :math:`0.19\,\mathrm{mH}`
+     - :math:`0.0004\,\text{p.u.}`
+   * - Grid inductance
+     - :math:`L_g`
+     - :math:`0.19\,\text{mH}`
+     - :math:`0.005\,\text{p.u.}`

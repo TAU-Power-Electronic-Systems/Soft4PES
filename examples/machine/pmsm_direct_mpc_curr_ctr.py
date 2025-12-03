@@ -16,11 +16,11 @@ from soft4pes.sim import Simulation
 from soft4pes.utils.plotter import Plotter
 
 # Define base values
-base = model.machine.BaseMachine(Vm_R_SI=318,
-                                 Im_R_SI=138,
-                                 fm_R_SI=120,
+base = model.machine.BaseMachine(Vm_R_SI=274,
+                                 Im_R_SI=71,
+                                 fm_R_SI=50,
                                  npp=4,
-                                 pf=0.86)
+                                 pf=1)
 
 # Define torque reference sequence
 # The first array contains the time instants (in seconds) and the second array the corresponding
@@ -32,19 +32,19 @@ T_ref_seq = Sequence(
 ref_seq = SimpleNamespace(T_ref_seq=T_ref_seq)
 
 # Define converter parameters
-conv = model.conv.Converter(v_dc_SI=980, nl=2, base=base)
+conv = model.conv.Converter(v_dc_SI=750, nl=2, base=base)
 
 # Define PMSM parameters
-sm_params = model.machine.PMSMParameters(fs_SI=120,
-                                         pf_SI=0.86,
-                                         Rs_SI=0.046,
-                                         Lsd_SI=1.58e-3,
-                                         Lsq_SI=6.48e-3,
-                                         LambdaPM_SI=0.684,
+sm_params = model.machine.PMSMParameters(fs_SI=50,
+                                         pf_SI=1,
+                                         Rs_SI=0.3,
+                                         Lsd_SI=4e-3,
+                                         Lsq_SI=5.5e-3,
+                                         LambdaPM_SI=0.7,
                                          base=base)
 
 # Uncomment the following lines to use the ready made configuration. All the available components
-# and systems are defined in the examples/machines/pars/machine_parameter_sets.json file, and given
+# and systems are defined in the examples/machine/pars/machine_parameter_sets.json file, and given
 # in the online documentation.
 # config = get_default_system("LV_PMSM_2L_Converter")
 # sm_params = config.machine_params

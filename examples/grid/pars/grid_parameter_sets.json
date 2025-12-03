@@ -58,7 +58,7 @@
     "parameter_sets": {
         "Weak_LV_Grid_LCL_Filter_2L_conv": {
             "description": [
-                "2-level converter connected to a weak low voltage grid via an LCL filter"
+                "2-level converter connected to a weak low-voltage grid via an LCL filter"
             ],
             "grid": "Weak_LV_Grid",
             "filter": "LCL_Filter_fr_1300",
@@ -66,7 +66,7 @@
         },
         "Strong_LV_Grid_LCL_Filter_2L_conv": {
             "description": [
-                "2-level converter connected to a strong low voltage grid via an LCL filter"
+                "2-level converter connected to a strong low-voltage grid via an LCL filter"
             ],
             "grid": "Strong_LV_Grid",
             "filter": "LCL_Filter_fr_1300",
@@ -74,7 +74,7 @@
         },
         "Strong_MV_Grid_No_Filter_3L_conv": {
             "description": [
-                "3-level converter connected to a strong medium voltage grid without a filter"
+                "3-level converter connected to a strong medium-voltage grid without a filter"
             ],
             "grid": "Strong_MV_Grid",
             "filter": "No_Filter",
@@ -82,7 +82,7 @@
         },
         "Strong_MV_Grid_LCL_3L_conv": {
             "description": [
-                "3-level converter connected to a strong medium voltage grid via an LCL filter"
+                "3-level converter connected to a strong medium-voltage grid via an LCL filter"
             ],
             "grid": "Strong_MV_Grid",
             "filter": "LCL_Filter_fr_380",

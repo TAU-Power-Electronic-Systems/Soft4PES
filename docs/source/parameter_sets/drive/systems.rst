@@ -40,7 +40,7 @@ Predefined Drive Systems
        :math:`f_{m,R} = 50\,\mathrm{Hz}`
    * - Converter
      - :ref:`2-Level low-voltage converter <2l-lv-converter>`
-     - :math:`V_{\mathrm{dc}} = 980\,\mathrm{V}`
+     - :math:`V_{\mathrm{dc}} = 750\,\mathrm{V}`
 
 
 **3-level converter connected to a medium-voltage induction machine** (``MV_Induction_Machine_3L_Converter``)
@@ -72,11 +72,11 @@ Predefined Drive Systems
      - Details
    * - Machine
      - :ref:`Low-voltage PMSM <lv-pmsm>`
-     - :math:`V_{m,R} = 318\,\mathrm{V}`, :math:`I_{m,R} = 138\,\mathrm{A}`  
-       :math:`f_{m,R} = 120\,\mathrm{Hz}`
+     - :math:`V_{m,R} = 274\,\mathrm{V}`, :math:`I_{m,R} = 71\,\mathrm{A}`  
+       :math:`f_{m,R} = 50\,\mathrm{Hz}`
    * - Converter
      - :ref:`2-Level low-voltage converter <2l-lv-converter>`
-     - :math:`V_{\mathrm{dc}} = 980\,\mathrm{V}`
+     - :math:`V_{\mathrm{dc}} = 750\,\mathrm{V}`
 
 
 **3-level converter connected to a low-voltage PMSM** (``LV_PMSM_3L_Converter``)
@@ -90,8 +90,8 @@ Predefined Drive Systems
      - Details
    * - Machine
      - :ref:`Low-voltage PMSM <lv-pmsm>`
-     - :math:`V_{m,R} = 318\,\mathrm{V}`, :math:`I_{m,R} = 138\,\mathrm{A}`  
-       :math:`f_{m,R} = 120\,\mathrm{Hz}`
+     - :math:`V_{m,R} = 274\,\mathrm{V}`, :math:`I_{m,R} = 71\,\mathrm{A}`  
+       :math:`f_{m,R} = 50\,\mathrm{Hz}`
    * - Converter
      - :ref:`3-Level low-voltage converter <3l-lv-converter>`
-     - :math:`V_{\mathrm{dc}} = 980\,\mathrm{V}`
+     - :math:`V_{\mathrm{dc}} = 750\,\mathrm{V}`

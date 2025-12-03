@@ -3,7 +3,7 @@ Grid Components
 
 .. _grid-components:
 
-The grid systems are built using individual components, such as grids, filters, and converters. The predefined grid components are listed in the respective sections after the example.
+The grid systems are built using individual components, i.e. the grids, filters, and converters. The predefined grid components are listed in the respective sections after the example.
 
 The following example shows how to create a grid system by combining individual components.
 
