@@ -14,7 +14,7 @@ Installation
 
    git clone https://github.com/TAU-Power-Electronic-Systems/Soft4PES
 
-**Navigate to the Repository Directory**: Once the repository is cloned, navigate to the ``Soft4Pes`` directory::
+**Navigate to the Repository Directory**: Once the repository is cloned, navigate to the ``Soft4PES`` directory::
 
    cd Soft4PES
 
@@ -31,7 +31,7 @@ Note: Python 3.13 is not yet supported.
 
 This step is required in order to run the examples. Note that all the required packages will be installed automatically.
 
-**Run Example**: The repository includes example files located in the ``examples`` folder. You can test the library by running an example script. For instance, to run a grid-forming control example, use the following command:::
+**Run Example**: The repository includes example files located in the ``examples`` folder. You can test the library by running an example script. For instance, to run a grid-forming control example, use the following command::
 
    python examples/grid/grid_forming_ctr.py
 
@@ -42,3 +42,12 @@ This step is required in order to run the examples. Note that all the required p
    :maxdepth: 1
 
    API <autoapi/soft4pes/index>
+
+.. toctree::
+   :titlesonly:
+   :caption: Parameter Sets
+   :name: parameter_sets  
+   :maxdepth: 1
+   
+   parameter_sets/grid_parameter_sets
+   parameter_sets/drive_parameter_sets

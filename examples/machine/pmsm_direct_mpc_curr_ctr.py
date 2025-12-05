@@ -8,6 +8,7 @@ at a constant (nominal) speed.
 from types import SimpleNamespace
 import numpy as np
 
+from pars.machine_config import get_default_system
 from soft4pes import model
 from soft4pes.control import mpc, common
 from soft4pes.utils import Sequence
@@ -30,6 +31,9 @@ T_ref_seq = Sequence(
 )
 ref_seq = SimpleNamespace(T_ref_seq=T_ref_seq)
 
+# Define converter parameters
+conv = model.conv.Converter(v_dc_SI=750, nl=2, base=base)
+
 # Define PMSM parameters
 sm_params = model.machine.PMSMParameters(fs_SI=50,
                                          pf_SI=1,
@@ -39,11 +43,19 @@ sm_params = model.machine.PMSMParameters(fs_SI=50,
                                          LambdaPM_SI=0.7,
                                          base=base)
 
+# Uncomment the following lines to use the ready made configuration. All the available components
+# and systems are defined in the examples/machine/pars/machine_parameter_sets.json file, and given
+# in the online documentation.
+# config = get_default_system("LV_PMSM_2L_Converter")
+# sm_params = config.machine_params
+# conv = config.conv
+# base = config.base
+
 # Create a MTPA lookup table for current reference calculation
 MPTA_lut = common.MTPALookupTable(par=sm_params)
 
-# Define system models. The MTPA lookup table is passed to the PMSM model to set the initial state.
-conv = model.conv.Converter(v_dc_SI=570, nl=2, base=base)
+# Define system models. The torque reference and the MTPA lookup table are passed to the PMSM model
+# to set the initial state.
 sys = model.machine.PMSM(par=sm_params,
                          conv=conv,
                          base=base,
@@ -67,7 +79,7 @@ ctr_sys = common.ControlSystem(control_loops=[MPTA_lut, ctr],
                                ref_seq=ref_seq,
                                Ts=50e-6)
 
-# Simulate system
+# Simulate the system
 sim = Simulation(sys=sys,
                  ctr=ctr_sys,
                  Ts_sim=50e-6,
@@ -75,8 +87,8 @@ sim = Simulation(sys=sys,
 sim_data = sim.simulate(t_stop=0.1)
 sim.save_data()
 
-# Plot results
-plotter = Plotter(sim_data, sys)
+# Plot the results
+plotter = Plotter(data=sim_data, sys=sys)
 plotter.plot_states(states_to_plot=['iS'], frames=['dq'], plot_u_abc=True)
 plotter.plot_control_signals_machine(plot_T=True, T_ref=T_ref_seq)
 plotter.show_all()
