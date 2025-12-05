@@ -1,6 +1,6 @@
 """
 Permanent magnet synchronous machine (PMSM) model. The machine operates at a constant electrical 
-angular rotor speed. The machine model is from 
+angular rotor speed. 
 """
 
 from types import SimpleNamespace
