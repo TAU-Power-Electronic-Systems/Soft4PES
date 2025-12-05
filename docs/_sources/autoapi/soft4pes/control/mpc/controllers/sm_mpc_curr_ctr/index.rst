@@ -16,13 +16,13 @@ Classes
 
 .. autoapisummary::
 
-   soft4pes.control.mpc.controllers.sm_mpc_curr_ctr.SMMpcCurrCtr
+   soft4pes.control.mpc.controllers.sm_mpc_curr_ctr.PMSMMpcCurrCtr
 
 
 Module Contents
 ---------------
 
-.. py:class:: SMMpcCurrCtr(solver, lambda_u, Np, disc_method='forward_euler')
+.. py:class:: PMSMMpcCurrCtr(solver, lambda_u, Np, disc_method='forward_euler')
 
    Bases: :py:obj:`soft4pes.control.common.controller.Controller`
 

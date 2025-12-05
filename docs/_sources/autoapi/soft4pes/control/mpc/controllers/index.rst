@@ -46,7 +46,7 @@ Classes
 
    soft4pes.control.mpc.controllers.LCLVcMpcCtr
    soft4pes.control.mpc.controllers.IMMpcCurrCtr
-   soft4pes.control.mpc.controllers.SMMpcCurrCtr
+   soft4pes.control.mpc.controllers.PMSMMpcCurrCtr
    soft4pes.control.mpc.controllers.RLGridMpcCurrCtr
 
 
@@ -374,7 +374,7 @@ Package Contents
           !! processed by numpydoc !!
 
 
-.. py:class:: SMMpcCurrCtr(solver, lambda_u, Np, disc_method='forward_euler')
+.. py:class:: PMSMMpcCurrCtr(solver, lambda_u, Np, disc_method='forward_euler')
 
    Bases: :py:obj:`soft4pes.control.common.controller.Controller`
 

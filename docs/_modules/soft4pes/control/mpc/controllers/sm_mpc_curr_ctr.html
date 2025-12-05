@@ -201,6 +201,28 @@
 </ul>
 </li>
 </ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parameter Sets</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../parameter_sets/grid_parameter_sets.html">Grid Parameter Sets</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../parameter_sets/grid/systems.html">Grid Systems</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../parameter_sets/grid/components.html">Grid Components</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-14"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../parameter_sets/grid/components/grids.html">Grids</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../parameter_sets/grid/components/filters.html">Filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../parameter_sets/grid/components/converters.html">Converters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../parameter_sets/drive_parameter_sets.html">Drive Parameter Sets</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-15"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../parameter_sets/drive/systems.html">Drive Systems</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../parameter_sets/drive/components.html">Drive Components</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-16"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../parameter_sets/drive/components/machines.html">Machines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../parameter_sets/drive/components/converters.html">Converters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 
     </div>
 </nav></div>
@@ -326,7 +348,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.utils.conversions</span><span class="w"> </span><span class="kn">import</span> <span class="n">alpha_beta_2_dq</span><span class="p">,</span> <span class="n">dq_2_alpha_beta</span>
 
 
-<div class="viewcode-block" id="SMMpcCurrCtr"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/sm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.SMMpcCurrCtr">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SMMpcCurrCtr</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
+<div class="viewcode-block" id="PMSMMpcCurrCtr"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/sm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.PMSMMpcCurrCtr">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">PMSMMpcCurrCtr</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Model predictive current control for a permanent magnet synchronous machine (PMSM). </span>
 <span class="sd">    The controller aims to track the stator current reference, provided by the outer loop or user.</span>
@@ -362,17 +384,17 @@ document.write(`
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">solver</span><span class="p">,</span> <span class="n">lambda_u</span><span class="p">,</span> <span class="n">Np</span><span class="p">,</span> <span class="n">disc_method</span><span class="o">=</span><span class="s1">&#39;forward_euler&#39;</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-<div class="viewcode-block" id="SMMpcCurrCtr.lambda_u"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/sm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.SMMpcCurrCtr.lambda_u">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">lambda_u</span> <span class="o">=</span> <span class="n">lambda_u</span></div>
-<div class="viewcode-block" id="SMMpcCurrCtr.Np"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/sm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.SMMpcCurrCtr.Np">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Np</span> <span class="o">=</span> <span class="n">Np</span></div>
-<div class="viewcode-block" id="SMMpcCurrCtr.disc_method"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/sm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.SMMpcCurrCtr.disc_method">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">disc_method</span> <span class="o">=</span> <span class="n">disc_method</span></div>
-<div class="viewcode-block" id="SMMpcCurrCtr.u_km1_abc"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/sm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.SMMpcCurrCtr.u_km1_abc">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">u_km1_abc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span></div>
-<div class="viewcode-block" id="SMMpcCurrCtr.state_space"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/sm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.SMMpcCurrCtr.state_space">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">state_space</span> <span class="o">=</span> <span class="kc">None</span></div>
-<div class="viewcode-block" id="SMMpcCurrCtr.solver"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/sm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.SMMpcCurrCtr.solver">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="o">=</span> <span class="n">solver</span></div>
+<div class="viewcode-block" id="PMSMMpcCurrCtr.lambda_u"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/sm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.PMSMMpcCurrCtr.lambda_u">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">lambda_u</span> <span class="o">=</span> <span class="n">lambda_u</span></div>
+<div class="viewcode-block" id="PMSMMpcCurrCtr.Np"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/sm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.PMSMMpcCurrCtr.Np">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Np</span> <span class="o">=</span> <span class="n">Np</span></div>
+<div class="viewcode-block" id="PMSMMpcCurrCtr.disc_method"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/sm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.PMSMMpcCurrCtr.disc_method">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">disc_method</span> <span class="o">=</span> <span class="n">disc_method</span></div>
+<div class="viewcode-block" id="PMSMMpcCurrCtr.u_km1_abc"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/sm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.PMSMMpcCurrCtr.u_km1_abc">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">u_km1_abc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span></div>
+<div class="viewcode-block" id="PMSMMpcCurrCtr.state_space"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/sm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.PMSMMpcCurrCtr.state_space">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">state_space</span> <span class="o">=</span> <span class="kc">None</span></div>
+<div class="viewcode-block" id="PMSMMpcCurrCtr.solver"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/sm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.PMSMMpcCurrCtr.solver">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="o">=</span> <span class="n">solver</span></div>
 
         <span class="c1"># Output matrix</span>
-<div class="viewcode-block" id="SMMpcCurrCtr.C"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/sm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.SMMpcCurrCtr.C">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span></div>
+<div class="viewcode-block" id="PMSMMpcCurrCtr.C"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/sm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.PMSMMpcCurrCtr.C">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span></div>
 
-<div class="viewcode-block" id="SMMpcCurrCtr.execute"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/sm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.SMMpcCurrCtr.execute">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
+<div class="viewcode-block" id="PMSMMpcCurrCtr.execute"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/sm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.PMSMMpcCurrCtr.execute">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Perform MPC.</span>
 
@@ -414,7 +436,7 @@ document.write(`
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span></div>
 
-<div class="viewcode-block" id="SMMpcCurrCtr.get_next_state"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/sm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.SMMpcCurrCtr.get_next_state">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_next_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">xk</span><span class="p">,</span> <span class="n">u_abc</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<div class="viewcode-block" id="PMSMMpcCurrCtr.get_next_state"><a class="viewcode-back" href="../../../../../autoapi/soft4pes/control/mpc/controllers/sm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.PMSMMpcCurrCtr.get_next_state">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_next_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">xk</span><span class="p">,</span> <span class="n">u_abc</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the next state of the system.</span>
 

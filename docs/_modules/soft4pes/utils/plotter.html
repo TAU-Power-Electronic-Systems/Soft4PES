@@ -201,6 +201,28 @@
 </ul>
 </li>
 </ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parameter Sets</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../parameter_sets/grid_parameter_sets.html">Grid Parameter Sets</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../parameter_sets/grid/systems.html">Grid Systems</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../parameter_sets/grid/components.html">Grid Components</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-14"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../parameter_sets/grid/components/grids.html">Grids</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../parameter_sets/grid/components/filters.html">Filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../parameter_sets/grid/components/converters.html">Converters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../parameter_sets/drive_parameter_sets.html">Drive Parameter Sets</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-15"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../parameter_sets/drive/systems.html">Drive Systems</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../parameter_sets/drive/components.html">Drive Components</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-16"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../parameter_sets/drive/components/machines.html">Machines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../parameter_sets/drive/components/converters.html">Converters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 
     </div>
 </nav></div>
@@ -717,10 +739,11 @@ document.write(`
             <span class="n">phase_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">]</span>
             <span class="k">for</span> <span class="n">phase</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
                 <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="n">current_subplot</span> <span class="o">+</span> <span class="n">phase</span><span class="p">]</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_plot_sys</span><span class="p">,</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">t_plot_sys</span><span class="p">,</span>
                         <span class="n">u_abc</span><span class="p">[:,</span> <span class="n">phase</span><span class="p">],</span>
                         <span class="n">color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">phase_colors</span><span class="p">[</span><span class="n">phase</span><span class="p">],</span>
-                        <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+                        <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+                        <span class="n">where</span><span class="o">=</span><span class="s1">&#39;post&#39;</span><span class="p">)</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">fr</span><span class="s2">&quot;$u_</span><span class="se">{{</span><span class="si">{</span><span class="n">phase_labels</span><span class="p">[</span><span class="n">phase</span><span class="p">]</span><span class="si">}</span><span class="se">}}</span><span class="s2">$&quot;</span><span class="p">)</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span>
