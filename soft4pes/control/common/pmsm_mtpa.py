@@ -6,8 +6,8 @@ class MTPALookupTable(Controller):
     """
     Maximum Torque Per Ampere (MTPA) lookup table for permanent magnet synchronous machines (PMSM).
     
-    This class generates and manages the MTPA trajectory, providing optimal
-    current references for given torque demands.
+    This class generates and manages the MTPA trajectory, providing optimal current references for 
+    given torque demands.
     """
 
     def __init__(self, par, iS_mag_points=101, theta_points=2001):
@@ -21,50 +21,84 @@ class MTPALookupTable(Controller):
         iS_mag_points : int, optional
             Number of stator current magnitude points for trajectory generation. Default is 101.
         theta_points : int, optional
-            Number of angle points for trajectory generation. Default is 2001.
+            Number of current vector angle points for trajectory generation. Default is 2001.
         """
         super().__init__()
         self.par = par
         self.iS_mag_points = iS_mag_points
         self.theta_points = theta_points
-        self.mtpa_lut = {}  # Dictionary: {torque: iS_dq}
+        self.torque_grid = None
+        self.current_grid = None
         self.generate_mtpa_trajectory()
 
     def generate_mtpa_trajectory(self):
         """
-        Generate the maximum torque per ampere (MTPA) trajectory.
+        Generate the maximum torque per ampere (MTPA) trajectory for both positive and negative 
+        torque.
         
-        Creates a lookup table mapping torque values to optimal stator current references.
+        The algorithm sweeps current magnitude from 0 to 1 p.u. and for each magnitude finds the
+        current vector orientations that produce maximum positive and negative torque. Results are
+        stored as sorted arrays for efficient interpolation.
+        
+        Creates
+        -------
+        self.torque_grid : ndarray
+            Sorted array of achievable torque values [p.u.].
+        self.current_grid : ndarray
+            Array of optimal current vectors [id, iq] corresponding to torque_grid [p.u.].
         """
-
         iS_mag_range = np.linspace(0, 1, self.iS_mag_points)
-        theta_range = np.linspace(0, np.pi / 2, self.theta_points)
+        theta_range = np.linspace(-np.pi / 2, np.pi / 2, self.theta_points)
+
+        torques = []
+        currents = []
 
         for iS_mag in iS_mag_range:
+            # Skip zero current magnitude (produces only zero torque)
+            if iS_mag == 0:
+                continue
+
             id_trajectory = -iS_mag * np.cos(theta_range)
             iq_trajectory = iS_mag * np.sin(theta_range)
 
-            # Calculate torque map for this current magnitude
-            Te_map = np.dot(
-                iq_trajectory.reshape(-1, 1),
-                (self.par.Xsd - self.par.Xsq) * id_trajectory.reshape(1, -1) +
-                self.par.PsiPM)
+            # Calculate torque for each angle
+            Te_line = iq_trajectory * (
+                (self.par.Xsd - self.par.Xsq) * id_trajectory + self.par.PsiPM)
 
-            # Extract diagonal (optimal torque for each angle)
-            Te_line = [Te_map[kk, kk] for kk in range(theta_range.size)]
+            # Find maximum positive torque
+            max_pos_index = np.argmax(Te_line)
+            max_pos_torque = Te_line[max_pos_index]
 
-            # Find maximum torque and corresponding currents
-            max_index = np.argmax(Te_line)
-            optimal_torque = Te_line[max_index]
-            optimal_iS_dq = np.array(
-                [id_trajectory[max_index], iq_trajectory[max_index]])
+            # Find maximum negative torque
+            min_neg_index = np.argmin(Te_line)
+            min_neg_torque = Te_line[min_neg_index]
 
-            # Store in lookup table
-            self.mtpa_lut[optimal_torque] = optimal_iS_dq
+            # Store positive optimal point
+            if max_pos_torque > 0:
+                torques.append(max_pos_torque)
+                currents.append([
+                    id_trajectory[max_pos_index], iq_trajectory[max_pos_index]
+                ])
+
+            # Store negative optimal point
+            if min_neg_torque < 0:
+                torques.append(min_neg_torque)
+                currents.append([
+                    id_trajectory[min_neg_index], iq_trajectory[min_neg_index]
+                ])
+
+        # Add explicit zero torque point
+        torques.append(0.0)
+        currents.append([0.0, 0.0])
+
+        # Sort by torque and store as arrays
+        sorted_indices = np.argsort(torques)
+        self.torque_grid = np.array(torques)[sorted_indices]
+        self.current_grid = np.array(currents)[sorted_indices]
 
     def get_optimal_current(self, Te_ref):
         """
-        Get optimal stator current reference for given torque reference.
+        Get optimal stator current reference for given torque reference using linear interpolation.
         
         Parameters
         ----------
@@ -77,11 +111,10 @@ class MTPALookupTable(Controller):
             Optimal stator current reference [p.u.].
         """
 
-        # Find closest torque value in lookup table
-        closest_torque = min(self.mtpa_lut.keys(),
-                             key=lambda torque: abs(torque - Te_ref))
-
-        return np.array(self.mtpa_lut[closest_torque])
+        # Linear interpolation for better coverage
+        id_ref = np.interp(Te_ref, self.torque_grid, self.current_grid[:, 0])
+        iq_ref = np.interp(Te_ref, self.torque_grid, self.current_grid[:, 1])
+        return np.array([id_ref, iq_ref])
 
     def execute(self, sys, kTs):
         """

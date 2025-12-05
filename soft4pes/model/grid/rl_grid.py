@@ -128,7 +128,7 @@ class RLGrid(SystemModel):
         vg = abc_2_alpha_beta(vg_abc)
         return vg
 
-    def get_next_state(self, matrices, u_abc, kTs):
+    def get_next_state(self, matrices, u_abc, kTs, Ts):
         """
         Calculate the next state of the system.
 
@@ -140,6 +140,8 @@ class RLGrid(SystemModel):
             A SimpleNamespace object containing the state-space model matrices.
         kTs : float
             Current discrete time instant [s].
+        Ts : float
+            Sampling interval [s] (not used).
 
         Returns
         -------
@@ -168,13 +170,3 @@ class RLGrid(SystemModel):
         """
 
         return SimpleNamespace(vg=self.get_grid_voltage(kTs))
-
-    def update_internal_variables(self, kTs):
-        """
-        Update internal variables of the system.
-
-        Parameters
-        ----------
-        kTs : float
-            Current discrete time instant [s].
-        """

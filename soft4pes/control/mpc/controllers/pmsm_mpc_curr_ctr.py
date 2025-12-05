@@ -3,7 +3,7 @@
 from types import SimpleNamespace
 import numpy as np
 from soft4pes.control.common.controller import Controller
-from soft4pes.utils.conversions import alpha_beta_2_dq, dq_2_alpha_beta
+from soft4pes.utils.conversions import dq_2_alpha_beta, alpha_beta_2_dq
 
 
 class PMSMMpcCurrCtr(Controller):
@@ -50,7 +50,7 @@ class PMSMMpcCurrCtr(Controller):
         self.solver = solver
 
         # Output matrix
-        self.C = np.array([[1, 0], [0, 1]])
+        self.C = np.array([[1, 0, 0, 0], [0, 1, 0, 0]])
 
     def execute(self, sys, kTs):
         """
@@ -91,7 +91,6 @@ class PMSMMpcCurrCtr(Controller):
         self.u_km1_abc = u_abc
 
         self.output = SimpleNamespace(u_abc=u_abc)
-
         return self.output
 
     def get_next_state(self, sys, xk, u_abc, k):
@@ -121,8 +120,5 @@ class PMSMMpcCurrCtr(Controller):
         self.state_space = sys.get_discrete_state_space(
             self.Ts, self.disc_method)
 
-        xk_dq = alpha_beta_2_dq(xk, sys.theta_el)
-        x_kp1_dq = np.dot(self.state_space.A, xk_dq) + np.dot(
-            self.state_space.B1, u_abc) + self.state_space.B2
-
-        return dq_2_alpha_beta(x_kp1_dq, sys.theta_el)
+        return np.dot(self.state_space.A, xk) + np.dot(self.state_space.B,
+                                                       u_abc)
