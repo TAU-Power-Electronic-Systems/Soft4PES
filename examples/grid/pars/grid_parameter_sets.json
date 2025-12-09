@@ -9,9 +9,9 @@
         },
         "Strong_LV_Grid": {
             "Vg_R_SI": 400,
-            "Ig_R_SI": 25,
+            "Ig_R_SI": 18,
             "fg_R_SI": 50,
-            "Rg_SI": 0.02,
+            "Rg_SI": 0.07,
             "Lg_SI": 5e-3
         },
         "Strong_MV_Grid": {
@@ -24,6 +24,7 @@
     },
     "filters": {
         "LCL_Filter_fr_1300": {
+            "Type": "LCL",
             "L_fc_SI": 3e-3,
             "R_fc_SI": 0.1,
             "C_SI": 10e-6,
@@ -32,12 +33,23 @@
             "R_fg_SI": 0.1
         },
         "LCL_Filter_fr_380": {
+            "Type": "LCL",
             "L_fc_SI": 0.4e-3,
             "R_fc_SI": 0.5e-3,
             "C_SI": 850e-6,
             "R_c_SI": 0.4e-3,
             "L_fg_SI": 0.4e-3,
             "R_fg_SI": 0.5e-3
+        },
+        "LV_L_Filter": {
+            "Type": "L",
+            "L_fc_SI": 3e-3,
+            "R_fc_SI": 0.1
+        },
+        "MV_L_Filter": {
+            "Type": "L",
+            "L_fc_SI": 0.19e-3,
+            "R_fc_SI": 0.5e-3
         },
         "No_Filter": null
     },
@@ -72,12 +84,12 @@
             "filter": "LCL_Filter_fr_1300",
             "converter": "2L_LV_Converter"
         },
-        "Strong_MV_Grid_No_Filter_3L_conv": {
+        "Strong_MV_Grid_L_Filter_3L_conv": {
             "description": [
-                "3-level converter connected to a strong medium-voltage grid without a filter"
+                "3-level converter connected to a strong medium-voltage grid via an L filter"
             ],
             "grid": "Strong_MV_Grid",
-            "filter": "No_Filter",
+            "filter": "MV_L_Filter",
             "converter": "3L_MV_Converter"
         },
         "Strong_MV_Grid_LCL_3L_conv": {

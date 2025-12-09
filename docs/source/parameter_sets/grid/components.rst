@@ -17,7 +17,7 @@ The following example shows how to create a grid system by combining individual 
                               filter_name='No_Filter',
                               converter_name='3L_LV_Converter')
 
-The config dictionary contains the entries ``base`` (grid base-value object), ``grid_params`` (grid-parameters object), ``lcl_params`` (filter-parameters object) and ``conv`` (converter object).
+The config dictionary contains the entries ``base`` (grid base-value object), ``grid_params`` (grid-parameters object), ``filter_params`` (filter-parameters object), and ``conv`` (converter object).
 
 .. toctree::
    :maxdepth: 2

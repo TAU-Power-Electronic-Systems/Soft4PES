@@ -83,6 +83,41 @@ Predefined Filters
      - :math:`R_{\mathrm{fg}}`
      - :math:`0.5\,\mathrm{m}\Omega`
 
+.. _l-filter-lv:
+
+:math:`\mathrm{L}` **filter** (``LV_L_Filter``)
+
+.. list-table::
+   :widths: 30 30 40
+   :header-rows: 1
+
+   * - Parameter
+     - Symbol
+     - Value
+   * - Filter inductance
+     - :math:`L_{\mathrm{fc}}`
+     - :math:`3\,\text{mH}`
+   * - Filter resistance
+     - :math:`R_{\mathrm{fc}}`
+     - :math:`0.1\,\Omega`
+
+.. _l-filter-mv:
+
+:math:`\mathrm{L}` **filter** (``MV_L_Filter``)
+
+.. list-table::
+   :widths: 30 30 40
+   :header-rows: 1
+
+   * - Parameter
+     - Symbol
+     - Value
+   * - Filter inductance
+     - :math:`L_{\mathrm{fc}}`
+     - :math:`0.19\,\text{mH}`
+   * - Filter resistance
+     - :math:`R_{\mathrm{fc}}`
+     - :math:`0.5\,\text{m}\Omega`
 
 .. _no-filter:
 
