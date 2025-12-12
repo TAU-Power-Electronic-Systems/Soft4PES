@@ -34,6 +34,7 @@ Submodules
    :maxdepth: 1
 
    /autoapi/soft4pes/control/lin/grid_curr_ref_gen/index
+   /autoapi/soft4pes/control/lin/l_conv_curr_ctr/index
    /autoapi/soft4pes/control/lin/lcl_conv_curr_ctr/index
    /autoapi/soft4pes/control/lin/lcl_vc_ctr/index
    /autoapi/soft4pes/control/lin/rfpsc/index
@@ -48,6 +49,7 @@ Classes
    soft4pes.control.lin.GridCurrRefGen
    soft4pes.control.lin.RLGridStateSpaceCurrCtr
    soft4pes.control.lin.LCLConvCurrCtr
+   soft4pes.control.lin.LConvCurrCtr
    soft4pes.control.lin.LCLVcCtr
    soft4pes.control.lin.RFPSC
 
@@ -417,6 +419,109 @@ Package Contents
    .. attribute:: ctr_pars
 
       Controller parameters including delta, K_i, k_ii, and K_ti.
+
+      :type: SimpleNamespace
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:method:: set_sampling_interval(Ts)
+
+      
+      Set the sampling interval and compute controller parameters.
+
+      :param Ts: Sampling interval [s].
+      :type Ts: float
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: execute(sys, kTs)
+
+      
+      Execute the Current Controller (CC) and save the controller data.
+
+      :param sys: System model.
+      :type sys: object
+      :param kTs: Current discrete time instant [s].
+      :type kTs: float
+
+      :returns: Three-phase modulating signal.
+      :rtype: 1 x 3 ndarray of floats
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: LConvCurrCtr(sys)
+
+   Bases: :py:obj:`soft4pes.control.common.controller.Controller`
+
+
+   
+   Current Controller for converter (or grid) current with an L filter.
+
+   :param sys: System model.
+   :type sys: object
+
+   .. attribute:: i_conv_ii_dq
+
+      Integrator state of the PI-controller.
+
+      :type: ndarray (2,)
+
+   .. attribute:: sys
+
+      System model.
+
+      :type: object
+
+   .. attribute:: ctr_pars
+
+      Controller parameters.
 
       :type: SimpleNamespace
 

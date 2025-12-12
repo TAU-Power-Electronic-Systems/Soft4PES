@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>soft4pes.model.conv.converter &#8212; Soft4PES  documentation</title>
+    <title>soft4pes.control.lin.l_conv_curr_ctr &#8212; Soft4PES  documentation</title>
   
   
   
@@ -45,11 +45,11 @@
     <script src="../../../../../_static/clipboard.min.js"></script>
     <script src="../../../../../_static/copybutton.js"></script>
     <script src="../../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'autoapi/soft4pes/model/conv/converter/index';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'autoapi/soft4pes/control/lin/l_conv_curr_ctr/index';</script>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
-    <link rel="next" title="soft4pes.model.grid" href="../../grid/index.html" />
-    <link rel="prev" title="soft4pes.model.conv" href="../index.html" />
+    <link rel="next" title="soft4pes.control.lin.lcl_conv_curr_ctr" href="../lcl_conv_curr_ctr/index.html" />
+    <link rel="prev" title="soft4pes.control.lin.grid_curr_ref_gen" href="../grid_curr_ref_gen/index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -140,54 +140,54 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../../index.html">API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../../control/index.html">soft4pes.control</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../../control/common/index.html">soft4pes.control.common</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../control/common/control_system/index.html">soft4pes.control.common.control_system</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../control/common/controller/index.html">soft4pes.control.common.controller</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../control/common/utils/index.html">soft4pes.control.common.utils</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../../index.html">soft4pes.control</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../common/index.html">soft4pes.control.common</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../common/control_system/index.html">soft4pes.control.common.control_system</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../common/controller/index.html">soft4pes.control.common.controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../common/utils/index.html">soft4pes.control.common.utils</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../../control/lin/index.html">soft4pes.control.lin</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../control/lin/grid_curr_ref_gen/index.html">soft4pes.control.lin.grid_curr_ref_gen</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../control/lin/l_conv_curr_ctr/index.html">soft4pes.control.lin.l_conv_curr_ctr</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../control/lin/lcl_conv_curr_ctr/index.html">soft4pes.control.lin.lcl_conv_curr_ctr</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../control/lin/lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../control/lin/rfpsc/index.html">soft4pes.control.lin.rfpsc</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../control/lin/state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="../index.html">soft4pes.control.lin</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../grid_curr_ref_gen/index.html">soft4pes.control.lin.grid_curr_ref_gen</a></li>
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">soft4pes.control.lin.l_conv_curr_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../lcl_conv_curr_ctr/index.html">soft4pes.control.lin.lcl_conv_curr_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../rfpsc/index.html">soft4pes.control.lin.rfpsc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../../control/modulation/index.html">soft4pes.control.modulation</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../control/modulation/carrier_pwm/index.html">soft4pes.control.modulation.carrier_pwm</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../modulation/index.html">soft4pes.control.modulation</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../modulation/carrier_pwm/index.html">soft4pes.control.modulation.carrier_pwm</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../../control/mpc/index.html">soft4pes.control.mpc</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../control/mpc/controllers/index.html">soft4pes.control.mpc.controllers</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../control/mpc/solvers/index.html">soft4pes.control.mpc.solvers</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../mpc/index.html">soft4pes.control.mpc</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../mpc/controllers/index.html">soft4pes.control.mpc.controllers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../mpc/solvers/index.html">soft4pes.control.mpc.solvers</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2 current active has-children"><a class="reference internal" href="../../index.html">soft4pes.model</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l3 current active has-children"><a class="reference internal" href="../index.html">soft4pes.model.conv</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l4 current active"><a class="current reference internal" href="#">soft4pes.model.conv.converter</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../model/index.html">soft4pes.model</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../model/conv/index.html">soft4pes.model.conv</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../model/conv/converter/index.html">soft4pes.model.conv.converter</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../grid/index.html">soft4pes.model.grid</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../grid/base_grid/index.html">soft4pes.model.grid.base_grid</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../grid/l_filter_param/index.html">soft4pes.model.grid.l_filter_param</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../grid/lcl_filter_param/index.html">soft4pes.model.grid.lcl_filter_param</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../grid/rl_grid/index.html">soft4pes.model.grid.rl_grid</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../grid/rl_grid_l_filter/index.html">soft4pes.model.grid.rl_grid_l_filter</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../grid/rl_grid_lcl_filter/index.html">soft4pes.model.grid.rl_grid_lcl_filter</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../grid/rl_grid_param/index.html">soft4pes.model.grid.rl_grid_param</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../model/grid/index.html">soft4pes.model.grid</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../model/grid/base_grid/index.html">soft4pes.model.grid.base_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../model/grid/l_filter_param/index.html">soft4pes.model.grid.l_filter_param</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../model/grid/lcl_filter_param/index.html">soft4pes.model.grid.lcl_filter_param</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../model/grid/rl_grid/index.html">soft4pes.model.grid.rl_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../model/grid/rl_grid_l_filter/index.html">soft4pes.model.grid.rl_grid_l_filter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../model/grid/rl_grid_lcl_filter/index.html">soft4pes.model.grid.rl_grid_lcl_filter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../model/grid/rl_grid_param/index.html">soft4pes.model.grid.rl_grid_param</a></li>
 </ul>
 </li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../machine/index.html">soft4pes.model.machine</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../machine/base_machine/index.html">soft4pes.model.machine.base_machine</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../machine/induction_machine/index.html">soft4pes.model.machine.induction_machine</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../machine/induction_machine_param/index.html">soft4pes.model.machine.induction_machine_param</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../machine/pmsm/index.html">soft4pes.model.machine.pmsm</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../machine/pmsm_param/index.html">soft4pes.model.machine.pmsm_param</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../model/machine/index.html">soft4pes.model.machine</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../model/machine/base_machine/index.html">soft4pes.model.machine.base_machine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../model/machine/induction_machine/index.html">soft4pes.model.machine.induction_machine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../model/machine/induction_machine_param/index.html">soft4pes.model.machine.induction_machine_param</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../model/machine/pmsm/index.html">soft4pes.model.machine.pmsm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../model/machine/pmsm_param/index.html">soft4pes.model.machine.pmsm_param</a></li>
 </ul>
 </li>
 </ul>
@@ -295,7 +295,7 @@
       
       
       
-      <li><a href="../../../../../_sources/autoapi/soft4pes/model/conv/converter/index.rst" target="_blank"
+      <li><a href="../../../../../_sources/autoapi/soft4pes/control/lin/l_conv_curr_ctr/index.rst" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -379,7 +379,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>soft4pes.model.conv.converter</h1>
+    <h1>soft4pes.control.lin.l_conv_curr_ctr</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -391,10 +391,12 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.conv.converter.Converter"><code class="docutils literal notranslate"><span class="pre">Converter</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.conv.converter.Converter.v_dc"><code class="docutils literal notranslate"><span class="pre">Converter.v_dc</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.conv.converter.Converter.nl"><code class="docutils literal notranslate"><span class="pre">Converter.nl</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.conv.converter.Converter.SW_COMB"><code class="docutils literal notranslate"><span class="pre">Converter.SW_COMB</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.l_conv_curr_ctr.LConvCurrCtr"><code class="docutils literal notranslate"><span class="pre">LConvCurrCtr</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.l_conv_curr_ctr.LConvCurrCtr.i_conv_ii_dq"><code class="docutils literal notranslate"><span class="pre">LConvCurrCtr.i_conv_ii_dq</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.l_conv_curr_ctr.LConvCurrCtr.sys"><code class="docutils literal notranslate"><span class="pre">LConvCurrCtr.sys</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.l_conv_curr_ctr.LConvCurrCtr.ctr_pars"><code class="docutils literal notranslate"><span class="pre">LConvCurrCtr.ctr_pars</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.l_conv_curr_ctr.LConvCurrCtr.set_sampling_interval"><code class="docutils literal notranslate"><span class="pre">LConvCurrCtr.set_sampling_interval()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.l_conv_curr_ctr.LConvCurrCtr.execute"><code class="docutils literal notranslate"><span class="pre">LConvCurrCtr.execute()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -410,15 +412,19 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="module-soft4pes.model.conv.converter">
-<span id="soft4pes-model-conv-converter"></span><h1>soft4pes.model.conv.converter<a class="headerlink" href="#module-soft4pes.model.conv.converter" title="Permalink to this heading">#</a></h1>
-<p>n-level converter model.</p>
+  <section id="module-soft4pes.control.lin.l_conv_curr_ctr">
+<span id="soft4pes-control-lin-l-conv-curr-ctr"></span><h1>soft4pes.control.lin.l_conv_curr_ctr<a class="headerlink" href="#module-soft4pes.control.lin.l_conv_curr_ctr" title="Permalink to this heading">#</a></h1>
+<p>Current Controller (CC) for the control of the converter (or grid) current with L filter.
+Based on the following reference:
+E. Pouresmaeil, C. Miguel-Espinar, M. Massot-Campos, D. Montesinos-Miracle and O. Gomis-Bellmunt,
+“A Control Technique for Integration of DG Units to the Electrical Networks,” in IEEE Transactions
+on Industrial Electronics, vol. 60, no. 7, pp. 2881-2893, July 2013, doi: 10.1109/TIE.2012.2209616.</p>
 <section id="classes">
 <h2>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h2>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.model.conv.converter.Converter" title="soft4pes.model.conv.converter.Converter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Converter</span></code></a></p></td>
-<td><p>Class representing a 2- or 3-level converter with constant dc-link voltage.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.lin.l_conv_curr_ctr.LConvCurrCtr" title="soft4pes.control.lin.l_conv_curr_ctr.LConvCurrCtr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LConvCurrCtr</span></code></a></p></td>
+<td><p>Current Controller for converter (or grid) current with an L filter.</p></td>
 </tr>
 </tbody>
 </table>
@@ -426,48 +432,75 @@ document.write(`
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="soft4pes.model.conv.converter.Converter">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.model.conv.converter.</span></span><span class="sig-name descname"><span class="pre">Converter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v_dc_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/model/conv/converter.html#Converter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.conv.converter.Converter" title="Permalink to this definition">#</a></dt>
-<dd><p>Class representing a 2- or 3-level converter with constant dc-link voltage.</p>
-<p>Initialize a Converter instance.</p>
+<dt class="sig sig-object py" id="soft4pes.control.lin.l_conv_curr_ctr.LConvCurrCtr">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.lin.l_conv_curr_ctr.</span></span><span class="sig-name descname"><span class="pre">LConvCurrCtr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/lin/l_conv_curr_ctr.html#LConvCurrCtr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.lin.l_conv_curr_ctr.LConvCurrCtr" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../../common/controller/index.html#soft4pes.control.common.controller.Controller" title="soft4pes.control.common.controller.Controller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.control.common.controller.Controller</span></code></a></p>
+<p>Current Controller for converter (or grid) current with an L filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sys</strong> (<em>object</em>) – System model.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.control.lin.l_conv_curr_ctr.LConvCurrCtr.i_conv_ii_dq">
+<span class="sig-name descname"><span class="pre">i_conv_ii_dq</span></span><a class="reference internal" href="../../../../../_modules/soft4pes/control/lin/l_conv_curr_ctr.html#LConvCurrCtr.i_conv_ii_dq"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.lin.l_conv_curr_ctr.LConvCurrCtr.i_conv_ii_dq" title="Permalink to this definition">#</a></dt>
+<dd><p>Integrator state of the PI-controller.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray (2,)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.control.lin.l_conv_curr_ctr.LConvCurrCtr.sys">
+<span class="sig-name descname"><span class="pre">sys</span></span><a class="reference internal" href="../../../../../_modules/soft4pes/control/lin/l_conv_curr_ctr.html#LConvCurrCtr.sys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.lin.l_conv_curr_ctr.LConvCurrCtr.sys" title="Permalink to this definition">#</a></dt>
+<dd><p>System model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.control.lin.l_conv_curr_ctr.LConvCurrCtr.ctr_pars">
+<span class="sig-name descname"><span class="pre">ctr_pars</span></span><a class="reference internal" href="../../../../../_modules/soft4pes/control/lin/l_conv_curr_ctr.html#LConvCurrCtr.ctr_pars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.lin.l_conv_curr_ctr.LConvCurrCtr.ctr_pars" title="Permalink to this definition">#</a></dt>
+<dd><p>Controller parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>SimpleNamespace</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.control.lin.l_conv_curr_ctr.LConvCurrCtr.set_sampling_interval">
+<span class="sig-name descname"><span class="pre">set_sampling_interval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Ts</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/lin/l_conv_curr_ctr.html#LConvCurrCtr.set_sampling_interval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.lin.l_conv_curr_ctr.LConvCurrCtr.set_sampling_interval" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the sampling interval and compute controller parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Ts</strong> (<em>float</em>) – Sampling interval [s].</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.control.lin.l_conv_curr_ctr.LConvCurrCtr.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/lin/l_conv_curr_ctr.html#LConvCurrCtr.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.lin.l_conv_curr_ctr.LConvCurrCtr.execute" title="Permalink to this definition">#</a></dt>
+<dd><p>Execute the Current Controller (CC) and save the controller data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>v_dc_SI</strong> (<em>float</em>) – Dc-link voltage [V].</p></li>
-<li><p><strong>nl</strong> (<em>int</em>) – Number of voltage levels in the converter.</p></li>
-<li><p><strong>base</strong> (<em>base value object</em>) – Base values.</p></li>
+<li><p><strong>sys</strong> (<em>object</em>) – System model.</p></li>
+<li><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p></li>
 </ul>
 </dd>
-</dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.model.conv.converter.Converter.v_dc">
-<span class="sig-name descname"><span class="pre">v_dc</span></span><a class="reference internal" href="../../../../../_modules/soft4pes/model/conv/converter.html#Converter.v_dc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.conv.converter.Converter.v_dc" title="Permalink to this definition">#</a></dt>
-<dd><p>Dc-link voltage [p.u.]</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Three-phase modulating signal.</p>
 </dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.model.conv.converter.Converter.nl">
-<span class="sig-name descname"><span class="pre">nl</span></span><a class="reference internal" href="../../../../../_modules/soft4pes/model/conv/converter.html#Converter.nl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.conv.converter.Converter.nl" title="Permalink to this definition">#</a></dt>
-<dd><p>Number of voltage levels in the converter.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.model.conv.converter.Converter.SW_COMB">
-<span class="sig-name descname"><span class="pre">SW_COMB</span></span><a class="headerlink" href="#soft4pes.model.conv.converter.Converter.SW_COMB" title="Permalink to this definition">#</a></dt>
-<dd><p>Possible converter three-phase switch positions.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>3^nl x 3 ndarray of ints</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>1 x 3 ndarray of floats</p>
 </dd>
 </dl>
 </dd></dl>
@@ -489,20 +522,20 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../index.html"
+       href="../grid_curr_ref_gen/index.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">soft4pes.model.conv</p>
+        <p class="prev-next-title">soft4pes.control.lin.grid_curr_ref_gen</p>
       </div>
     </a>
     <a class="right-next"
-       href="../../grid/index.html"
+       href="../lcl_conv_curr_ctr/index.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">soft4pes.model.grid</p>
+        <p class="prev-next-title">soft4pes.control.lin.lcl_conv_curr_ctr</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -523,10 +556,12 @@ document.write(`
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.conv.converter.Converter"><code class="docutils literal notranslate"><span class="pre">Converter</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.conv.converter.Converter.v_dc"><code class="docutils literal notranslate"><span class="pre">Converter.v_dc</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.conv.converter.Converter.nl"><code class="docutils literal notranslate"><span class="pre">Converter.nl</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.conv.converter.Converter.SW_COMB"><code class="docutils literal notranslate"><span class="pre">Converter.SW_COMB</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.l_conv_curr_ctr.LConvCurrCtr"><code class="docutils literal notranslate"><span class="pre">LConvCurrCtr</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.l_conv_curr_ctr.LConvCurrCtr.i_conv_ii_dq"><code class="docutils literal notranslate"><span class="pre">LConvCurrCtr.i_conv_ii_dq</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.l_conv_curr_ctr.LConvCurrCtr.sys"><code class="docutils literal notranslate"><span class="pre">LConvCurrCtr.sys</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.l_conv_curr_ctr.LConvCurrCtr.ctr_pars"><code class="docutils literal notranslate"><span class="pre">LConvCurrCtr.ctr_pars</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.l_conv_curr_ctr.LConvCurrCtr.set_sampling_interval"><code class="docutils literal notranslate"><span class="pre">LConvCurrCtr.set_sampling_interval()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.l_conv_curr_ctr.LConvCurrCtr.execute"><code class="docutils literal notranslate"><span class="pre">LConvCurrCtr.execute()</span></code></a></li>
 </ul>
 </li>
 </ul>

@@ -149,6 +149,7 @@
 </li>
 <li class="toctree-l3 current active has-children"><a class="current reference internal" href="#">soft4pes.control.lin</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="grid_curr_ref_gen/index.html">soft4pes.control.lin.grid_curr_ref_gen</a></li>
+<li class="toctree-l4"><a class="reference internal" href="l_conv_curr_ctr/index.html">soft4pes.control.lin.l_conv_curr_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="lcl_conv_curr_ctr/index.html">soft4pes.control.lin.lcl_conv_curr_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="rfpsc/index.html">soft4pes.control.lin.rfpsc</a></li>
@@ -423,6 +424,14 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLConvCurrCtr.execute"><code class="docutils literal notranslate"><span class="pre">LCLConvCurrCtr.execute()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LConvCurrCtr"><code class="docutils literal notranslate"><span class="pre">LConvCurrCtr</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LConvCurrCtr.i_conv_ii_dq"><code class="docutils literal notranslate"><span class="pre">LConvCurrCtr.i_conv_ii_dq</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LConvCurrCtr.sys"><code class="docutils literal notranslate"><span class="pre">LConvCurrCtr.sys</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LConvCurrCtr.ctr_pars"><code class="docutils literal notranslate"><span class="pre">LConvCurrCtr.ctr_pars</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LConvCurrCtr.set_sampling_interval"><code class="docutils literal notranslate"><span class="pre">LConvCurrCtr.set_sampling_interval()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LConvCurrCtr.execute"><code class="docutils literal notranslate"><span class="pre">LConvCurrCtr.execute()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLVcCtr"><code class="docutils literal notranslate"><span class="pre">LCLVcCtr</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLVcCtr.u_iu_comp"><code class="docutils literal notranslate"><span class="pre">LCLVcCtr.u_iu_comp</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLVcCtr.sys"><code class="docutils literal notranslate"><span class="pre">LCLVcCtr.sys</span></code></a></li>
@@ -462,6 +471,7 @@ document.write(`
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="grid_curr_ref_gen/index.html">soft4pes.control.lin.grid_curr_ref_gen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l_conv_curr_ctr/index.html">soft4pes.control.lin.l_conv_curr_ctr</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lcl_conv_curr_ctr/index.html">soft4pes.control.lin.lcl_conv_curr_ctr</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rfpsc/index.html">soft4pes.control.lin.rfpsc</a></li>
@@ -482,10 +492,13 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.lin.LCLConvCurrCtr" title="soft4pes.control.lin.LCLConvCurrCtr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LCLConvCurrCtr</span></code></a></p></td>
 <td><p>Current Controller for converter current with an LC(L) filter.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.lin.LCLVcCtr" title="soft4pes.control.lin.LCLVcCtr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LCLVcCtr</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.lin.LConvCurrCtr" title="soft4pes.control.lin.LConvCurrCtr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LConvCurrCtr</span></code></a></p></td>
+<td><p>Current Controller for converter (or grid) current with an L filter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.lin.LCLVcCtr" title="soft4pes.control.lin.LCLVcCtr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LCLVcCtr</span></code></a></p></td>
 <td><p>Voltage Controller for the control of the capacitor voltage.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.lin.RFPSC" title="soft4pes.control.lin.RFPSC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RFPSC</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.lin.RFPSC" title="soft4pes.control.lin.RFPSC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RFPSC</span></code></a></p></td>
 <td><p>Reference-feedforward power synchronization control (RFPSC).</p></td>
 </tr>
 </tbody>
@@ -836,6 +849,82 @@ control system structure.</p>
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="soft4pes.control.lin.LConvCurrCtr">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.lin.</span></span><span class="sig-name descname"><span class="pre">LConvCurrCtr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/lin/l_conv_curr_ctr.html#LConvCurrCtr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.lin.LConvCurrCtr" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../common/controller/index.html#soft4pes.control.common.controller.Controller" title="soft4pes.control.common.controller.Controller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.control.common.controller.Controller</span></code></a></p>
+<p>Current Controller for converter (or grid) current with an L filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sys</strong> (<em>object</em>) – System model.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.control.lin.LConvCurrCtr.i_conv_ii_dq">
+<span class="sig-name descname"><span class="pre">i_conv_ii_dq</span></span><a class="headerlink" href="#soft4pes.control.lin.LConvCurrCtr.i_conv_ii_dq" title="Permalink to this definition">#</a></dt>
+<dd><p>Integrator state of the PI-controller.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray (2,)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.control.lin.LConvCurrCtr.sys">
+<span class="sig-name descname"><span class="pre">sys</span></span><a class="headerlink" href="#soft4pes.control.lin.LConvCurrCtr.sys" title="Permalink to this definition">#</a></dt>
+<dd><p>System model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.control.lin.LConvCurrCtr.ctr_pars">
+<span class="sig-name descname"><span class="pre">ctr_pars</span></span><a class="headerlink" href="#soft4pes.control.lin.LConvCurrCtr.ctr_pars" title="Permalink to this definition">#</a></dt>
+<dd><p>Controller parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>SimpleNamespace</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.control.lin.LConvCurrCtr.set_sampling_interval">
+<span class="sig-name descname"><span class="pre">set_sampling_interval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Ts</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/lin/l_conv_curr_ctr.html#LConvCurrCtr.set_sampling_interval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.lin.LConvCurrCtr.set_sampling_interval" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the sampling interval and compute controller parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Ts</strong> (<em>float</em>) – Sampling interval [s].</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.control.lin.LConvCurrCtr.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/lin/l_conv_curr_ctr.html#LConvCurrCtr.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.lin.LConvCurrCtr.execute" title="Permalink to this definition">#</a></dt>
+<dd><p>Execute the Current Controller (CC) and save the controller data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sys</strong> (<em>object</em>) – System model.</p></li>
+<li><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Three-phase modulating signal.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>1 x 3 ndarray of floats</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="soft4pes.control.lin.LCLVcCtr">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.lin.</span></span><span class="sig-name descname"><span class="pre">LCLVcCtr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curr_ctr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">I_conv_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/lin/lcl_vc_ctr.html#LCLVcCtr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.lin.LCLVcCtr" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../common/controller/index.html#soft4pes.control.common.controller.Controller" title="soft4pes.control.common.controller.Controller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.control.common.controller.Controller</span></code></a></p>
@@ -1109,6 +1198,14 @@ a capacitor voltage reference in case LC(L) filter is used (vc_ref).</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLConvCurrCtr.ctr_pars"><code class="docutils literal notranslate"><span class="pre">LCLConvCurrCtr.ctr_pars</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLConvCurrCtr.set_sampling_interval"><code class="docutils literal notranslate"><span class="pre">LCLConvCurrCtr.set_sampling_interval()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLConvCurrCtr.execute"><code class="docutils literal notranslate"><span class="pre">LCLConvCurrCtr.execute()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LConvCurrCtr"><code class="docutils literal notranslate"><span class="pre">LConvCurrCtr</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LConvCurrCtr.i_conv_ii_dq"><code class="docutils literal notranslate"><span class="pre">LConvCurrCtr.i_conv_ii_dq</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LConvCurrCtr.sys"><code class="docutils literal notranslate"><span class="pre">LConvCurrCtr.sys</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LConvCurrCtr.ctr_pars"><code class="docutils literal notranslate"><span class="pre">LConvCurrCtr.ctr_pars</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LConvCurrCtr.set_sampling_interval"><code class="docutils literal notranslate"><span class="pre">LConvCurrCtr.set_sampling_interval()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LConvCurrCtr.execute"><code class="docutils literal notranslate"><span class="pre">LConvCurrCtr.execute()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLVcCtr"><code class="docutils literal notranslate"><span class="pre">LCLVcCtr</span></code></a><ul class="nav section-nav flex-column">
