@@ -397,10 +397,11 @@ class Plotter:
             phase_labels = ['a', 'b', 'c']
             for phase in range(3):
                 ax = axs[current_subplot + phase]
-                ax.plot(t_plot_sys,
+                ax.step(t_plot_sys,
                         u_abc[:, phase],
                         color=self.phase_colors[phase],
-                        linewidth=0.8)
+                        linewidth=0.8,
+                        where='post')
                 ax.set_ylabel(fr"$u_{{{phase_labels[phase]}}}$")
                 ax.grid(True)
                 ax.set_xlim([

@@ -6,7 +6,7 @@ from soft4pes.control.common.controller import Controller
 from soft4pes.utils.conversions import alpha_beta_2_dq, dq_2_alpha_beta
 
 
-class SMMpcCurrCtr(Controller):
+class PMSMMpcCurrCtr(Controller):
     """
     Model predictive current control for a permanent magnet synchronous machine (PMSM). 
     The controller aims to track the stator current reference, provided by the outer loop or user.

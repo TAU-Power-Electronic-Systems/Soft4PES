@@ -8,14 +8,22 @@ tracked by the cascade controller or MPC.
 from types import SimpleNamespace
 import numpy as np
 
+from pars.grid_config import get_default_system
 from soft4pes import model
 from soft4pes.control import common, lin, mpc, modulation
 from soft4pes.utils import Sequence
 from soft4pes.sim import Simulation
 from soft4pes.utils.plotter import Plotter
 
-# Define the base values
-base = model.grid.BaseGrid(Vg_R_SI=400, Ig_R_SI=18, fg_R_SI=50)
+# Get the system parameters from the ready made components. All the available components and systems
+# are defined in the examples/grid/pars/grid_parameter_sets.json file, and given in the
+# documentation. Here, a 2-level converter connected to a weak, low voltage grid via an LCL filter
+# is used.
+config = get_default_system(name='Weak_LV_Grid_LCL_Filter_2L_conv')
+sys = model.grid.RLGridLCLFilter(par_grid=config.grid_params,
+                                 par_lcl_filter=config.lcl_params,
+                                 conv=config.conv,
+                                 base=config.base)
 
 # Define the active power and capacitor voltage magnitude reference sequences
 # The first array contains the time instants (in seconds) and the second array the corresponding
@@ -30,29 +38,13 @@ V_ref_seq = Sequence(
 )
 ref_seq = SimpleNamespace(P_ref_seq=P_ref_seq, V_ref_seq=V_ref_seq)
 
-# Define the grid parameters
-grid_params = model.grid.RLGridParameters(Vg_SI=400,
-                                          fg_SI=50,
-                                          Rg_SI=0.07,
-                                          Lg_SI=30e-3,
-                                          base=base)
+# Start building the grid-forming control system. First, define the reference-feedforward power
+# synchronization control (RFPSC), which will be the outermost control loop.
+rfpsc = lin.RFPSC(sys=sys)
 
-# Define the LC-filter parameters
-lcl_params = model.grid.LCLFilterParameters(L_fc_SI=3e-3,
-                                            R_fc_SI=0.1,
-                                            C_SI=10e-6,
-                                            R_c_SI=0.001,
-                                            base=base)
-
-# Define the system model
-conv = model.conv.Converter(v_dc_SI=750, nl=2, base=base)
-sys = model.grid.RLGridLCLFilter(grid_params, lcl_params, conv, base)
-
-# Build the reference-feedforward power synchronization control (RFPSC)
-rfpsc = lin.RFPSC(sys)
-
-# Define indirect MPC. When PWM is used, lambda_u, which penalizes the control effort, should be set
-# to relatively low value to prevent MPC from reacting to the switching ripple.
+# Define indirect MPC, used as an inner loop tracking the capacitor voltage reference provided by
+# RFPSC. When PWM is used, lambda_u, which penalizes the control effort, should be set to relatively
+# low value to prevent MPC from reacting to the switching ripple.
 solver = mpc.solvers.IndirectMpcQP()
 vc_mpc = mpc.controllers.LCLVcMpcCtr(solver=solver,
                                      lambda_u=1e-2,
@@ -63,8 +55,8 @@ vc_mpc = mpc.controllers.LCLVcMpcCtr(solver=solver,
 control_loops = [rfpsc, vc_mpc]  # Use MPC with RFPSC
 
 # Uncomment the following line to use the cascade controller instead of MPC
-# ic_ctr = lin.LCLConvCurrCtr(sys=sys)
-# vc_ctr = lin.LCLVcCtr(sys=sys, I_conv_max=1.3, curr_ctr=ic_ctr)
+# ic_ctr = lin.LCLConvCurrCtr(sys=config.sys)
+# vc_ctr = lin.LCLVcCtr(sys=config.sys, I_conv_max=1.3, curr_ctr=ic_ctr)
 # control_loops = [rfpsc, vc_ctr, ic_ctr]
 
 # Define the control system. Set pwm to None to disable PWM.
@@ -82,7 +74,7 @@ sim_data = sim.simulate(t_stop=0.4)
 sim.save_data()
 
 # Plot the simulation results, excluding the initial transient
-plotter = Plotter(sim_data, sys, t_start=0.05)
+plotter = Plotter(data=sim_data, sys=sys, t_start=0.05)
 plotter.plot_states(states_to_plot=['vc', 'i_conv', 'ig'],
                     frames=['abc', 'abc', 'abc'],
                     plot_u_abc_ref=True)

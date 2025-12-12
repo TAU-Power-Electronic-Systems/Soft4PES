@@ -7,14 +7,25 @@ current. The current references are generated based on the power references.
 from types import SimpleNamespace
 import numpy as np
 
+from pars.grid_config import get_custom_system
 from soft4pes import model
 from soft4pes.control import mpc, common, lin
 from soft4pes.utils import Sequence
 from soft4pes.sim import Simulation
 from soft4pes.utils.plotter import Plotter
 
-# Define base values
-base = model.grid.BaseGrid(Vg_R_SI=3300, Ig_R_SI=1575, fg_R_SI=50)
+# Get the system parameters from the ready made components. All the available components and systems
+# are defined in the examples/grid/pars/grid_parameter_sets.json file, and given in the
+# documentation. Here, a 3-level converter connected to a strong, low voltage grid without a filter
+# is used.
+config = get_custom_system(grid_name='Strong_LV_Grid',
+                           filter_name='No_Filter',
+                           converter_name='3L_LV_Converter')
+
+# Create the system model consisting of the grid and converter
+sys = model.grid.RLGrid(par=config.grid_params,
+                        conv=config.conv,
+                        base=config.base)
 
 # Define power reference sequences
 # The first array contains the time instants (in seconds) and the second array the corresponding
@@ -62,7 +73,7 @@ sim_data = sim.simulate(t_stop=0.2)
 sim.save_data()
 
 # Plot the results
-plotter = Plotter(sim_data, sys)
+plotter = Plotter(data=sim_data, sys=sys)
 plotter.plot_states(states_to_plot=['ig'], frames=['abc'], plot_u_abc=True)
 plotter.plot_control_signals_grid(plot_P=True,
                                   plot_Q=True,
