@@ -30,36 +30,46 @@ sys = model.grid.RLGrid(par=config.grid_params,
 # Define power reference sequences
 # The first array contains the time instants (in seconds) and the second array the corresponding
 # reference values (in per unit). The reference is interpolated linearly between the time instants.
-P_ref_seq = Sequence(times=np.array([0, 0.1, 0.1, 0.3]),
-                     values=np.array([1, 1, 0, 0]))
-Q_ref_seq = Sequence(times=np.array([0, 0.2, 0.2, 0.3]),
-                     values=np.array([0, 0, 0.5, 0.5]))
+P_ref_seq = Sequence(np.array([0, 0.05, 0.05, 0.1, 0.1, 0.2]),
+                     np.array([0, 0, 1, 1, 0, 0]))
+Q_ref_seq = Sequence(
+    np.array([0, 0.15, 0.15, 0.2]),
+    np.array([0, 0, 0.5, 0.5]),
+)
 ref_seq = SimpleNamespace(P_ref_seq=P_ref_seq, Q_ref_seq=Q_ref_seq)
 
-# Define the outer loop of the control system, which generates the grid current references based on
-# the power references.
+# Define grid parameters
+grid_params = model.grid.RLGridParameters(Vg_SI=3300,
+                                          fg_SI=50,
+                                          Rg_SI=0.01815,
+                                          Lg_SI=5.7773e-4,
+                                          base=base)
+
+# Define L-filter parameters
+l_params = model.grid.LFilterParameters(L_fc_SI=0.5e-3, R_fc_SI=0.1, base=base)
+
+# Define system models
+conv = model.conv.Converter(v_dc_SI=5600, nl=3, base=base)
+sys = model.grid.RLGridLFilter(grid_params, l_params, conv, base)
+
+# Define solver to be Branch-and-Bound
+solver = mpc.solvers.MpcBnB(conv=conv)
+
+# Uncomment to use the enumeration-based solver
+# solver = mpc.solvers.MpcEnum(conv=conv)
+
+# Define control loops, the outer loop generates the grid current reference based on the power
+# references, acting as a feedforward term. The inner loop (direct MPC) is used to track the grid
+# current reference.
 ref_ctr = lin.GridCurrRefGen()
-
-# Define the direct MPC current controller, which tracks the grid current references. Start by
-# defining the solver for the MPC to be the branch and bound solver.
-solver = mpc.solvers.MpcBnB(conv=config.conv)
-
-# Uncomment to use enumeration based solver instead of branch and bound
-# solver = mpc.solvers.MpcEnum(conv=config.conv)
-
-# Create the MPC current controller
-ctr = mpc.controllers.RLGridMpcCurrCtr(solver=solver, lambda_u=10e-3, Np=1)
-
-# Define the complete control system
+ctr = mpc.controllers.RLGridMpcCurrCtr(solver=solver, lambda_u=5e-3, Np=2)
 ctr_sys = common.ControlSystem(control_loops=[ref_ctr, ctr],
                                ref_seq=ref_seq,
                                Ts=100e-6)
 
 # Simulate the system
 sim = Simulation(sys=sys, ctr=ctr_sys, Ts_sim=5e-6)
-sim_data = sim.simulate(t_stop=0.3)
-
-# Save the simulation data to a .mat file
+sim_data = sim.simulate(t_stop=0.2)
 sim.save_data()
 
 # Plot the results
