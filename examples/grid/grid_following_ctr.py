@@ -1,5 +1,5 @@
 """
-Example of grid-following control of converter with L filter.
+Example of grid-following control of a converter with an L filter.
 """
 
 from types import SimpleNamespace
@@ -14,9 +14,15 @@ from soft4pes.utils.plotter import Plotter
 # Define the base values
 base = model.grid.BaseGrid(Vg_R_SI=3300, Ig_R_SI=1575, fg_R_SI=50)
 
-# Define the active power and capacitor voltage magnitude reference sequences
-P_ref_seq = Sequence(np.array([0, 0.1, 0.1, 0.3]), np.array([1, 1, 0, 0]))
-Q_ref_seq = Sequence(np.array([0, 0.2, 0.2, 0.3]), np.array([0, 0, 0.5, 0.5]))
+# Define power reference sequences
+# The first array contains the time instants (in seconds) and the second array the corresponding
+# reference values (in per unit). The reference is interpolated linearly between the time instants.
+P_ref_seq = Sequence(np.array([0, 0.05, 0.05, 0.1, 0.1, 0.2]),
+                     np.array([0, 0, 1, 1, 0, 0]))
+Q_ref_seq = Sequence(
+    np.array([0, 0.15, 0.15, 0.2]),
+    np.array([0, 0, 0.5, 0.5]),
+)
 ref_seq = SimpleNamespace(P_ref_seq=P_ref_seq, Q_ref_seq=Q_ref_seq)
 
 # Define the grid parameters
@@ -37,11 +43,12 @@ sys = model.grid.RLGridLFilter(grid_params, l_params, conv, base)
 curr_ref = lin.GridCurrRefGen()
 
 # Build the current controller
-ic_ctr = lin.LConvCurrCtr(sys=sys)
+i_conv_ctr = lin.LConvCurrCtr(sys=sys)
 
-control_loops = [curr_ref, ic_ctr]
-
-# Define the control system. Set pwm to None to disable PWM.
+# Define control loops, the outer loop generates the grid current reference based on the power
+# references, acting as a feedforward term. The inner loop (current controller) is used to track the
+# grid current reference.
+control_loops = [curr_ref, i_conv_ctr]
 ctr_sys = common.ControlSystem(control_loops=control_loops,
                                ref_seq=ref_seq,
                                Ts=100e-6,
@@ -49,7 +56,7 @@ ctr_sys = common.ControlSystem(control_loops=control_loops,
 
 # Simulate the system
 sim = Simulation(sys=sys, ctr=ctr_sys, Ts_sim=1e-6)
-sim_data = sim.simulate(t_stop=0.3)
+sim_data = sim.simulate(t_stop=0.2)
 sim.save_data()
 
 # Plot the results

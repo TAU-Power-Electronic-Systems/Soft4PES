@@ -21,19 +21,16 @@ class LConvCurrCtr(Controller):
     Parameters
     ----------
     sys : object
-        System model containing electrical parameters and base values.
+        System model.
     
     Attributes
     ----------
     i_conv_ii_dq : ndarray (2,)
-        Integrator state for the converter current reference in the dq-axis.
+        Integrator state of the PI-controller.
     sys : object
-        System model containing electrical parameters and base values.
+        System model.
     ctr_pars : SimpleNamespace
-        Controller parameters including K_p, and k_i.
-    j : ndarray (2, 2)
-        Skew-symmetric matrix representing multiplication by j in the dq-plane,
-        i.e. j @ [d, q] = [-q, d].    
+        Controller parameters. 
     """
 
     def __init__(self, sys):
@@ -41,7 +38,6 @@ class LConvCurrCtr(Controller):
         self.i_conv_ii_dq = np.zeros(2)
         self.sys = sys
         self.ctr_pars = None
-        self.j = np.array([[0, -1], [1, 0]])
 
     def set_sampling_interval(self, Ts):
         """
@@ -61,8 +57,8 @@ class LConvCurrCtr(Controller):
         # Damping ratio
         zeta = np.sqrt(2) / 2
 
-        # Integral gain
-        k_i = wn**2 * self.sys.par.X_fc
+        # Integral gain (discretized)
+        k_i = wn**2 * self.sys.par.X_fc * Ts_pu
 
         # Proportional gain
         k_p = 2 * wn * zeta * self.sys.par.X_fc - self.sys.par.R_fc
@@ -108,19 +104,19 @@ class LConvCurrCtr(Controller):
         self.i_conv_ii_dq += (self.ctr_pars.k_i * e_i_conv_dq)
 
         # Proportional + integral action (lambda in dq frame)
-        lambda_dq = self.ctr_pars.k_p * e_i_conv_dq + (
-            self.i_conv_ii_dq * self.Ts * self.sys.base.w)
+        lambda_dq = self.ctr_pars.k_p * e_i_conv_dq + (self.i_conv_ii_dq)
 
         # Calculate the PCC output voltage in dq frame
+        J = np.array([[0, -1], [1, 0]])
         v_pcc_dq = (self.sys.par.Rg * np.eye(2) + self.sys.par.Xg *
-                    self.sys.par.wg * self.j) @ i_conv_dq + vg_dq
+                    self.sys.par.wg * J).dot(i_conv_dq) + vg_dq
 
         # Calculate the switching state functions in the dq frame
-        dn_dq = lambda_dq + (self.sys.par.X_fc * self.sys.par.wg *
-                             (self.j @ i_conv_dq)) + v_pcc_dq
+        v_conv_ref_dq = lambda_dq + (self.sys.par.X_fc * self.sys.par.wg *
+                                     (J.dot(i_conv_dq))) + v_pcc_dq
 
         # Get the modulating signal in abc frame
-        v_conv_ref = dq_2_alpha_beta(dn_dq, theta)
+        v_conv_ref = dq_2_alpha_beta(v_conv_ref_dq, theta)
         u_abc = get_modulating_signal(v_conv_ref, sys.conv.v_dc)
 
         self.output = SimpleNamespace(u_abc=u_abc)
