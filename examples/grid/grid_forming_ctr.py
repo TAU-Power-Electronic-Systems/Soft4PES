@@ -59,11 +59,14 @@ control_loops = [rfpsc, vc_mpc]  # Use MPC with RFPSC
 # vc_ctr = lin.LCLVcCtr(sys=config.sys, I_conv_max=1.3, curr_ctr=ic_ctr)
 # control_loops = [rfpsc, vc_ctr, ic_ctr]
 
-# Define the control system. Set pwm to None to disable PWM.
-ctr_sys = common.ControlSystem(control_loops=control_loops,
-                               ref_seq=ref_seq,
-                               Ts=100e-6,
-                               pwm=modulation.CarrierPWM())
+# Define the control system. Set pwm to None to disable PWM and common_mode_inj to None to disable
+# common-mode injection.
+ctr_sys = common.ControlSystem(
+    control_loops=control_loops,
+    ref_seq=ref_seq,
+    Ts=100e-6,
+    pwm=modulation.CarrierPWM(),
+    common_mode_inj=modulation.CommonModeInjection(mode='MinMax'))
 
 # Simulate the system. In order to get accurate results with PWM, the simulation time step should
 # be at least two magnitudes lower than the control time step.
