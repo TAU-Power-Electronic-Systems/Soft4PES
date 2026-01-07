@@ -37,8 +37,9 @@ class MTPALookupTable(Controller):
         torque.
         
         The algorithm sweeps current magnitude from 0 to 1 p.u. and for each magnitude finds the
-        current vector orientations that produce maximum positive and negative torque. Results are
-        stored as sorted arrays for efficient interpolation.
+        current vector angle (and therefore the d and q components of the current) that produces the 
+        maximum positive and negative torque. Results are stored as sorted arrays for efficient 
+        interpolation.
         
         Creates
         -------
@@ -63,7 +64,8 @@ class MTPALookupTable(Controller):
 
             # Calculate torque for each angle
             Te_line = iq_trajectory * (
-                (self.par.Xsd - self.par.Xsq) * id_trajectory + self.par.PsiPM)
+                (self.par.Xsd - self.par.Xsq) * id_trajectory +
+                self.par.Psi_PM)
 
             # Find maximum positive torque
             max_pos_index = np.argmax(Te_line)

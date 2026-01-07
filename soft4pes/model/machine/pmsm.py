@@ -11,18 +11,11 @@ from soft4pes.utils.conversions import alpha_beta_2_dq, dq_2_alpha_beta
 
 class PMSM(SystemModel):
     """
-    Permanent magnet synchronous machine (PMSM) model. The model operates at a constant electrical
-    angular rotor speed. The system is modelled in a alpha-beta frame. The state of the system is 
-    the stator current and rotor flux, i.e. [iS_alpha, iS_beta, psiR_alpha, psiR_beta]^T. The 
-    system input is the converter three-phase switch position or modulating signal. The initial 
-    state of the model is based on the torque reference and the electrical angle, set to -pi/2 rad
-    at t = 0 s.
-
-    Note that although the rotor flux appears as a state of the system, it is generated using the 
-    electrical angle and the permanent magnet flux linkage at the state update. This approach avoids 
-    numerical integration errors that would accumulate when using Forward Euler discretization for 
-    the rotor flux dynamics, since the rotor flux magnitude is constant and only rotates with the 
-    electrical angle. The full state-space model is still used in the MPC state predictions.
+    Permanent magnet synchronous machine (PMSM) model. The system is modeled in a alpha-beta frame, 
+    and the machine operates at a constant electrical angular rotor speed. The state of the system 
+    is the stator current, and the permanent-magnet flux (i.e., rotor flux) is considered as a 
+    disturbance. The system input is the converter three-phase switch position or modulating signal.
+    The initial state of the model is based on the torque reference.
 
     Parameters
     ----------
@@ -47,7 +40,7 @@ class PMSM(SystemModel):
         Converter object.
     base : base value object
         Base values.
-    x : 1 x 4 ndarray of floats
+    x : 1 x 2 ndarray of floats
         Current state of the machine [p.u.].
     cont_state_space : SimpleNamespace
         The continuous-time state-space model of the system.
@@ -63,7 +56,6 @@ class PMSM(SystemModel):
         x_size = 4
         state_map = {
             'iS': slice(0, 2),  # Stator current (x[0:2])
-            'psiR': slice(2, 4),  # Rotor flux linkage (x[2:4])
         }
         self.theta_el = -np.pi / 2
 
@@ -96,8 +88,7 @@ class PMSM(SystemModel):
         # Get the initial stator current from MTPA
         iS_dq = mtpa_lut.get_optimal_current(T_ref_init)
         iS = dq_2_alpha_beta(iS_dq, self.theta_el)
-        psiR = self.psiR
-        self.x = np.concatenate((iS, psiR))
+        self.x = iS
 
     def get_stator_current_ref_dq(self, T_ref):
         """
@@ -149,27 +140,22 @@ class PMSM(SystemModel):
 
         X_theta_inv = np.linalg.inv(X_theta)
 
-        F11 = -X_theta_inv.dot(Rs * np.eye(2) + ws * delta_X * R)
-        F12 = -ws * X_theta_inv.dot(J)
-        F21 = np.zeros((2, 2))
-        F22 = ws * J
-        F = np.block([[F11, F12], [F21, F22]])
+        F = -X_theta_inv.dot(Rs * np.eye(2) + ws * delta_X * R)
+        G = self.conv.v_dc / 2 * X_theta_inv.dot(K)
+        G2 = -ws * X_theta_inv.dot(J)
 
-        G = self.conv.v_dc / 2 * np.vstack(
-            [np.eye(2), np.zeros((2, 2))]).dot(X_theta_inv).dot(K)
-
-        return SimpleNamespace(F=F, G=G)
+        return SimpleNamespace(F=F, G=G, G2=G2)
 
     @property
     def Te(self):
         iS_dq = alpha_beta_2_dq(self.iS, self.theta_el)
         return ((self.par.Xsd - self.par.Xsq) * iS_dq[0] +
-                self.par.PsiPM) * iS_dq[1]
+                self.par.Psi_PM) * iS_dq[1]
 
     @property
-    def psiR(self):
+    def psi_PM(self):
         return np.array([np.cos(self.theta_el),
-                         np.sin(self.theta_el)]) * self.par.PsiPM
+                         np.sin(self.theta_el)]) * self.par.Psi_PM
 
     def get_next_state(self, matrices, u_abc, kTs, Ts):
         """
@@ -193,8 +179,8 @@ class PMSM(SystemModel):
         """
 
         # Get the next state
-        x = np.concatenate((self.iS, self.psiR))
-        x_kp1 = np.dot(matrices.A, x) + np.dot(matrices.B, u_abc)
+        x_kp1 = np.dot(matrices.A, self.x) + np.dot(
+            matrices.B, u_abc) + np.dot(matrices.B2, self.psi_PM)
 
         # Update electrical angle
         self.theta_el += self.par.ws * Ts * self.base.w
@@ -216,4 +202,4 @@ class PMSM(SystemModel):
             A SimpleNamespace object containing the machine electromagnetic torque Te [p.u.].
         """
 
-        return SimpleNamespace(Te=self.Te)
+        return SimpleNamespace(Te=self.Te, psi_PM=self.psi_PM)

@@ -556,8 +556,8 @@ class Plotter:
             elif isinstance(self.sys, PMSM):
                 # Use machine electrical angle for PMSM
                 theta = np.arctan2(
-                    self.data.sys.x[:, 3],
-                    self.data.sys.x[:, 2],
+                    self.data.sys.psi_PM[:, 1],
+                    self.data.sys.psi_PM[:, 0],
                 )
             else:
                 theta = 2 * np.pi * 50 * self.data.sys.t - np.pi / 2

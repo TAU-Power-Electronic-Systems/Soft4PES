@@ -40,7 +40,7 @@ sm_params = model.machine.PMSMParameters(fs_SI=50,
                                          Rs_SI=0.3,
                                          Lsd_SI=4.5e-3,
                                          Lsq_SI=5.5e-3,
-                                         LambdaPM_SI=0.7,
+                                         Lambda_PM_SI=0.7,
                                          base=base)
 
 # Uncomment the following lines to use the ready made configuration. All the available components

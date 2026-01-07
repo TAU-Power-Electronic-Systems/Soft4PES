@@ -3,7 +3,7 @@
 from types import SimpleNamespace
 import numpy as np
 from soft4pes.control.common.controller import Controller
-from soft4pes.utils.conversions import dq_2_alpha_beta, alpha_beta_2_dq
+from soft4pes.utils.conversions import dq_2_alpha_beta
 
 
 class PMSMMpcCurrCtr(Controller):
@@ -50,7 +50,7 @@ class PMSMMpcCurrCtr(Controller):
         self.solver = solver
 
         # Output matrix
-        self.C = np.array([[1, 0, 0, 0], [0, 1, 0, 0]])
+        self.C = np.eye(2)
 
     def execute(self, sys, kTs):
         """
@@ -114,11 +114,18 @@ class PMSMMpcCurrCtr(Controller):
             The next state of the system.
         """
 
+        # Get the rotor flux at step k by rotating it
+        Ts_pu = self.Ts * sys.base.w
+        delta_theta = k * sys.par.ws * Ts_pu
+        R = np.array([[np.cos(delta_theta), -np.sin(delta_theta)], \
+                        [np.sin(delta_theta), np.cos(delta_theta)]])
+        psi_PM_k = np.dot(R, sys.psi_PM)
+
         # Assume that the electrical rotor angle varies slowly, and the model is constant over the
         # prediction horizon
         sys.cont_state_space = sys.get_continuous_state_space()
         self.state_space = sys.get_discrete_state_space(
             self.Ts, self.disc_method)
 
-        return np.dot(self.state_space.A, xk) + np.dot(self.state_space.B,
-                                                       u_abc)
+        return np.dot(self.state_space.A, xk) + np.dot(
+            self.state_space.B, u_abc) + np.dot(self.state_space.B2, psi_PM_k)
