@@ -21,7 +21,7 @@ class PMSMParameters:
         Stator d-axis inductance [H].
     Lsq_SI : float
         Stator q-axis inductance [H].
-    LambdaPM_SI : float
+    Lambda_PM_SI : float
         Permanent magnet flux linkage [Wb].
     base : base value object
         Base values.
@@ -38,17 +38,18 @@ class PMSMParameters:
         Stator d-axis reactance [p.u.].
     Xsq : float
         Stator q-axis reactance [p.u.].
-    PsiPM : float
+    Psi_PM : float
         Permanent magnet flux linkage [p.u.].
     kT : float
         Torque factor [p.u.].
     """
 
-    def __init__(self, fs_SI, pf_SI, Rs_SI, Lsd_SI, Lsq_SI, LambdaPM_SI, base):
+    def __init__(self, fs_SI, pf_SI, Rs_SI, Lsd_SI, Lsq_SI, Lambda_PM_SI,
+                 base):
         self.ws = 2 * np.pi * fs_SI / base.w
         self.pf = pf_SI
         self.Rs = Rs_SI / base.Z
         self.Xsd = Lsd_SI / base.L
         self.Xsq = Lsq_SI / base.L
-        self.PsiPM = LambdaPM_SI * base.w / base.V
+        self.Psi_PM = Lambda_PM_SI * base.w / base.V
         self.kT = 1 / pf_SI

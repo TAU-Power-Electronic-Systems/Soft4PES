@@ -164,7 +164,7 @@ class SystemModel(ABC):
         """
 
     @abstractmethod
-    def get_next_state(self, matrices, u_abc, kTs):
+    def get_next_state(self, matrices, u_abc, kTs, Ts):
         """
         Calculate the next state of the system.
 
@@ -192,7 +192,7 @@ class SystemModel(ABC):
             Current discrete time instant [s].
         """
 
-    def update_state(self, matrices, u_abc, kTs):
+    def update_state(self, matrices, u_abc, kTs, Ts):
         """
         Update the system state and save data.
 
@@ -210,8 +210,7 @@ class SystemModel(ABC):
 
         meas = self.get_measurements(kTs)
         self.save_data(kTs, u_abc, meas)
-        self.x = self.get_next_state(matrices, u_abc, kTs)
-        self.update_internal_variables(kTs)
+        self.x = self.get_next_state(matrices, u_abc, kTs, Ts)
 
     def save_data(self, kTs, u_abc, meas):
         """
@@ -235,14 +234,3 @@ class SystemModel(ABC):
                 if not hasattr(self.data, key):
                     setattr(self.data, key, [])
                 getattr(self.data, key).append(value)
-
-    @abstractmethod
-    def update_internal_variables(self, kTs):
-        """
-        Update internal variables of the system.
-
-        Parameters
-        ----------
-        kTs : float
-            Current discrete time instant [s].
-        """

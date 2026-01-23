@@ -1,6 +1,6 @@
 """
 Permanent magnet synchronous machine (PMSM) model. The machine operates at a constant electrical 
-angular rotor speed.
+angular rotor speed. 
 """
 
 from types import SimpleNamespace
@@ -11,10 +11,11 @@ from soft4pes.utils.conversions import alpha_beta_2_dq, dq_2_alpha_beta
 
 class PMSM(SystemModel):
     """
-    Permanent magnet synchronous machine (PMSM) model. The model operates at a constant electrical
-    angular rotor speed. The system is modelled in a dq-frame, where the d-axis is aligned with the
-    rotor flux. However, the state of the system is the stator current in the alpha-beta frame, and
-    thus reference frame conversions are performed during state updates.
+    Permanent magnet synchronous machine (PMSM) model. The system is modeled in a alpha-beta frame, 
+    and the machine operates at a constant electrical angular rotor speed. The state of the system 
+    is the stator current, and the permanent-magnet flux (i.e., rotor flux) is considered as a 
+    disturbance. The system input is the converter three-phase switch position or modulating signal.
+    The initial state of the model is based on the torque reference.
 
     Parameters
     ----------
@@ -26,10 +27,8 @@ class PMSM(SystemModel):
         Base values.
     T_ref_init : float
         Initial torque reference [p.u.].
-    i_mag_points : int, optional
-        Number of current magnitude points for MTPA trajectory generation. The default is 101.
-    theta_points : int, optional
-        Number of angle points for MTPA trajectory generation. The default is 2001.
+    mtpa_lut : MTPALookupTable
+        MTPA lookup table for optimal current calculation.
 
     Attributes
     ----------
@@ -46,24 +45,20 @@ class PMSM(SystemModel):
     cont_state_space : SimpleNamespace
         The continuous-time state-space model of the system.
     state_map : dict
-        A dictionary mapping states to elements of the state vector.
+        A dictionary mapping state names to elements of the state vector.
     time_varying_model : bool
         Indicates if the system model is time-varying.
-    mtpa : MTPALookupTable
-        Maximum torque per ampere (MTPA) lookup table.
     theta_el : float
         Electrical angle of the machine [rad].
     """
 
     def __init__(self, par, conv, base, T_ref_init, mtpa_lut):
-        self.par = par
-        self.theta_el = 0
-        self.set_initial_state(T_ref_init=T_ref_init, mtpa_lut=mtpa_lut)
-
-        x_size = 2
+        x_size = 4
         state_map = {
             'iS': slice(0, 2),  # Stator current (x[0:2])
         }
+        self.theta_el = -np.pi / 2
+
         super().__init__(par=par,
                          conv=conv,
                          base=base,
@@ -71,14 +66,20 @@ class PMSM(SystemModel):
                          state_map=state_map)
         self.time_varying_model = True
 
+        self.set_initial_state(T_ref_init=T_ref_init, mtpa_lut=mtpa_lut)
+
     def set_initial_state(self, **kwargs):
         """
-        Calculates the initial state (stator current) of the machine based on the torque reference.
+        Calculate the initial state of the machine based on the torque reference.
 
         Parameters
         ----------
-        T_ref_init : float
-            The initial torque reference [p.u.].
+        **kwargs : dict
+            Keyword arguments containing:
+            - T_ref_init : float
+                The initial torque reference [p.u.].
+            - mtpa_lut : MTPALookupTable
+                MTPA lookup table for optimal current calculation.
         """
 
         T_ref_init = kwargs.get('T_ref_init')
@@ -86,7 +87,8 @@ class PMSM(SystemModel):
 
         # Get the initial stator current from MTPA
         iS_dq = mtpa_lut.get_optimal_current(T_ref_init)
-        self.x = dq_2_alpha_beta(iS_dq, self.theta_el)
+        iS = dq_2_alpha_beta(iS_dq, self.theta_el)
+        self.x = iS
 
     def get_stator_current_ref_dq(self, T_ref):
         """
@@ -111,67 +113,83 @@ class PMSM(SystemModel):
         Returns
         -------
         SimpleNamespace
-            A SimpleNamespace object containing matrices F, G1, and G2 of the continuous-time 
-            state-space model.
+            A SimpleNamespace object containing matrices F and G of the continuous-time state-space 
+            model.
         """
 
         ws = self.par.ws
         Rs = self.par.Rs
         Xsd = self.par.Xsd
         Xsq = self.par.Xsq
-        PsiPM = self.par.PsiPM
 
         K = (2 / 3) * np.array([[1, -1 / 2, -1 / 2],
                                 [0, np.sqrt(3) / 2, -np.sqrt(3) / 2]])
 
-        R = np.array([[np.cos(self.theta_el),
-                       np.sin(self.theta_el)],
-                      [-np.sin(self.theta_el),
-                       np.cos(self.theta_el)]])
+        Xs = (Xsd + Xsq) / 2
+        delta_X = Xsd - Xsq
+        X_theta = np.array([[Xs + delta_X * np.cos(2 * self.theta_el) / 2, \
+                             delta_X * np.sin(2 * self.theta_el) / 2],
+                            [delta_X * np.sin(2 * self.theta_el) / 2, \
+                             Xs - delta_X * np.cos(2 * self.theta_el) / 2]])
+        J = np.array([[0, -1], [1, 0]])
 
-        F = np.array([[-Rs / Xsd, ws * Xsq / Xsd],
-                      [-ws * Xsd / Xsq, -Rs / Xsq]])
+        R = np.array([[-np.sin(2 * self.theta_el),
+                       np.cos(2 * self.theta_el)],
+                      [np.cos(2 * self.theta_el),
+                       np.sin(2 * self.theta_el)]])
 
-        G1 = np.dot(np.dot(np.array([[1 / Xsd, 0], [0, 1 / Xsq]]), R),
-                    K) * self.conv.v_dc / 2
+        X_theta_inv = np.linalg.inv(X_theta)
 
-        G2 = np.array([0, -ws * PsiPM / Xsq])
+        F = -X_theta_inv.dot(Rs * np.eye(2) + ws * delta_X * R)
+        G = self.conv.v_dc / 2 * X_theta_inv.dot(K)
+        G2 = -ws * X_theta_inv.dot(J)
 
-        return SimpleNamespace(F=F, G1=G1, G2=G2)
+        return SimpleNamespace(F=F, G=G, G2=G2)
 
     @property
     def Te(self):
-        iS_dq = alpha_beta_2_dq(self.x, self.theta_el)
+        iS_dq = alpha_beta_2_dq(self.iS, self.theta_el)
         return ((self.par.Xsd - self.par.Xsq) * iS_dq[0] +
-                self.par.PsiPM) * iS_dq[1]
+                self.par.Psi_PM) * iS_dq[1]
 
-    def get_next_state(self, matrices, u_abc, kTs):
+    @property
+    def psi_PM(self):
+        return np.array([np.cos(self.theta_el),
+                         np.sin(self.theta_el)]) * self.par.Psi_PM
+
+    def get_next_state(self, matrices, u_abc, kTs, Ts):
         """
         Calculate the next state of the system.
 
         Parameters
         ----------
-        u_abc : 1 x 3 ndarray of floats
-            Converter three-phase switch position or modulating signal.
         matrices : SimpleNamespace
-            A SimpleNamespace object containing the state-space model matrices.
+            A SimpleNamespace object containing the state-space model matrices A and B.
+        u_abc : 1 x 3 ndarray of floats
+            Converter three-phase switch position or modulating signal [p.u.].
         kTs : float
             Current discrete time instant [s].
+        Ts : float
+            Sampling interval [s].
 
         Returns
         -------
-        1 x 2 ndarray of floats
+        1 x 4 ndarray of floats
             The next state of the system.
         """
 
-        x_dq = alpha_beta_2_dq(self.x, self.theta_el)
-        x_kp1_dq = np.dot(matrices.A, x_dq) + np.dot(matrices.B1,
-                                                     u_abc) + matrices.B2
-        return dq_2_alpha_beta(x_kp1_dq, self.theta_el)
+        # Get the next state
+        x_kp1 = np.dot(matrices.A, self.x) + np.dot(
+            matrices.B, u_abc) + np.dot(matrices.B2, self.psi_PM)
+
+        # Update electrical angle
+        self.theta_el += self.par.ws * Ts * self.base.w
+
+        return x_kp1
 
     def get_measurements(self, kTs):
         """
-        Update the measurement data of the system.
+        Get the measurement data of the system.
 
         Parameters
         ----------
@@ -181,19 +199,7 @@ class PMSM(SystemModel):
         Returns
         -------
         SimpleNamespace
-            A SimpleNamespace object containing the machine torque and rotor electrical angle.
+            A SimpleNamespace object containing the machine electromagnetic torque Te [p.u.].
         """
 
-        return SimpleNamespace(Te=self.Te, theta_el=self.theta_el)
-
-    def update_internal_variables(self, kTs):
-        """
-        Update the electrical rotor angle of the machine.
-
-        Parameters
-        ----------
-        kTs : float
-            Current discrete time instant [s].
-        """
-
-        self.theta_el = kTs * self.par.ws * self.base.w
+        return SimpleNamespace(Te=self.Te, psi_PM=self.psi_PM)

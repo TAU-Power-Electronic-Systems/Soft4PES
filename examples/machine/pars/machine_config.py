@@ -101,7 +101,7 @@ def create_machine_parameters(machine_params, base):
             Rs_SI=machine_params["Rs_SI"],
             Lsd_SI=machine_params["Lsd_SI"],
             Lsq_SI=machine_params["Lsq_SI"],
-            LambdaPM_SI=machine_params["LambdaPM_SI"],
+            Lambda_PM_SI=machine_params["Lambda_PM_SI"],
             base=base)
     raise ValueError(f"Unknown machine type: {machine_type}")
 

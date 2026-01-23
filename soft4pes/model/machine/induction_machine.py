@@ -201,7 +201,7 @@ class InductionMachine(SystemModel):
     def Te(self):
         return (self.par.Xm / self.par.Xr) * np.cross(self.psiR, self.iS)
 
-    def get_next_state(self, matrices, u_abc, kTs):
+    def get_next_state(self, matrices, u_abc, kTs, Ts):
         """
         Calculate the next state of the system.
 
@@ -212,7 +212,10 @@ class InductionMachine(SystemModel):
         matrices : SimpleNamespace
             A SimpleNamespace object containing the state-space model matrices.
         kTs : float
-            Current discrete time instant [s].
+            Current discrete time instant [s] (not used).
+        Ts : float
+            Sampling interval [s] (not used).
+
 
         Returns
         -------
@@ -238,13 +241,3 @@ class InductionMachine(SystemModel):
             A SimpleNamespace object containing the machine torque.
         """
         return SimpleNamespace(Te=self.Te)
-
-    def update_internal_variables(self, kTs):
-        """
-        Update internal variables of the system.
-
-        Parameters
-        ----------
-        kTs : float
-            Current discrete time instant [s].
-        """
