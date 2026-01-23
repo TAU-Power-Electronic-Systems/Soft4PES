@@ -544,8 +544,8 @@ Package Contents
    
    Maximum Torque Per Ampere (MTPA) lookup table for permanent magnet synchronous machines (PMSM).
 
-   This class generates and manages the MTPA trajectory, providing optimal
-   current references for given torque demands.
+   This class generates and manages the MTPA trajectory, providing optimal current references for
+   given torque demands.
 
 
 
@@ -567,9 +567,13 @@ Package Contents
    .. py:method:: generate_mtpa_trajectory()
 
       
-      Generate the maximum torque per ampere (MTPA) trajectory.
+      Generate the maximum torque per ampere (MTPA) trajectory for both positive and negative
+      torque.
 
-      Creates a lookup table mapping torque values to optimal stator current references.
+      The algorithm sweeps current magnitude from 0 to 1 p.u. and for each magnitude finds the
+      current vector angle (and therefore the d and q components of the current) that produces the
+      maximum positive and negative torque. Results are stored as sorted arrays for efficient
+      interpolation.
 
 
 
@@ -592,7 +596,7 @@ Package Contents
    .. py:method:: get_optimal_current(Te_ref)
 
       
-      Get optimal stator current reference for given torque reference.
+      Get optimal stator current reference for given torque reference using linear interpolation.
 
       :param Te_ref: Torque reference [p.u.].
       :type Te_ref: float

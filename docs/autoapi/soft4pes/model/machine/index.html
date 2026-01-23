@@ -421,14 +421,12 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.cont_state_space"><code class="docutils literal notranslate"><span class="pre">PMSM.cont_state_space</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.state_map"><code class="docutils literal notranslate"><span class="pre">PMSM.state_map</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.time_varying_model"><code class="docutils literal notranslate"><span class="pre">PMSM.time_varying_model</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.mtpa"><code class="docutils literal notranslate"><span class="pre">PMSM.mtpa</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.theta_el"><code class="docutils literal notranslate"><span class="pre">PMSM.theta_el</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.set_initial_state"><code class="docutils literal notranslate"><span class="pre">PMSM.set_initial_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.get_stator_current_ref_dq"><code class="docutils literal notranslate"><span class="pre">PMSM.get_stator_current_ref_dq()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.get_continuous_state_space"><code class="docutils literal notranslate"><span class="pre">PMSM.get_continuous_state_space()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.get_next_state"><code class="docutils literal notranslate"><span class="pre">PMSM.get_next_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.get_measurements"><code class="docutils literal notranslate"><span class="pre">PMSM.get_measurements()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.update_internal_variables"><code class="docutils literal notranslate"><span class="pre">PMSM.update_internal_variables()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSMParameters"><code class="docutils literal notranslate"><span class="pre">PMSMParameters</span></code></a><ul class="nav section-nav flex-column">
@@ -437,7 +435,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSMParameters.Rs"><code class="docutils literal notranslate"><span class="pre">PMSMParameters.Rs</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSMParameters.Xsd"><code class="docutils literal notranslate"><span class="pre">PMSMParameters.Xsd</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSMParameters.Xsq"><code class="docutils literal notranslate"><span class="pre">PMSMParameters.Xsq</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSMParameters.PsiPM"><code class="docutils literal notranslate"><span class="pre">PMSMParameters.PsiPM</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSMParameters.Psi_PM"><code class="docutils literal notranslate"><span class="pre">PMSMParameters.Psi_PM</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSMParameters.kT"><code class="docutils literal notranslate"><span class="pre">PMSMParameters.kT</span></code></a></li>
 </ul>
 </li>
@@ -480,7 +478,7 @@ document.write(`
 <td><p>Parameters for the InductionMachine.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.model.machine.PMSM" title="soft4pes.model.machine.PMSM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PMSM</span></code></a></p></td>
-<td><p>Permanent magnet synchronous machine (PMSM) model. The model operates at a constant electrical</p></td>
+<td><p>Permanent magnet synchronous machine (PMSM) model. The system is modeled in a alpha-beta frame,</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.model.machine.PMSMParameters" title="soft4pes.model.machine.PMSMParameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PMSMParameters</span></code></a></p></td>
 <td><p>Parameters for a permanent magnet synchronous machine (PMSM).</p></td>
@@ -686,10 +684,11 @@ document.write(`
 <dt class="sig sig-object py" id="soft4pes.model.machine.PMSM">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.model.machine.</span></span><span class="sig-name descname"><span class="pre">PMSM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">par</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_ref_init</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mtpa_lut</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/machine/pmsm.html#PMSM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.machine.PMSM" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.model.common.system_model.SystemModel</span></code></p>
-<p>Permanent magnet synchronous machine (PMSM) model. The model operates at a constant electrical
-angular rotor speed. The system is modelled in a dq-frame, where the d-axis is aligned with the
-rotor flux. However, the state of the system is the stator current in the alpha-beta frame, and
-thus reference frame conversions are performed during state updates.</p>
+<p>Permanent magnet synchronous machine (PMSM) model. The system is modeled in a alpha-beta frame,
+and the machine operates at a constant electrical angular rotor speed. The state of the system
+is the stator current, and the permanent-magnet flux (i.e., rotor flux) is considered as a
+disturbance. The system input is the converter three-phase switch position or modulating signal.
+The initial state of the model is based on the torque reference.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -697,8 +696,7 @@ thus reference frame conversions are performed during state updates.</p>
 <li><p><strong>conv</strong> (<em>converter object</em>) – Converter object.</p></li>
 <li><p><strong>base</strong> (<em>base value object</em>) – Base values.</p></li>
 <li><p><strong>T_ref_init</strong> (<em>float</em>) – Initial torque reference [p.u.].</p></li>
-<li><p><strong>i_mag_points</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of current magnitude points for MTPA trajectory generation. The default is 101.</p></li>
-<li><p><strong>theta_points</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of angle points for MTPA trajectory generation. The default is 2001.</p></li>
+<li><p><strong>mtpa_lut</strong> (<a class="reference internal" href="../../control/common/index.html#soft4pes.control.common.MTPALookupTable" title="soft4pes.control.common.MTPALookupTable"><em>MTPALookupTable</em></a>) – MTPA lookup table for optimal current calculation.</p></li>
 </ul>
 </dd>
 </dl>
@@ -771,7 +769,7 @@ thus reference frame conversions are performed during state updates.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="soft4pes.model.machine.PMSM.state_map">
 <span class="sig-name descname"><span class="pre">state_map</span></span><a class="headerlink" href="#soft4pes.model.machine.PMSM.state_map" title="Permalink to this definition">#</a></dt>
-<dd><p>A dictionary mapping states to elements of the state vector.</p>
+<dd><p>A dictionary mapping state names to elements of the state vector.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
@@ -791,17 +789,6 @@ thus reference frame conversions are performed during state updates.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.model.machine.PMSM.mtpa">
-<span class="sig-name descname"><span class="pre">mtpa</span></span><a class="headerlink" href="#soft4pes.model.machine.PMSM.mtpa" title="Permalink to this definition">#</a></dt>
-<dd><p>Maximum torque per ampere (MTPA) lookup table.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="../../control/common/index.html#soft4pes.control.common.MTPALookupTable" title="soft4pes.control.common.MTPALookupTable">MTPALookupTable</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="soft4pes.model.machine.PMSM.theta_el">
 <span class="sig-name descname"><span class="pre">theta_el</span></span><a class="headerlink" href="#soft4pes.model.machine.PMSM.theta_el" title="Permalink to this definition">#</a></dt>
 <dd><p>Electrical angle of the machine [rad].</p>
@@ -815,10 +802,22 @@ thus reference frame conversions are performed during state updates.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.model.machine.PMSM.set_initial_state">
 <span class="sig-name descname"><span class="pre">set_initial_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/machine/pmsm.html#PMSM.set_initial_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.machine.PMSM.set_initial_state" title="Permalink to this definition">#</a></dt>
-<dd><p>Calculates the initial state (stator current) of the machine based on the torque reference.</p>
+<dd><p>Calculate the initial state of the machine based on the torque reference.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>T_ref_init</strong> (<em>float</em>) – The initial torque reference [p.u.].</p>
+<dd class="field-odd"><p><strong>**kwargs</strong> (<em>dict</em>) – <p>Keyword arguments containing:
+- T_ref_init : float</p>
+<blockquote>
+<div><p>The initial torque reference [p.u.].</p>
+</div></blockquote>
+<ul class="simple">
+<li><dl class="simple">
+<dt>mtpa_lut<span class="classifier">MTPALookupTable</span></dt><dd><p>MTPA lookup table for optimal current calculation.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -846,8 +845,8 @@ thus reference frame conversions are performed during state updates.</p>
 <dd><p>Calculate the continuous-time state-space model of the system.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A SimpleNamespace object containing matrices F, G1, and G2 of the continuous-time
-state-space model.</p>
+<dd class="field-odd"><p>A SimpleNamespace object containing matrices F and G of the continuous-time state-space
+model.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>SimpleNamespace</p>
@@ -857,21 +856,22 @@ state-space model.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.model.machine.PMSM.get_next_state">
-<span class="sig-name descname"><span class="pre">get_next_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_abc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/machine/pmsm.html#PMSM.get_next_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.machine.PMSM.get_next_state" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_next_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_abc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ts</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/machine/pmsm.html#PMSM.get_next_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.machine.PMSM.get_next_state" title="Permalink to this definition">#</a></dt>
 <dd><p>Calculate the next state of the system.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>u_abc</strong> (<em>1 x 3 ndarray</em><em> of </em><em>floats</em>) – Converter three-phase switch position or modulating signal.</p></li>
-<li><p><strong>matrices</strong> (<em>SimpleNamespace</em>) – A SimpleNamespace object containing the state-space model matrices.</p></li>
+<li><p><strong>matrices</strong> (<em>SimpleNamespace</em>) – A SimpleNamespace object containing the state-space model matrices A and B.</p></li>
+<li><p><strong>u_abc</strong> (<em>1 x 3 ndarray</em><em> of </em><em>floats</em>) – Converter three-phase switch position or modulating signal [p.u.].</p></li>
 <li><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p></li>
+<li><p><strong>Ts</strong> (<em>float</em>) – Sampling interval [s].</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The next state of the system.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>1 x 2 ndarray of floats</p>
+<dd class="field-odd"><p>1 x 4 ndarray of floats</p>
 </dd>
 </dl>
 </dd></dl>
@@ -879,27 +879,16 @@ state-space model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.model.machine.PMSM.get_measurements">
 <span class="sig-name descname"><span class="pre">get_measurements</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/machine/pmsm.html#PMSM.get_measurements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.machine.PMSM.get_measurements" title="Permalink to this definition">#</a></dt>
-<dd><p>Update the measurement data of the system.</p>
+<dd><p>Get the measurement data of the system.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A SimpleNamespace object containing the machine torque and rotor electrical angle.</p>
+<dd class="field-even"><p>A SimpleNamespace object containing the machine electromagnetic torque Te [p.u.].</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>SimpleNamespace</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="soft4pes.model.machine.PMSM.update_internal_variables">
-<span class="sig-name descname"><span class="pre">update_internal_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/machine/pmsm.html#PMSM.update_internal_variables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.machine.PMSM.update_internal_variables" title="Permalink to this definition">#</a></dt>
-<dd><p>Update the electrical rotor angle of the machine.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p>
 </dd>
 </dl>
 </dd></dl>
@@ -908,7 +897,7 @@ state-space model.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="soft4pes.model.machine.PMSMParameters">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.model.machine.</span></span><span class="sig-name descname"><span class="pre">PMSMParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fs_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pf_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Rs_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Lsd_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Lsq_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LambdaPM_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/machine/pmsm_param.html#PMSMParameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.machine.PMSMParameters" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.model.machine.</span></span><span class="sig-name descname"><span class="pre">PMSMParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fs_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pf_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Rs_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Lsd_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Lsq_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Lambda_PM_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/machine/pmsm_param.html#PMSMParameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.machine.PMSMParameters" title="Permalink to this definition">#</a></dt>
 <dd><p>Parameters for a permanent magnet synchronous machine (PMSM).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -918,7 +907,7 @@ state-space model.</p>
 <li><p><strong>Rs_SI</strong> (<em>float</em>) – Stator resistance [Ohm].</p></li>
 <li><p><strong>Lsd_SI</strong> (<em>float</em>) – Stator d-axis inductance [H].</p></li>
 <li><p><strong>Lsq_SI</strong> (<em>float</em>) – Stator q-axis inductance [H].</p></li>
-<li><p><strong>LambdaPM_SI</strong> (<em>float</em>) – Permanent magnet flux linkage [Wb].</p></li>
+<li><p><strong>Lambda_PM_SI</strong> (<em>float</em>) – Permanent magnet flux linkage [Wb].</p></li>
 <li><p><strong>base</strong> (<em>base value object</em>) – Base values.</p></li>
 </ul>
 </dd>
@@ -979,8 +968,8 @@ state-space model.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.model.machine.PMSMParameters.PsiPM">
-<span class="sig-name descname"><span class="pre">PsiPM</span></span><a class="headerlink" href="#soft4pes.model.machine.PMSMParameters.PsiPM" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="soft4pes.model.machine.PMSMParameters.Psi_PM">
+<span class="sig-name descname"><span class="pre">Psi_PM</span></span><a class="headerlink" href="#soft4pes.model.machine.PMSMParameters.Psi_PM" title="Permalink to this definition">#</a></dt>
 <dd><p>Permanent magnet flux linkage [p.u.].</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -1081,14 +1070,12 @@ state-space model.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.cont_state_space"><code class="docutils literal notranslate"><span class="pre">PMSM.cont_state_space</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.state_map"><code class="docutils literal notranslate"><span class="pre">PMSM.state_map</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.time_varying_model"><code class="docutils literal notranslate"><span class="pre">PMSM.time_varying_model</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.mtpa"><code class="docutils literal notranslate"><span class="pre">PMSM.mtpa</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.theta_el"><code class="docutils literal notranslate"><span class="pre">PMSM.theta_el</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.set_initial_state"><code class="docutils literal notranslate"><span class="pre">PMSM.set_initial_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.get_stator_current_ref_dq"><code class="docutils literal notranslate"><span class="pre">PMSM.get_stator_current_ref_dq()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.get_continuous_state_space"><code class="docutils literal notranslate"><span class="pre">PMSM.get_continuous_state_space()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.get_next_state"><code class="docutils literal notranslate"><span class="pre">PMSM.get_next_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.get_measurements"><code class="docutils literal notranslate"><span class="pre">PMSM.get_measurements()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.update_internal_variables"><code class="docutils literal notranslate"><span class="pre">PMSM.update_internal_variables()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSMParameters"><code class="docutils literal notranslate"><span class="pre">PMSMParameters</span></code></a><ul class="nav section-nav flex-column">
@@ -1097,7 +1084,7 @@ state-space model.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSMParameters.Rs"><code class="docutils literal notranslate"><span class="pre">PMSMParameters.Rs</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSMParameters.Xsd"><code class="docutils literal notranslate"><span class="pre">PMSMParameters.Xsd</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSMParameters.Xsq"><code class="docutils literal notranslate"><span class="pre">PMSMParameters.Xsq</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSMParameters.PsiPM"><code class="docutils literal notranslate"><span class="pre">PMSMParameters.PsiPM</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSMParameters.Psi_PM"><code class="docutils literal notranslate"><span class="pre">PMSMParameters.Psi_PM</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSMParameters.kT"><code class="docutils literal notranslate"><span class="pre">PMSMParameters.kT</span></code></a></li>
 </ul>
 </li>

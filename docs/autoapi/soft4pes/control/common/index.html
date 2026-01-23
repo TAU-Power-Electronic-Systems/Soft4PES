@@ -833,19 +833,23 @@ as a vector or complex number.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.common.</span></span><span class="sig-name descname"><span class="pre">MTPALookupTable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">par</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iS_mag_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">101</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2001</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/common/pmsm_mtpa.html#MTPALookupTable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.common.MTPALookupTable" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="controller/index.html#soft4pes.control.common.controller.Controller" title="soft4pes.control.common.controller.Controller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.control.common.controller.Controller</span></code></a></p>
 <p>Maximum Torque Per Ampere (MTPA) lookup table for permanent magnet synchronous machines (PMSM).</p>
-<p>This class generates and manages the MTPA trajectory, providing optimal
-current references for given torque demands.</p>
+<p>This class generates and manages the MTPA trajectory, providing optimal current references for
+given torque demands.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.control.common.MTPALookupTable.generate_mtpa_trajectory">
 <span class="sig-name descname"><span class="pre">generate_mtpa_trajectory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/common/pmsm_mtpa.html#MTPALookupTable.generate_mtpa_trajectory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.common.MTPALookupTable.generate_mtpa_trajectory" title="Permalink to this definition">#</a></dt>
-<dd><p>Generate the maximum torque per ampere (MTPA) trajectory.</p>
-<p>Creates a lookup table mapping torque values to optimal stator current references.</p>
+<dd><p>Generate the maximum torque per ampere (MTPA) trajectory for both positive and negative
+torque.</p>
+<p>The algorithm sweeps current magnitude from 0 to 1 p.u. and for each magnitude finds the
+current vector angle (and therefore the d and q components of the current) that produces the
+maximum positive and negative torque. Results are stored as sorted arrays for efficient
+interpolation.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.control.common.MTPALookupTable.get_optimal_current">
 <span class="sig-name descname"><span class="pre">get_optimal_current</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Te_ref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/common/pmsm_mtpa.html#MTPALookupTable.get_optimal_current"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.common.MTPALookupTable.get_optimal_current" title="Permalink to this definition">#</a></dt>
-<dd><p>Get optimal stator current reference for given torque reference.</p>
+<dd><p>Get optimal stator current reference for given torque reference using linear interpolation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>Te_ref</strong> (<em>float</em>) – Torque reference [p.u.].</p>

@@ -35,8 +35,8 @@ Submodules
 
    /autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index
    /autoapi/soft4pes/control/mpc/controllers/lcl_vc_mpc_ctr/index
+   /autoapi/soft4pes/control/mpc/controllers/pmsm_mpc_curr_ctr/index
    /autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index
-   /autoapi/soft4pes/control/mpc/controllers/sm_mpc_curr_ctr/index
 
 
 Classes

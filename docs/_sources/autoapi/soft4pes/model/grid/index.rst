@@ -508,7 +508,7 @@ Package Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: get_next_state(matrices, u_abc, kTs)
+   .. py:method:: get_next_state(matrices, u_abc, kTs, Ts)
 
       
       Calculate the next state of the system.
@@ -519,6 +519,8 @@ Package Contents
       :type matrices: SimpleNamespace
       :param kTs: Current discrete time instant [s].
       :type kTs: float
+      :param Ts: Sampling interval [s] (not used).
+      :type Ts: float
 
       :returns: The next state of the system.
       :rtype: ndarray of floats
@@ -551,32 +553,6 @@ Package Contents
 
       :returns: A SimpleNamespace object containing the grid voltage in alpha-beta frame.
       :rtype: SimpleNamespace
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      ..
-          !! processed by numpydoc !!
-
-
-   .. py:method:: update_internal_variables(kTs)
-
-      
-      Update internal variables of the system.
-
-      :param kTs: Current discrete time instant [s].
-      :type kTs: float
 
 
 

@@ -364,7 +364,7 @@ document.write(`
 <span class="sd">        Stator d-axis inductance [H].</span>
 <span class="sd">    Lsq_SI : float</span>
 <span class="sd">        Stator q-axis inductance [H].</span>
-<span class="sd">    LambdaPM_SI : float</span>
+<span class="sd">    Lambda_PM_SI : float</span>
 <span class="sd">        Permanent magnet flux linkage [Wb].</span>
 <span class="sd">    base : base value object</span>
 <span class="sd">        Base values.</span>
@@ -381,19 +381,20 @@ document.write(`
 <span class="sd">        Stator d-axis reactance [p.u.].</span>
 <span class="sd">    Xsq : float</span>
 <span class="sd">        Stator q-axis reactance [p.u.].</span>
-<span class="sd">    PsiPM : float</span>
+<span class="sd">    Psi_PM : float</span>
 <span class="sd">        Permanent magnet flux linkage [p.u.].</span>
 <span class="sd">    kT : float</span>
 <span class="sd">        Torque factor [p.u.].</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fs_SI</span><span class="p">,</span> <span class="n">pf_SI</span><span class="p">,</span> <span class="n">Rs_SI</span><span class="p">,</span> <span class="n">Lsd_SI</span><span class="p">,</span> <span class="n">Lsq_SI</span><span class="p">,</span> <span class="n">LambdaPM_SI</span><span class="p">,</span> <span class="n">base</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fs_SI</span><span class="p">,</span> <span class="n">pf_SI</span><span class="p">,</span> <span class="n">Rs_SI</span><span class="p">,</span> <span class="n">Lsd_SI</span><span class="p">,</span> <span class="n">Lsq_SI</span><span class="p">,</span> <span class="n">Lambda_PM_SI</span><span class="p">,</span>
+                 <span class="n">base</span><span class="p">):</span>
 <div class="viewcode-block" id="PMSMParameters.ws"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm_param/index.html#soft4pes.model.machine.PMSMParameters.ws">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">ws</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">fs_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">w</span></div>
 <div class="viewcode-block" id="PMSMParameters.pf"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm_param/index.html#soft4pes.model.machine.PMSMParameters.pf">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">pf</span> <span class="o">=</span> <span class="n">pf_SI</span></div>
 <div class="viewcode-block" id="PMSMParameters.Rs"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm_param/index.html#soft4pes.model.machine.PMSMParameters.Rs">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Rs</span> <span class="o">=</span> <span class="n">Rs_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">Z</span></div>
 <div class="viewcode-block" id="PMSMParameters.Xsd"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm_param/index.html#soft4pes.model.machine.PMSMParameters.Xsd">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Xsd</span> <span class="o">=</span> <span class="n">Lsd_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">L</span></div>
 <div class="viewcode-block" id="PMSMParameters.Xsq"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm_param/index.html#soft4pes.model.machine.PMSMParameters.Xsq">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Xsq</span> <span class="o">=</span> <span class="n">Lsq_SI</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">L</span></div>
-<div class="viewcode-block" id="PMSMParameters.PsiPM"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm_param/index.html#soft4pes.model.machine.PMSMParameters.PsiPM">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">PsiPM</span> <span class="o">=</span> <span class="n">LambdaPM_SI</span> <span class="o">*</span> <span class="n">base</span><span class="o">.</span><span class="n">w</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">V</span></div>
+<div class="viewcode-block" id="PMSMParameters.Psi_PM"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm_param/index.html#soft4pes.model.machine.PMSMParameters.Psi_PM">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">Psi_PM</span> <span class="o">=</span> <span class="n">Lambda_PM_SI</span> <span class="o">*</span> <span class="n">base</span><span class="o">.</span><span class="n">w</span> <span class="o">/</span> <span class="n">base</span><span class="o">.</span><span class="n">V</span></div>
 <div class="viewcode-block" id="PMSMParameters.kT"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm_param/index.html#soft4pes.model.machine.PMSMParameters.kT">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">kT</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">pf_SI</span></div></div>
 </pre></div>
 

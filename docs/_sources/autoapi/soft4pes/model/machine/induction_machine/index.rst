@@ -234,7 +234,7 @@ Module Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: get_next_state(matrices, u_abc, kTs)
+   .. py:method:: get_next_state(matrices, u_abc, kTs, Ts)
 
       
       Calculate the next state of the system.
@@ -243,8 +243,10 @@ Module Contents
       :type u_abc: 1 x 3 ndarray of floats
       :param matrices: A SimpleNamespace object containing the state-space model matrices.
       :type matrices: SimpleNamespace
-      :param kTs: Current discrete time instant [s].
+      :param kTs: Current discrete time instant [s] (not used).
       :type kTs: float
+      :param Ts: Sampling interval [s] (not used).
+      :type Ts: float
 
       :returns: The next state of the system.
       :rtype: 1 x 4 ndarray of floats
@@ -277,32 +279,6 @@ Module Contents
 
       :returns: A SimpleNamespace object containing the machine torque.
       :rtype: SimpleNamespace
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      ..
-          !! processed by numpydoc !!
-
-
-   .. py:method:: update_internal_variables(kTs)
-
-      
-      Update internal variables of the system.
-
-      :param kTs: Current discrete time instant [s].
-      :type kTs: float
 
 
 

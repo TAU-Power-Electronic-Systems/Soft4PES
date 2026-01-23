@@ -343,7 +343,7 @@ document.write(`
   <h1>Source code for soft4pes.model.machine.pmsm</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Permanent magnet synchronous machine (PMSM) model. The machine operates at a constant electrical </span>
-<span class="sd">angular rotor speed.</span>
+<span class="sd">angular rotor speed. </span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleNamespace</span>
@@ -354,10 +354,11 @@ document.write(`
 
 <div class="viewcode-block" id="PMSM"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">PMSM</span><span class="p">(</span><span class="n">SystemModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Permanent magnet synchronous machine (PMSM) model. The model operates at a constant electrical</span>
-<span class="sd">    angular rotor speed. The system is modelled in a dq-frame, where the d-axis is aligned with the</span>
-<span class="sd">    rotor flux. However, the state of the system is the stator current in the alpha-beta frame, and</span>
-<span class="sd">    thus reference frame conversions are performed during state updates.</span>
+<span class="sd">    Permanent magnet synchronous machine (PMSM) model. The system is modeled in a alpha-beta frame, </span>
+<span class="sd">    and the machine operates at a constant electrical angular rotor speed. The state of the system </span>
+<span class="sd">    is the stator current, and the permanent-magnet flux (i.e., rotor flux) is considered as a </span>
+<span class="sd">    disturbance. The system input is the converter three-phase switch position or modulating signal.</span>
+<span class="sd">    The initial state of the model is based on the torque reference.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -369,10 +370,8 @@ document.write(`
 <span class="sd">        Base values.</span>
 <span class="sd">    T_ref_init : float</span>
 <span class="sd">        Initial torque reference [p.u.].</span>
-<span class="sd">    i_mag_points : int, optional</span>
-<span class="sd">        Number of current magnitude points for MTPA trajectory generation. The default is 101.</span>
-<span class="sd">    theta_points : int, optional</span>
-<span class="sd">        Number of angle points for MTPA trajectory generation. The default is 2001.</span>
+<span class="sd">    mtpa_lut : MTPALookupTable</span>
+<span class="sd">        MTPA lookup table for optimal current calculation.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
@@ -389,39 +388,41 @@ document.write(`
 <span class="sd">    cont_state_space : SimpleNamespace</span>
 <span class="sd">        The continuous-time state-space model of the system.</span>
 <span class="sd">    state_map : dict</span>
-<span class="sd">        A dictionary mapping states to elements of the state vector.</span>
+<span class="sd">        A dictionary mapping state names to elements of the state vector.</span>
 <span class="sd">    time_varying_model : bool</span>
 <span class="sd">        Indicates if the system model is time-varying.</span>
-<span class="sd">    mtpa : MTPALookupTable</span>
-<span class="sd">        Maximum torque per ampere (MTPA) lookup table.</span>
 <span class="sd">    theta_el : float</span>
 <span class="sd">        Electrical angle of the machine [rad].</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">par</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">T_ref_init</span><span class="p">,</span> <span class="n">mtpa_lut</span><span class="p">):</span>
-<div class="viewcode-block" id="PMSM.par"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.par">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">par</span> <span class="o">=</span> <span class="n">par</span></div>
-<div class="viewcode-block" id="PMSM.theta_el"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.theta_el">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">theta_el</span> <span class="o">=</span> <span class="mi">0</span></div>
+        <span class="n">x_size</span> <span class="o">=</span> <span class="mi">4</span>
+        <span class="n">state_map</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;iS&#39;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>  <span class="c1"># Stator current (x[0:2])</span>
+        <span class="p">}</span>
+<div class="viewcode-block" id="PMSM.theta_el"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.theta_el">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">theta_el</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span></div>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">par</span><span class="o">=</span><span class="n">par</span><span class="p">,</span>
+                         <span class="n">conv</span><span class="o">=</span><span class="n">conv</span><span class="p">,</span>
+                         <span class="n">base</span><span class="o">=</span><span class="n">base</span><span class="p">,</span>
+<div class="viewcode-block" id="PMSM.base"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.base">[docs]</a>                         <span class="n">x_size</span><span class="o">=</span><span class="n">x_size</span><span class="p">,</span></div>
+<div class="viewcode-block" id="PMSM.data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.data">[docs]</a>                         <span class="n">state_map</span><span class="o">=</span><span class="n">state_map</span><span class="p">)</span></div>
+<div class="viewcode-block" id="PMSM.time_varying_model"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.time_varying_model">[docs]</a><div class="viewcode-block" id="PMSM.par"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.par">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">time_varying_model</span> <span class="o">=</span> <span class="kc">True</span></div></div>
+<div class="viewcode-block" id="PMSM.conv"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.conv">[docs]</a></div>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_initial_state</span><span class="p">(</span><span class="n">T_ref_init</span><span class="o">=</span><span class="n">T_ref_init</span><span class="p">,</span> <span class="n">mtpa_lut</span><span class="o">=</span><span class="n">mtpa_lut</span><span class="p">)</span>
 
-        <span class="n">x_size</span> <span class="o">=</span> <span class="mi">2</span>
-        <span class="n">state_map</span> <span class="o">=</span> <span class="p">{</span>
-<div class="viewcode-block" id="PMSM.base"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.base">[docs]</a>            <span class="s1">&#39;iS&#39;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>  <span class="c1"># Stator current (x[0:2])</span></div>
-<div class="viewcode-block" id="PMSM.data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.data">[docs]</a>        <span class="p">}</span></div>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">par</span><span class="o">=</span><span class="n">par</span><span class="p">,</span>
-<div class="viewcode-block" id="PMSM.conv"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.conv">[docs]</a>                         <span class="n">conv</span><span class="o">=</span><span class="n">conv</span><span class="p">,</span></div>
-                         <span class="n">base</span><span class="o">=</span><span class="n">base</span><span class="p">,</span>
-                         <span class="n">x_size</span><span class="o">=</span><span class="n">x_size</span><span class="p">,</span>
-<div class="viewcode-block" id="PMSM.state_map"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.state_map">[docs]</a>                         <span class="n">state_map</span><span class="o">=</span><span class="n">state_map</span><span class="p">)</span></div>
-<div class="viewcode-block" id="PMSM.time_varying_model"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.time_varying_model">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">time_varying_model</span> <span class="o">=</span> <span class="kc">True</span></div>
-<div class="viewcode-block" id="PMSM.cont_state_space"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.cont_state_space">[docs]</a></div>
-<div class="viewcode-block" id="PMSM.set_initial_state"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.set_initial_state">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_initial_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="PMSM.state_map"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.state_map">[docs]</a><div class="viewcode-block" id="PMSM.set_initial_state"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.set_initial_state">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_initial_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span></div>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculates the initial state (stator current) of the machine based on the torque reference.</span>
+<div class="viewcode-block" id="PMSM.cont_state_space"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.cont_state_space">[docs]</a><span class="sd">        Calculate the initial state of the machine based on the torque reference.</span></div>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        T_ref_init : float</span>
-<span class="sd">            The initial torque reference [p.u.].</span>
+<span class="sd">        **kwargs : dict</span>
+<span class="sd">            Keyword arguments containing:</span>
+<span class="sd">            - T_ref_init : float</span>
+<span class="sd">                The initial torque reference [p.u.].</span>
+<span class="sd">            - mtpa_lut : MTPALookupTable</span>
+<span class="sd">                MTPA lookup table for optimal current calculation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">T_ref_init</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;T_ref_init&#39;</span><span class="p">)</span>
@@ -429,7 +430,8 @@ document.write(`
 
         <span class="c1"># Get the initial stator current from MTPA</span>
         <span class="n">iS_dq</span> <span class="o">=</span> <span class="n">mtpa_lut</span><span class="o">.</span><span class="n">get_optimal_current</span><span class="p">(</span><span class="n">T_ref_init</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">dq_2_alpha_beta</span><span class="p">(</span><span class="n">iS_dq</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_el</span><span class="p">)</span></div>
+        <span class="n">iS</span> <span class="o">=</span> <span class="n">dq_2_alpha_beta</span><span class="p">(</span><span class="n">iS_dq</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_el</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">iS</span></div>
 
 <div class="viewcode-block" id="PMSM.get_stator_current_ref_dq"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.get_stator_current_ref_dq">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_stator_current_ref_dq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">T_ref</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -454,67 +456,83 @@ document.write(`
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        SimpleNamespace</span>
-<span class="sd">            A SimpleNamespace object containing matrices F, G1, and G2 of the continuous-time </span>
-<span class="sd">            state-space model.</span>
+<span class="sd">            A SimpleNamespace object containing matrices F and G of the continuous-time state-space </span>
+<span class="sd">            model.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">ws</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">ws</span>
         <span class="n">Rs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Rs</span>
         <span class="n">Xsd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xsd</span>
         <span class="n">Xsq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xsq</span>
-        <span class="n">PsiPM</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">PsiPM</span>
 
         <span class="n">K</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">],</span>
                                 <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]])</span>
 
-        <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">theta_el</span><span class="p">),</span>
-                       <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">theta_el</span><span class="p">)],</span>
-                      <span class="p">[</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">theta_el</span><span class="p">),</span>
-                       <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">theta_el</span><span class="p">)]])</span>
+        <span class="n">Xs</span> <span class="o">=</span> <span class="p">(</span><span class="n">Xsd</span> <span class="o">+</span> <span class="n">Xsq</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">delta_X</span> <span class="o">=</span> <span class="n">Xsd</span> <span class="o">-</span> <span class="n">Xsq</span>
+        <span class="n">X_theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">Xs</span> <span class="o">+</span> <span class="n">delta_X</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_el</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> \
+                             <span class="n">delta_X</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_el</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">],</span>
+                            <span class="p">[</span><span class="n">delta_X</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_el</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> \
+                             <span class="n">Xs</span> <span class="o">-</span> <span class="n">delta_X</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_el</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]])</span>
+        <span class="n">J</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
 
-        <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="n">Rs</span> <span class="o">/</span> <span class="n">Xsd</span><span class="p">,</span> <span class="n">ws</span> <span class="o">*</span> <span class="n">Xsq</span> <span class="o">/</span> <span class="n">Xsd</span><span class="p">],</span>
-                      <span class="p">[</span><span class="o">-</span><span class="n">ws</span> <span class="o">*</span> <span class="n">Xsd</span> <span class="o">/</span> <span class="n">Xsq</span><span class="p">,</span> <span class="o">-</span><span class="n">Rs</span> <span class="o">/</span> <span class="n">Xsq</span><span class="p">]])</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_el</span><span class="p">),</span>
+                       <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_el</span><span class="p">)],</span>
+                      <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_el</span><span class="p">),</span>
+                       <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_el</span><span class="p">)]])</span>
 
-        <span class="n">G1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span> <span class="o">/</span> <span class="n">Xsd</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">Xsq</span><span class="p">]]),</span> <span class="n">R</span><span class="p">),</span>
-                    <span class="n">K</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">X_theta_inv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">X_theta</span><span class="p">)</span>
 
-        <span class="n">G2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">ws</span> <span class="o">*</span> <span class="n">PsiPM</span> <span class="o">/</span> <span class="n">Xsq</span><span class="p">])</span>
+        <span class="n">F</span> <span class="o">=</span> <span class="o">-</span><span class="n">X_theta_inv</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Rs</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">ws</span> <span class="o">*</span> <span class="n">delta_X</span> <span class="o">*</span> <span class="n">R</span><span class="p">)</span>
+        <span class="n">G</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">X_theta_inv</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">K</span><span class="p">)</span>
+        <span class="n">G2</span> <span class="o">=</span> <span class="o">-</span><span class="n">ws</span> <span class="o">*</span> <span class="n">X_theta_inv</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">J</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">F</span><span class="o">=</span><span class="n">F</span><span class="p">,</span> <span class="n">G1</span><span class="o">=</span><span class="n">G1</span><span class="p">,</span> <span class="n">G2</span><span class="o">=</span><span class="n">G2</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">F</span><span class="o">=</span><span class="n">F</span><span class="p">,</span> <span class="n">G</span><span class="o">=</span><span class="n">G</span><span class="p">,</span> <span class="n">G2</span><span class="o">=</span><span class="n">G2</span><span class="p">)</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">Te</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">iS_dq</span> <span class="o">=</span> <span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_el</span><span class="p">)</span>
+        <span class="n">iS_dq</span> <span class="o">=</span> <span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iS</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_el</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xsd</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xsq</span><span class="p">)</span> <span class="o">*</span> <span class="n">iS_dq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">PsiPM</span><span class="p">)</span> <span class="o">*</span> <span class="n">iS_dq</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Psi_PM</span><span class="p">)</span> <span class="o">*</span> <span class="n">iS_dq</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
-<div class="viewcode-block" id="PMSM.get_next_state"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.get_next_state">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_next_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matrices</span><span class="p">,</span> <span class="n">u_abc</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">psi_PM</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">theta_el</span><span class="p">),</span>
+                         <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">theta_el</span><span class="p">)])</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Psi_PM</span>
+
+<div class="viewcode-block" id="PMSM.get_next_state"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.get_next_state">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_next_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matrices</span><span class="p">,</span> <span class="n">u_abc</span><span class="p">,</span> <span class="n">kTs</span><span class="p">,</span> <span class="n">Ts</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the next state of the system.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        u_abc : 1 x 3 ndarray of floats</span>
-<span class="sd">            Converter three-phase switch position or modulating signal.</span>
 <span class="sd">        matrices : SimpleNamespace</span>
-<span class="sd">            A SimpleNamespace object containing the state-space model matrices.</span>
+<span class="sd">            A SimpleNamespace object containing the state-space model matrices A and B.</span>
+<span class="sd">        u_abc : 1 x 3 ndarray of floats</span>
+<span class="sd">            Converter three-phase switch position or modulating signal [p.u.].</span>
 <span class="sd">        kTs : float</span>
 <span class="sd">            Current discrete time instant [s].</span>
+<span class="sd">        Ts : float</span>
+<span class="sd">            Sampling interval [s].</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        1 x 2 ndarray of floats</span>
+<span class="sd">        1 x 4 ndarray of floats</span>
 <span class="sd">            The next state of the system.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">x_dq</span> <span class="o">=</span> <span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_el</span><span class="p">)</span>
-        <span class="n">x_kp1_dq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">matrices</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">x_dq</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">matrices</span><span class="o">.</span><span class="n">B1</span><span class="p">,</span>
-                                                     <span class="n">u_abc</span><span class="p">)</span> <span class="o">+</span> <span class="n">matrices</span><span class="o">.</span><span class="n">B2</span>
-        <span class="k">return</span> <span class="n">dq_2_alpha_beta</span><span class="p">(</span><span class="n">x_kp1_dq</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_el</span><span class="p">)</span></div>
+        <span class="c1"># Get the next state</span>
+        <span class="n">x_kp1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">matrices</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+            <span class="n">matrices</span><span class="o">.</span><span class="n">B</span><span class="p">,</span> <span class="n">u_abc</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">matrices</span><span class="o">.</span><span class="n">B2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">psi_PM</span><span class="p">)</span>
+
+        <span class="c1"># Update electrical angle</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">theta_el</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">ws</span> <span class="o">*</span> <span class="n">Ts</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">w</span>
+
+        <span class="k">return</span> <span class="n">x_kp1</span></div>
 
 <div class="viewcode-block" id="PMSM.get_measurements"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.get_measurements">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_measurements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Update the measurement data of the system.</span>
+<span class="sd">        Get the measurement data of the system.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -524,22 +542,10 @@ document.write(`
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        SimpleNamespace</span>
-<span class="sd">            A SimpleNamespace object containing the machine torque and rotor electrical angle.</span>
+<span class="sd">            A SimpleNamespace object containing the machine electromagnetic torque Te [p.u.].</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">Te</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Te</span><span class="p">,</span> <span class="n">theta_el</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">theta_el</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="PMSM.update_internal_variables"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.update_internal_variables">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">update_internal_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Update the electrical rotor angle of the machine.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        kTs : float</span>
-<span class="sd">            Current discrete time instant [s].</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">theta_el</span> <span class="o">=</span> <span class="n">kTs</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">ws</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">w</span></div></div>
+        <span class="k">return</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">Te</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Te</span><span class="p">,</span> <span class="n">psi_PM</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">psi_PM</span><span class="p">)</span></div></div>
 </pre></div>
 
                 </article>

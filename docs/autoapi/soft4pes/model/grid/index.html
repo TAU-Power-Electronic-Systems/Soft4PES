@@ -437,7 +437,6 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.get_grid_voltage"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_grid_voltage()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.get_next_state"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_next_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.get_measurements"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_measurements()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.update_internal_variables"><code class="docutils literal notranslate"><span class="pre">RLGrid.update_internal_variables()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridParameters"><code class="docutils literal notranslate"><span class="pre">RLGridParameters</span></code></a><ul class="nav section-nav flex-column">
@@ -976,7 +975,7 @@ state-space model.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.model.grid.RLGrid.get_next_state">
-<span class="sig-name descname"><span class="pre">get_next_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_abc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/grid/rl_grid.html#RLGrid.get_next_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.RLGrid.get_next_state" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_next_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_abc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ts</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/grid/rl_grid.html#RLGrid.get_next_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.RLGrid.get_next_state" title="Permalink to this definition">#</a></dt>
 <dd><p>Calculate the next state of the system.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -984,6 +983,7 @@ state-space model.</p>
 <li><p><strong>u_abc</strong> (<em>1 x 3 ndarray</em><em> of </em><em>floats</em>) – Converter three-phase switch position or modulating signal.</p></li>
 <li><p><strong>matrices</strong> (<em>SimpleNamespace</em>) – A SimpleNamespace object containing the state-space model matrices.</p></li>
 <li><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p></li>
+<li><p><strong>Ts</strong> (<em>float</em>) – Sampling interval [s] (not used).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1008,17 +1008,6 @@ state-space model.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>SimpleNamespace</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="soft4pes.model.grid.RLGrid.update_internal_variables">
-<span class="sig-name descname"><span class="pre">update_internal_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/grid/rl_grid.html#RLGrid.update_internal_variables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.RLGrid.update_internal_variables" title="Permalink to this definition">#</a></dt>
-<dd><p>Update internal variables of the system.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1344,7 +1333,6 @@ state-space model.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.get_grid_voltage"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_grid_voltage()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.get_next_state"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_next_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.get_measurements"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_measurements()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.update_internal_variables"><code class="docutils literal notranslate"><span class="pre">RLGrid.update_internal_variables()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridParameters"><code class="docutils literal notranslate"><span class="pre">RLGridParameters</span></code></a><ul class="nav section-nav flex-column">

@@ -22,7 +22,7 @@ Classes
 Module Contents
 ---------------
 
-.. py:class:: PMSMParameters(fs_SI, pf_SI, Rs_SI, Lsd_SI, Lsq_SI, LambdaPM_SI, base)
+.. py:class:: PMSMParameters(fs_SI, pf_SI, Rs_SI, Lsd_SI, Lsq_SI, Lambda_PM_SI, base)
 
    
    Parameters for a permanent magnet synchronous machine (PMSM).
@@ -37,8 +37,8 @@ Module Contents
    :type Lsd_SI: float
    :param Lsq_SI: Stator q-axis inductance [H].
    :type Lsq_SI: float
-   :param LambdaPM_SI: Permanent magnet flux linkage [Wb].
-   :type LambdaPM_SI: float
+   :param Lambda_PM_SI: Permanent magnet flux linkage [Wb].
+   :type Lambda_PM_SI: float
    :param base: Base values.
    :type base: base value object
 
@@ -72,7 +72,7 @@ Module Contents
 
       :type: float
 
-   .. attribute:: PsiPM
+   .. attribute:: Psi_PM
 
       Permanent magnet flux linkage [p.u.].
 

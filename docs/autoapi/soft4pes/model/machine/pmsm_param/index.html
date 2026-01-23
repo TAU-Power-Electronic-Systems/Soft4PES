@@ -397,7 +397,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.pmsm_param.PMSMParameters.Rs"><code class="docutils literal notranslate"><span class="pre">PMSMParameters.Rs</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.pmsm_param.PMSMParameters.Xsd"><code class="docutils literal notranslate"><span class="pre">PMSMParameters.Xsd</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.pmsm_param.PMSMParameters.Xsq"><code class="docutils literal notranslate"><span class="pre">PMSMParameters.Xsq</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.pmsm_param.PMSMParameters.PsiPM"><code class="docutils literal notranslate"><span class="pre">PMSMParameters.PsiPM</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.pmsm_param.PMSMParameters.Psi_PM"><code class="docutils literal notranslate"><span class="pre">PMSMParameters.Psi_PM</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.pmsm_param.PMSMParameters.kT"><code class="docutils literal notranslate"><span class="pre">PMSMParameters.kT</span></code></a></li>
 </ul>
 </li>
@@ -431,7 +431,7 @@ document.write(`
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="soft4pes.model.machine.pmsm_param.PMSMParameters">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.model.machine.pmsm_param.</span></span><span class="sig-name descname"><span class="pre">PMSMParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fs_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pf_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Rs_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Lsd_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Lsq_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LambdaPM_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/model/machine/pmsm_param.html#PMSMParameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.machine.pmsm_param.PMSMParameters" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.model.machine.pmsm_param.</span></span><span class="sig-name descname"><span class="pre">PMSMParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fs_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pf_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Rs_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Lsd_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Lsq_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Lambda_PM_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/model/machine/pmsm_param.html#PMSMParameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.machine.pmsm_param.PMSMParameters" title="Permalink to this definition">#</a></dt>
 <dd><p>Parameters for a permanent magnet synchronous machine (PMSM).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -441,7 +441,7 @@ document.write(`
 <li><p><strong>Rs_SI</strong> (<em>float</em>) – Stator resistance [Ohm].</p></li>
 <li><p><strong>Lsd_SI</strong> (<em>float</em>) – Stator d-axis inductance [H].</p></li>
 <li><p><strong>Lsq_SI</strong> (<em>float</em>) – Stator q-axis inductance [H].</p></li>
-<li><p><strong>LambdaPM_SI</strong> (<em>float</em>) – Permanent magnet flux linkage [Wb].</p></li>
+<li><p><strong>Lambda_PM_SI</strong> (<em>float</em>) – Permanent magnet flux linkage [Wb].</p></li>
 <li><p><strong>base</strong> (<em>base value object</em>) – Base values.</p></li>
 </ul>
 </dd>
@@ -502,8 +502,8 @@ document.write(`
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.model.machine.pmsm_param.PMSMParameters.PsiPM">
-<span class="sig-name descname"><span class="pre">PsiPM</span></span><a class="reference internal" href="../../../../../_modules/soft4pes/model/machine/pmsm_param.html#PMSMParameters.PsiPM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.machine.pmsm_param.PMSMParameters.PsiPM" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="soft4pes.model.machine.pmsm_param.PMSMParameters.Psi_PM">
+<span class="sig-name descname"><span class="pre">Psi_PM</span></span><a class="reference internal" href="../../../../../_modules/soft4pes/model/machine/pmsm_param.html#PMSMParameters.Psi_PM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.machine.pmsm_param.PMSMParameters.Psi_PM" title="Permalink to this definition">#</a></dt>
 <dd><p>Permanent magnet flux linkage [p.u.].</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -580,7 +580,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.pmsm_param.PMSMParameters.Rs"><code class="docutils literal notranslate"><span class="pre">PMSMParameters.Rs</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.pmsm_param.PMSMParameters.Xsd"><code class="docutils literal notranslate"><span class="pre">PMSMParameters.Xsd</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.pmsm_param.PMSMParameters.Xsq"><code class="docutils literal notranslate"><span class="pre">PMSMParameters.Xsq</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.pmsm_param.PMSMParameters.PsiPM"><code class="docutils literal notranslate"><span class="pre">PMSMParameters.PsiPM</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.pmsm_param.PMSMParameters.Psi_PM"><code class="docutils literal notranslate"><span class="pre">PMSMParameters.Psi_PM</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.pmsm_param.PMSMParameters.kT"><code class="docutils literal notranslate"><span class="pre">PMSMParameters.kT</span></code></a></li>
 </ul>
 </li>

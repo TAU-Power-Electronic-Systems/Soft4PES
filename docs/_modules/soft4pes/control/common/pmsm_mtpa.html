@@ -349,8 +349,8 @@ document.write(`
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Maximum Torque Per Ampere (MTPA) lookup table for permanent magnet synchronous machines (PMSM).</span>
 <span class="sd">    </span>
-<span class="sd">    This class generates and manages the MTPA trajectory, providing optimal</span>
-<span class="sd">    current references for given torque demands.</span>
+<span class="sd">    This class generates and manages the MTPA trajectory, providing optimal current references for </span>
+<span class="sd">    given torque demands.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">par</span><span class="p">,</span> <span class="n">iS_mag_points</span><span class="o">=</span><span class="mi">101</span><span class="p">,</span> <span class="n">theta_points</span><span class="o">=</span><span class="mi">2001</span><span class="p">):</span>
@@ -364,50 +364,86 @@ document.write(`
 <span class="sd">        iS_mag_points : int, optional</span>
 <span class="sd">            Number of stator current magnitude points for trajectory generation. Default is 101.</span>
 <span class="sd">        theta_points : int, optional</span>
-<span class="sd">            Number of angle points for trajectory generation. Default is 2001.</span>
+<span class="sd">            Number of current vector angle points for trajectory generation. Default is 2001.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">par</span> <span class="o">=</span> <span class="n">par</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">iS_mag_points</span> <span class="o">=</span> <span class="n">iS_mag_points</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">theta_points</span> <span class="o">=</span> <span class="n">theta_points</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mtpa_lut</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># Dictionary: {torque: iS_dq}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">torque_grid</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_grid</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">generate_mtpa_trajectory</span><span class="p">()</span>
 
 <div class="viewcode-block" id="MTPALookupTable.generate_mtpa_trajectory"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/index.html#soft4pes.control.common.MTPALookupTable.generate_mtpa_trajectory">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">generate_mtpa_trajectory</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generate the maximum torque per ampere (MTPA) trajectory.</span>
+<span class="sd">        Generate the maximum torque per ampere (MTPA) trajectory for both positive and negative </span>
+<span class="sd">        torque.</span>
 <span class="sd">        </span>
-<span class="sd">        Creates a lookup table mapping torque values to optimal stator current references.</span>
+<span class="sd">        The algorithm sweeps current magnitude from 0 to 1 p.u. and for each magnitude finds the</span>
+<span class="sd">        current vector angle (and therefore the d and q components of the current) that produces the </span>
+<span class="sd">        maximum positive and negative torque. Results are stored as sorted arrays for efficient </span>
+<span class="sd">        interpolation.</span>
+<span class="sd">        </span>
+<span class="sd">        Creates</span>
+<span class="sd">        -------</span>
+<span class="sd">        self.torque_grid : ndarray</span>
+<span class="sd">            Sorted array of achievable torque values [p.u.].</span>
+<span class="sd">        self.current_grid : ndarray</span>
+<span class="sd">            Array of optimal current vectors [id, iq] corresponding to torque_grid [p.u.].</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="n">iS_mag_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">iS_mag_points</span><span class="p">)</span>
-        <span class="n">theta_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_points</span><span class="p">)</span>
+        <span class="n">theta_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_points</span><span class="p">)</span>
+
+        <span class="n">torques</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">currents</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">for</span> <span class="n">iS_mag</span> <span class="ow">in</span> <span class="n">iS_mag_range</span><span class="p">:</span>
+            <span class="c1"># Skip zero current magnitude (produces only zero torque)</span>
+            <span class="k">if</span> <span class="n">iS_mag</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">continue</span>
+
             <span class="n">id_trajectory</span> <span class="o">=</span> <span class="o">-</span><span class="n">iS_mag</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta_range</span><span class="p">)</span>
             <span class="n">iq_trajectory</span> <span class="o">=</span> <span class="n">iS_mag</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta_range</span><span class="p">)</span>
 
-            <span class="c1"># Calculate torque map for this current magnitude</span>
-            <span class="n">Te_map</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
-                <span class="n">iq_trajectory</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xsd</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xsq</span><span class="p">)</span> <span class="o">*</span> <span class="n">id_trajectory</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">PsiPM</span><span class="p">)</span>
+            <span class="c1"># Calculate torque for each angle</span>
+            <span class="n">Te_line</span> <span class="o">=</span> <span class="n">iq_trajectory</span> <span class="o">*</span> <span class="p">(</span>
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xsd</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xsq</span><span class="p">)</span> <span class="o">*</span> <span class="n">id_trajectory</span> <span class="o">+</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Psi_PM</span><span class="p">)</span>
 
-            <span class="c1"># Extract diagonal (optimal torque for each angle)</span>
-            <span class="n">Te_line</span> <span class="o">=</span> <span class="p">[</span><span class="n">Te_map</span><span class="p">[</span><span class="n">kk</span><span class="p">,</span> <span class="n">kk</span><span class="p">]</span> <span class="k">for</span> <span class="n">kk</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">theta_range</span><span class="o">.</span><span class="n">size</span><span class="p">)]</span>
+            <span class="c1"># Find maximum positive torque</span>
+            <span class="n">max_pos_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">Te_line</span><span class="p">)</span>
+            <span class="n">max_pos_torque</span> <span class="o">=</span> <span class="n">Te_line</span><span class="p">[</span><span class="n">max_pos_index</span><span class="p">]</span>
 
-            <span class="c1"># Find maximum torque and corresponding currents</span>
-            <span class="n">max_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">Te_line</span><span class="p">)</span>
-            <span class="n">optimal_torque</span> <span class="o">=</span> <span class="n">Te_line</span><span class="p">[</span><span class="n">max_index</span><span class="p">]</span>
-            <span class="n">optimal_iS_dq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-                <span class="p">[</span><span class="n">id_trajectory</span><span class="p">[</span><span class="n">max_index</span><span class="p">],</span> <span class="n">iq_trajectory</span><span class="p">[</span><span class="n">max_index</span><span class="p">]])</span>
+            <span class="c1"># Find maximum negative torque</span>
+            <span class="n">min_neg_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">Te_line</span><span class="p">)</span>
+            <span class="n">min_neg_torque</span> <span class="o">=</span> <span class="n">Te_line</span><span class="p">[</span><span class="n">min_neg_index</span><span class="p">]</span>
 
-            <span class="c1"># Store in lookup table</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">mtpa_lut</span><span class="p">[</span><span class="n">optimal_torque</span><span class="p">]</span> <span class="o">=</span> <span class="n">optimal_iS_dq</span></div>
+            <span class="c1"># Store positive optimal point</span>
+            <span class="k">if</span> <span class="n">max_pos_torque</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">torques</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">max_pos_torque</span><span class="p">)</span>
+                <span class="n">currents</span><span class="o">.</span><span class="n">append</span><span class="p">([</span>
+                    <span class="n">id_trajectory</span><span class="p">[</span><span class="n">max_pos_index</span><span class="p">],</span> <span class="n">iq_trajectory</span><span class="p">[</span><span class="n">max_pos_index</span><span class="p">]</span>
+                <span class="p">])</span>
+
+            <span class="c1"># Store negative optimal point</span>
+            <span class="k">if</span> <span class="n">min_neg_torque</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">torques</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">min_neg_torque</span><span class="p">)</span>
+                <span class="n">currents</span><span class="o">.</span><span class="n">append</span><span class="p">([</span>
+                    <span class="n">id_trajectory</span><span class="p">[</span><span class="n">min_neg_index</span><span class="p">],</span> <span class="n">iq_trajectory</span><span class="p">[</span><span class="n">min_neg_index</span><span class="p">]</span>
+                <span class="p">])</span>
+
+        <span class="c1"># Add explicit zero torque point</span>
+        <span class="n">torques</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+        <span class="n">currents</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+
+        <span class="c1"># Sort by torque and store as arrays</span>
+        <span class="n">sorted_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">torques</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">torque_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">torques</span><span class="p">)[</span><span class="n">sorted_indices</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">currents</span><span class="p">)[</span><span class="n">sorted_indices</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="MTPALookupTable.get_optimal_current"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/index.html#soft4pes.control.common.MTPALookupTable.get_optimal_current">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_optimal_current</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Te_ref</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get optimal stator current reference for given torque reference.</span>
+<span class="sd">        Get optimal stator current reference for given torque reference using linear interpolation.</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -420,11 +456,10 @@ document.write(`
 <span class="sd">            Optimal stator current reference [p.u.].</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="c1"># Find closest torque value in lookup table</span>
-        <span class="n">closest_torque</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mtpa_lut</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
-                             <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">torque</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">torque</span> <span class="o">-</span> <span class="n">Te_ref</span><span class="p">))</span>
-
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mtpa_lut</span><span class="p">[</span><span class="n">closest_torque</span><span class="p">])</span></div>
+        <span class="c1"># Linear interpolation for better coverage</span>
+        <span class="n">id_ref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">Te_ref</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">torque_grid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_grid</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="n">iq_ref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">Te_ref</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">torque_grid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_grid</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">id_ref</span><span class="p">,</span> <span class="n">iq_ref</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="MTPALookupTable.execute"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/index.html#soft4pes.control.common.MTPALookupTable.execute">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

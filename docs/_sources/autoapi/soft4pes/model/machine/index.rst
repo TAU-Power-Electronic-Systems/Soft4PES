@@ -218,10 +218,11 @@ Package Contents
 
 
    
-   Permanent magnet synchronous machine (PMSM) model. The model operates at a constant electrical
-   angular rotor speed. The system is modelled in a dq-frame, where the d-axis is aligned with the
-   rotor flux. However, the state of the system is the stator current in the alpha-beta frame, and
-   thus reference frame conversions are performed during state updates.
+   Permanent magnet synchronous machine (PMSM) model. The system is modeled in a alpha-beta frame,
+   and the machine operates at a constant electrical angular rotor speed. The state of the system
+   is the stator current, and the permanent-magnet flux (i.e., rotor flux) is considered as a
+   disturbance. The system input is the converter three-phase switch position or modulating signal.
+   The initial state of the model is based on the torque reference.
 
    :param par: Permanent magnet synchronous machine parameters in p.u.
    :type par: PMSMParameters
@@ -231,10 +232,8 @@ Package Contents
    :type base: base value object
    :param T_ref_init: Initial torque reference [p.u.].
    :type T_ref_init: float
-   :param i_mag_points: Number of current magnitude points for MTPA trajectory generation. The default is 101.
-   :type i_mag_points: int, optional
-   :param theta_points: Number of angle points for MTPA trajectory generation. The default is 2001.
-   :type theta_points: int, optional
+   :param mtpa_lut: MTPA lookup table for optimal current calculation.
+   :type mtpa_lut: MTPALookupTable
 
    .. attribute:: data
 
@@ -274,7 +273,7 @@ Package Contents
 
    .. attribute:: state_map
 
-      A dictionary mapping states to elements of the state vector.
+      A dictionary mapping state names to elements of the state vector.
 
       :type: dict
 
@@ -283,12 +282,6 @@ Package Contents
       Indicates if the system model is time-varying.
 
       :type: bool
-
-   .. attribute:: mtpa
-
-      Maximum torque per ampere (MTPA) lookup table.
-
-      :type: MTPALookupTable
 
    .. attribute:: theta_el
 
@@ -316,10 +309,14 @@ Package Contents
    .. py:method:: set_initial_state(**kwargs)
 
       
-      Calculates the initial state (stator current) of the machine based on the torque reference.
+      Calculate the initial state of the machine based on the torque reference.
 
-      :param T_ref_init: The initial torque reference [p.u.].
-      :type T_ref_init: float
+      :param \*\*kwargs: Keyword arguments containing:
+                         - T_ref_init : float
+                             The initial torque reference [p.u.].
+                         - mtpa_lut : MTPALookupTable
+                             MTPA lookup table for optimal current calculation.
+      :type \*\*kwargs: dict
 
 
 
@@ -373,8 +370,8 @@ Package Contents
       
       Calculate the continuous-time state-space model of the system.
 
-      :returns: A SimpleNamespace object containing matrices F, G1, and G2 of the continuous-time
-                state-space model.
+      :returns: A SimpleNamespace object containing matrices F and G of the continuous-time state-space
+                model.
       :rtype: SimpleNamespace
 
 
@@ -395,20 +392,22 @@ Package Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: get_next_state(matrices, u_abc, kTs)
+   .. py:method:: get_next_state(matrices, u_abc, kTs, Ts)
 
       
       Calculate the next state of the system.
 
-      :param u_abc: Converter three-phase switch position or modulating signal.
-      :type u_abc: 1 x 3 ndarray of floats
-      :param matrices: A SimpleNamespace object containing the state-space model matrices.
+      :param matrices: A SimpleNamespace object containing the state-space model matrices A and B.
       :type matrices: SimpleNamespace
+      :param u_abc: Converter three-phase switch position or modulating signal [p.u.].
+      :type u_abc: 1 x 3 ndarray of floats
       :param kTs: Current discrete time instant [s].
       :type kTs: float
+      :param Ts: Sampling interval [s].
+      :type Ts: float
 
       :returns: The next state of the system.
-      :rtype: 1 x 2 ndarray of floats
+      :rtype: 1 x 4 ndarray of floats
 
 
 
@@ -431,12 +430,12 @@ Package Contents
    .. py:method:: get_measurements(kTs)
 
       
-      Update the measurement data of the system.
+      Get the measurement data of the system.
 
       :param kTs: Current discrete time instant [s].
       :type kTs: float
 
-      :returns: A SimpleNamespace object containing the machine torque and rotor electrical angle.
+      :returns: A SimpleNamespace object containing the machine electromagnetic torque Te [p.u.].
       :rtype: SimpleNamespace
 
 
@@ -457,33 +456,7 @@ Package Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: update_internal_variables(kTs)
-
-      
-      Update the electrical rotor angle of the machine.
-
-      :param kTs: Current discrete time instant [s].
-      :type kTs: float
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      ..
-          !! processed by numpydoc !!
-
-
-.. py:class:: PMSMParameters(fs_SI, pf_SI, Rs_SI, Lsd_SI, Lsq_SI, LambdaPM_SI, base)
+.. py:class:: PMSMParameters(fs_SI, pf_SI, Rs_SI, Lsd_SI, Lsq_SI, Lambda_PM_SI, base)
 
    
    Parameters for a permanent magnet synchronous machine (PMSM).
@@ -498,8 +471,8 @@ Package Contents
    :type Lsd_SI: float
    :param Lsq_SI: Stator q-axis inductance [H].
    :type Lsq_SI: float
-   :param LambdaPM_SI: Permanent magnet flux linkage [Wb].
-   :type LambdaPM_SI: float
+   :param Lambda_PM_SI: Permanent magnet flux linkage [Wb].
+   :type Lambda_PM_SI: float
    :param base: Base values.
    :type base: base value object
 
@@ -533,7 +506,7 @@ Package Contents
 
       :type: float
 
-   .. attribute:: PsiPM
+   .. attribute:: Psi_PM
 
       Permanent magnet flux linkage [p.u.].
 

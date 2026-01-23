@@ -544,7 +544,7 @@ document.write(`
     <span class="k">def</span><span class="w"> </span><span class="nf">Te</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xm</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xr</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">psiR</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">iS</span><span class="p">)</span>
 
-<div class="viewcode-block" id="InductionMachine.get_next_state"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.induction_machine.InductionMachine.get_next_state">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_next_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matrices</span><span class="p">,</span> <span class="n">u_abc</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
+<div class="viewcode-block" id="InductionMachine.get_next_state"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.induction_machine.InductionMachine.get_next_state">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_next_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matrices</span><span class="p">,</span> <span class="n">u_abc</span><span class="p">,</span> <span class="n">kTs</span><span class="p">,</span> <span class="n">Ts</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the next state of the system.</span>
 
@@ -555,7 +555,10 @@ document.write(`
 <span class="sd">        matrices : SimpleNamespace</span>
 <span class="sd">            A SimpleNamespace object containing the state-space model matrices.</span>
 <span class="sd">        kTs : float</span>
-<span class="sd">            Current discrete time instant [s].</span>
+<span class="sd">            Current discrete time instant [s] (not used).</span>
+<span class="sd">        Ts : float</span>
+<span class="sd">            Sampling interval [s] (not used).</span>
+
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -580,17 +583,7 @@ document.write(`
 <span class="sd">        SimpleNamespace</span>
 <span class="sd">            A SimpleNamespace object containing the machine torque.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">Te</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Te</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="InductionMachine.update_internal_variables"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.induction_machine.InductionMachine.update_internal_variables">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">update_internal_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Update internal variables of the system.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        kTs : float</span>
-<span class="sd">            Current discrete time instant [s].</span>
-<span class="sd">        &quot;&quot;&quot;</span></div></div>
+        <span class="k">return</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">Te</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Te</span><span class="p">)</span></div></div>
 </pre></div>
 
                 </article>
