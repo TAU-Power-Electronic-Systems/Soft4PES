@@ -113,8 +113,8 @@ class PMSM(SystemModel):
         Returns
         -------
         SimpleNamespace
-            A SimpleNamespace object containing matrices F and G of the continuous-time state-space 
-            model.
+            A SimpleNamespace object containing matrices F, G and P of the continuous-time state-
+            space model.
         """
 
         ws = self.par.ws
@@ -142,9 +142,9 @@ class PMSM(SystemModel):
 
         F = -X_theta_inv.dot(Rs * np.eye(2) + ws * delta_X * R)
         G = self.conv.v_dc / 2 * X_theta_inv.dot(K)
-        G2 = -ws * X_theta_inv.dot(J)
+        P = -ws * X_theta_inv.dot(J)
 
-        return SimpleNamespace(F=F, G=G, G2=G2)
+        return SimpleNamespace(F=F, G=G, P=P)
 
     @property
     def Te(self):
@@ -164,7 +164,7 @@ class PMSM(SystemModel):
         Parameters
         ----------
         matrices : SimpleNamespace
-            A SimpleNamespace object containing the state-space model matrices A and B.
+            A SimpleNamespace object containing the state-space model matrices A, B and D.
         u_abc : 1 x 3 ndarray of floats
             Converter three-phase switch position or modulating signal [p.u.].
         kTs : float
@@ -180,7 +180,7 @@ class PMSM(SystemModel):
 
         # Get the next state
         x_kp1 = np.dot(matrices.A, self.x) + np.dot(
-            matrices.B, u_abc) + np.dot(matrices.B2, self.psi_PM)
+            matrices.B, u_abc) + np.dot(matrices.D, self.psi_PM)
 
         # Update electrical angle
         self.theta_el += self.par.ws * Ts * self.base.w
