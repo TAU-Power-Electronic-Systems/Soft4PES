@@ -45,8 +45,8 @@ rfpsc = lin.RFPSC(sys=sys)
 # Define indirect MPC, used as an inner loop tracking the capacitor voltage reference provided by
 # RFPSC. When PWM is used, lambda_u, which penalizes the control effort, should be set to relatively
 # low value to prevent MPC from reacting to the switching ripple.
-solver = mpc.solvers.IndirectMpcQP()
-vc_mpc = mpc.controllers.LCLVcMpcCtr(solver=solver,
+solver = mpc.solvers.IndirectQP()
+vc_mpc = mpc.algorithms.LCLGridVcCtr(solver=solver,
                                      lambda_u=1e-2,
                                      Np=4,
                                      I_conv_max=1.3)

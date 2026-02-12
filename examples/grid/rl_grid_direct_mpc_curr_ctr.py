@@ -39,31 +39,14 @@ Q_ref_seq = Sequence(
 )
 ref_seq = SimpleNamespace(P_ref_seq=P_ref_seq, Q_ref_seq=Q_ref_seq)
 
-# Define grid parameters
-grid_params = model.grid.RLGridParameters(Vg_SI=3300,
-                                          fg_SI=50,
-                                          Rg_SI=0.01815,
-                                          Lg_SI=5.7773e-4,
-                                          base=base)
-
-# Define L-filter parameters
-l_params = model.grid.LFilterParameters(L_fc_SI=0.5e-3, R_fc_SI=0.1, base=base)
-
-# Define system models
-conv = model.conv.Converter(v_dc_SI=5600, nl=3, base=base)
-sys = model.grid.RLGridLFilter(grid_params, l_params, conv, base)
-
 # Define solver to be Branch-and-Bound
-solver = mpc.solvers.MpcBnB(conv=conv)
-
-# Uncomment to use the enumeration-based solver
-# solver = mpc.solvers.MpcEnum(conv=conv)
+solver = mpc.solvers.BranchAndBound()
 
 # Define control loops, the outer loop generates the grid current reference based on the power
 # references, acting as a feedforward term. The inner loop (direct MPC) is used to track the grid
 # current reference.
 ref_ctr = lin.GridCurrRefGen()
-ctr = mpc.controllers.RLGridMpcCurrCtr(solver=solver, lambda_u=5e-3, Np=2)
+ctr = mpc.algorithms.RLGridCurrCtr(solver=solver, lambda_u=5e-3, Np=2)
 ctr_sys = common.ControlSystem(control_loops=[ref_ctr, ctr],
                                ref_seq=ref_seq,
                                Ts=100e-6)

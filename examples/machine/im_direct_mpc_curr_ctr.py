@@ -41,17 +41,14 @@ sys = model.machine.InductionMachine(
 )
 
 # Use Branch-and-Bound solver
-solver = mpc.solvers.MpcBnB(conv=config.conv)
+solver = mpc.solvers.BranchAndBound()
 
-# Uncomment to use enumeration based solver
-# solver = mpc.solvers.MpcEnum(conv=config.conv)
-
-# Define the indirect MPC current controller, which tracks the stator current references, derived
-# from the stator flux magnitude and torque references.
-ctr = mpc.controllers.IMMpcCurrCtr(solver=solver,
-                                   lambda_u=10e-3,
-                                   Np=2,
-                                   disc_method='exact_discretization')
+# Define the MPC current controller, which tracks the stator current references, derived from the
+# stator flux magnitude and torque references
+ctr = mpc.algorithms.IMCurrCtr(solver=solver,
+                               lambda_u=10e-3,
+                               Np=2,
+                               disc_method='exact_discretization')
 ctr_sys = common.ControlSystem(control_loops=[ctr], ref_seq=ref_seq, Ts=50e-6)
 
 # Simulate the system
