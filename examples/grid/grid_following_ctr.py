@@ -17,10 +17,10 @@ base = model.grid.BaseGrid(Vg_R_SI=3300, Ig_R_SI=1575, fg_R_SI=50)
 # Define power reference sequences
 # The first array contains the time instants (in seconds) and the second array the corresponding
 # reference values (in per unit). The reference is interpolated linearly between the time instants.
-P_ref_seq = Sequence(np.array([0, 0.05, 0.05, 0.1, 0.1, 0.2]),
+P_ref_seq = Sequence(np.array([0, 0.05, 0.05, 0.15, 0.15, 0.3]),
                      np.array([0, 0, 1, 1, 0, 0]))
 Q_ref_seq = Sequence(
-    np.array([0, 0.15, 0.15, 0.2]),
+    np.array([0, 0.25, 0.25, 0.3]),
     np.array([0, 0, 0.5, 0.5]),
 )
 ref_seq = SimpleNamespace(P_ref_seq=P_ref_seq, Q_ref_seq=Q_ref_seq)
@@ -56,7 +56,7 @@ ctr_sys = common.ControlSystem(control_loops=control_loops,
 
 # Simulate the system
 sim = Simulation(sys=sys, ctr=ctr_sys, Ts_sim=1e-6)
-sim_data = sim.simulate(t_stop=0.2)
+sim_data = sim.simulate(t_stop=0.3)
 sim.save_data()
 
 # Plot the results
@@ -66,4 +66,9 @@ plotter.plot_control_signals_grid(plot_P=True,
                                   plot_Q=True,
                                   P_ref=P_ref_seq,
                                   Q_ref=Q_ref_seq)
+plotter.plot_spectra(states_to_plot=['ig'],
+                     f_fund_SI=50.0,
+                     f_max_SI_plot=7500,
+                     start_time=0.075,
+                     n_cycles=3)
 plotter.show_all()

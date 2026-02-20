@@ -70,4 +70,10 @@ plotter.plot_states(states_to_plot=['iS', 'psiR'],
                     frames=['dq', 'abc'],
                     plot_u_abc=True)
 plotter.plot_control_signals_machine(plot_T=True, T_ref=T_ref_seq)
+plotter.plot_spectra(states_to_plot=['iS'],
+                     f_fund_SI=config.base.w / (2 * np.pi),
+                     f_max_SI_plot=2500,
+                     start_time=0.06,
+                     n_cycles=2,
+                     style='line')
 plotter.show_all()

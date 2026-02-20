@@ -565,3 +565,277 @@ class Plotter:
                 [alpha_beta_2_dq(q, th) for q, th in zip(quantity_ab, theta)])
         else:
             raise ValueError(f"Unknown frame: {frame}")
+
+    def calc_harmonics(self,
+                       signal,
+                       f_fund_SI=50.0,
+                       start_time=None,
+                       n_cycles=None):
+        """
+        Calculate harmonic magnitudes and Total Harmonic Distortion 
+        (THD) of  one or multiple signals.
+
+        Parameters
+        ----------
+        signal : ndarray
+            Time-domain signal. Shape can be (N,) for single signal or (N, M) for M signals.
+        f_fund_SI : float, optional
+            Fundamental frequency in Hz (default: 50.0).
+        start_time : float, optional
+            Start time for harmonic analysis (default: self.t_start).
+        n_cycles : int, optional
+            Number of fundamental cycles to include in analysis 
+            (default: None, uses full available time).
+
+        Returns
+        -------
+        dict    
+            Dictionary containing:
+            - 'orders': Harmonic orders (1, 2, ..., h_max)  
+            - 'freqs_hz': Frequencies of harmonics in Hz  
+            - 'magnitudes': Harmonic magnitudes
+            - 'ratio': Harmonic magnitudes normalized to fundamental
+            - 'THD': Total Harmonic Distortion
+        """
+        # simulation time vector
+        t_sys = self.data.sys.t
+
+        # analysis time window
+        t0 = self.t_start if start_time is None else start_time
+        if n_cycles is not None:
+            period = 1.0 / f_fund_SI
+            t1 = t0 + n_cycles * period
+        else:
+            t1 = self.t_end
+
+        # segement indices
+        t_idx, _ = self._get_time_mask(t_sys, t0, t1)
+        t_seg = t_sys[t_idx]
+
+        # sampling frequency and Nyquist frequency
+        dt_sim = float(t_seg[1] - t_seg[0])
+        fs = 1.0 / dt_sim
+        f_max = fs / 2.0
+
+        # signal shaping
+        sig = np.asarray(signal)
+        if sig.ndim == 1:
+            sig = sig.reshape(-1, 1)
+
+        # if user passed full-length signal, slice it
+        if sig.shape[0] == t_sys.size:
+            sig = sig[t_idx, :]
+
+        # number of samples
+        n = sig.shape[0]
+
+        # DC component per signal
+        dc = np.mean(sig, axis=0)
+
+        # DC removal
+        sig0 = sig - dc
+
+        # FFT (single-sided)
+        # rftt over time axis
+        fft_vals = np.fft.rfft(sig0, axis=0)
+
+        # Magnitude scaling (window gain + single-sided correction)
+        mag = np.abs(fft_vals) / n
+        if mag.shape[0] > 1:
+            mag[1:-1, :] *= 2.0
+
+        # Harmonics up to Nyquist
+        h_max = int(np.floor(f_max / float(f_fund_SI)))
+        h_max = max(h_max, 1)
+
+        # Harmonic orders and corresponding frequencies
+        orders = np.arange(1, h_max + 1, dtype=int)
+        freqs_hz = orders * float(f_fund_SI)
+
+        # Mapping frequencies to FFT bins
+        df = fs / n
+        k = np.clip(np.rint(freqs_hz / df).astype(int), 0, mag.shape[0] - 1)
+
+        # Extract harmonic magnitudes and calculate THD
+        ah = mag[k, :]
+        a1 = ah[0, :]
+        ratio = np.divide(ah, a1, out=np.zeros_like(ah), where=a1 != 0)
+        thd = np.sqrt(np.sum(ratio[1:, :]**2,
+                             axis=0)) if ratio.shape[0] >= 2 else np.zeros(
+                                 sig.shape[1])
+
+        # DC component as percentage of fundamental
+        dc_pct = np.divide(100.0 * dc,
+                           a1,
+                           out=np.zeros_like(a1, dtype=float),
+                           where=a1 != 0)
+
+        return {
+            "orders": orders,
+            "freqs_hz": freqs_hz,
+            "magnitudes": ah,
+            "ratio": ratio,
+            "THD": thd,
+            "dc": dc,
+            "dc_pct": dc_pct,
+        }
+
+    def plot_spectra(self,
+                     states_to_plot=None,
+                     f_fund_SI=50.0,
+                     f_max_SI_plot=None,
+                     start_time=None,
+                     n_cycles=None,
+                     style='bar'):
+        """
+        Plot harmonic spectra with frequency [Hz] on x-axis and vertical harmonic lines.
+
+        Parameters
+        ----------
+        states_to_plot : list of str or str, optional
+            State names to plot. If None, all states are plotted (default: None).
+        f_fund_SI : float, optional
+            Fundamental frequency in Hz (default: 50.0).
+        f_max_SI_plot : float, optional
+            Maximum frequency to plot in Hz (default: None, uses Nyquist limit).
+        start_time : float, optional
+            Start time for harmonic analysis (default: self.t_start).
+        n_cycles : int, optional
+            Number of fundamental cycles to include in analysis 
+            (default: None, uses full available time).
+        style : str, optional
+            Plot style: 'bar' for vertical lines, 'line' for connected lines (default: 'bar').
+
+        Examples
+        --------
+        >>> plotter.plot_spectra(states_to_plot=['ig', 'vc'], f_fund_SI=50.0, f_max_SI_plot=1000.0)
+        >>> plotter.plot_spectra(f_fund_SI=60.0, n_cycles=10, style='line')
+        """
+        state_map = self.sys.state_map
+        if states_to_plot is None:
+            states = list(state_map.keys())
+        elif isinstance(states_to_plot, str):
+            states = [states_to_plot]
+        else:
+            states = list(states_to_plot)
+
+        # Default f_max_plot if not provided: sim Nyquist limited by control Nyquist (if available)
+        if f_max_SI_plot is None:
+            t_sys = self.data.sys.t
+            t_idx, _ = self._get_time_mask(t_sys, self.t_start, self.t_end)
+            t_seg = t_sys[t_idx]
+            dt_sim = float(np.mean(np.diff(t_seg)))
+            fs_sim = 1.0 / dt_sim
+            f_max_SI_plot = fs_sim / 2.0
+
+        # Time mask for slicing state trajectories
+        t_sys = self.data.sys.t
+        t0 = self.t_start if start_time is None else start_time
+        if n_cycles is not None:
+            period = 1.0 / f_fund_SI
+            t1 = t0 + n_cycles * period
+        else:
+            t1 = self.t_end
+        t_idx, _ = self._get_time_mask(t_sys, t0, t1)
+
+        n_states = len(states)
+        fig, axs = plt.subplots(n_states,
+                                1,
+                                figsize=(9, 3.2 * n_states),
+                                sharex=True)
+        self._register_figure(fig)
+        if n_states == 1:
+            axs = [axs]
+
+        x = self.data.sys.x
+
+        for ax, state in zip(axs, states):
+            idx_state = state_map[state]
+            q = x[:, idx_state]
+            q_seg = q[t_idx, ...]
+
+            # Convert to abc so all phases are plotted when possible
+            if q_seg.ndim == 2 and q_seg.shape[1] == 2:
+                q_abc = np.array([alpha_beta_2_abc(v) for v in q_seg])
+                phase_labels = ["a", "b", "c"]
+            elif q_seg.ndim == 2 and q_seg.shape[1] == 3:
+                q_abc = q_seg
+                phase_labels = ["a", "b", "c"]
+            else:
+                q_abc = np.asarray(q_seg).reshape(-1, 1)
+                phase_labels = [""]
+
+            # Calculate harmonics and THD for each channel (e.g., phases) separately
+            harm = self.calc_harmonics(q_abc,
+                                       f_fund_SI=f_fund_SI,
+                                       start_time=t0,
+                                       n_cycles=n_cycles)
+
+            f_hz = harm["freqs_hz"]
+            orders = harm["orders"]
+            ratio = harm["ratio"]  # (H,M) or (H,)
+            thd = harm["THD"]  # (M,) or float
+            dc = harm["dc_pct"]  # (M,) or float
+
+            # Ensure shapes are (H,M) and (M,) even for single channel
+            if q_abc.shape[1] == 1:
+                ratio = ratio.reshape(-1, 1)
+                thd = np.asarray([thd], dtype=float)
+                dc = np.asarray([dc], dtype=float)
+
+            mask = f_hz <= float(f_max_SI_plot)
+            f_hz_m = f_hz[mask]
+            orders_m = orders[mask]
+
+            ymax_state = 0.0
+            ymin_state = 0.0
+
+            # Plot each channel (loop is only for plotting/labels/colors)
+            for ch in range(q_abc.shape[1]):
+                y_m = 100.0 * ratio[mask, ch]
+                dc_ch = abs(float(dc[ch]))
+                thd_ch = float(thd[ch])
+
+                if q_abc.shape[1] == 3:
+                    ph = phase_labels[ch]
+                    label = f"{self._make_label(state, ph)}, THD={100*thd_ch:.2f}%"
+                    color = self.phase_colors[ch]
+                else:
+                    label = f"{self._make_label(state)}, THD={100*thd_ch:.2f}%"
+                    color = [1, 0, 0]
+
+                f_plot = np.concatenate(([0.0], f_hz_m))
+                y_plot = np.concatenate(([dc_ch], y_m))
+
+                if style == 'line':
+                    ax.plot(f_plot,
+                            y_plot,
+                            color=color,
+                            linewidth=2,
+                            label=label)
+                else:
+                    ax.vlines(f_plot,
+                              0.0,
+                              y_plot,
+                              colors=[color],
+                              linewidth=2.0,
+                              label=label)
+
+                # y-limit: ignore fundamental (order 1)
+                y_nonfund = y_m[orders_m != 1]
+                cand = [dc_ch]
+                if y_nonfund.size > 0:
+                    cand.append(float(np.max(y_nonfund)))
+                ymax_state = max(ymax_state, *cand)
+                ymin_state = min(ymin_state, *cand)
+
+            # Formatting per subplot
+            ax.grid(True)
+            ax.set_ylabel(r"\% of the fundamental")
+            ax.set_xlim([-10, float(f_max_SI_plot)])
+            ax.set_ylim(
+                [1.1 * min(ymin_state, 0.0), 1.1 * max(ymax_state, 1e-6)])
+            ax.legend(loc="lower center", bbox_to_anchor=(0.5, 1.02), ncol=3)
+
+        axs[-1].set_xlabel("Frequency [Hz]")
+        plt.tight_layout()
