@@ -113,3 +113,74 @@ class FirstOrderFilter:
         """
         Ts_pu = Ts * base.w
         self.output += Ts_pu * self.w_bw * (value_in - self.output)
+
+
+class DiscreteTransferFunction:
+    """
+    Generic discrete-time transfer function implementation.
+
+    The transfer function is defined as
+
+        Y(z) / U(z) = (b0 + b1 z^-1 + ... + bm z^-m)
+                      --------------------------------
+                      (a0 + a1 z^-1 + ... + an z^-n)
+
+    Parameters
+    ----------
+    numerator_coeffs : array-like
+        Numerator coefficients of the transfer function.
+    denominator_coeffs : array-like, optional
+        Denominator coefficients of the transfer function.
+        If not given, [1] is used.
+    """
+
+    def __init__(self, numerator_coeffs, denominator_coeffs=None):
+        self.numerator_coeffs = np.array(numerator_coeffs)
+        self.denominator_coeffs = np.array(
+            [1] if denominator_coeffs is None else denominator_coeffs
+        )
+
+        if self.denominator_coeffs[0] != 1:
+            self.numerator_coeffs = self.numerator_coeffs / self.denominator_coeffs[0]
+            self.denominator_coeffs = self.denominator_coeffs / self.denominator_coeffs[0]
+
+        self.buffer_input = None
+        self.buffer_output = None
+
+    def apply(self, input_signal):
+        """
+        Apply the discrete transfer function to the input signal.
+
+        Parameters
+        ----------
+        input_signal : float or array-like
+            The current input signal.
+
+        Returns
+        -------
+        float or ndarray
+            The filtered output signal.
+        """
+        input_signal = np.array(input_signal)
+
+        scalar_input = input_signal.ndim == 0
+        if scalar_input:
+            input_signal = np.array([input_signal])
+
+        if self.buffer_input is None:
+            self.buffer_input = np.zeros((len(self.numerator_coeffs),) + input_signal.shape)
+            self.buffer_output = np.zeros((len(self.denominator_coeffs) - 1,) + input_signal.shape)
+
+        self.buffer_input[1:] = self.buffer_input[:-1]
+        self.buffer_input[0] = input_signal
+
+        output = np.tensordot(self.numerator_coeffs, self.buffer_input, axes=(0, 0))
+
+        if len(self.denominator_coeffs) > 1:
+            output -= np.tensordot(self.denominator_coeffs[1:], self.buffer_output, axes=(0, 0))
+            self.buffer_output[1:] = self.buffer_output[:-1]
+            self.buffer_output[0] = output
+
+        if scalar_input:
+            return output[0]
+        return output
