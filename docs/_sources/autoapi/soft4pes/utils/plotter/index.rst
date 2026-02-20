@@ -210,3 +210,87 @@ Module Contents
           !! processed by numpydoc !!
 
 
+   .. py:method:: calc_harmonics(signal, f_fund_SI=50.0, start_time=None, n_cycles=None)
+
+      
+      Calculate harmonic magnitudes and Total Harmonic Distortion
+      (THD) of  one or multiple signals.
+
+      :param signal: Time-domain signal. Shape can be (N,) for single signal or (N, M) for M signals.
+      :type signal: ndarray
+      :param f_fund_SI: Fundamental frequency in Hz (default: 50.0).
+      :type f_fund_SI: float, optional
+      :param start_time: Start time for harmonic analysis (default: self.t_start).
+      :type start_time: float, optional
+      :param n_cycles: Number of fundamental cycles to include in analysis
+                       (default: None, uses full available time).
+      :type n_cycles: int, optional
+
+      :returns: Dictionary containing:
+                - 'orders': Harmonic orders (1, 2, ..., h_max)
+                - 'freqs_hz': Frequencies of harmonics in Hz
+                - 'magnitudes': Harmonic magnitudes
+                - 'ratio': Harmonic magnitudes normalized to fundamental
+                - 'THD': Total Harmonic Distortion
+      :rtype: dict
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: plot_spectra(states_to_plot=None, f_fund_SI=50.0, f_max_SI_plot=None, start_time=None, n_cycles=None, style='bar')
+
+      
+      Plot harmonic spectra with frequency [Hz] on x-axis and vertical harmonic lines.
+
+      :param states_to_plot: State names to plot. If None, all states are plotted (default: None).
+      :type states_to_plot: list of str or str, optional
+      :param f_fund_SI: Fundamental frequency in Hz (default: 50.0).
+      :type f_fund_SI: float, optional
+      :param f_max_SI_plot: Maximum frequency to plot in Hz (default: None, uses Nyquist limit).
+      :type f_max_SI_plot: float, optional
+      :param start_time: Start time for harmonic analysis (default: self.t_start).
+      :type start_time: float, optional
+      :param n_cycles: Number of fundamental cycles to include in analysis
+                       (default: None, uses full available time).
+      :type n_cycles: int, optional
+      :param style: Plot style: 'bar' for vertical lines, 'line' for connected lines (default: 'bar').
+      :type style: str, optional
+
+      .. rubric:: Examples
+
+      >>> plotter.plot_spectra(states_to_plot=['ig', 'vc'], f_fund_SI=50.0, f_max_SI_plot=1000.0)
+      >>> plotter.plot_spectra(f_fund_SI=60.0, n_cycles=10, style='line')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+

@@ -907,7 +907,281 @@ document.write(`
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
                 <span class="p">[</span><span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">th</span><span class="p">)</span> <span class="k">for</span> <span class="n">q</span><span class="p">,</span> <span class="n">th</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">quantity_ab</span><span class="p">,</span> <span class="n">theta</span><span class="p">)])</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown frame: </span><span class="si">{</span><span class="n">frame</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown frame: </span><span class="si">{</span><span class="n">frame</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Plotter.calc_harmonics"><a class="viewcode-back" href="../../../autoapi/soft4pes/utils/plotter/index.html#soft4pes.utils.Plotter.calc_harmonics">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">calc_harmonics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                       <span class="n">signal</span><span class="p">,</span>
+                       <span class="n">f_fund_SI</span><span class="o">=</span><span class="mf">50.0</span><span class="p">,</span>
+                       <span class="n">start_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">n_cycles</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate harmonic magnitudes and Total Harmonic Distortion </span>
+<span class="sd">        (THD) of  one or multiple signals.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        signal : ndarray</span>
+<span class="sd">            Time-domain signal. Shape can be (N,) for single signal or (N, M) for M signals.</span>
+<span class="sd">        f_fund_SI : float, optional</span>
+<span class="sd">            Fundamental frequency in Hz (default: 50.0).</span>
+<span class="sd">        start_time : float, optional</span>
+<span class="sd">            Start time for harmonic analysis (default: self.t_start).</span>
+<span class="sd">        n_cycles : int, optional</span>
+<span class="sd">            Number of fundamental cycles to include in analysis </span>
+<span class="sd">            (default: None, uses full available time).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict    </span>
+<span class="sd">            Dictionary containing:</span>
+<span class="sd">            - &#39;orders&#39;: Harmonic orders (1, 2, ..., h_max)  </span>
+<span class="sd">            - &#39;freqs_hz&#39;: Frequencies of harmonics in Hz  </span>
+<span class="sd">            - &#39;magnitudes&#39;: Harmonic magnitudes</span>
+<span class="sd">            - &#39;ratio&#39;: Harmonic magnitudes normalized to fundamental</span>
+<span class="sd">            - &#39;THD&#39;: Total Harmonic Distortion</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># simulation time vector</span>
+        <span class="n">t_sys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">t</span>
+
+        <span class="c1"># analysis time window</span>
+        <span class="n">t0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_start</span> <span class="k">if</span> <span class="n">start_time</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">start_time</span>
+        <span class="k">if</span> <span class="n">n_cycles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">period</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">f_fund_SI</span>
+            <span class="n">t1</span> <span class="o">=</span> <span class="n">t0</span> <span class="o">+</span> <span class="n">n_cycles</span> <span class="o">*</span> <span class="n">period</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">t1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_end</span>
+
+        <span class="c1"># segement indices</span>
+        <span class="n">t_idx</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_time_mask</span><span class="p">(</span><span class="n">t_sys</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">)</span>
+        <span class="n">t_seg</span> <span class="o">=</span> <span class="n">t_sys</span><span class="p">[</span><span class="n">t_idx</span><span class="p">]</span>
+
+        <span class="c1"># sampling frequency and Nyquist frequency</span>
+        <span class="n">dt_sim</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">t_seg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">t_seg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">fs</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">dt_sim</span>
+        <span class="n">f_max</span> <span class="o">=</span> <span class="n">fs</span> <span class="o">/</span> <span class="mf">2.0</span>
+
+        <span class="c1"># signal shaping</span>
+        <span class="n">sig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sig</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">sig</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># if user passed full-length signal, slice it</span>
+        <span class="k">if</span> <span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">t_sys</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+            <span class="n">sig</span> <span class="o">=</span> <span class="n">sig</span><span class="p">[</span><span class="n">t_idx</span><span class="p">,</span> <span class="p">:]</span>
+
+        <span class="c1"># number of samples</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># DC component per signal</span>
+        <span class="n">dc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># DC removal</span>
+        <span class="n">sig0</span> <span class="o">=</span> <span class="n">sig</span> <span class="o">-</span> <span class="n">dc</span>
+
+        <span class="c1"># FFT (single-sided)</span>
+        <span class="c1"># rftt over time axis</span>
+        <span class="n">fft_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">rfft</span><span class="p">(</span><span class="n">sig0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Magnitude scaling (window gain + single-sided correction)</span>
+        <span class="n">mag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">fft_vals</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span>
+        <span class="k">if</span> <span class="n">mag</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">mag</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">*=</span> <span class="mf">2.0</span>
+
+        <span class="c1"># Harmonics up to Nyquist</span>
+        <span class="n">h_max</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">f_max</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">f_fund_SI</span><span class="p">)))</span>
+        <span class="n">h_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">h_max</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Harmonic orders and corresponding frequencies</span>
+        <span class="n">orders</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">h_max</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">freqs_hz</span> <span class="o">=</span> <span class="n">orders</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">f_fund_SI</span><span class="p">)</span>
+
+        <span class="c1"># Mapping frequencies to FFT bins</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">fs</span> <span class="o">/</span> <span class="n">n</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">rint</span><span class="p">(</span><span class="n">freqs_hz</span> <span class="o">/</span> <span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">mag</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Extract harmonic magnitudes and calculate THD</span>
+        <span class="n">ah</span> <span class="o">=</span> <span class="n">mag</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">a1</span> <span class="o">=</span> <span class="n">ah</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">ratio</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">ah</span><span class="p">,</span> <span class="n">a1</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">ah</span><span class="p">),</span> <span class="n">where</span><span class="o">=</span><span class="n">a1</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">thd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">ratio</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="p">:]</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+                             <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span> <span class="k">if</span> <span class="n">ratio</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+                                 <span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="c1"># DC component as percentage of fundamental</span>
+        <span class="n">dc_pct</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="mf">100.0</span> <span class="o">*</span> <span class="n">dc</span><span class="p">,</span>
+                           <span class="n">a1</span><span class="p">,</span>
+                           <span class="n">out</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span>
+                           <span class="n">where</span><span class="o">=</span><span class="n">a1</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;orders&quot;</span><span class="p">:</span> <span class="n">orders</span><span class="p">,</span>
+            <span class="s2">&quot;freqs_hz&quot;</span><span class="p">:</span> <span class="n">freqs_hz</span><span class="p">,</span>
+            <span class="s2">&quot;magnitudes&quot;</span><span class="p">:</span> <span class="n">ah</span><span class="p">,</span>
+            <span class="s2">&quot;ratio&quot;</span><span class="p">:</span> <span class="n">ratio</span><span class="p">,</span>
+            <span class="s2">&quot;THD&quot;</span><span class="p">:</span> <span class="n">thd</span><span class="p">,</span>
+            <span class="s2">&quot;dc&quot;</span><span class="p">:</span> <span class="n">dc</span><span class="p">,</span>
+            <span class="s2">&quot;dc_pct&quot;</span><span class="p">:</span> <span class="n">dc_pct</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
+<div class="viewcode-block" id="Plotter.plot_spectra"><a class="viewcode-back" href="../../../autoapi/soft4pes/utils/plotter/index.html#soft4pes.utils.Plotter.plot_spectra">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">plot_spectra</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                     <span class="n">states_to_plot</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                     <span class="n">f_fund_SI</span><span class="o">=</span><span class="mf">50.0</span><span class="p">,</span>
+                     <span class="n">f_max_SI_plot</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                     <span class="n">start_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                     <span class="n">n_cycles</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                     <span class="n">style</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot harmonic spectra with frequency [Hz] on x-axis and vertical harmonic lines.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        states_to_plot : list of str or str, optional</span>
+<span class="sd">            State names to plot. If None, all states are plotted (default: None).</span>
+<span class="sd">        f_fund_SI : float, optional</span>
+<span class="sd">            Fundamental frequency in Hz (default: 50.0).</span>
+<span class="sd">        f_max_SI_plot : float, optional</span>
+<span class="sd">            Maximum frequency to plot in Hz (default: None, uses Nyquist limit).</span>
+<span class="sd">        start_time : float, optional</span>
+<span class="sd">            Start time for harmonic analysis (default: self.t_start).</span>
+<span class="sd">        n_cycles : int, optional</span>
+<span class="sd">            Number of fundamental cycles to include in analysis </span>
+<span class="sd">            (default: None, uses full available time).</span>
+<span class="sd">        style : str, optional</span>
+<span class="sd">            Plot style: &#39;bar&#39; for vertical lines, &#39;line&#39; for connected lines (default: &#39;bar&#39;).</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; plotter.plot_spectra(states_to_plot=[&#39;ig&#39;, &#39;vc&#39;], f_fund_SI=50.0, f_max_SI_plot=1000.0)</span>
+<span class="sd">        &gt;&gt;&gt; plotter.plot_spectra(f_fund_SI=60.0, n_cycles=10, style=&#39;line&#39;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">state_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">state_map</span>
+        <span class="k">if</span> <span class="n">states_to_plot</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">states</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">state_map</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">states_to_plot</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">states</span> <span class="o">=</span> <span class="p">[</span><span class="n">states_to_plot</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">states</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">states_to_plot</span><span class="p">)</span>
+
+        <span class="c1"># Default f_max_plot if not provided: sim Nyquist limited by control Nyquist (if available)</span>
+        <span class="k">if</span> <span class="n">f_max_SI_plot</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">t_sys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">t</span>
+            <span class="n">t_idx</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_time_mask</span><span class="p">(</span><span class="n">t_sys</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_start</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_end</span><span class="p">)</span>
+            <span class="n">t_seg</span> <span class="o">=</span> <span class="n">t_sys</span><span class="p">[</span><span class="n">t_idx</span><span class="p">]</span>
+            <span class="n">dt_sim</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">t_seg</span><span class="p">)))</span>
+            <span class="n">fs_sim</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">dt_sim</span>
+            <span class="n">f_max_SI_plot</span> <span class="o">=</span> <span class="n">fs_sim</span> <span class="o">/</span> <span class="mf">2.0</span>
+
+        <span class="c1"># Time mask for slicing state trajectories</span>
+        <span class="n">t_sys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">t</span>
+        <span class="n">t0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_start</span> <span class="k">if</span> <span class="n">start_time</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">start_time</span>
+        <span class="k">if</span> <span class="n">n_cycles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">period</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">f_fund_SI</span>
+            <span class="n">t1</span> <span class="o">=</span> <span class="n">t0</span> <span class="o">+</span> <span class="n">n_cycles</span> <span class="o">*</span> <span class="n">period</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">t1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_end</span>
+        <span class="n">t_idx</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_time_mask</span><span class="p">(</span><span class="n">t_sys</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">)</span>
+
+        <span class="n">n_states</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">states</span><span class="p">)</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">n_states</span><span class="p">,</span>
+                                <span class="mi">1</span><span class="p">,</span>
+                                <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mf">3.2</span> <span class="o">*</span> <span class="n">n_states</span><span class="p">),</span>
+                                <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_register_figure</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">n_states</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">axs</span> <span class="o">=</span> <span class="p">[</span><span class="n">axs</span><span class="p">]</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">x</span>
+
+        <span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">state</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span> <span class="n">states</span><span class="p">):</span>
+            <span class="n">idx_state</span> <span class="o">=</span> <span class="n">state_map</span><span class="p">[</span><span class="n">state</span><span class="p">]</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:,</span> <span class="n">idx_state</span><span class="p">]</span>
+            <span class="n">q_seg</span> <span class="o">=</span> <span class="n">q</span><span class="p">[</span><span class="n">t_idx</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+
+            <span class="c1"># Convert to abc so all phases are plotted when possible</span>
+            <span class="k">if</span> <span class="n">q_seg</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">q_seg</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">q_abc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">alpha_beta_2_abc</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">q_seg</span><span class="p">])</span>
+                <span class="n">phase_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">q_seg</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">q_seg</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">q_abc</span> <span class="o">=</span> <span class="n">q_seg</span>
+                <span class="n">phase_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">q_abc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">q_seg</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">phase_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]</span>
+
+            <span class="c1"># Calculate harmonics and THD for each channel (e.g., phases) separately</span>
+            <span class="n">harm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calc_harmonics</span><span class="p">(</span><span class="n">q_abc</span><span class="p">,</span>
+                                       <span class="n">f_fund_SI</span><span class="o">=</span><span class="n">f_fund_SI</span><span class="p">,</span>
+                                       <span class="n">start_time</span><span class="o">=</span><span class="n">t0</span><span class="p">,</span>
+                                       <span class="n">n_cycles</span><span class="o">=</span><span class="n">n_cycles</span><span class="p">)</span>
+
+            <span class="n">f_hz</span> <span class="o">=</span> <span class="n">harm</span><span class="p">[</span><span class="s2">&quot;freqs_hz&quot;</span><span class="p">]</span>
+            <span class="n">orders</span> <span class="o">=</span> <span class="n">harm</span><span class="p">[</span><span class="s2">&quot;orders&quot;</span><span class="p">]</span>
+            <span class="n">ratio</span> <span class="o">=</span> <span class="n">harm</span><span class="p">[</span><span class="s2">&quot;ratio&quot;</span><span class="p">]</span>  <span class="c1"># (H,M) or (H,)</span>
+            <span class="n">thd</span> <span class="o">=</span> <span class="n">harm</span><span class="p">[</span><span class="s2">&quot;THD&quot;</span><span class="p">]</span>  <span class="c1"># (M,) or float</span>
+            <span class="n">dc</span> <span class="o">=</span> <span class="n">harm</span><span class="p">[</span><span class="s2">&quot;dc_pct&quot;</span><span class="p">]</span>  <span class="c1"># (M,) or float</span>
+
+            <span class="c1"># Ensure shapes are (H,M) and (M,) even for single channel</span>
+            <span class="k">if</span> <span class="n">q_abc</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">ratio</span> <span class="o">=</span> <span class="n">ratio</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">thd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">thd</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+                <span class="n">dc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">dc</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">f_hz</span> <span class="o">&lt;=</span> <span class="nb">float</span><span class="p">(</span><span class="n">f_max_SI_plot</span><span class="p">)</span>
+            <span class="n">f_hz_m</span> <span class="o">=</span> <span class="n">f_hz</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+            <span class="n">orders_m</span> <span class="o">=</span> <span class="n">orders</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+
+            <span class="n">ymax_state</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="n">ymin_state</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+            <span class="c1"># Plot each channel (loop is only for plotting/labels/colors)</span>
+            <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">q_abc</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                <span class="n">y_m</span> <span class="o">=</span> <span class="mf">100.0</span> <span class="o">*</span> <span class="n">ratio</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="n">ch</span><span class="p">]</span>
+                <span class="n">dc_ch</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">dc</span><span class="p">[</span><span class="n">ch</span><span class="p">]))</span>
+                <span class="n">thd_ch</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">thd</span><span class="p">[</span><span class="n">ch</span><span class="p">])</span>
+
+                <span class="k">if</span> <span class="n">q_abc</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="n">ph</span> <span class="o">=</span> <span class="n">phase_labels</span><span class="p">[</span><span class="n">ch</span><span class="p">]</span>
+                    <span class="n">label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_make_label</span><span class="p">(</span><span class="n">state</span><span class="p">,</span><span class="w"> </span><span class="n">ph</span><span class="p">)</span><span class="si">}</span><span class="s2">, THD=</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">thd_ch</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">phase_colors</span><span class="p">[</span><span class="n">ch</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_make_label</span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="si">}</span><span class="s2">, THD=</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">thd_ch</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+
+                <span class="n">f_plot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(([</span><span class="mf">0.0</span><span class="p">],</span> <span class="n">f_hz_m</span><span class="p">))</span>
+                <span class="n">y_plot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(([</span><span class="n">dc_ch</span><span class="p">],</span> <span class="n">y_m</span><span class="p">))</span>
+
+                <span class="k">if</span> <span class="n">style</span> <span class="o">==</span> <span class="s1">&#39;line&#39;</span><span class="p">:</span>
+                    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">f_plot</span><span class="p">,</span>
+                            <span class="n">y_plot</span><span class="p">,</span>
+                            <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+                            <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                            <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ax</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="n">f_plot</span><span class="p">,</span>
+                              <span class="mf">0.0</span><span class="p">,</span>
+                              <span class="n">y_plot</span><span class="p">,</span>
+                              <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="n">color</span><span class="p">],</span>
+                              <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+                              <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+
+                <span class="c1"># y-limit: ignore fundamental (order 1)</span>
+                <span class="n">y_nonfund</span> <span class="o">=</span> <span class="n">y_m</span><span class="p">[</span><span class="n">orders_m</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">]</span>
+                <span class="n">cand</span> <span class="o">=</span> <span class="p">[</span><span class="n">dc_ch</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">y_nonfund</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">cand</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">y_nonfund</span><span class="p">)))</span>
+                <span class="n">ymax_state</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ymax_state</span><span class="p">,</span> <span class="o">*</span><span class="n">cand</span><span class="p">)</span>
+                <span class="n">ymin_state</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">ymin_state</span><span class="p">,</span> <span class="o">*</span><span class="n">cand</span><span class="p">)</span>
+
+            <span class="c1"># Formatting per subplot</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\</span><span class="si">% o</span><span class="s2">f the fundamental&quot;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">f_max_SI_plot</span><span class="p">)])</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span>
+                <span class="p">[</span><span class="mf">1.1</span> <span class="o">*</span> <span class="nb">min</span><span class="p">(</span><span class="n">ymin_state</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="mf">1.1</span> <span class="o">*</span> <span class="nb">max</span><span class="p">(</span><span class="n">ymax_state</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">)])</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower center&quot;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">),</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+        <span class="n">axs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency [Hz]&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span></div></div>
 </pre></div>
 
                 </article>

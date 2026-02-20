@@ -396,6 +396,8 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.utils.plotter.Plotter.plot_control_signals_machine"><code class="docutils literal notranslate"><span class="pre">Plotter.plot_control_signals_machine()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.utils.plotter.Plotter.plot_states"><code class="docutils literal notranslate"><span class="pre">Plotter.plot_states()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.utils.plotter.Plotter.show_all"><code class="docutils literal notranslate"><span class="pre">Plotter.show_all()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.utils.plotter.Plotter.calc_harmonics"><code class="docutils literal notranslate"><span class="pre">Plotter.calc_harmonics()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.utils.plotter.Plotter.plot_spectra"><code class="docutils literal notranslate"><span class="pre">Plotter.plot_spectra()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -535,6 +537,59 @@ If None, defaults to ‘alpha-beta’ for all states. The dq-frame is aligned wi
 them simultaneously. Figures remain open until manually closed by the user.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.utils.plotter.Plotter.calc_harmonics">
+<span class="sig-name descname"><span class="pre">calc_harmonics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f_fund_SI</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_cycles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/utils/plotter.html#Plotter.calc_harmonics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.utils.plotter.Plotter.calc_harmonics" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculate harmonic magnitudes and Total Harmonic Distortion
+(THD) of  one or multiple signals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>signal</strong> (<em>ndarray</em>) – Time-domain signal. Shape can be (N,) for single signal or (N, M) for M signals.</p></li>
+<li><p><strong>f_fund_SI</strong> (<em>float</em><em>, </em><em>optional</em>) – Fundamental frequency in Hz (default: 50.0).</p></li>
+<li><p><strong>start_time</strong> (<em>float</em><em>, </em><em>optional</em>) – Start time for harmonic analysis (default: self.t_start).</p></li>
+<li><p><strong>n_cycles</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of fundamental cycles to include in analysis
+(default: None, uses full available time).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary containing:
+- ‘orders’: Harmonic orders (1, 2, …, h_max)
+- ‘freqs_hz’: Frequencies of harmonics in Hz
+- ‘magnitudes’: Harmonic magnitudes
+- ‘ratio’: Harmonic magnitudes normalized to fundamental
+- ‘THD’: Total Harmonic Distortion</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.utils.plotter.Plotter.plot_spectra">
+<span class="sig-name descname"><span class="pre">plot_spectra</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">states_to_plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f_fund_SI</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f_max_SI_plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_cycles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'bar'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/utils/plotter.html#Plotter.plot_spectra"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.utils.plotter.Plotter.plot_spectra" title="Permalink to this definition">#</a></dt>
+<dd><p>Plot harmonic spectra with frequency [Hz] on x-axis and vertical harmonic lines.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>states_to_plot</strong> (<em>list</em><em> of </em><em>str</em><em> or </em><em>str</em><em>, </em><em>optional</em>) – State names to plot. If None, all states are plotted (default: None).</p></li>
+<li><p><strong>f_fund_SI</strong> (<em>float</em><em>, </em><em>optional</em>) – Fundamental frequency in Hz (default: 50.0).</p></li>
+<li><p><strong>f_max_SI_plot</strong> (<em>float</em><em>, </em><em>optional</em>) – Maximum frequency to plot in Hz (default: None, uses Nyquist limit).</p></li>
+<li><p><strong>start_time</strong> (<em>float</em><em>, </em><em>optional</em>) – Start time for harmonic analysis (default: self.t_start).</p></li>
+<li><p><strong>n_cycles</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of fundamental cycles to include in analysis
+(default: None, uses full available time).</p></li>
+<li><p><strong>style</strong> (<em>str</em><em>, </em><em>optional</em>) – Plot style: ‘bar’ for vertical lines, ‘line’ for connected lines (default: ‘bar’).</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plotter</span><span class="o">.</span><span class="n">plot_spectra</span><span class="p">(</span><span class="n">states_to_plot</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ig&#39;</span><span class="p">,</span> <span class="s1">&#39;vc&#39;</span><span class="p">],</span> <span class="n">f_fund_SI</span><span class="o">=</span><span class="mf">50.0</span><span class="p">,</span> <span class="n">f_max_SI_plot</span><span class="o">=</span><span class="mf">1000.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plotter</span><span class="o">.</span><span class="n">plot_spectra</span><span class="p">(</span><span class="n">f_fund_SI</span><span class="o">=</span><span class="mf">60.0</span><span class="p">,</span> <span class="n">n_cycles</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;line&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -591,6 +646,8 @@ them simultaneously. Figures remain open until manually closed by the user.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.utils.plotter.Plotter.plot_control_signals_machine"><code class="docutils literal notranslate"><span class="pre">Plotter.plot_control_signals_machine()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.utils.plotter.Plotter.plot_states"><code class="docutils literal notranslate"><span class="pre">Plotter.plot_states()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.utils.plotter.Plotter.show_all"><code class="docutils literal notranslate"><span class="pre">Plotter.show_all()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.utils.plotter.Plotter.calc_harmonics"><code class="docutils literal notranslate"><span class="pre">Plotter.calc_harmonics()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.utils.plotter.Plotter.plot_spectra"><code class="docutils literal notranslate"><span class="pre">Plotter.plot_spectra()</span></code></a></li>
 </ul>
 </li>
 </ul>
