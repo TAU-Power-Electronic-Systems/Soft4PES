@@ -41,48 +41,48 @@ Predefined Machine Models
      - Value [pu]
    * - Rated voltage
      - :math:`V_{m,R}`
-     - :math:`400\,\text{V}`
+     - :math:`400\,\textrm{V}`
      - 
    * - Rated current
      - :math:`I_{m,R}`
-     - :math:`4.4\,\text{A}`
+     - :math:`4.4\,\textrm{A}`
      - 
    * - Rated power
      - :math:`P_{m,R}`
-     - :math:`3\,\text{kW}`
+     - :math:`3\,\textrm{kW}`
      - 
    * - Rated frequency
      - :math:`f_{m,R}`
-     - :math:`50\,\text{Hz}`
+     - :math:`50\,\textrm{Hz}`
      - 
    * - Pole pairs
      - :math:`n_{pp}`
      - :math:`1`
      - 
    * - Power factor
-     - :math:`\mathrm{pf}`
+     - :math:`\textrm{pf}`
      - :math:`0.85`
      - 
    * - Stator resistance
      - :math:`R_s`
      - :math:`2.7\,\Omega`
-     - :math:`0.05\,\text{p.u.}`
+     - :math:`0.05\,\textrm{p.u.}`
    * - Rotor resistance
      - :math:`R_r`
      - :math:`2.4\,\Omega`
-     - :math:`0.05\,\text{p.u.}`
+     - :math:`0.05\,\textrm{p.u.}`
    * - Stator leakage inductance
      - :math:`L_{ls}`
-     - :math:`9.868\,\text{mH}`
-     - :math:`0.06\,\text{p.u.}`
+     - :math:`9.868\,\textrm{mH}`
+     - :math:`0.06\,\textrm{p.u.}`
    * - Rotor leakage inductance
      - :math:`L_{lr}`
-     - :math:`11.777\,\text{mH}`
-     - :math:`0.07\,\text{p.u.}`
+     - :math:`11.777\,\textrm{mH}`
+     - :math:`0.07\,\textrm{p.u.}`
    * - Mutual inductance
      - :math:`L_m`
-     - :math:`394.704\,\text{mH}`
-     - :math:`2.36\,\text{p.u.}`
+     - :math:`394.704\,\textrm{mH}`
+     - :math:`2.36\,\textrm{p.u.}`
 
 
 .. _mv-induction-machine:
@@ -99,48 +99,48 @@ Predefined Machine Models
      - Value [pu]
    * - Rated voltage
      - :math:`V_{m,R}`
-     - :math:`3300\,\text{V}`
+     - :math:`3300\,\textrm{V}`
      - 
    * - Rated current
      - :math:`I_{m,R}`
-     - :math:`356\,\text{A}`
+     - :math:`356\,\textrm{A}`
      - 
    * - Rated power
      - :math:`P_{m,R}`
-     - :math:`2\,\text{MW}`
+     - :math:`2\,\textrm{MW}`
      - 
    * - Rated frequency
      - :math:`f_{m,R}`
-     - :math:`50\,\text{Hz}`
+     - :math:`50\,\textrm{Hz}`
      - 
    * - Pole pairs
      - :math:`n_{pp}`
      - :math:`5`
      - 
    * - Power factor
-     - :math:`\mathrm{pf}`
+     - :math:`\textrm{pf}`
      - :math:`0.85`
      - 
    * - Stator resistance
      - :math:`R_s`
      - :math:`57.61\,\Omega`
-     - :math:`10.71\,\text{p.u.}`
+     - :math:`10.71\,\textrm{p.u.}`
    * - Rotor resistance
      - :math:`R_r`
      - :math:`48.89\,\Omega`
-     - :math:`9.14\,\text{p.u.}`
+     - :math:`9.14\,\textrm{p.u.}`
    * - Stator leakage inductance
      - :math:`L_{ls}`
-     - :math:`2.544\,\text{mH}`
-     - :math:`0.15\,\text{p.u.}`
+     - :math:`2.544\,\textrm{mH}`
+     - :math:`0.15\,\textrm{p.u.}`
    * - Rotor leakage inductance
      - :math:`L_{lr}`
-     - :math:`1.881\,\text{mH}`
-     - :math:`0.11\,\text{p.u.}`
+     - :math:`1.881\,\textrm{mH}`
+     - :math:`0.11\,\textrm{p.u.}`
    * - Mutual inductance
      - :math:`L_m`
-     - :math:`40.01\,\text{mH}`
-     - :math:`2.35\,\text{p.u.}`
+     - :math:`40.01\,\textrm{mH}`
+     - :math:`2.35\,\textrm{p.u.}`
 
 
 .. _lv-pmsm:
@@ -157,41 +157,41 @@ Predefined Machine Models
      - Value [pu]
    * - Rated voltage
      - :math:`V_{m,R}`
-     - :math:`274\,\text{V}`
+     - :math:`274\,\textrm{V}`
      - 
    * - Rated current
      - :math:`I_{m,R}`
-     - :math:`71\,\text{A}`
+     - :math:`71\,\textrm{A}`
      - 
    * - Rated power
      - :math:`P_{m,R}`
-     - :math:`33.7\,\text{kW}`
+     - :math:`33.7\,\textrm{kW}`
      - 
    * - Rated frequency
      - :math:`f_{m,R}`
-     - :math:`50\,\text{Hz}`
+     - :math:`50\,\textrm{Hz}`
      - 
    * - Pole pairs
      - :math:`n_{pp}`
      - :math:`4`
      - 
    * - Power factor
-     - :math:`\mathrm{pf}`
+     - :math:`\textrm{pf}`
      - :math:`1`
      - 
    * - Stator resistance
      - :math:`R_s`
      - :math:`0.3\,\Omega`
-     - :math:`0.13\,\text{p.u.}`
+     - :math:`0.13\,\textrm{p.u.}`
    * - Stator d-axis inductance
      - :math:`L_{sd}`
-     - :math:`4\,\text{mH}`
-     - :math:`0.56\,\text{p.u.}`
+     - :math:`4\,\textrm{mH}`
+     - :math:`0.56\,\textrm{p.u.}`
    * - Stator q-axis inductance
      - :math:`L_{sq}`
-     - :math:`5.5\,\text{mH}`
-     - :math:`0.78\,\text{p.u.}`
+     - :math:`5.5\,\textrm{mH}`
+     - :math:`0.78\,\textrm{p.u.}`
    * - Permanent magnet flux linkage
-     - :math:`\lambda_{\mathrm{PM}}`
-     - :math:`0.7\,\text{Wb}`
-     - :math:`0.98\,\text{p.u.}`
+     - :math:`\lambda_{\textrm{PM}}`
+     - :math:`0.7\,\textrm{Wb}`
+     - :math:`0.98\,\textrm{p.u.}`

@@ -33,7 +33,7 @@ The components are defined in the same file, and predefined components can be fo
 Predefined Grid Systems
 -----------------------
 
-**2-level converter connected to a weak low-voltage grid via an** :math:`\mathrm{LCL}` **filter**
+**2-level converter connected to a weak low-voltage grid via an** :math:`\textrm{LCL}` **filter**
 
 .. list-table::
    :widths: 30 30 40
@@ -44,16 +44,16 @@ Predefined Grid Systems
      - Details
    * - Grid
      - :ref:`Weak low-voltage grid <weak-lv-grid>`
-     - :math:`V_R = 400\,\mathrm{V}`, :math:`I_R = 18\,\mathrm{A}`
+     - :math:`V_R = 400\,\textrm{V}`, :math:`I_R = 18\,\textrm{A}`
    * - Filter
      - :ref:`LCL filter <lcl-filter-1300>`
-     - :math:`f_R = 1300\,\mathrm{Hz}`
+     - :math:`f_R = 1300\,\textrm{Hz}`
    * - Converter
      - :ref:`2-Level converter <2l-lv-converter>`
-     - :math:`V_{\mathrm{dc}} = 750\,\mathrm{V}`
+     - :math:`V_{\textrm{dc}} = 750\,\textrm{V}`
 
 
-**2-level converter connected to a strong low-voltage grid via an** :math:`\mathrm{LCL}` **filter**
+**2-level converter connected to a strong low-voltage grid via an** :math:`\textrm{LCL}` **filter**
 
 .. list-table::
    :widths: 30 30 40
@@ -64,16 +64,15 @@ Predefined Grid Systems
      - Details
    * - Grid
      - :ref:`Strong low-voltage grid <strong-lv-grid>`
-     - :math:`V_R = 400\,\mathrm{V}`, :math:`I_R = 25\,\mathrm{A}`
+     - :math:`V_R = 400\,\textrm{V}`, :math:`I_R = 18\,\textrm{A}`
    * - Filter
      - :ref:`LCL filter <lcl-filter-1300>`
-     - :math:`f_R = 1300\,\mathrm{Hz}`
+     - :math:`f_R = 1300\,\textrm{Hz}`
    * - Converter
      - :ref:`2-Level converter <2l-lv-converter>`
-     - :math:`V_{\mathrm{dc}} = 750\,\mathrm{V}`
+     - :math:`V_{\textrm{dc}} = 750\,\textrm{V}`
 
-
-**3-level converter connected to a strong medium-voltage grid without a filter**
+**3-level converter connected to a strong medium-voltage grid via an** :math:`\mathrm{L}` **filter**
 
 .. list-table::
    :widths: 30 30 40
@@ -84,16 +83,16 @@ Predefined Grid Systems
      - Details
    * - Grid
      - :ref:`Strong medium-voltage grid <strong-mv-grid>`
-     - :math:`V_R = 3300\,\mathrm{V}`, :math:`I_R = 1575\,\mathrm{A}`
+     - :math:`V_R = 3300\,\textrm{V}`, :math:`I_R = 1575\,\textrm{A}`
    * - Filter
-     - :ref:`No filter <no-filter>`
-     - no filter
+     - :ref:`L filter <l-filter-mv>`
+     - :math:`L_{\mathrm{fc}} = 0.19\,\mathrm{mH}`, :math:`R_{\mathrm{fc}} = 0.5\,\mathrm{m}\Omega`
    * - Converter
      - :ref:`3-Level converter <3l-mv-converter>`
-     - :math:`V_{\mathrm{dc}} = 5200\,\mathrm{V}`
+     - :math:`V_{\textrm{dc}} = 5200\,\textrm{V}`
 
 
-**3-level converter connected to a strong medium-voltage grid via an** :math:`\mathrm{LCL}` **filter**
+**3-level converter connected to a strong medium-voltage grid via an** :math:`\textrm{LCL}` **filter**
 
 .. list-table::
    :widths: 30 30 40
@@ -104,10 +103,10 @@ Predefined Grid Systems
      - Details
    * - Grid
      - :ref:`Strong medium-voltage grid <strong-mv-grid>`
-     - :math:`V_R = 3300\,\mathrm{V}`, :math:`I_R = 1575\,\mathrm{A}`
+     - :math:`V_R = 3300\,\textrm{V}`, :math:`I_R = 1575\,\textrm{A}`
    * - Filter
      - :ref:`LCL filter <lcl-filter-380>`
-     - :math:`f_R = 380\,\mathrm{Hz}`
+     - :math:`f_R = 380\,\textrm{Hz}`
    * - Converter
      - :ref:`3-Level converter <3l-mv-converter>`
-     - :math:`V_{\mathrm{dc}} = 5200\,\mathrm{V}`
+     - :math:`V_{\textrm{dc}} = 5200\,\textrm{V}`
