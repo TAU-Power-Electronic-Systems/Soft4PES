@@ -87,7 +87,7 @@ def create_grid_parameters(grid_params, base):
 
 def create_system(grid_params, filter_params, conv, base):
     """
-    Create the system model based on the presence of a filter.
+    Create the system model based on the presence and type of a filter.
 
     Parameters
     ----------
@@ -105,13 +105,30 @@ def create_system(grid_params, filter_params, conv, base):
     tuple
         System object and optional filter parameters.
     """
-    if filter_params:  # If a filter is defined
-        lcl_params = model.grid.LCLFilterParameters(**filter_params, base=base)
+    # No filter
+    if not filter_params:
+        sys = model.grid.RLGrid(grid_params, conv, base)
+        return sys, None
+
+    # With filter: dispatch by type
+    f_type = filter_params.get("Type", "").upper()
+
+    if f_type == "LCL":
+        lcl_params = model.grid.LCLFilterParameters(
+            **{k: v for k, v in filter_params.items() if k != "Type"},
+                                                    base=base)
         sys = model.grid.RLGridLCLFilter(grid_params, lcl_params, conv, base)
         return sys, lcl_params
-    
-    sys = model.grid.RLGrid(grid_params, conv, base)
-    return sys, None
+
+    if f_type == "L":
+        l_params = model.grid.LFilterParameters(
+            **{k: v for k, v in filter_params.items() if k != "Type"},
+                                                base=base)
+        sys = model.grid.RLGridLFilter(grid_params, l_params, conv, base)
+        return sys, l_params
+
+    # Unknown/unsupported type
+    raise ValueError(f"Unsupported filter type '{f_type}'")
 
 
 def get_custom_system(grid_name, filter_name, converter_name):
@@ -160,7 +177,7 @@ def get_custom_system(grid_name, filter_name, converter_name):
     grid_params_obj = create_grid_parameters(grid_params, base)
 
     # Create the system
-    sys, lcl_params = create_system(grid_params_obj, filter_params, conv, base)
+    sys, filter_params_obj = create_system(grid_params_obj, filter_params, conv, base)
 
     # Return the system components
     return SimpleNamespace(
@@ -168,7 +185,7 @@ def get_custom_system(grid_name, filter_name, converter_name):
         base=base,
         grid_params=grid_params_obj,
         conv=conv,
-        lcl_params=lcl_params,
+        filter_params=filter_params_obj,
         sys=sys)
 
 

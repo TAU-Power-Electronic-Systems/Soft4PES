@@ -35,24 +35,24 @@ Predefined Grids
      - Value [pu]
    * - Grid rated voltage (line-to-line, rms)
      - :math:`V_{g,R}`
-     - :math:`400\,\text{V}`
+     - :math:`400\,\textrm{V}`
      - 
    * - Grid rated current (rms)
      - :math:`I_{g,R}`
-     - :math:`18\,\text{A}`
+     - :math:`18\,\textrm{A}`
      - 
    * - Grid rated frequency
      - :math:`f_{g,R}`
-     - :math:`50\,\text{Hz}`
+     - :math:`50\,\textrm{Hz}`
      - 
    * - Grid resistance
      - :math:`R_g`
      - :math:`0.07\,\Omega`
-     - :math:`0.006\,\text{p.u.}`
+     - :math:`0.006\,\textrm{p.u.}`
    * - Grid inductance
      - :math:`L_g`
-     - :math:`30\,\text{mH}`
-     - :math:`0.73\,\text{p.u.}`
+     - :math:`30\,\textrm{mH}`
+     - :math:`0.73\,\textrm{p.u.}`
 
 .. _strong-lv-grid:
 
@@ -68,24 +68,24 @@ Predefined Grids
      - Value [pu]
    * - Grid rated voltage (line-to-line, rms)
      - :math:`V_{g,R}`
-     - :math:`400\,\text{V}`
+     - :math:`400\,\textrm{V}`
      - 
    * - Grid rated current (rms)
      - :math:`I_{g,R}`
-     - :math:`18\,\text{A}`
+     - :math:`18\,\textrm{A}`
      - 
    * - Grid rated frequency
      - :math:`f_{g,R}`
-     - :math:`50\,\text{Hz}`
+     - :math:`50\,\textrm{Hz}`
      - 
    * - Grid resistance
      - :math:`R_g`
      - :math:`0.07\,\Omega`
-     - :math:`0.006\,\text{p.u.}`
+     - :math:`0.006\,\textrm{p.u.}`
    * - Grid inductance
      - :math:`L_g`
-     - :math:`5\,\text{mH}`
-     - :math:`0.12\,\text{p.u.}`
+     - :math:`5\,\textrm{mH}`
+     - :math:`0.12\,\textrm{p.u.}`
 
 .. _strong-mv-grid:
 
@@ -101,21 +101,21 @@ Predefined Grids
      - Value [pu]
    * - Grid rated voltage (line-to-line, rms)
      - :math:`V_{g,R}`
-     - :math:`3300\,\text{V}`
+     - :math:`3300\,\textrm{V}`
      - 
    * - Grid rated current (rms)
      - :math:`I_{g,R}`
-     - :math:`1575\,\text{A}`
+     - :math:`1575\,\textrm{A}`
      - 
    * - Grid rated frequency
      - :math:`f_{g,R}`
-     - :math:`50\,\text{Hz}`
+     - :math:`50\,\textrm{Hz}`
      - 
    * - Grid resistance
      - :math:`R_g`
      - :math:`0.006\,\Omega`
-     - :math:`0.0004\,\text{p.u.}`
+     - :math:`0.0004\,\textrm{p.u.}`
    * - Grid inductance
      - :math:`L_g`
-     - :math:`0.19\,\text{mH}`
-     - :math:`0.005\,\text{p.u.}`
+     - :math:`0.19\,\textrm{mH}`
+     - :math:`0.005\,\textrm{p.u.}`

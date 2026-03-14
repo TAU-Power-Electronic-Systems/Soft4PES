@@ -19,13 +19,14 @@ from soft4pes.utils.plotter import Plotter
 # documentation. Here, a 3-level converter connected to a strong, low voltage grid without a filter
 # is used.
 config = get_custom_system(grid_name='Strong_LV_Grid',
-                           filter_name='No_Filter',
+                           filter_name='LV_L_Filter',
                            converter_name='3L_LV_Converter')
 
 # Create the system model consisting of the grid and converter
-sys = model.grid.RLGrid(par=config.grid_params,
-                        conv=config.conv,
-                        base=config.base)
+sys = model.grid.RLGridLFilter(par_grid=config.grid_params,
+                               par_l_filter=config.filter_params,
+                               conv=config.conv,
+                               base=config.base)
 
 # Define power reference sequences
 # The first array contains the time instants (in seconds) and the second array the corresponding

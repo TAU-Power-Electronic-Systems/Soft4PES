@@ -29,10 +29,10 @@ Predefined Converters
      - Symbol
      - Value
    * - Dc-link voltage
-     - :math:`V_{\mathrm{dc}}`
-     - :math:`750\,\mathrm{V}`
+     - :math:`V_{\textrm{dc}}`
+     - :math:`750\,\textrm{V}`
    * - Converter voltage levels
-     - :math:`n_{\mathrm{conv}}`
+     - :math:`n_{\textrm{conv}}`
      - :math:`2`
 
 
@@ -48,10 +48,10 @@ Predefined Converters
      - Symbol
      - Value
    * - Dc-link voltage
-     - :math:`V_{\mathrm{dc}}`
-     - :math:`750\,\mathrm{V}`
+     - :math:`V_{\textrm{dc}}`
+     - :math:`750\,\textrm{V}`
    * - Converter voltage levels
-     - :math:`n_{\mathrm{conv}}`
+     - :math:`n_{\textrm{conv}}`
      - :math:`3`
 
 
@@ -67,10 +67,10 @@ Predefined Converters
      - Symbol
      - Value
    * - Dc-link voltage
-     - :math:`V_{\mathrm{dc}}`
-     - :math:`5200\,\mathrm{V}`
+     - :math:`V_{\textrm{dc}}`
+     - :math:`5200\,\textrm{V}`
    * - Converter voltage levels
-     - :math:`n_{\mathrm{conv}}`
+     - :math:`n_{\textrm{conv}}`
      - :math:`2`
 
 
@@ -86,8 +86,8 @@ Predefined Converters
      - Symbol
      - Value
    * - Dc-link voltage
-     - :math:`V_{\mathrm{dc}}`
-     - :math:`5200\,\mathrm{V}`
+     - :math:`V_{\textrm{dc}}`
+     - :math:`5200\,\textrm{V}`
    * - Converter voltage levels
-     - :math:`n_{\mathrm{conv}}`
+     - :math:`n_{\textrm{conv}}`
      - :math:`3`

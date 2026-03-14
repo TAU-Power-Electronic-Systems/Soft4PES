@@ -21,7 +21,7 @@ from soft4pes.utils.plotter import Plotter
 # is used.
 config = get_default_system(name='Weak_LV_Grid_LCL_Filter_2L_conv')
 sys = model.grid.RLGridLCLFilter(par_grid=config.grid_params,
-                                 par_lcl_filter=config.lcl_params,
+                                 par_lcl_filter=config.filter_params,
                                  conv=config.conv,
                                  base=config.base)
 

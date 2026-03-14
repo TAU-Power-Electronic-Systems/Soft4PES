@@ -36,11 +36,11 @@ Predefined Drive Systems
      - Details
    * - Machine
      - :ref:`Low-voltage induction machine <lv-induction-machine>`
-     - :math:`V_{m,R} = 400\,\mathrm{V}`, :math:`I_{m,R} = 4.4\,\mathrm{A}`  
-       :math:`f_{m,R} = 50\,\mathrm{Hz}`
+     - :math:`V_{m,R} = 400\,\textrm{V}`, :math:`I_{m,R} = 4.4\,\textrm{A}`  
+       :math:`f_{m,R} = 50\,\textrm{Hz}`
    * - Converter
      - :ref:`2-Level low-voltage converter <2l-lv-converter>`
-     - :math:`V_{\mathrm{dc}} = 750\,\mathrm{V}`
+     - :math:`V_{\textrm{dc}} = 750\,\textrm{V}`
 
 
 **3-level converter connected to a medium-voltage induction machine** (``MV_Induction_Machine_3L_Converter``)
@@ -54,11 +54,11 @@ Predefined Drive Systems
      - Details
    * - Machine
      - :ref:`Medium-voltage induction machine <mv-induction-machine>`
-     - :math:`V_{m,R} = 3300\,\mathrm{V}`, :math:`I_{m,R} = 356\,\mathrm{A}`  
-       :math:`f_{m,R} = 50\,\mathrm{Hz}`
+     - :math:`V_{m,R} = 3300\,\textrm{V}`, :math:`I_{m,R} = 356\,\textrm{A}`  
+       :math:`f_{m,R} = 50\,\textrm{Hz}`
    * - Converter
      - :ref:`3-Level medium-voltage converter <3l-mv-converter>`
-     - :math:`V_{\mathrm{dc}} = 5200\,\mathrm{V}`
+     - :math:`V_{\textrm{dc}} = 5200\,\textrm{V}`
 
 
 **2-level converter connected to a low-voltage PMSM** (``LV_PMSM_2L_Converter``)
@@ -72,11 +72,11 @@ Predefined Drive Systems
      - Details
    * - Machine
      - :ref:`Low-voltage PMSM <lv-pmsm>`
-     - :math:`V_{m,R} = 274\,\mathrm{V}`, :math:`I_{m,R} = 71\,\mathrm{A}`  
-       :math:`f_{m,R} = 50\,\mathrm{Hz}`
+     - :math:`V_{m,R} = 274\,\textrm{V}`, :math:`I_{m,R} = 71\,\textrm{A}`  
+       :math:`f_{m,R} = 50\,\textrm{Hz}`
    * - Converter
      - :ref:`2-Level low-voltage converter <2l-lv-converter>`
-     - :math:`V_{\mathrm{dc}} = 750\,\mathrm{V}`
+     - :math:`V_{\textrm{dc}} = 750\,\textrm{V}`
 
 
 **3-level converter connected to a low-voltage PMSM** (``LV_PMSM_3L_Converter``)
@@ -90,8 +90,8 @@ Predefined Drive Systems
      - Details
    * - Machine
      - :ref:`Low-voltage PMSM <lv-pmsm>`
-     - :math:`V_{m,R} = 274\,\mathrm{V}`, :math:`I_{m,R} = 71\,\mathrm{A}`  
-       :math:`f_{m,R} = 50\,\mathrm{Hz}`
+     - :math:`V_{m,R} = 274\,\textrm{V}`, :math:`I_{m,R} = 71\,\textrm{A}`  
+       :math:`f_{m,R} = 50\,\textrm{Hz}`
    * - Converter
      - :ref:`3-Level low-voltage converter <3l-lv-converter>`
-     - :math:`V_{\mathrm{dc}} = 750\,\mathrm{V}`
+     - :math:`V_{\textrm{dc}} = 750\,\textrm{V}`
