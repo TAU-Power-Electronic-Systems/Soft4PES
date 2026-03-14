@@ -24,7 +24,7 @@ Predefined Filters
 
 .. _lcl-filter-1300:
 
-:math:`\mathrm{LCL}` **filter** (:math:`f_r = 1300\,\mathrm{Hz}`) (``LCL_Filter_fr_1300``)
+:math:`\textrm{LCL}` **filter** (:math:`f_r = 1300\,\textrm{Hz}`) (``LCL_Filter_fr_1300``)
 
 .. list-table::
    :widths: 30 30 40
@@ -34,28 +34,28 @@ Predefined Filters
      - Symbol
      - Value
    * - Filter converter-side inductance
-     - :math:`L_{\mathrm{fc}}`
-     - :math:`3\,\mathrm{mH}`
+     - :math:`L_{\textrm{fc}}`
+     - :math:`3\,\textrm{mH}`
    * - Filter converter-side resistance
-     - :math:`R_{\mathrm{fc}}`
+     - :math:`R_{\textrm{fc}}`
      - :math:`0.1\,\Omega`
    * - Filter capacitance
      - :math:`C`
-     - :math:`10\,\mu\mathrm{F}`
+     - :math:`10\,\mu\textrm{F}`
    * - Damping resistor (capacitor)
      - :math:`R_c`
-     - :math:`1\,\mathrm{m}\Omega`
+     - :math:`1\,\textrm{m}\Omega`
    * - Filter grid-side inductance
-     - :math:`L_{\mathrm{fg}}`
-     - :math:`3\,\mathrm{mH}`
+     - :math:`L_{\textrm{fg}}`
+     - :math:`3\,\textrm{mH}`
    * - Filter grid-side resistance
-     - :math:`R_{\mathrm{fg}}`
+     - :math:`R_{\textrm{fg}}`
      - :math:`0.1\,\Omega`
 
 
 .. _lcl-filter-380:
 
-:math:`\mathrm{LCL}` **filter** (:math:`f_r = 380\,\mathrm{Hz}`) (``LCL_Filter_fr_380``)
+:math:`\textrm{LCL}` **filter** (:math:`f_r = 380\,\textrm{Hz}`) (``LCL_Filter_fr_380``)
 
 .. list-table::
    :widths: 30 30 40
@@ -65,23 +65,23 @@ Predefined Filters
      - Symbol
      - Value
    * - Filter converter-side inductance
-     - :math:`L_{\mathrm{fc}}`
-     - :math:`0.4\,\mathrm{mH}`
+     - :math:`L_{\textrm{fc}}`
+     - :math:`0.4\,\textrm{mH}`
    * - Filter converter-side resistance
-     - :math:`R_{\mathrm{fc}}`
-     - :math:`0.5\,\mathrm{m}\Omega`
+     - :math:`R_{\textrm{fc}}`
+     - :math:`0.5\,\textrm{m}\Omega`
    * - Filter capacitance
      - :math:`C`
-     - :math:`850\,\mu\mathrm{F}`
+     - :math:`850\,\mu\textrm{F}`
    * - Damping resistor (capacitor)
      - :math:`R_c`
-     - :math:`0.4\,\mathrm{m}\Omega`
+     - :math:`0.4\,\textrm{m}\Omega`
    * - Filter grid-side inductance
-     - :math:`L_{\mathrm{fg}}`
-     - :math:`0.4\,\mathrm{mH}`
+     - :math:`L_{\textrm{fg}}`
+     - :math:`0.4\,\textrm{mH}`
    * - Filter grid-side resistance
-     - :math:`R_{\mathrm{fg}}`
-     - :math:`0.5\,\mathrm{m}\Omega`
+     - :math:`R_{\textrm{fg}}`
+     - :math:`0.5\,\textrm{m}\Omega`
 
 .. _l-filter-lv:
 

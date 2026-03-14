@@ -19,7 +19,7 @@ from soft4pes.utils.plotter import Plotter
 # documentation. Here, a 3-level converter connected to a strong, low voltage grid without a filter
 # is used.
 config = get_custom_system(grid_name='Strong_LV_Grid',
-                           filter_name='MV_L_Filter',
+                           filter_name='LV_L_Filter',
                            converter_name='3L_LV_Converter')
 
 # Create the system model consisting of the grid and converter
