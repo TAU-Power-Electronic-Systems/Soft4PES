@@ -48,7 +48,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'autoapi/soft4pes/control/modulation/carrier_pwm/index';</script>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
-    <link rel="next" title="soft4pes.control.mpc" href="../../mpc/index.html" />
+    <link rel="next" title="soft4pes.control.modulation.common_mode_injection" href="../common_mode_injection/index.html" />
     <link rel="prev" title="soft4pes.control.modulation" href="../index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -158,6 +158,7 @@
 </li>
 <li class="toctree-l3 current active has-children"><a class="reference internal" href="../index.html">soft4pes.control.modulation</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l4 current active"><a class="current reference internal" href="#">soft4pes.control.modulation.carrier_pwm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../common_mode_injection/index.html">soft4pes.control.modulation.common_mode_injection</a></li>
 </ul>
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../mpc/index.html">soft4pes.control.mpc</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -392,10 +393,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.carrier_pwm.CarrierPWM"><code class="docutils literal notranslate"><span class="pre">CarrierPWM</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.carrier_pwm.CarrierPWM.data"><code class="docutils literal notranslate"><span class="pre">CarrierPWM.data</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.carrier_pwm.CarrierPWM.input"><code class="docutils literal notranslate"><span class="pre">CarrierPWM.input</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.carrier_pwm.CarrierPWM.output"><code class="docutils literal notranslate"><span class="pre">CarrierPWM.output</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.carrier_pwm.CarrierPWM.Ts"><code class="docutils literal notranslate"><span class="pre">CarrierPWM.Ts</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.carrier_pwm.CarrierPWM.carrier_rising"><code class="docutils literal notranslate"><span class="pre">CarrierPWM.carrier_rising</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.carrier_pwm.CarrierPWM.execute"><code class="docutils literal notranslate"><span class="pre">CarrierPWM.execute()</span></code></a></li>
 </ul>
 </li>
@@ -420,7 +418,7 @@ document.write(`
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.modulation.carrier_pwm.CarrierPWM" title="soft4pes.control.modulation.carrier_pwm.CarrierPWM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CarrierPWM</span></code></a></p></td>
-<td><p>Base class for controllers.</p></td>
+<td><p>Asynchronous carrier-based pulse width modulation (CB-PWM) for two and three-level converters.</p></td>
 </tr>
 </tbody>
 </table>
@@ -431,47 +429,23 @@ document.write(`
 <dt class="sig sig-object py" id="soft4pes.control.modulation.carrier_pwm.CarrierPWM">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.modulation.carrier_pwm.</span></span><span class="sig-name descname"><span class="pre">CarrierPWM</span></span><a class="reference internal" href="../../../../../_modules/soft4pes/control/modulation/carrier_pwm.html#CarrierPWM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.modulation.carrier_pwm.CarrierPWM" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../../common/controller/index.html#soft4pes.control.common.controller.Controller" title="soft4pes.control.common.controller.Controller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.control.common.controller.Controller</span></code></a></p>
-<p>Base class for controllers.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.control.modulation.carrier_pwm.CarrierPWM.data">
-<span class="sig-name descname"><span class="pre">data</span></span><a class="reference internal" href="../../../../../_modules/soft4pes/control/modulation/carrier_pwm.html#CarrierPWM.data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.modulation.carrier_pwm.CarrierPWM.data" title="Permalink to this definition">#</a></dt>
-<dd><p>Data storage for the controller, containing input and output namespaces.</p>
+<p>Asynchronous carrier-based pulse width modulation (CB-PWM) for two and three-level converters.
+The modulating signal is sampled at the peaks of the carrier, resulting in the device switching
+frequency of 1/(2Ts) for two-level converters. For three-level converters, the device switching
+frequency is roughly half the apparent switching, ie. the carrier frequency, when
+phase-disposition PWM is used.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>SimpleNamespace</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
 </dd>
 </dl>
-</dd></dl>
-
 <dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.control.modulation.carrier_pwm.CarrierPWM.input">
-<span class="sig-name descname"><span class="pre">input</span></span><a class="reference internal" href="../../../../../_modules/soft4pes/control/modulation/carrier_pwm.html#CarrierPWM.input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.modulation.carrier_pwm.CarrierPWM.input" title="Permalink to this definition">#</a></dt>
-<dd><p>Namespace for storing input data.</p>
+<dt class="sig sig-object py" id="soft4pes.control.modulation.carrier_pwm.CarrierPWM.carrier_rising">
+<span class="sig-name descname"><span class="pre">carrier_rising</span></span><a class="reference internal" href="../../../../../_modules/soft4pes/control/modulation/carrier_pwm.html#CarrierPWM.carrier_rising"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.modulation.carrier_pwm.CarrierPWM.carrier_rising" title="Permalink to this definition">#</a></dt>
+<dd><p>Flag indicating whether the carrier is rising or falling.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>SimpleNamespace</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.control.modulation.carrier_pwm.CarrierPWM.output">
-<span class="sig-name descname"><span class="pre">output</span></span><a class="reference internal" href="../../../../../_modules/soft4pes/control/modulation/carrier_pwm.html#CarrierPWM.output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.modulation.carrier_pwm.CarrierPWM.output" title="Permalink to this definition">#</a></dt>
-<dd><p>Namespace for storing output data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>SimpleNamespace</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.control.modulation.carrier_pwm.CarrierPWM.Ts">
-<span class="sig-name descname"><span class="pre">Ts</span></span><a class="reference internal" href="../../../../../_modules/soft4pes/control/modulation/carrier_pwm.html#CarrierPWM.Ts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.modulation.carrier_pwm.CarrierPWM.Ts" title="Permalink to this definition">#</a></dt>
-<dd><p>Sampling interval [s].</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
+<dd class="field-odd"><p>bool</p>
 </dd>
 </dl>
 </dd></dl>
@@ -480,10 +454,7 @@ document.write(`
 <dt class="sig sig-object py" id="soft4pes.control.modulation.carrier_pwm.CarrierPWM.execute">
 <span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/modulation/carrier_pwm.html#CarrierPWM.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.modulation.carrier_pwm.CarrierPWM.execute" title="Permalink to this definition">#</a></dt>
 <dd><p>Generate switching time instants and switch positions using asynchronous carrier-based pulse
-width modulation (CB-PWM). The modulating signal is sampled at the peaks of the carrier,
-resulting in the device switching frequency of 1/(2Ts) for two-level converters. For three-
-level converters, the device switching frequency is roughly half the apparent switching, ie.
-the carrier frequency, when phase-disposition PWM is used.</p>
+width modulation (CB-PWM).</p>
 <p>The produced output is presented below. Note that the switching times are in ascending
 order.</p>
 <blockquote>
@@ -542,11 +513,11 @@ t_switch[3] | state   | state   | state</p>
       </div>
     </a>
     <a class="right-next"
-       href="../../mpc/index.html"
+       href="../common_mode_injection/index.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">soft4pes.control.mpc</p>
+        <p class="prev-next-title">soft4pes.control.modulation.common_mode_injection</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -568,10 +539,7 @@ t_switch[3] | state   | state   | state</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.carrier_pwm.CarrierPWM"><code class="docutils literal notranslate"><span class="pre">CarrierPWM</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.carrier_pwm.CarrierPWM.data"><code class="docutils literal notranslate"><span class="pre">CarrierPWM.data</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.carrier_pwm.CarrierPWM.input"><code class="docutils literal notranslate"><span class="pre">CarrierPWM.input</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.carrier_pwm.CarrierPWM.output"><code class="docutils literal notranslate"><span class="pre">CarrierPWM.output</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.carrier_pwm.CarrierPWM.Ts"><code class="docutils literal notranslate"><span class="pre">CarrierPWM.Ts</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.carrier_pwm.CarrierPWM.carrier_rising"><code class="docutils literal notranslate"><span class="pre">CarrierPWM.carrier_rising</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.carrier_pwm.CarrierPWM.execute"><code class="docutils literal notranslate"><span class="pre">CarrierPWM.execute()</span></code></a></li>
 </ul>
 </li>

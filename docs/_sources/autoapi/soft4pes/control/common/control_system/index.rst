@@ -22,7 +22,7 @@ Classes
 Module Contents
 ---------------
 
-.. py:class:: ControlSystem(control_loops, ref_seq, Ts, pwm=None)
+.. py:class:: ControlSystem(control_loops, ref_seq, Ts, pwm=None, common_mode_inj=None)
 
    
    ControlSystem class to manage and execute a set of control loops. The class accepts any number
@@ -38,6 +38,8 @@ Module Contents
    :type Ts: float
    :param pwm: Modulator for generating three-phase switch positions.
    :type pwm: modulator, optional
+   :param common_mode_inj: Common-mode injection for the modulating signal.
+   :type common_mode_inj: CommonModeInjection, optional
 
    .. attribute:: ref_seq
 

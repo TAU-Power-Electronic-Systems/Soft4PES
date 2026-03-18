@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>soft4pes.model.grid.rl_grid_lcl_filter &#8212; Soft4PES  documentation</title>
+    <title>soft4pes.control.modulation.common_mode_injection &#8212; Soft4PES  documentation</title>
   
   
   
@@ -44,7 +44,7 @@
     <script src="../../../../_static/clipboard.min.js"></script>
     <script src="../../../../_static/copybutton.js"></script>
     <script src="../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/soft4pes/model/grid/rl_grid_lcl_filter';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/soft4pes/control/modulation/common_mode_injection';</script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -341,132 +341,75 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <h1>Source code for soft4pes.model.grid.rl_grid_lcl_filter</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; </span>
-<span class="sd">Model of a grid with stiff voltage source, RL impedance and an LC(L) filter in alpha-beta frame.</span>
+  <h1>Source code for soft4pes.control.modulation.common_mode_injection</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Common-mode injection for modulating signal.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleNamespace</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.control.common.controller</span><span class="w"> </span><span class="kn">import</span> <span class="n">Controller</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.model.grid.rl_grid</span><span class="w"> </span><span class="kn">import</span> <span class="n">RLGrid</span>
 
-
-<div class="viewcode-block" id="RLGridLCLFilter"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_lcl_filter/index.html#soft4pes.model.grid.RLGridLCLFilter">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RLGridLCLFilter</span><span class="p">(</span><span class="n">RLGrid</span><span class="p">):</span>
+<div class="viewcode-block" id="CommonModeInjection"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/modulation/index.html#soft4pes.control.modulation.common_mode_injection.CommonModeInjection">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">CommonModeInjection</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Model of a grid with stiff voltage source, RL impedance and an LC(L) filter in alpha-beta frame.</span>
-<span class="sd">    If the grid side inductance is not provided, the filter is in LC configuration.</span>
-<span class="sd">    </span>
-<span class="sd">    The state of the system is the converter current, the capacitor voltage and the grid current in </span>
-<span class="sd">    the alpha-beta frame, i.e. x = [i_conv^T, ig^T, vc^T]^T. The system input is the converter </span>
-<span class="sd">    three-phase switch position or modulating signal. The grid voltage is considered to be a </span>
-<span class="sd">    disturbance. The positive current direction is from the converter to the filter and from the</span>
-<span class="sd">    filter to the grid for i_conv and ig, respectively. Knowledge of the grid impedance is required,</span>
-<span class="sd">    and given to the model in the parent class RLGrid.</span>
+<span class="sd">    Common-mode injection for modulating signal. The selected common-mode injection method</span>
+<span class="sd">    computes a common-mode voltage component that is added to the three-phase modulating signal.</span>
+<span class="sd">    Common-mode injection is applicable for carrier-based PWM schemes and for modulating-signal</span>
+<span class="sd">    feedforward.</span>
+
+<span class="sd">    Available common-mode injection methods:</span>
+<span class="sd">    - MinMax: Adds a common-mode component u_cm = -0.5 * (max(u_ref_abc) + min(u_ref_abc)) to the </span>
+<span class="sd">      modulating signal. For a two level converter, this method is equivalent to space-vector </span>
+<span class="sd">      modulation (SVM). </span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    par_grid : RLGridParameters</span>
-<span class="sd">        Parameters of the grid.</span>
-<span class="sd">    par_lcl_filter : LCLFilterParameters</span>
-<span class="sd">        Parameters of the LCL filter.</span>
-<span class="sd">    conv : converter object</span>
-<span class="sd">        Converter object.</span>
-<span class="sd">    base : base value object</span>
-<span class="sd">        Base values.</span>
+<span class="sd">    mode : str, optional</span>
+<span class="sd">        Common-mode injection method. Default is &#39;MinMax&#39;, which is the only available method.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">    data : SimpleNamespace</span>
-<span class="sd">        Namespace for storing simulation data.</span>
-<span class="sd">    par : System parameters</span>
-<span class="sd">        Combined RLGridParameters and LCLFilterParameters.</span>
-<span class="sd">    conv : converter object</span>
-<span class="sd">        Converter object.</span>
-<span class="sd">    x : 1 x 6 ndarray of floats</span>
-<span class="sd">        Current state of the grid [p.u.].</span>
-<span class="sd">    base : base value object</span>
-<span class="sd">        Base values.</span>
-<span class="sd">    cont_state_space : SimpleNamespace</span>
-<span class="sd">        The continuous-time state-space model of the system.</span>
-<span class="sd">    state_map : dict</span>
-<span class="sd">        A dictionary mapping states to elements of the state vector.</span>
+<span class="sd">    mode : str</span>
+<span class="sd">        Common-mode injection method.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">par_grid</span><span class="p">,</span> <span class="n">par_lcl_filter</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">base</span><span class="p">):</span>
-        <span class="n">par</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="o">**</span><span class="nb">vars</span><span class="p">(</span><span class="n">par_grid</span><span class="p">),</span> <span class="o">**</span><span class="nb">vars</span><span class="p">(</span><span class="n">par_lcl_filter</span><span class="p">))</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">par</span><span class="o">=</span><span class="n">par</span><span class="p">,</span> <span class="n">conv</span><span class="o">=</span><span class="n">conv</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="n">base</span><span class="p">)</span>
-        <span class="n">state_map</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;i_conv&#39;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>  <span class="c1"># Converter current (x[0:2])</span>
-            <span class="s1">&#39;ig&#39;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>  <span class="c1"># Grid current (x[2:4])</span>
-            <span class="s1">&#39;vc&#39;</span><span class="p">:</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>  <span class="c1"># Capacitor voltage (x[4:6])</span>
-        <span class="p">}</span>
-        <span class="c1"># Overwrite the state map of RLGrid with the one of RLGridLCLFilter</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">x_size</span> <span class="o">=</span> <span class="mi">6</span>
-<div class="viewcode-block" id="RLGridLCLFilter.state_map"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_lcl_filter/index.html#soft4pes.model.grid.RLGridLCLFilter.state_map">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">state_map</span> <span class="o">=</span> <span class="n">state_map</span></div>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_initial_state</span><span class="p">()</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;MinMax&#39;</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+<div class="viewcode-block" id="CommonModeInjection.mode"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/modulation/common_mode_injection/index.html#soft4pes.control.modulation.common_mode_injection.CommonModeInjection.mode">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span></div>
 
-<div class="viewcode-block" id="RLGridLCLFilter.base"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_lcl_filter/index.html#soft4pes.model.grid.RLGridLCLFilter.base">[docs]</a><div class="viewcode-block" id="RLGridLCLFilter.set_initial_state"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_lcl_filter/index.html#soft4pes.model.grid.RLGridLCLFilter.set_initial_state">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_initial_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span></div>
-<div class="viewcode-block" id="RLGridLCLFilter.data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_lcl_filter/index.html#soft4pes.model.grid.RLGridLCLFilter.data">[docs]</a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span></div>
-<div class="viewcode-block" id="RLGridLCLFilter.par"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_lcl_filter/index.html#soft4pes.model.grid.RLGridLCLFilter.par">[docs]</a><span class="sd">        Set the initial state of the system to zero.</span></div>
-<div class="viewcode-block" id="RLGridLCLFilter.conv"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_lcl_filter/index.html#soft4pes.model.grid.RLGridLCLFilter.conv">[docs]</a><span class="sd">        &quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="CommonModeInjection.execute"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/modulation/index.html#soft4pes.control.modulation.common_mode_injection.CommonModeInjection.execute">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply common-mode injection.</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="RLGridLCLFilter.get_continuous_state_space"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_lcl_filter/index.html#soft4pes.model.grid.RLGridLCLFilter.get_continuous_state_space">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_continuous_state_space</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<div class="viewcode-block" id="RLGridLCLFilter.cont_state_space"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_lcl_filter/index.html#soft4pes.model.grid.RLGridLCLFilter.cont_state_space">[docs]</a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span></div>
-<span class="sd">        Get the continuous-time state-space model of the system in alpha-beta frame. </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        sys : system object</span>
+<span class="sd">            The system model (not used).</span>
+<span class="sd">        kTs : float</span>
+<span class="sd">            Current discrete time instant [s] (not used).</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        SimpleNamespace</span>
-<span class="sd">            A SimpleNamespace object containing matrices F, G1 and G2 of the continuous-time </span>
-<span class="sd">            state-space model. </span>
+<span class="sd">        u_ref_abc_cm : 3 x 1 ndarray</span>
+<span class="sd">            Three-phase modulating signal with common-mode injection.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">X_fc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">X_fc</span>
-        <span class="n">R_fc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">R_fc</span>
-        <span class="n">Xc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xc</span>
-        <span class="n">Rc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Rc</span>
-        <span class="n">X_fg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">X_fg</span>
-        <span class="n">R_fg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">R_fg</span>
-        <span class="n">Xg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xg</span>
-        <span class="n">Rg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Rg</span>
+        <span class="n">u_ref_abc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">u_abc</span>
 
-        <span class="n">R1</span> <span class="o">=</span> <span class="n">R_fc</span> <span class="o">+</span> <span class="n">Rc</span>
-        <span class="n">R2</span> <span class="o">=</span> <span class="n">Rc</span> <span class="o">+</span> <span class="n">R_fg</span> <span class="o">+</span> <span class="n">Rg</span>
-        <span class="n">X</span> <span class="o">=</span> <span class="n">X_fg</span> <span class="o">+</span> <span class="n">Xg</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;MinMax&#39;</span><span class="p">:</span>
+            <span class="n">u_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">u_ref_abc</span><span class="p">)</span>
+            <span class="n">u_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">u_ref_abc</span><span class="p">)</span>
+            <span class="n">u_cm</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">u_max</span> <span class="o">+</span> <span class="n">u_min</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Common mode injection mode </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="si">}</span><span class="s1"> not recognized. Available &#39;</span>
+                <span class="s1">&#39;modes: MinMax.&#39;</span><span class="p">)</span>
 
-        <span class="c1"># Clarke transformation matrix</span>
-        <span class="n">K</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">],</span>
-                                <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]])</span>
+        <span class="n">u_ref_abc_cm</span> <span class="o">=</span> <span class="n">u_ref_abc</span> <span class="o">+</span> <span class="n">u_cm</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">u_abc</span><span class="o">=</span><span class="n">u_ref_abc_cm</span><span class="p">)</span>
 
-        <span class="n">F11</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">R1</span> <span class="o">/</span> <span class="n">X_fc</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">F13</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">X_fc</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">F12</span> <span class="o">=</span> <span class="p">(</span><span class="n">Rc</span> <span class="o">/</span> <span class="n">X_fc</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-
-        <span class="n">F31</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">Xc</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">F33</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-        <span class="n">F32</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">Xc</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-
-        <span class="n">F21</span> <span class="o">=</span> <span class="p">(</span><span class="n">Rc</span> <span class="o">/</span> <span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">F23</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">F22</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">R2</span> <span class="o">/</span> <span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-
-        <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">block</span><span class="p">([</span>
-            <span class="p">[</span><span class="n">F11</span><span class="p">,</span> <span class="n">F12</span><span class="p">,</span> <span class="n">F13</span><span class="p">],</span>
-            <span class="p">[</span><span class="n">F21</span><span class="p">,</span> <span class="n">F22</span><span class="p">,</span> <span class="n">F23</span><span class="p">],</span>
-            <span class="p">[</span><span class="n">F31</span><span class="p">,</span> <span class="n">F32</span><span class="p">,</span> <span class="n">F33</span><span class="p">],</span>
-        <span class="p">])</span>
-
-        <span class="n">G1</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">X_fc</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">block</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">))]])</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
-
-        <span class="n">G2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">block</span><span class="p">(</span>
-            <span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">X</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
-              <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))]])</span><span class="o">.</span><span class="n">T</span>
-
-        <span class="k">return</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">F</span><span class="o">=</span><span class="n">F</span><span class="p">,</span> <span class="n">G1</span><span class="o">=</span><span class="n">G1</span><span class="p">,</span> <span class="n">G2</span><span class="o">=</span><span class="n">G2</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span></div></div>
 </pre></div>
 
                 </article>

@@ -158,6 +158,7 @@
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../modulation/index.html">soft4pes.control.modulation</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../modulation/carrier_pwm/index.html">soft4pes.control.modulation.carrier_pwm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modulation/common_mode_injection/index.html">soft4pes.control.modulation.common_mode_injection</a></li>
 </ul>
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../mpc/index.html">soft4pes.control.mpc</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -495,7 +496,7 @@ document.write(`
 <h2>Package Contents<a class="headerlink" href="#package-contents" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="soft4pes.control.common.ControlSystem">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.common.</span></span><span class="sig-name descname"><span class="pre">ControlSystem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control_loops</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_seq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pwm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/common/control_system.html#ControlSystem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.common.ControlSystem" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.common.</span></span><span class="sig-name descname"><span class="pre">ControlSystem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control_loops</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_seq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pwm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">common_mode_inj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/common/control_system.html#ControlSystem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.common.ControlSystem" title="Permalink to this definition">#</a></dt>
 <dd><p>ControlSystem class to manage and execute a set of control loops. The class accepts any number
 of control loops and combines them to a complete control system.</p>
 <dl class="field-list simple">
@@ -507,6 +508,7 @@ list.</p></li>
 references are given to the first control loop in the list.</p></li>
 <li><p><strong>Ts</strong> (<em>float</em>) – Sampling interval [s].</p></li>
 <li><p><strong>pwm</strong> (<em>modulator</em><em>, </em><em>optional</em>) – Modulator for generating three-phase switch positions.</p></li>
+<li><p><strong>common_mode_inj</strong> (<a class="reference internal" href="../modulation/common_mode_injection/index.html#soft4pes.control.modulation.common_mode_injection.CommonModeInjection" title="soft4pes.control.modulation.common_mode_injection.CommonModeInjection"><em>CommonModeInjection</em></a><em>, </em><em>optional</em>) – Common-mode injection for the modulating signal.</p></li>
 </ul>
 </dd>
 </dl>

@@ -28,31 +28,19 @@ Module Contents
 
 
    
-   Base class for controllers.
+   Asynchronous carrier-based pulse width modulation (CB-PWM) for two and three-level converters.
+   The modulating signal is sampled at the peaks of the carrier, resulting in the device switching
+   frequency of 1/(2Ts) for two-level converters. For three-level converters, the device switching
+   frequency is roughly half the apparent switching, ie. the carrier frequency, when
+   phase-disposition PWM is used.
 
-   .. attribute:: data
+   :param None:
 
-      Data storage for the controller, containing input and output namespaces.
+   .. attribute:: carrier_rising
 
-      :type: SimpleNamespace
+      Flag indicating whether the carrier is rising or falling.
 
-   .. attribute:: input
-
-      Namespace for storing input data.
-
-      :type: SimpleNamespace
-
-   .. attribute:: output
-
-      Namespace for storing output data.
-
-      :type: SimpleNamespace
-
-   .. attribute:: Ts
-
-      Sampling interval [s].
-
-      :type: float
+      :type: bool
 
 
 
@@ -75,10 +63,7 @@ Module Contents
 
       
       Generate switching time instants and switch positions using asynchronous carrier-based pulse
-      width modulation (CB-PWM). The modulating signal is sampled at the peaks of the carrier,
-      resulting in the device switching frequency of 1/(2Ts) for two-level converters. For three-
-      level converters, the device switching frequency is roughly half the apparent switching, ie.
-      the carrier frequency, when phase-disposition PWM is used.
+      width modulation (CB-PWM).
 
       The produced output is presented below. Note that the switching times are in ascending
       order.
