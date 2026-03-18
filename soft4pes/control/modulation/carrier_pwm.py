@@ -2,12 +2,28 @@
 Asynchronous carrier-based pulse width modulation (CB-PWM) for two and three-level converters.  
 """
 
+from types import SimpleNamespace
 import numpy as np
 from soft4pes.control.common.controller import Controller
-from types import SimpleNamespace
 
 
 class CarrierPWM(Controller):
+    """
+    Asynchronous carrier-based pulse width modulation (CB-PWM) for two and three-level converters.
+    The modulating signal is sampled at the peaks of the carrier, resulting in the device switching 
+    frequency of 1/(2Ts) for two-level converters. For three-level converters, the device switching 
+    frequency is roughly half the apparent switching, ie. the carrier frequency, when 
+    phase-disposition PWM is used.
+
+    Parameters
+    ----------
+    None
+
+    Attributes
+    ----------
+    carrier_rising : bool
+        Flag indicating whether the carrier is rising or falling. 
+    """
 
     def __init__(self):
         super().__init__()
@@ -16,10 +32,7 @@ class CarrierPWM(Controller):
     def execute(self, sys, kTs):
         """
         Generate switching time instants and switch positions using asynchronous carrier-based pulse 
-        width modulation (CB-PWM). The modulating signal is sampled at the peaks of the carrier, 
-        resulting in the device switching frequency of 1/(2Ts) for two-level converters. For three-
-        level converters, the device switching frequency is roughly half the apparent switching, ie.
-        the carrier frequency, when phase-disposition PWM is used.
+        width modulation (CB-PWM). 
 
         The produced output is presented below. Note that the switching times are in ascending 
         order.

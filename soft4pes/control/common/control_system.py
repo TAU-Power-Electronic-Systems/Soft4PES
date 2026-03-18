@@ -23,6 +23,8 @@ class ControlSystem:
         Sampling interval [s].
     pwm : modulator, optional
         Modulator for generating three-phase switch positions.
+    common_mode_inj : CommonModeInjection, optional
+        Common-mode injection for the modulating signal.
 
     Attributes
     ----------
@@ -38,10 +40,20 @@ class ControlSystem:
         List of controller instances.
     """
 
-    def __init__(self, control_loops, ref_seq, Ts, pwm=None):
+    def __init__(self,
+                 control_loops,
+                 ref_seq,
+                 Ts,
+                 pwm=None,
+                 common_mode_inj=None):
         self.ref_seq = ref_seq
         self.data = SimpleNamespace(t=[], u_abc_ref=[])
         self.Ts = Ts
+
+        # If common-mode injection is provided, it is added to the control loops list before the
+        # modulator. The injection can also be used when using just modulating signal feedforward.
+        if common_mode_inj is not None:
+            control_loops = control_loops + [common_mode_inj]
 
         # If PWM is provided, it is added to the control loops list to be the last loop of the
         # control system.
