@@ -148,6 +148,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/grid_curr_ref_gen/index.html">soft4pes.control.lin.grid_curr_ref_gen</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/l_conv_curr_ctr/index.html">soft4pes.control.lin.l_conv_curr_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_conv_curr_ctr/index.html">soft4pes.control.lin.lcl_conv_curr_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_grid_curr_ctr_wacfb/index.html">soft4pes.control.lin.lcl_grid_curr_ctr_wacfb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/rfpsc/index.html">soft4pes.control.lin.rfpsc</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
@@ -457,6 +458,77 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">Ts_pu</span> <span class="o">=</span> <span class="n">Ts</span> <span class="o">*</span> <span class="n">base</span><span class="o">.</span><span class="n">w</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">+=</span> <span class="n">Ts_pu</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">w_bw</span> <span class="o">*</span> <span class="p">(</span><span class="n">value_in</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="DiscreteTransferFunction"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/utils/index.html#soft4pes.control.common.DiscreteTransferFunction">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DiscreteTransferFunction</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generic discrete-time transfer function implementation.</span>
+
+<span class="sd">    The transfer function is defined as</span>
+
+<span class="sd">        Y(z) / U(z) = (b0 + b1 z^-1 + ... + bm z^-m)</span>
+<span class="sd">                      --------------------------------</span>
+<span class="sd">                      (a0 + a1 z^-1 + ... + an z^-n)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    numerator_coeffs : array-like</span>
+<span class="sd">        Numerator coefficients of the transfer function.</span>
+<span class="sd">    denominator_coeffs : array-like, optional</span>
+<span class="sd">        Denominator coefficients of the transfer function.</span>
+<span class="sd">        If not given, [1] is used.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numerator_coeffs</span><span class="p">,</span> <span class="n">denominator_coeffs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numerator_coeffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">numerator_coeffs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">denominator_coeffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">denominator_coeffs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">denominator_coeffs</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">denominator_coeffs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">numerator_coeffs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">numerator_coeffs</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">denominator_coeffs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">denominator_coeffs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">denominator_coeffs</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">denominator_coeffs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">buffer_input</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buffer_output</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="DiscreteTransferFunction.apply"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/common/utils/index.html#soft4pes.control.common.DiscreteTransferFunction.apply">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_signal</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply the discrete transfer function to the input signal.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        input_signal : float or array-like</span>
+<span class="sd">            The current input signal.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float or ndarray</span>
+<span class="sd">            The filtered output signal.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">input_signal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">input_signal</span><span class="p">)</span>
+
+        <span class="n">scalar_input</span> <span class="o">=</span> <span class="n">input_signal</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">scalar_input</span><span class="p">:</span>
+            <span class="n">input_signal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">input_signal</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer_input</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">buffer_input</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numerator_coeffs</span><span class="p">),)</span> <span class="o">+</span> <span class="n">input_signal</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">buffer_output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">denominator_coeffs</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,)</span> <span class="o">+</span> <span class="n">input_signal</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">buffer_input</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer_input</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buffer_input</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">input_signal</span>
+
+        <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tensordot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numerator_coeffs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer_input</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">denominator_coeffs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">tensordot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">denominator_coeffs</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer_output</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">buffer_output</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer_output</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">buffer_output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span>
+
+        <span class="k">if</span> <span class="n">scalar_input</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">output</span></div></div>
 </pre></div>
 
                 </article>

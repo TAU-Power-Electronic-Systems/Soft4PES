@@ -17,6 +17,7 @@ Classes
 .. autoapisummary::
 
    soft4pes.control.common.utils.FirstOrderFilter
+   soft4pes.control.common.utils.DiscreteTransferFunction
 
 
 Functions
@@ -171,6 +172,69 @@ Module Contents
       :type Ts: float
       :param base: The base values object containing the base angular frequency.
       :type base: object
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: DiscreteTransferFunction(numerator_coeffs, denominator_coeffs=None)
+
+   
+   Generic discrete-time transfer function implementation.
+
+   The transfer function is defined as
+
+       Y(z) / U(z) = (b0 + b1 z^-1 + ... + bm z^-m)
+                     --------------------------------
+                     (a0 + a1 z^-1 + ... + an z^-n)
+
+   :param numerator_coeffs: Numerator coefficients of the transfer function.
+   :type numerator_coeffs: array-like
+   :param denominator_coeffs: Denominator coefficients of the transfer function.
+                              If not given, [1] is used.
+   :type denominator_coeffs: array-like, optional
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:method:: apply(input_signal)
+
+      
+      Apply the discrete transfer function to the input signal.
+
+      :param input_signal: The current input signal.
+      :type input_signal: float or array-like
+
+      :returns: The filtered output signal.
+      :rtype: float or ndarray
 
 
 

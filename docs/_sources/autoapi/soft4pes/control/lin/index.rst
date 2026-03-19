@@ -36,6 +36,7 @@ Submodules
    /autoapi/soft4pes/control/lin/grid_curr_ref_gen/index
    /autoapi/soft4pes/control/lin/l_conv_curr_ctr/index
    /autoapi/soft4pes/control/lin/lcl_conv_curr_ctr/index
+   /autoapi/soft4pes/control/lin/lcl_grid_curr_ctr_wacfb/index
    /autoapi/soft4pes/control/lin/lcl_vc_ctr/index
    /autoapi/soft4pes/control/lin/rfpsc/index
    /autoapi/soft4pes/control/lin/state_space_curr_ctr/index
@@ -52,6 +53,7 @@ Classes
    soft4pes.control.lin.LConvCurrCtr
    soft4pes.control.lin.LCLVcCtr
    soft4pes.control.lin.RFPSC
+   soft4pes.control.lin.LCLGridCurrCtrWACFB
 
 
 Package Contents
@@ -799,6 +801,122 @@ Package Contents
 
       :returns: A SimpleNamespace object containing the modulating signal for the converter (u_abc) and
                 a capacitor voltage reference in case LC(L) filter is used (vc_ref).
+      :rtype: SimpleNamespace
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: LCLGridCurrCtrWACFB(sys, gamma=None, xi=None, alpha_d=0.3)
+
+   Bases: :py:obj:`soft4pes.control.common.controller.Controller`
+
+
+   
+   Grid current controller for a converter with LCL filter based on weighted average based (WAC)
+   feedback.
+
+   :param sys: System model containing electrical parameters and base values.
+   :type sys: object
+
+   .. attribute:: sys
+
+      System model containing electrical parameters and base values.
+
+      :type: object
+
+   .. attribute:: gamma
+
+      Tuning parameter for the high-pass filter (HPF) in the damping compensation path.
+
+      :type: float
+
+   .. attribute:: xi
+
+      Damping ratio for the damping compensation path.
+
+      :type: float
+
+   .. attribute:: alpha_d
+
+      Tuning parameter for the integrator gain in the main control path.
+
+      :type: float
+
+   .. attribute:: ctr
+
+      Controller parameters and filters.
+
+      :type: SimpleNamespace
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:method:: set_sampling_interval(Ts)
+
+      
+      Set the sampling interval and compute controller parameters.
+
+      :param Ts: Sampling interval in seconds.
+      :type Ts: float
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: execute(sys, kTs)
+
+      
+      Execute the controller.
+
+      :param sys: System model.
+      :type sys: object
+      :param kTs: Current discrete time instant [s].
+      :type kTs: float
+
+      :returns: **output** -- The output of the controller after execution.
       :rtype: SimpleNamespace
 
 

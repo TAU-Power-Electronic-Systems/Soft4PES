@@ -151,6 +151,7 @@
 <li class="toctree-l4"><a class="reference internal" href="grid_curr_ref_gen/index.html">soft4pes.control.lin.grid_curr_ref_gen</a></li>
 <li class="toctree-l4"><a class="reference internal" href="l_conv_curr_ctr/index.html">soft4pes.control.lin.l_conv_curr_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="lcl_conv_curr_ctr/index.html">soft4pes.control.lin.lcl_conv_curr_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lcl_grid_curr_ctr_wacfb/index.html">soft4pes.control.lin.lcl_grid_curr_ctr_wacfb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="rfpsc/index.html">soft4pes.control.lin.rfpsc</a></li>
 <li class="toctree-l4"><a class="reference internal" href="state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
@@ -451,6 +452,16 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RFPSC.execute"><code class="docutils literal notranslate"><span class="pre">RFPSC.execute()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB"><code class="docutils literal notranslate"><span class="pre">LCLGridCurrCtrWACFB</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB.sys"><code class="docutils literal notranslate"><span class="pre">LCLGridCurrCtrWACFB.sys</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB.gamma"><code class="docutils literal notranslate"><span class="pre">LCLGridCurrCtrWACFB.gamma</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB.xi"><code class="docutils literal notranslate"><span class="pre">LCLGridCurrCtrWACFB.xi</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB.alpha_d"><code class="docutils literal notranslate"><span class="pre">LCLGridCurrCtrWACFB.alpha_d</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB.ctr"><code class="docutils literal notranslate"><span class="pre">LCLGridCurrCtrWACFB.ctr</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB.set_sampling_interval"><code class="docutils literal notranslate"><span class="pre">LCLGridCurrCtrWACFB.set_sampling_interval()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB.execute"><code class="docutils literal notranslate"><span class="pre">LCLGridCurrCtrWACFB.execute()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -474,6 +485,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="grid_curr_ref_gen/index.html">soft4pes.control.lin.grid_curr_ref_gen</a></li>
 <li class="toctree-l1"><a class="reference internal" href="l_conv_curr_ctr/index.html">soft4pes.control.lin.l_conv_curr_ctr</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lcl_conv_curr_ctr/index.html">soft4pes.control.lin.lcl_conv_curr_ctr</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lcl_grid_curr_ctr_wacfb/index.html">soft4pes.control.lin.lcl_grid_curr_ctr_wacfb</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rfpsc/index.html">soft4pes.control.lin.rfpsc</a></li>
 <li class="toctree-l1"><a class="reference internal" href="state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
@@ -501,6 +513,9 @@ document.write(`
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.lin.RFPSC" title="soft4pes.control.lin.RFPSC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RFPSC</span></code></a></p></td>
 <td><p>Reference-feedforward power synchronization control (RFPSC).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB" title="soft4pes.control.lin.LCLGridCurrCtrWACFB"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LCLGridCurrCtrWACFB</span></code></a></p></td>
+<td><p>Grid current controller for a converter with LCL filter based on weighted average based (WAC)</p></td>
 </tr>
 </tbody>
 </table>
@@ -1119,6 +1134,105 @@ a capacitor voltage reference in case LC(L) filter is used (vc_ref).</p>
 
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="soft4pes.control.lin.LCLGridCurrCtrWACFB">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.lin.</span></span><span class="sig-name descname"><span class="pre">LCLGridCurrCtrWACFB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha_d</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/lin/lcl_grid_curr_ctr_wacfb.html#LCLGridCurrCtrWACFB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../common/controller/index.html#soft4pes.control.common.controller.Controller" title="soft4pes.control.common.controller.Controller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.control.common.controller.Controller</span></code></a></p>
+<p>Grid current controller for a converter with LCL filter based on weighted average based (WAC)
+feedback.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sys</strong> (<em>object</em>) – System model containing electrical parameters and base values.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.control.lin.LCLGridCurrCtrWACFB.sys">
+<span class="sig-name descname"><span class="pre">sys</span></span><a class="headerlink" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB.sys" title="Permalink to this definition">#</a></dt>
+<dd><p>System model containing electrical parameters and base values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.control.lin.LCLGridCurrCtrWACFB.gamma">
+<span class="sig-name descname"><span class="pre">gamma</span></span><a class="headerlink" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB.gamma" title="Permalink to this definition">#</a></dt>
+<dd><p>Tuning parameter for the high-pass filter (HPF) in the damping compensation path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.control.lin.LCLGridCurrCtrWACFB.xi">
+<span class="sig-name descname"><span class="pre">xi</span></span><a class="headerlink" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB.xi" title="Permalink to this definition">#</a></dt>
+<dd><p>Damping ratio for the damping compensation path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.control.lin.LCLGridCurrCtrWACFB.alpha_d">
+<span class="sig-name descname"><span class="pre">alpha_d</span></span><a class="headerlink" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB.alpha_d" title="Permalink to this definition">#</a></dt>
+<dd><p>Tuning parameter for the integrator gain in the main control path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="soft4pes.control.lin.LCLGridCurrCtrWACFB.ctr">
+<span class="sig-name descname"><span class="pre">ctr</span></span><a class="headerlink" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB.ctr" title="Permalink to this definition">#</a></dt>
+<dd><p>Controller parameters and filters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>SimpleNamespace</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.control.lin.LCLGridCurrCtrWACFB.set_sampling_interval">
+<span class="sig-name descname"><span class="pre">set_sampling_interval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Ts</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/lin/lcl_grid_curr_ctr_wacfb.html#LCLGridCurrCtrWACFB.set_sampling_interval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB.set_sampling_interval" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the sampling interval and compute controller parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Ts</strong> (<em>float</em>) – Sampling interval in seconds.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.control.lin.LCLGridCurrCtrWACFB.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/lin/lcl_grid_curr_ctr_wacfb.html#LCLGridCurrCtrWACFB.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB.execute" title="Permalink to this definition">#</a></dt>
+<dd><p>Execute the controller.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sys</strong> (<em>object</em>) – System model.</p></li>
+<li><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>output</strong> – The output of the controller after execution.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>SimpleNamespace</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 
@@ -1225,6 +1339,16 @@ a capacitor voltage reference in case LC(L) filter is used (vc_ref).</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RFPSC.ig_filter"><code class="docutils literal notranslate"><span class="pre">RFPSC.ig_filter</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RFPSC.Kp"><code class="docutils literal notranslate"><span class="pre">RFPSC.Kp</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.RFPSC.execute"><code class="docutils literal notranslate"><span class="pre">RFPSC.execute()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB"><code class="docutils literal notranslate"><span class="pre">LCLGridCurrCtrWACFB</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB.sys"><code class="docutils literal notranslate"><span class="pre">LCLGridCurrCtrWACFB.sys</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB.gamma"><code class="docutils literal notranslate"><span class="pre">LCLGridCurrCtrWACFB.gamma</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB.xi"><code class="docutils literal notranslate"><span class="pre">LCLGridCurrCtrWACFB.xi</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB.alpha_d"><code class="docutils literal notranslate"><span class="pre">LCLGridCurrCtrWACFB.alpha_d</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB.ctr"><code class="docutils literal notranslate"><span class="pre">LCLGridCurrCtrWACFB.ctr</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB.set_sampling_interval"><code class="docutils literal notranslate"><span class="pre">LCLGridCurrCtrWACFB.set_sampling_interval()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB.execute"><code class="docutils literal notranslate"><span class="pre">LCLGridCurrCtrWACFB.execute()</span></code></a></li>
 </ul>
 </li>
 </ul>

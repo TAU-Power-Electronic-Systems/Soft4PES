@@ -1,0 +1,600 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>soft4pes.control.lin.lcl_grid_curr_ctr_wacfb &#8212; Soft4PES  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../_static/clipboard.min.js"></script>
+    <script src="../../../../_static/copybutton.js"></script>
+    <script src="../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/soft4pes/control/lin/lcl_grid_curr_ctr_wacfb';</script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Soft4PES  documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/index.html">API</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/control/index.html">soft4pes.control</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/control/common/index.html">soft4pes.control.common</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/common/control_system/index.html">soft4pes.control.common.control_system</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/common/controller/index.html">soft4pes.control.common.controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/common/utils/index.html">soft4pes.control.common.utils</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/index.html">soft4pes.control.lin</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/grid_curr_ref_gen/index.html">soft4pes.control.lin.grid_curr_ref_gen</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/l_conv_curr_ctr/index.html">soft4pes.control.lin.l_conv_curr_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_conv_curr_ctr/index.html">soft4pes.control.lin.lcl_conv_curr_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_grid_curr_ctr_wacfb/index.html">soft4pes.control.lin.lcl_grid_curr_ctr_wacfb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/rfpsc/index.html">soft4pes.control.lin.rfpsc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/control/modulation/index.html">soft4pes.control.modulation</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/modulation/carrier_pwm/index.html">soft4pes.control.modulation.carrier_pwm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/modulation/common_mode_injection/index.html">soft4pes.control.modulation.common_mode_injection</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/control/mpc/index.html">soft4pes.control.mpc</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/mpc/controllers/index.html">soft4pes.control.mpc.controllers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/mpc/solvers/index.html">soft4pes.control.mpc.solvers</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/model/index.html">soft4pes.model</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/model/conv/index.html">soft4pes.model.conv</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/conv/converter/index.html">soft4pes.model.conv.converter</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/index.html">soft4pes.model.grid</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/base_grid/index.html">soft4pes.model.grid.base_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/l_filter_param/index.html">soft4pes.model.grid.l_filter_param</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/lcl_filter_param/index.html">soft4pes.model.grid.lcl_filter_param</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html">soft4pes.model.grid.rl_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html">soft4pes.model.grid.rl_grid_l_filter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/rl_grid_lcl_filter/index.html">soft4pes.model.grid.rl_grid_lcl_filter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/rl_grid_param/index.html">soft4pes.model.grid.rl_grid_param</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/model/machine/index.html">soft4pes.model.machine</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/machine/base_machine/index.html">soft4pes.model.machine.base_machine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html">soft4pes.model.machine.induction_machine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/machine/induction_machine_param/index.html">soft4pes.model.machine.induction_machine_param</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html">soft4pes.model.machine.pmsm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/machine/pmsm_param/index.html">soft4pes.model.machine.pmsm_param</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/sim/index.html">soft4pes.sim</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../autoapi/soft4pes/sim/simulation/index.html">soft4pes.sim.simulation</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/utils/index.html">soft4pes.utils</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../autoapi/soft4pes/utils/conversions/index.html">soft4pes.utils.conversions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../autoapi/soft4pes/utils/plotter/index.html">soft4pes.utils.plotter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../autoapi/soft4pes/utils/sequence/index.html">soft4pes.utils.sequence</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parameter Sets</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../parameter_sets/grid_parameter_sets.html">Grid Parameter Sets</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../parameter_sets/grid/systems.html">Grid Systems</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../parameter_sets/grid/components.html">Grid Components</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-14"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../parameter_sets/grid/components/grids.html">Grids</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../parameter_sets/grid/components/filters.html">Filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../parameter_sets/grid/components/converters.html">Converters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../parameter_sets/drive_parameter_sets.html">Drive Parameter Sets</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-15"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../parameter_sets/drive/systems.html">Drive Systems</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../parameter_sets/drive/components.html">Drive Components</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-16"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../parameter_sets/drive/components/machines.html">Machines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../parameter_sets/drive/components/converters.html">Converters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/TAU-Power-Electronic-Systems/Soft4PES" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for soft4pes.control.lin.lcl_grid_curr_ctr_wacfb</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Grid current controller for a converter with LCL filter based on weighted average control</span>
+<span class="sd"> (WAC) feedback.</span>
+
+<span class="sd">[Ref.]. L. S. Perić, E. Levi and S. N. Vukosavić, &quot;Compound Feedback for Current-Controlled</span>
+<span class="sd"> Grid-Side Inverters With LCL Filters,&quot; in IEEE Transactions on Power Electronics, vol. 40,</span>
+<span class="sd">   no. 2, pp. 3005-3019, Feb. 2025, doi: 10.1109/TPEL.2024.3487109.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleNamespace</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">alpha_beta_2_dq</span><span class="p">,</span> <span class="n">dq_2_alpha_beta</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.control.common.controller</span><span class="w"> </span><span class="kn">import</span> <span class="n">Controller</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.control.common.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_modulating_signal</span><span class="p">,</span> <span class="n">DiscreteTransferFunction</span>
+
+
+<div class="viewcode-block" id="LCLGridCurrCtrWACFB"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/lcl_grid_curr_ctr_wacfb/index.html#soft4pes.control.lin.LCLGridCurrCtrWACFB">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">LCLGridCurrCtrWACFB</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Grid current controller for a converter with LCL filter based on weighted average based (WAC) </span>
+<span class="sd">    feedback.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sys : object</span>
+<span class="sd">        System model containing electrical parameters and base values.</span>
+
+<span class="sd">    </span>
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sys : object</span>
+<span class="sd">        System model containing electrical parameters and base values.</span>
+<span class="sd">    gamma : float</span>
+<span class="sd">        Tuning parameter for the high-pass filter (HPF) in the damping compensation path.</span>
+<span class="sd">    xi : float</span>
+<span class="sd">        Damping ratio for the damping compensation path.</span>
+<span class="sd">    alpha_d : float</span>
+<span class="sd">        Tuning parameter for the integrator gain in the main control path.</span>
+<span class="sd">    ctr : SimpleNamespace</span>
+<span class="sd">        Controller parameters and filters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">xi</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha_d</span><span class="o">=</span><span class="mf">0.3</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+<div class="viewcode-block" id="LCLGridCurrCtrWACFB.sys"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/lcl_grid_curr_ctr_wacfb/index.html#soft4pes.control.lin.LCLGridCurrCtrWACFB.sys">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">sys</span> <span class="o">=</span> <span class="n">sys</span></div>
+<div class="viewcode-block" id="LCLGridCurrCtrWACFB.gamma"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/lcl_grid_curr_ctr_wacfb/index.html#soft4pes.control.lin.LCLGridCurrCtrWACFB.gamma">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="n">gamma</span></div>
+<div class="viewcode-block" id="LCLGridCurrCtrWACFB.xi"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/lcl_grid_curr_ctr_wacfb/index.html#soft4pes.control.lin.LCLGridCurrCtrWACFB.xi">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">xi</span> <span class="o">=</span> <span class="n">xi</span></div>
+<div class="viewcode-block" id="LCLGridCurrCtrWACFB.alpha_d"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/lcl_grid_curr_ctr_wacfb/index.html#soft4pes.control.lin.LCLGridCurrCtrWACFB.alpha_d">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">alpha_d</span> <span class="o">=</span> <span class="n">alpha_d</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ctr_imp</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="LCLGridCurrCtrWACFB.set_sampling_interval"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/lcl_grid_curr_ctr_wacfb/index.html#soft4pes.control.lin.LCLGridCurrCtrWACFB.set_sampling_interval">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_sampling_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Ts</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the sampling interval and compute controller parameters.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Ts : float</span>
+<span class="sd">            Sampling interval in seconds.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Ts</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">Ts</span><span class="p">)</span>
+        <span class="n">Ts_pu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ts</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">w</span>
+        <span class="n">wr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">X_fc</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">X_fg</span><span class="p">)</span> <span class="o">/</span>
+                     <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">X_fc</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">X_fg</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xc</span><span class="p">))</span>
+
+        <span class="n">fr_over_fs</span> <span class="o">=</span> <span class="n">wr</span> <span class="o">*</span> <span class="n">Ts_pu</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+        <span class="c1"># Set default values for gamma and xi based on the ratio of</span>
+        <span class="c1"># the resonant frequency to the sampling frequency.</span>
+        <span class="k">if</span> <span class="n">fr_over_fs</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">12</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="mi">5</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">xi</span> <span class="o">=</span> <span class="mf">0.2</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="mf">1.25</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">xi</span> <span class="o">=</span> <span class="mf">0.5</span>
+
+        <span class="c1"># Eq.(35), W_C2(z) = 4*X_fg*Xc/Ts^2 * ((z-1)^2 / (z+1)^2) -&gt;</span>
+        <span class="c1"># W_C2(z) = (g - 2*g z^-1 + g z^-2) / (1 + 2 z^-1 + z^-2)</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="mf">4.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">X_fg</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xc</span> <span class="o">/</span> <span class="p">(</span><span class="n">Ts_pu</span> <span class="o">*</span> <span class="n">Ts_pu</span><span class="p">)</span>
+        <span class="n">W_C2</span> <span class="o">=</span> <span class="n">DiscreteTransferFunction</span><span class="p">(</span><span class="n">numerator_coeffs</span><span class="o">=</span><span class="p">[</span><span class="n">g</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">g</span><span class="p">,</span> <span class="n">g</span><span class="p">],</span>
+                                        <span class="n">denominator_coeffs</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+
+        <span class="c1"># Eq.(19)</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">X_fc</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">X_fg</span><span class="p">)</span>
+        <span class="n">K</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">L</span> <span class="o">*</span> <span class="n">wr</span>
+        <span class="c1"># Eq.(16), proportional and integral gains for damping compensator W_C(z)</span>
+        <span class="n">k1</span> <span class="o">=</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">xi</span> <span class="o">*</span> <span class="n">K</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">wr</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">X_fg</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xc</span><span class="p">)</span>
+        <span class="n">sigma</span> <span class="o">=</span> <span class="n">K</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">X_fc</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">X_fg</span><span class="p">)</span>
+        <span class="n">k2</span> <span class="o">=</span> <span class="n">k1</span> <span class="o">/</span> <span class="n">sigma</span>
+        <span class="c1"># Eq.(33),W_C(z) = k1*Ts*z/(z-1) + k2  -&gt;</span>
+        <span class="c1"># W_C(z) = ((k1*Ts+k2) - k2 z^-1)/(1 - z^-1)</span>
+        <span class="n">W_C</span> <span class="o">=</span> <span class="n">DiscreteTransferFunction</span><span class="p">(</span><span class="n">numerator_coeffs</span><span class="o">=</span><span class="p">[</span><span class="n">k1</span> <span class="o">*</span> <span class="n">Ts_pu</span> <span class="o">+</span> <span class="n">k2</span><span class="p">,</span> <span class="o">-</span><span class="n">k2</span><span class="p">],</span>
+                                       <span class="n">denominator_coeffs</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">])</span>
+
+        <span class="c1"># tuning parameter for high-pass filter W_HP(z)</span>
+        <span class="n">tau</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">/</span> <span class="n">wr</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">Ts_pu</span> <span class="o">/</span> <span class="n">tau</span><span class="p">)</span>
+        <span class="c1"># Eq.(34), W_HP(z) = ((z-1)/(z-a))^2 -&gt;</span>
+        <span class="c1"># W_HP(z) = (1 - 2 z^-1 + z^-2) / (1 - 2 a z^-1 + a^2 z^-2)</span>
+        <span class="n">W_HP</span> <span class="o">=</span> <span class="n">DiscreteTransferFunction</span><span class="p">(</span>
+            <span class="n">numerator_coeffs</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+            <span class="n">denominator_coeffs</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">a</span><span class="p">,</span> <span class="n">a</span> <span class="o">*</span> <span class="n">a</span><span class="p">])</span>
+
+        <span class="c1"># delay of the feedback acquisition in damping compensation path.</span>
+        <span class="c1"># Eq.(25), W_D(z) = (1+2z+z^2)/(4z^2) -&gt;</span>
+        <span class="c1"># W_D(z) = (0.25 + 0.5 z^-1 + 0.25 z^-2)</span>
+        <span class="n">W_D_ui</span> <span class="o">=</span> <span class="n">DiscreteTransferFunction</span><span class="p">(</span><span class="n">numerator_coeffs</span><span class="o">=</span><span class="p">[</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">])</span>
+
+        <span class="c1"># Eq. (36), W_Q(z) = Im(z) / (Ts^2 * (X_fc+X_fg) * (z+1)^2)</span>
+        <span class="c1"># Im(z) = 4*X_fc*X_fg*Xc*(z-1)^2 + Ts^2*(X_fc+X_fg)*(z+1)^2</span>
+        <span class="c1"># W_Q(z) = (b+c) - 2*(b-c) z^-1 + (b+c) z^-2 / (c + 2 c z^-1 + c z^-2)</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="mf">4.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">X_fc</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">X_fg</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xc</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ts_pu</span> <span class="o">*</span> <span class="n">Ts_pu</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">X_fc</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">X_fg</span><span class="p">)</span>
+        <span class="n">W_Q</span> <span class="o">=</span> <span class="n">DiscreteTransferFunction</span><span class="p">(</span>
+            <span class="n">numerator_coeffs</span><span class="o">=</span><span class="p">[</span><span class="n">b</span> <span class="o">+</span> <span class="n">c</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">b</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">c</span><span class="p">,</span> <span class="n">b</span> <span class="o">+</span> <span class="n">c</span><span class="p">],</span>
+            <span class="n">denominator_coeffs</span><span class="o">=</span><span class="p">[</span><span class="n">c</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">c</span><span class="p">,</span> <span class="n">c</span><span class="p">])</span>
+
+        <span class="c1"># delay of feedback acquisition in the WAC feedback path.</span>
+        <span class="c1"># Eq.(25), W_D(z) = (1+2z+z^2)/(4z^2) -&gt;</span>
+        <span class="c1"># W_D(z) = (0.25 + 0.5 z^-1 + 0.25 z^-2)</span>
+        <span class="n">W_D_if</span> <span class="o">=</span> <span class="n">DiscreteTransferFunction</span><span class="p">(</span><span class="n">numerator_coeffs</span><span class="o">=</span><span class="p">[</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">])</span>
+
+        <span class="c1"># dimensionless differential gain of the series lead compensator WDIF(z).</span>
+        <span class="c1"># It sets the amount of lead action added to the main current controller.</span>
+        <span class="c1"># Increasing d improves the phase characteristic, increases damping,</span>
+        <span class="c1"># and usually reduces overshoot while increasing closed-loop bandwidth.</span>
+        <span class="c1"># The papers treat d as a relative tuning parameter, independent of the</span>
+        <span class="c1"># plant parameters. With improved scheduling, a practical value is d = 0.444.</span>
+        <span class="c1"># In general, d is beneficial up to about 0.6; for larger values,</span>
+        <span class="c1"># robustness (vector margin) starts to decrease.</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="mf">0.444</span>
+        <span class="c1"># WDIF(z): series differential lead compensator proposed in [17] and [27] of the [Ref.].</span>
+        <span class="c1"># WDIF(z) = 1 + d*(1 - z^-1) = (1 + d) - d*z^-1</span>
+        <span class="n">W_DIF</span> <span class="o">=</span> <span class="n">DiscreteTransferFunction</span><span class="p">(</span><span class="n">numerator_coeffs</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">d</span><span class="p">,</span> <span class="o">-</span><span class="n">d</span><span class="p">])</span>
+
+        <span class="c1"># Main controller based on Eq. (5.11) of [27] in the [Ref.].</span>
+        <span class="n">X_eq</span> <span class="o">=</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">X_fc</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">X_fg</span><span class="p">)</span> <span class="o">/</span>
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">X_fc</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">X_fg</span><span class="p">))</span>
+        <span class="n">R_eq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">R_fc</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">R_fg</span>
+        <span class="n">beta</span> <span class="o">=</span> <span class="n">R_eq</span> <span class="o">*</span> <span class="n">Ts_pu</span> <span class="o">/</span> <span class="n">X_eq</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_d</span> <span class="o">*</span> <span class="n">X_eq</span> <span class="o">/</span> <span class="n">Ts_pu</span>
+        <span class="n">W_REG</span> <span class="o">=</span> <span class="n">DiscreteTransferFunction</span><span class="p">(</span>
+            <span class="n">numerator_coeffs</span><span class="o">=</span><span class="p">[</span><span class="n">e</span><span class="p">,</span> <span class="o">-</span><span class="n">e</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta</span><span class="p">)],</span>
+            <span class="n">denominator_coeffs</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ctr_imp</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">Ts_pu</span><span class="o">=</span><span class="n">Ts_pu</span><span class="p">,</span>
+                                       <span class="n">wr</span><span class="o">=</span><span class="n">wr</span><span class="p">,</span>
+                                       <span class="n">W_C2</span><span class="o">=</span><span class="n">W_C2</span><span class="p">,</span>
+                                       <span class="n">W_C</span><span class="o">=</span><span class="n">W_C</span><span class="p">,</span>
+                                       <span class="n">W_HP</span><span class="o">=</span><span class="n">W_HP</span><span class="p">,</span>
+                                       <span class="n">W_D_ui</span><span class="o">=</span><span class="n">W_D_ui</span><span class="p">,</span>
+                                       <span class="n">W_Q</span><span class="o">=</span><span class="n">W_Q</span><span class="p">,</span>
+                                       <span class="n">W_D_if</span><span class="o">=</span><span class="n">W_D_if</span><span class="p">,</span>
+                                       <span class="n">W_DIF</span><span class="o">=</span><span class="n">W_DIF</span><span class="p">,</span>
+                                       <span class="n">W_REG</span><span class="o">=</span><span class="n">W_REG</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LCLGridCurrCtrWACFB.execute"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/lcl_grid_curr_ctr_wacfb/index.html#soft4pes.control.lin.LCLGridCurrCtrWACFB.execute">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
+
+        <span class="n">vg_ab</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">get_grid_voltage</span><span class="p">(</span><span class="n">kTs</span><span class="p">)</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">vg_ab</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">vg_ab</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="c1"># Get the grid current reference</span>
+        <span class="n">ig_ref_dq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">ig_ref_dq</span>
+        <span class="n">ig_dq</span> <span class="o">=</span> <span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">ig</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+
+        <span class="c1"># WAC feedback: iF_dq = W_D_if * W_Q * ig_dq</span>
+        <span class="n">iF_dq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr_imp</span><span class="o">.</span><span class="n">W_D_if</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ctr_imp</span><span class="o">.</span><span class="n">W_Q</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">ig_dq</span><span class="p">))</span>
+
+        <span class="c1"># damping path: u_comp = W_D_ui * W_HP * W_C * W_C2 * ig_dq</span>
+        <span class="n">iC_dq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr_imp</span><span class="o">.</span><span class="n">W_C2</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">ig_dq</span><span class="p">)</span>
+        <span class="n">uCP1_dq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr_imp</span><span class="o">.</span><span class="n">W_C</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">iC_dq</span><span class="p">)</span>
+        <span class="n">uCP_dq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr_imp</span><span class="o">.</span><span class="n">W_HP</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">uCP1_dq</span><span class="p">)</span>
+        <span class="n">u_comp_dq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr_imp</span><span class="o">.</span><span class="n">W_D_ui</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">uCP_dq</span><span class="p">)</span>
+
+        <span class="c1"># main control path: u_reg_dq = W_REG * W_DIF * e_dq</span>
+        <span class="n">e_dq</span> <span class="o">=</span> <span class="n">ig_ref_dq</span> <span class="o">-</span> <span class="n">iF_dq</span>
+        <span class="n">u_reg_dq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr_imp</span><span class="o">.</span><span class="n">W_REG</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ctr_imp</span><span class="o">.</span><span class="n">W_DIF</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">e_dq</span><span class="p">))</span>
+
+        <span class="c1"># final control signal: u_dq = u_reg_dq - u_comp_dq</span>
+        <span class="n">ui_dq</span> <span class="o">=</span> <span class="n">u_reg_dq</span> <span class="o">-</span> <span class="n">u_comp_dq</span>
+
+        <span class="n">u_abc</span> <span class="o">=</span> <span class="n">get_modulating_signal</span><span class="p">(</span><span class="n">dq_2_alpha_beta</span><span class="p">(</span><span class="n">ui_dq</span><span class="p">,</span> <span class="n">theta</span><span class="p">),</span>
+                                      <span class="n">sys</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">u_abc</span><span class="o">=</span><span class="n">u_abc</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span></div></div>
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By TAU Power Electronic Systems
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024 TAU Power Electronic Systems.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
