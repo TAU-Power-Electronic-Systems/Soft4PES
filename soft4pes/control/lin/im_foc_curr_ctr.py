@@ -1,9 +1,5 @@
 """
-Current Controller (CC) for the control of the converter (or grid) current with L filter.
-Based on the following reference:
-E. Pouresmaeil, C. Miguel-Espinar, M. Massot-Campos, D. Montesinos-Miracle and O. Gomis-Bellmunt, 
-"A Control Technique for Integration of DG Units to the Electrical Networks," in IEEE Transactions 
-on Industrial Electronics, vol. 60, no. 7, pp. 2881-2893, July 2013, doi: 10.1109/TIE.2012.2209616.
+Field-oriented control (FOC) for the current control of an induction machine (IM).
 
 """
 
@@ -14,9 +10,9 @@ from soft4pes.control.common.controller import Controller
 from soft4pes.control.common.utils import get_modulating_signal
 
 
-class LConvCurrCtr(Controller):
+class FOCCurrCtr(Controller):
     """
-    Current Controller for converter (or grid) current with an L filter. 
+    Field-oriented control (FOC) for the current control of a induction machine (IM).
     
     Parameters
     ----------
@@ -25,7 +21,7 @@ class LConvCurrCtr(Controller):
     
     Attributes
     ----------
-    i_conv_ii_dq : ndarray (2,)
+    iS_ii_dq : ndarray (2,)
         Integrator state of the PI-controller.
     sys : object
         System model.
@@ -35,13 +31,20 @@ class LConvCurrCtr(Controller):
 
     def __init__(self, sys):
         super().__init__()
-        self.i_conv_ii_dq = np.zeros(2)
+        self.iS_ii_dq = np.zeros(2)
         self.sys = sys
         self.ctr_pars = None
 
     def set_sampling_interval(self, Ts):
         """
         Set the sampling interval and compute controller parameters.
+
+        Magnitude optimum criterion based on:
+        J. W. Umland and M. Safiuddin, 
+        "Magnitude and symmetric optimum criterion for the design 
+        of linear control systems: what is it and how does it compare with the others?," 
+        in IEEE Transactions on Industry Applications, vol. 26, no. 3, 
+        pp. 489-497, May-June 1990, doi: 10.1109/28.55967
         
         Parameters
         ----------
@@ -51,19 +54,25 @@ class LConvCurrCtr(Controller):
         self.Ts = Ts
         Ts_pu = self.Ts * self.sys.base.w
 
-        # Natural undamped angular frequency
-        wn = 2 * np.pi / 20 / Ts_pu
+        # First-order approximaton of the stator current dynamics, time constant
+        t1 = self.sys.par.Xsigma / self.sys.par.Rs
 
-        # Damping ratio
-        zeta = np.sqrt(2) / 2
+        # First-order gain
+        k1 = 1 / self.sys.par.Rs
+
+        # PWM delay
+        td = 1 / 2 * Ts_pu
+
+        # Integration time
+        ti = 2 * k1 * td
 
         # Integral gain (discretized)
-        k_i = wn**2 * self.sys.par.X_fc * Ts_pu
+        ki = 1 / ti * Ts_pu
 
         # Proportional gain
-        k_p = 2 * wn * zeta * self.sys.par.X_fc - self.sys.par.R_fc
+        kp = t1 / ti
 
-        self.ctr_pars = SimpleNamespace(k_i=k_i, k_p=k_p)
+        self.ctr_pars = SimpleNamespace(k_i=ki, k_p=kp)
 
     def execute(self, sys, kTs):
         """
@@ -81,34 +90,33 @@ class LConvCurrCtr(Controller):
         1 x 3 ndarray of floats
             Three-phase modulating signal.
         """
-
         # Calculate the transformation angle
-        theta = self.input.theta
+        theta = np.arctan2(sys.psiR[1], sys.psiR[0])
 
-        # Get the reference for current step (converter current equals grid current)
-        i_conv_ref_dq = self.input.ig_ref_dq
+        # Stator current in dq frame
+        iS_dq = alpha_beta_2_dq(sys.iS, theta)
 
-        # Get dq frame current measurements
-        i_conv_dq = alpha_beta_2_dq(sys.i_conv, theta)
+        # Stator current reference in the dq frame for the current step
+        T_ref = self.input.T_ref
+        iS_ref_dq = sys.calc_stator_current(sys.psiR_mag_ref, T_ref)
 
         # Current control error in dq-frame
-        e_i_conv_dq = i_conv_ref_dq - i_conv_dq
+        e_i_conv_dq = iS_ref_dq - iS_dq
 
         # Integrator update
-        self.i_conv_ii_dq += (self.ctr_pars.k_i * e_i_conv_dq)
+        self.iS_ii_dq += (self.ctr_pars.k_i * e_i_conv_dq)
 
         # Proportional + integral action (lambda in dq frame)
-        lambda_dq = self.ctr_pars.k_p * e_i_conv_dq + (self.i_conv_ii_dq)
+        lambda_dq = self.ctr_pars.k_p * e_i_conv_dq + (self.iS_ii_dq)
 
-        # Calculate the PCC output voltage in dq frame
-        J = np.array([[0, -1], [1, 0]])
-        v_pcc = sys.get_pcc_voltage()
-        v_pcc_dq = alpha_beta_2_dq(v_pcc, theta)
+        # Calculate cross coupling compensation term
+        x_coup_dq = np.array([
+            -sys.wr * sys.par.Xsigma * iS_dq[1],
+            sys.wr * sys.par.Xsigma * iS_dq[0]
+        ])
 
-        # Calculate the switching state functions in the dq frame
-        v_conv_ref_dq = lambda_dq + (self.sys.par.X_fc * self.sys.par.wg *
-                                     (J.dot(i_conv_dq))) + np.array(
-                                         [v_pcc_dq[0], 0])
+        # Compute the voltage reference in dq frame
+        v_conv_ref_dq = lambda_dq + x_coup_dq
 
         # Get the modulating signal in abc frame
         v_conv_ref = dq_2_alpha_beta(v_conv_ref_dq, theta)

@@ -9,7 +9,7 @@ import numpy as np
 
 from pars.machine_config import get_custom_system
 from soft4pes import model
-from soft4pes.control import mpc, common
+from soft4pes.control import lin, modulation, mpc, common
 from soft4pes.utils import Sequence
 from soft4pes.sim import Simulation
 from soft4pes.utils.plotter import Plotter
@@ -40,19 +40,40 @@ sys = model.machine.InductionMachine(
     T_ref_init=T_ref_seq(0),
 )
 
-# Use Branch-and-Bound solver
-solver = mpc.solvers.MpcBnB(conv=config.conv)
+# Choose the control strategy. "MPC" for model predictive control, "FOC" for field-oriented control.
+CTR_STRATEGY = "FOC"
 
-# Uncomment to use enumeration based solver
-# solver = mpc.solvers.MpcEnum(conv=config.conv)
+match CTR_STRATEGY:
+    case "MPC":
+        # Use Branch-and-Bound solver
+        solver = mpc.solvers.MpcBnB(conv=config.conv)
 
-# Define the indirect MPC current controller, which tracks the stator current references, derived
-# from the stator flux magnitude and torque references.
-ctr = mpc.controllers.IMMpcCurrCtr(solver=solver,
-                                   lambda_u=10e-3,
-                                   Np=2,
-                                   disc_method='exact_discretization')
-ctr_sys = common.ControlSystem(control_loops=[ctr], ref_seq=ref_seq, Ts=50e-6)
+        # Uncomment to use enumeration based solver
+        # solver = mpc.solvers.MpcEnum(conv=config.conv)
+
+        # Define the direct MPC current controller, which tracks the stator current references,
+        # derived from the stator flux magnitude and torque references.
+        ctr = mpc.controllers.IMMpcCurrCtr(solver=solver,
+                                           lambda_u=10e-3,
+                                           Np=2,
+                                           disc_method='exact_discretization')
+
+        # Instantiate the controller
+        ctr_sys = common.ControlSystem(control_loops=[ctr],
+                                       ref_seq=ref_seq,
+                                       Ts=50e-6)
+    case "FOC":
+        # Define the field-oriented controller, which tracks the stator current references,
+        # derived from the stator flux magnitude and torque references.
+        ctr = lin.FOCCurrCtr(sys=sys)
+
+        # Instantiate the controller
+        ctr_sys = common.ControlSystem(
+            control_loops=[ctr],
+            ref_seq=ref_seq,
+            Ts=120e-6,
+            pwm=modulation.CarrierPWM(),
+            common_mode_inj=modulation.CommonModeInjection(mode='MinMax'))
 
 # Simulate the system
 sim = Simulation(sys=sys,
@@ -67,7 +88,7 @@ sim.save_data()
 # Plot the results
 plotter = Plotter(data=sim_data, sys=sys)
 plotter.plot_states(states_to_plot=['iS', 'psiR'],
-                    frames=['dq', 'abc'],
+                    frames=['abc', 'abc'],
                     plot_u_abc=True)
 plotter.plot_control_signals_machine(plot_T=True, T_ref=T_ref_seq)
 plotter.plot_spectra(states_to_plot=['iS'],

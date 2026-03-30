@@ -39,16 +39,19 @@ l_params = model.grid.LFilterParameters(L_fc_SI=0.5e-3, R_fc_SI=0.1, base=base)
 conv = model.conv.Converter(v_dc_SI=6200, nl=3, base=base)
 sys = model.grid.RLGridLFilter(grid_params, l_params, conv, base)
 
+# PLL implementation
+pll = lin.PLL(sys=sys, zeta=1, wn=2 * np.pi * 5)
+
 # Build the current reference
 curr_ref = lin.GridCurrRefGen()
 
 # Build the current controller
 i_conv_ctr = lin.LConvCurrCtr(sys=sys)
 
-# Define control loops, the outer loop generates the grid current reference based on the power
-# references, acting as a feedforward term. The inner loop (current controller) is used to track the
-# grid current reference.
-control_loops = [curr_ref, i_conv_ctr]
+# Define the control loops: the PLL is used for synchronization, the outer loop generates
+# the grid current reference from the power references, and the inner loop (current
+# controller) tracks the grid current reference.
+control_loops = [pll, curr_ref, i_conv_ctr]
 ctr_sys = common.ControlSystem(control_loops=control_loops,
                                ref_seq=ref_seq,
                                Ts=100e-6,

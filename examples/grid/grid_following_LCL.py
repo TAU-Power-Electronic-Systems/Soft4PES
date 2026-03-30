@@ -15,7 +15,7 @@ from soft4pes.utils.plotter import Plotter
 # Define the base values
 config = get_default_system(name='Strong_LV_Grid_LCL_Filter_2L_conv')
 sys = model.grid.RLGridLCLFilter(par_grid=config.grid_params,
-                                 par_lcl_filter=config.lcl_params,
+                                 par_lcl_filter=config.filter_params,
                                  conv=config.conv,
                                  base=config.base)
 
@@ -30,6 +30,9 @@ Q_ref_seq = Sequence(
 )
 ref_seq = SimpleNamespace(P_ref_seq=P_ref_seq, Q_ref_seq=Q_ref_seq)
 
+# PLL implementation
+pll = lin.PLL(sys=sys)
+
 # Build the current reference
 ig_ref_gen = lin.GridCurrRefGen()
 
@@ -37,7 +40,7 @@ ig_ref_gen = lin.GridCurrRefGen()
 ig_ctr = lin.LCLGridCurrCtrWACFB(sys=sys)
 
 # Define control loops
-control_loops = [ig_ref_gen, ig_ctr]
+control_loops = [pll, ig_ref_gen, ig_ctr]
 ctr_sys = common.ControlSystem(control_loops=control_loops,
                                ref_seq=ref_seq,
                                Ts=100e-6,
