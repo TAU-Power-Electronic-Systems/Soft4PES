@@ -10,7 +10,7 @@ from soft4pes.control.common.controller import Controller
 from soft4pes.control.common.utils import get_modulating_signal
 
 
-class FocCurrCtr(Controller):
+class FOCCurrCtr(Controller):
     """
     Field-oriented control (FOC) for the current control of a induction machine (IM).
     
@@ -40,7 +40,11 @@ class FocCurrCtr(Controller):
         Set the sampling interval and compute controller parameters.
 
         Magnitude optimum criterion based on:
-        J. W. Umland and M. Safiuddin, "Magnitude and symmetric optimum criterion for the design of linear control systems: what is it and how does it compare with the others?," in IEEE Transactions on Industry Applications, vol. 26, no. 3, pp. 489-497, May-June 1990, doi: 10.1109/28.55967
+        J. W. Umland and M. Safiuddin, 
+        "Magnitude and symmetric optimum criterion for the design 
+        of linear control systems: what is it and how does it compare with the others?," 
+        in IEEE Transactions on Industry Applications, vol. 26, no. 3, 
+        pp. 489-497, May-June 1990, doi: 10.1109/28.55967
         
         Parameters
         ----------
@@ -51,24 +55,24 @@ class FocCurrCtr(Controller):
         Ts_pu = self.Ts * self.sys.base.w
 
         # First-order approximaton of the stator current dynamics, time constant
-        t_1 = self.sys.par.Xsigma / self.sys.par.Rs
+        t1 = self.sys.par.Xsigma / self.sys.par.Rs
 
         # First-order gain
-        k_1 = 1/self.sys.par.Rs
+        k1 = 1 / self.sys.par.Rs
 
         # PWM delay
-        t_d = Ts_pu
+        td = 1 / 2 * Ts_pu
 
         # Integration time
-        t_i = 2*k_1*t_d
+        ti = 2 * k1 * td
 
         # Integral gain (discretized)
-        k_i = 1/t_i*Ts_pu
+        ki = 1 / ti * Ts_pu
 
         # Proportional gain
-        k_p = t_1/t_i
+        kp = t1 / ti
 
-        self.ctr_pars = SimpleNamespace(k_i=k_i, k_p=k_p)
+        self.ctr_pars = SimpleNamespace(k_i=ki, k_p=kp)
 
     def execute(self, sys, kTs):
         """
