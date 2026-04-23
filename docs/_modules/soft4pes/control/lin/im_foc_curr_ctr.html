@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>soft4pes.model.grid.rl_grid_l_filter &#8212; Soft4PES  documentation</title>
+    <title>soft4pes.control.lin.im_foc_curr_ctr &#8212; Soft4PES  documentation</title>
   
   
   
@@ -44,7 +44,7 @@
     <script src="../../../../_static/clipboard.min.js"></script>
     <script src="../../../../_static/copybutton.js"></script>
     <script src="../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/soft4pes/model/grid/rl_grid_l_filter';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/soft4pes/control/lin/im_foc_curr_ctr';</script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -343,87 +343,133 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <h1>Source code for soft4pes.model.grid.rl_grid_l_filter</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; </span>
-<span class="sd">Model of a grid with stiff voltage source, RL impedance and an L filter in alpha-beta frame.</span>
+  <h1>Source code for soft4pes.control.lin.im_foc_curr_ctr</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Field-oriented control (FOC) for the current control of an induction machine (IM).</span>
+
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleNamespace</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">alpha_beta_2_dq</span><span class="p">,</span> <span class="n">dq_2_alpha_beta</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.control.common.controller</span><span class="w"> </span><span class="kn">import</span> <span class="n">Controller</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.control.common.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_modulating_signal</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.model.grid.rl_grid</span><span class="w"> </span><span class="kn">import</span> <span class="n">RLGrid</span>
 
-
-<div class="viewcode-block" id="RLGridLFilter"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RLGridLFilter</span><span class="p">(</span><span class="n">RLGrid</span><span class="p">):</span>
+<div class="viewcode-block" id="FOCCurrCtr"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/index.html#soft4pes.control.lin.im_foc_curr_ctr.FOCCurrCtr">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">FOCCurrCtr</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Model of a grid with stiff voltage source, RL impedance and an L filter in alpha-beta frame.</span>
+<span class="sd">    Field-oriented control (FOC) for the current control of a induction machine (IM).</span>
 <span class="sd">    </span>
-<span class="sd">    The state of the system is the converter current (or the grid current) in </span>
-<span class="sd">    the alpha-beta frame, i.e. x = [i_conv^T]^T or x = [ig^T]^T. The system input is the converter </span>
-<span class="sd">    three-phase switch position or modulating signal. The grid voltage is considered to be a </span>
-<span class="sd">    disturbance. The positive current direction is from the converter to the grid for i_conv </span>
-<span class="sd">    and ig, respectively. Knowledge of the grid impedance is required,</span>
-<span class="sd">    and given to the model in the parent class RLGrid.</span>
-
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    par_grid : RLGridParameters</span>
-<span class="sd">        Parameters of the grid.</span>
-<span class="sd">    par_l_filter : LFilterParameters</span>
-<span class="sd">        Parameters of the L-filter.</span>
-<span class="sd">    conv : converter object</span>
-<span class="sd">        Converter object.</span>
-<span class="sd">    base : base value object</span>
-<span class="sd">        Base values.</span>
-
+<span class="sd">    sys : object</span>
+<span class="sd">        System model.</span>
+<span class="sd">    </span>
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">    data : SimpleNamespace</span>
-<span class="sd">        Namespace for storing simulation data.</span>
-<span class="sd">    par : System parameters</span>
-<span class="sd">        Combined RLGridParameters and L-FilterParameters.</span>
-<span class="sd">    conv : converter object</span>
-<span class="sd">        Converter object.</span>
-<span class="sd">    x : 1 x 2 ndarray of floats</span>
-<span class="sd">        Current state of the grid [p.u.].</span>
-<span class="sd">    base : base value object</span>
-<span class="sd">        Base values.</span>
-<span class="sd">    cont_state_space : SimpleNamespace</span>
-<span class="sd">        The continuous-time state-space model of the system.</span>
-<span class="sd">    state_map : dict</span>
-<span class="sd">        A dictionary mapping states to elements of the state vector.</span>
+<span class="sd">    iS_ii_dq : ndarray (2,)</span>
+<span class="sd">        Integrator state of the PI-controller.</span>
+<span class="sd">    sys : object</span>
+<span class="sd">        System model.</span>
+<span class="sd">    ctr_pars : SimpleNamespace</span>
+<span class="sd">        Controller parameters. </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">par_grid</span><span class="p">,</span> <span class="n">par_l_filter</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">ig_ref_init</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="n">par</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="o">**</span><span class="nb">vars</span><span class="p">(</span><span class="n">par_grid</span><span class="p">),</span> <span class="o">**</span><span class="nb">vars</span><span class="p">(</span><span class="n">par_l_filter</span><span class="p">))</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">par</span><span class="o">=</span><span class="n">par</span><span class="p">,</span> <span class="n">conv</span><span class="o">=</span><span class="n">conv</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="n">base</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_initial_state</span><span class="p">(</span><span class="n">ig_ref_init</span><span class="o">=</span><span class="n">ig_ref_init</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+<div class="viewcode-block" id="FOCCurrCtr.iS_ii_dq"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/im_foc_curr_ctr/index.html#soft4pes.control.lin.im_foc_curr_ctr.FOCCurrCtr.iS_ii_dq">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">iS_ii_dq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span></div>
+<div class="viewcode-block" id="FOCCurrCtr.sys"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/im_foc_curr_ctr/index.html#soft4pes.control.lin.im_foc_curr_ctr.FOCCurrCtr.sys">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">sys</span> <span class="o">=</span> <span class="n">sys</span></div>
+<div class="viewcode-block" id="FOCCurrCtr.ctr_pars"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/im_foc_curr_ctr/index.html#soft4pes.control.lin.im_foc_curr_ctr.FOCCurrCtr.ctr_pars">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">ctr_pars</span> <span class="o">=</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="RLGridLFilter.get_continuous_state_space"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter.get_continuous_state_space">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_continuous_state_space</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="FOCCurrCtr.set_sampling_interval"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/index.html#soft4pes.control.lin.im_foc_curr_ctr.FOCCurrCtr.set_sampling_interval">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_sampling_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Ts</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the continuous-time state-space model of the system in alpha-beta frame. </span>
+<span class="sd">        Set the sampling interval and compute controller parameters.</span>
+
+<span class="sd">        Magnitude optimum criterion based on:</span>
+<span class="sd">        J. W. Umland and M. Safiuddin, </span>
+<span class="sd">        &quot;Magnitude and symmetric optimum criterion for the design </span>
+<span class="sd">        of linear control systems: what is it and how does it compare with the others?,&quot; </span>
+<span class="sd">        in IEEE Transactions on Industry Applications, vol. 26, no. 3, </span>
+<span class="sd">        pp. 489-497, May-June 1990, doi: 10.1109/28.55967</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Ts : float</span>
+<span class="sd">            Sampling interval [s].</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Ts</span> <span class="o">=</span> <span class="n">Ts</span>
+        <span class="n">Ts_pu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ts</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">w</span>
+
+        <span class="c1"># First-order approximaton of the stator current dynamics, time constant</span>
+        <span class="n">t1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xsigma</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Rs</span>
+
+        <span class="c1"># First-order gain</span>
+        <span class="n">k1</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Rs</span>
+
+        <span class="c1"># PWM delay</span>
+        <span class="n">td</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">Ts_pu</span>
+
+        <span class="c1"># Integration time</span>
+        <span class="n">ti</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k1</span> <span class="o">*</span> <span class="n">td</span>
+
+        <span class="c1"># Integral gain (discretized)</span>
+        <span class="n">ki</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">ti</span> <span class="o">*</span> <span class="n">Ts_pu</span>
+
+        <span class="c1"># Proportional gain</span>
+        <span class="n">kp</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">/</span> <span class="n">ti</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ctr_pars</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">k_i</span><span class="o">=</span><span class="n">ki</span><span class="p">,</span> <span class="n">k_p</span><span class="o">=</span><span class="n">kp</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FOCCurrCtr.execute"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/index.html#soft4pes.control.lin.im_foc_curr_ctr.FOCCurrCtr.execute">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Execute the Current Controller (CC) and save the controller data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        sys : object</span>
+<span class="sd">            System model.</span>
+<span class="sd">        kTs : float</span>
+<span class="sd">            Current discrete time instant [s].</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        SimpleNamespace</span>
-<span class="sd">            A SimpleNamespace object containing matrices F, G1 and G2 of the continuous-time </span>
-<span class="sd">            state-space model. </span>
-<div class="viewcode-block" id="RLGridLFilter.base"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter.base">[docs]</a><span class="sd">        &quot;&quot;&quot;</span></div>
-<div class="viewcode-block" id="RLGridLFilter.data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter.data">[docs]</a></div>
-<div class="viewcode-block" id="RLGridLFilter.par"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter.par">[docs]</a>        <span class="n">X_fc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">X_fc</span></div>
-<div class="viewcode-block" id="RLGridLFilter.conv"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter.conv">[docs]</a>        <span class="n">R_fc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">R_fc</span></div>
-        <span class="n">Xg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xg</span>
-        <span class="n">Rg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Rg</span>
-<div class="viewcode-block" id="RLGridLFilter.state_map"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter.state_map">[docs]</a></div>
-        <span class="c1"># Clarke transformation matrix</span>
-<div class="viewcode-block" id="RLGridLFilter.cont_state_space"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter.cont_state_space">[docs]</a>        <span class="n">K</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">],</span></div>
-                                <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]])</span>
+<span class="sd">        1 x 3 ndarray of floats</span>
+<span class="sd">            Three-phase modulating signal.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Calculate the transformation angle</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">psiR</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">psiR</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
-        <span class="n">F</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">Rg</span><span class="o">+</span><span class="n">R_fc</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">Xg</span><span class="o">+</span><span class="n">X_fc</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">G1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">Xg</span><span class="o">+</span><span class="n">X_fc</span><span class="p">)</span> <span class="o">*</span> <span class="n">K</span>
-        <span class="n">G2</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">Xg</span><span class="o">+</span><span class="n">X_fc</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="c1"># Stator current in dq frame</span>
+        <span class="n">iS_dq</span> <span class="o">=</span> <span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">iS</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">F</span><span class="o">=</span><span class="n">F</span><span class="p">,</span> <span class="n">G1</span><span class="o">=</span><span class="n">G1</span><span class="p">,</span> <span class="n">G2</span><span class="o">=</span><span class="n">G2</span><span class="p">)</span></div></div>
+        <span class="c1"># Stator current reference in the dq frame for the current step</span>
+        <span class="n">T_ref</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">T_ref</span>
+        <span class="n">iS_ref_dq</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">calc_stator_current</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">psiR_mag_ref</span><span class="p">,</span> <span class="n">T_ref</span><span class="p">)</span>
+
+        <span class="c1"># Current control error in dq-frame</span>
+        <span class="n">e_i_conv_dq</span> <span class="o">=</span> <span class="n">iS_ref_dq</span> <span class="o">-</span> <span class="n">iS_dq</span>
+
+        <span class="c1"># Integrator update</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iS_ii_dq</span> <span class="o">+=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ctr_pars</span><span class="o">.</span><span class="n">k_i</span> <span class="o">*</span> <span class="n">e_i_conv_dq</span><span class="p">)</span>
+
+        <span class="c1"># Proportional + integral action (lambda in dq frame)</span>
+        <span class="n">lambda_dq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr_pars</span><span class="o">.</span><span class="n">k_p</span> <span class="o">*</span> <span class="n">e_i_conv_dq</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iS_ii_dq</span><span class="p">)</span>
+
+        <span class="c1"># Calculate cross coupling compensation term</span>
+        <span class="n">x_coup_dq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="o">-</span><span class="n">sys</span><span class="o">.</span><span class="n">wr</span> <span class="o">*</span> <span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xsigma</span> <span class="o">*</span> <span class="n">iS_dq</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">wr</span> <span class="o">*</span> <span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xsigma</span> <span class="o">*</span> <span class="n">iS_dq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="p">])</span>
+
+        <span class="c1"># Compute the voltage reference in dq frame</span>
+        <span class="n">v_conv_ref_dq</span> <span class="o">=</span> <span class="n">lambda_dq</span> <span class="o">+</span> <span class="n">x_coup_dq</span>
+
+        <span class="c1"># Get the modulating signal in abc frame</span>
+        <span class="n">v_conv_ref</span> <span class="o">=</span> <span class="n">dq_2_alpha_beta</span><span class="p">(</span><span class="n">v_conv_ref_dq</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+        <span class="n">u_abc</span> <span class="o">=</span> <span class="n">get_modulating_signal</span><span class="p">(</span><span class="n">v_conv_ref</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">u_abc</span><span class="o">=</span><span class="n">u_abc</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span></div></div>
 </pre></div>
 
                 </article>
