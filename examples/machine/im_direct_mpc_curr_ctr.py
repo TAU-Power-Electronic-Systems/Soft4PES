@@ -9,7 +9,7 @@ import numpy as np
 
 from pars.machine_config import get_custom_system
 from soft4pes import model
-from soft4pes.control import mpc, common
+from soft4pes.control import mpc, common, modulation
 from soft4pes.utils import Sequence
 from soft4pes.sim import Simulation
 from soft4pes.utils.plotter import Plotter
@@ -49,7 +49,10 @@ ctr = mpc.algorithms.IMCurrCtr(solver=solver,
                                lambda_u=10e-3,
                                Np=2,
                                disc_method='exact_discretization')
-ctr_sys = common.ControlSystem(control_loops=[ctr], ref_seq=ref_seq, Ts=50e-6)
+ctr_sys = common.ControlSystem(control_loops=[ctr],
+                               ref_seq=ref_seq,
+                               Ts=50e-6,
+                               pwm=modulation.CarrierPWM())
 
 # Simulate the system
 sim = Simulation(sys=sys,
@@ -65,7 +68,8 @@ sim.save_data()
 plotter = Plotter(data=sim_data, sys=sys)
 plotter.plot_states(states_to_plot=['iS', 'psiR'],
                     frames=['dq', 'abc'],
-                    plot_u_abc=True)
+                    plot_u_abc=True,
+                    plot_u_abc_ref=True)
 plotter.plot_control_signals_machine(plot_T=True, T_ref=T_ref_seq)
 plotter.plot_spectra(states_to_plot=['iS'],
                      f_fund_SI=config.base.w / (2 * np.pi),

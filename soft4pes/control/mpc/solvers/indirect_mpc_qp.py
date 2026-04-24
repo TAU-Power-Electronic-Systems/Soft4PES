@@ -13,11 +13,11 @@ The QP is solved using the `qpsolvers` package and the `DAQP` solver (MIT licens
 
 import numpy as np
 from qpsolvers import solve_qp
-from soft4pes.control.mpc.solvers.base_solver import BaseMpcSolver
+from soft4pes.control.mpc.common.solver_base import MPCSolverBase
 from soft4pes.control.mpc.solvers.utils import make_QP_matrices
 
 
-class IndirectQP(BaseMpcSolver):
+class iMPCQP(MPCSolverBase):
     """
     QP solver for indirect MPC.
     

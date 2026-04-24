@@ -70,7 +70,7 @@ class SystemModel(ABC):
             self.x = np.zeros(x_size)
         self.state_map = state_map
         self.time_varying_model = False
-        self.cont_state_space = self.get_continuous_state_space()
+        self.cont_state_space = self.get_continuous_time_state_space()
 
     def __getattr__(self, name):
         """
@@ -92,7 +92,7 @@ class SystemModel(ABC):
             f"'{self.__class__.__name__}' object has no attribute '{name}'")
 
     @abstractmethod
-    def get_continuous_state_space(self):
+    def get_continuous_time_state_space(self):
         """
         Calculates the continuous-time state-space model of the system.
 
@@ -102,7 +102,7 @@ class SystemModel(ABC):
             The continuous-time state-space model of the system.
         """
 
-    def get_discrete_state_space(self, Ts, method):
+    def get_discrete_time_state_space(self, Ts, method):
         """
         Get the discrete-time state-space model using the specified discretization method. Linear 
         system is assumed. 
@@ -124,12 +124,12 @@ class SystemModel(ABC):
         Ts_pu = Ts * self.base.w
         F_size = cont_state_space.F.shape[0]
 
-        # Discretize the state-space model using the specified method.
-        # Continuous model: dx/dt = F x + G u (+ P d)
-        # Discrete model:   x[k+1] = A x[k] + B u (+ D d)
-        # Extract the matrices F, G, and optional P from the continuous state-space model,
+        # Discretize the continuous-time state-space model using the specified method.
+        # Continuous-time model: dx(t)/dt = F x(t) + G u(t) (+ P d(t))
+        # Discrete-time model:   x[k+1] = A x[k] + B u[k] (+ D d[k])
+        # Extract the matrices F, G, and optional P from the continuous-time state-space model,
         # discretize them and store them in a SimpleNamespace object. Rename the matrices
-        # to A, B, and optional D, forming a discrete state-space model.
+        # to A, B, and optional D, forming a discrete-time state-space model.
         if method == 'forward_euler':
             A = np.eye(F_size) + cont_state_space.F * Ts_pu
             B = cont_state_space.G * Ts_pu

@@ -170,7 +170,7 @@ class Simulation:
         if sys.time_varying_model:
             self.matrices = None
         else:
-            self.matrices = self.sys.get_discrete_state_space(
+            self.matrices = self.sys.get_discrete_time_state_space(
                 self.Ts_sim, disc_method)
 
         self.simulation_data = None
@@ -211,9 +211,9 @@ class Simulation:
 
                 # Update the system matrices if the system is time-varying
                 if self.sys.time_varying_model:
-                    self.sys.cont_state_space = self.sys.get_continuous_state_space(
+                    self.sys.cont_state_space = self.sys.get_continuous_time_state_space(
                     )
-                    self.matrices = self.sys.get_discrete_state_space(
+                    self.matrices = self.sys.get_discrete_time_state_space(
                         self.Ts_sim, self.disc_method)
 
                 # Update the system state

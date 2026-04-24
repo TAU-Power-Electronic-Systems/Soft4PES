@@ -1,5 +1,5 @@
 """Model predictive control (MPC) for grid-connected converters with LCL filter. The controller 
-tracks the capacitor voltage."""
+tracks only the filter capacitor voltage."""
 
 from types import SimpleNamespace
 import numpy as np
@@ -10,10 +10,10 @@ from soft4pes.control.mpc.common.mpc_base import MPCBase
 
 class LCLGridVcCtr(MPCBase, Controller):
     """
-    MPC for capacitor voltage tracking in LCL-filtered grid-connected systems.
+    MPC for filter capacitor voltage tracking in LCL-filtered grid-connected systems.
     
-    The controller tracks the capacitor voltage reference in the alpha-beta frame. Moreover, 
-    converter current limits have been included as soft constraints in the MPC problem. 
+    The controller tracks only the filter capacitor voltage reference in the alpha-beta frame. 
+    Moreover, converter current limits have been included as soft constraints in the MPC problem. 
 
     The soft constraints are penalized in the cost function with a weight of 10e6, which ensures
     that the converter current limits are respected.
@@ -31,11 +31,6 @@ class LCLGridVcCtr(MPCBase, Controller):
     disc_method : str, optional
         Discretization method for the state-space model ('forward_euler' or 
         'exact_discretization'). Default is 'exact_discretization'.
-
-    Attributes
-    ----------
-    vg : 1 x 2 ndarray of floats
-        Grid voltage [p.u.].
     """
 
     def __init__(self,
@@ -72,8 +67,6 @@ class LCLGridVcCtr(MPCBase, Controller):
                          soft_constraints_max=soft_constraints_max,
                          disc_method=disc_method)
 
-        self.vg = np.array([0, 0])
-
     def execute(self, sys, kTs):
         """
         Execute one control step of the MPC algorithm.
@@ -99,15 +92,15 @@ class LCLGridVcCtr(MPCBase, Controller):
         self.get_ctr_state_space(sys, self.Ts)
 
         # Get the grid voltage and save it for future use
-        self.vg = sys.get_grid_voltage(kTs)
+        vg = sys.get_grid_voltage(kTs)
         Ts_pu = self.Ts * sys.base.w
-        d_pred = self.make_disturbance_vector(sys.par.wg, Ts_pu, self.vg)
+        d_pred = self.make_disturbance_vector(sys.par.wg, Ts_pu, vg)
 
         # Get the reference at step k
         vc_ref_dq = self.input.vc_ref_dq
 
         # Get the grid-voltage angle and calculate the reference in alpha-beta frame
-        theta = np.arctan2(self.vg[1], self.vg[0])
+        theta = np.arctan2(vg[1], vg[0])
         vc_ref = dq_2_alpha_beta(vc_ref_dq, theta)
 
         # Predict the output (capacitor voltage) reference within the horizon

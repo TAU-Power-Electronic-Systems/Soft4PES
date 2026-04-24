@@ -1,10 +1,59 @@
 """Base class for MPC solvers."""
 
 from abc import ABC, abstractmethod
-from soft4pes.control.mpc.solvers.utils import make_soft_constraint_matrices
+from types import SimpleNamespace
+import numpy as np
 
 
-class BaseMpcSolver(ABC):
+def make_soft_constraint_matrices(soft_constraints_max, soft_constr_weights):
+    """
+    Create matrices for soft constraint formulation in MPC.
+
+    Parameters
+    ----------
+    soft_constraints_max : float or ndarray
+        Maximum allowed values for constrained variables [p.u.].
+    soft_constr_weights : float or ndarray
+        Weighting matrix in the objective function for the soft constraints.
+
+    Returns
+    -------
+    SimpleNamespace
+        Namespace containing soft constraint matrices.
+    """
+
+    # Convert scalar inputs to arrays
+    if np.isscalar(soft_constraints_max):
+        soft_constraints_max = np.array([soft_constraints_max])
+    if np.isscalar(soft_constr_weights):
+        soft_constr_weights = np.array([soft_constr_weights])
+
+    R = np.eye(np.size(soft_constr_weights)) * soft_constr_weights
+    R_size = np.size(R, 1)
+
+    K_inv = np.array([[1, 0], [-1 / 2, np.sqrt(3) / 2],
+                      [-1 / 2, -np.sqrt(3) / 2]])
+    K_inv_tilde = np.kron(np.eye(R_size), K_inv)
+
+    W = np.array([[1, -1, 0, 0, 0, 0, 0],\
+                  [0, 0, 1, -1, 0, 0, 0],
+                  [0, 0, 0, 0, 1, -1, 0]]).T
+    W_tilde = np.kron(np.eye(R_size), W)
+
+    M = np.kron(np.eye(R_size), np.ones((7, 1)))
+
+    N = np.kron(np.eye(R_size), np.block([[np.ones((6, 1))], [0]]))
+    Nc = np.dot(N, soft_constraints_max)
+
+    return SimpleNamespace(M=M,
+                           W_tilde=W_tilde,
+                           K_inv_tilde=K_inv_tilde,
+                           N=N,
+                           Nc=Nc,
+                           R=R)
+
+
+class MPCSolverBase(ABC):
     """
     Abstract base class for MPC solvers.
 

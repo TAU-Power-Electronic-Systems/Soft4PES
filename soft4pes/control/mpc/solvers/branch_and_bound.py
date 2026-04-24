@@ -1,20 +1,29 @@
-"""Branch-and-bound (BnB) solver for direct model predictive control (MPC)."""
+"""Branch-and-bound (BnB) solver for direct model predictive control (MPC) with integer optimization
+problems."""
 
 from itertools import product
 import numpy as np
-from soft4pes.control.mpc.solvers.base_solver import BaseMpcSolver
+from soft4pes.control.mpc.common.solver_base import MPCSolverBase
 from soft4pes.control.mpc.solvers.utils import (switching_constraint_violated,
                                                 compute_next_state,
                                                 compute_step_ell_cost)
 
 
-class BranchAndBound(BaseMpcSolver):
+class BranchAndBound(MPCSolverBase):
     """
-    BnB solver for direct MPC.
+    BnB solver for direct MPC with integer optimization problems.
     
-    This solver exhaustively explores the tree of possible switching sequences using a recursive 
-    depth-first search with pruning. Branches are pruned when their accumulated cost exceeds the 
-    current best solution, significantly reducing the search space compared to enumeration.
+    This solver exhaustively explores the tree of possible three-phase switching sequences using a 
+    recursive depth-first search with pruning. Branches are pruned when their accumulated cost 
+    exceeds the current best solution, significantly reducing the search space compared to 
+    enumeration.
+
+    "Slack variables" can be included in the cost function. In the enumeration-based solvers, slack 
+    variables are not explicit optimization variables. Instead, they are represented as a function 
+    of the predicted state that quantifies constraint violation and enters the objective function as
+    a penalty term. Therefore, the direct enumeration problem remains a discrete search over three-
+    phase switching sequences with an augmented cost, rather than a mixed-integer optimization with
+    explicit continuous slack optimization variables.
 
     Attributes
     ----------
@@ -86,12 +95,13 @@ class BranchAndBound(BaseMpcSolver):
               ell=0,
               J_prev=0):
         """
-        Recursively explore switching sequences and prune branches with suboptimal costs.
+        Recursively explore three-phase switching sequences and prune branches with suboptimal 
+        costs.
         
-        This method implements the core branch-and-bound logic: for each possible switch position at
-        the current prediction step, it computes the cost and either prunes the branch (if cost 
-        exceeds J_min) or recursively explores deeper levels. When reaching the final prediction 
-        step, it updates the best solution if a lower cost is found.
+        This method implements the core branch-and-bound logic: for each possible three-phase switch
+        position at the current prediction step, it computes the cost and either prunes the branch 
+        (if cost exceeds J_min) or recursively explores deeper levels. When reaching the final 
+        prediction step, it updates the best solution if a lower cost is found.
 
         Parameters
         ----------

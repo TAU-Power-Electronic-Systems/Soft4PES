@@ -17,7 +17,7 @@ def has_soft_constraints(C_soft_constr, soft_constr_weights,
     C_soft_constr : ndarray or None
         Output matrix for the constrained variables (used for soft constraints).
     soft_constr_weights : ndarray or None
-        Weighting matrix for the soft constraints.
+        Weighting matrix in the objective function for the soft constraints.
     soft_constraints_max : ndarray or None
         Maximum values for constrained variables.
 
@@ -38,7 +38,7 @@ def has_soft_constraints(C_soft_constr, soft_constr_weights,
     num_none = sum(p is None for p in soft_constraint_params)
     if 0 < num_none < len(soft_constraint_params):
         raise ValueError(
-            "All soft constraint parameters (C_soft_constr, soft_constr_weights "
+            "All soft-constraint parameters (C_soft_constr, soft_constr_weights "
             "and soft_constraints_max) must be provided or all must be None to disable soft "
             "constraints.")
     return num_none == 0
@@ -53,7 +53,7 @@ class MPCBase:
     C : ndarray
         Output matrix. Defines the tracked variables.
     Q : ndarray
-        Weighting matrix for the tracked variables.
+        Weighting matrix in the objective function for the tracked variables.
     Np : int
         Prediction horizon steps.
     lambda_u : float
@@ -65,7 +65,7 @@ class MPCBase:
     C_soft_constr : ndarray, optional
         Output matrix for the constrained variables (used for soft constraints).
     soft_constr_weights : ndarray, optional
-        Weighting matrix for the soft constraints.
+        Weighting matrix in the objective function for the soft constraints.
     soft_constraints_max : ndarray, optional
         Maximum values for constrained variables.
 
@@ -74,7 +74,7 @@ class MPCBase:
     C : ndarray
         Output matrix. Defines the tracked variables.
     Q : ndarray
-        Weighting matrix for the tracked variables.
+        Weighting matrix in the objective function for the tracked variables.
     Np : int
         Prediction horizon steps.
     lambda_u : float
@@ -90,7 +90,7 @@ class MPCBase:
     C_soft_constr : ndarray
         Output matrix for the constrained variables (used for soft constraints).
     soft_constr_weights : ndarray
-        Weighting matrix for the soft constraints.
+        Weighting matrix in the objective function for the soft constraints.
     soft_constraints_max : ndarray
         Maximum values for constrained variables.
     has_soft_constraints : bool
@@ -124,8 +124,8 @@ class MPCBase:
 
     def get_ctr_state_space(self, sys, Ts):
         """
-        Get the discrete state-space model. If the system has a time-varying model, the state-space 
-        model is updated at each time step.
+        Get the discrete-time state-space model. If the system has a time-varying model, the state-
+        space model is updated at each time step.
 
         Parameters
         ----------
@@ -136,18 +136,18 @@ class MPCBase:
         """
 
         if sys.time_varying_model:
-            sys.cont_state_space = sys.get_continuous_state_space()
-            self.state_space = sys.get_discrete_state_space(
+            sys.cont_state_space = sys.get_continuous_time_state_space()
+            self.state_space = sys.get_discrete_time_state_space(
                 Ts, self.disc_method)
         elif self.state_space is None:
-            self.state_space = sys.get_discrete_state_space(
+            self.state_space = sys.get_discrete_time_state_space(
                 Ts, self.disc_method)
 
     def make_horizon_vector(self, w, Ts, vector_in, start_step=1):
         """
         Predict the future values of a vector over the prediction horizon by rotating the input 
-        vector. The rotation is applied to each alpha-beta pair in the input vector, and the 
-        result is a vector extended over the prediction horizon.
+        vector. The rotation is applied to each variable in alpha-beta frame in the input vector, 
+        and the result is a vector extended over the prediction horizon.
 
         The start step determines the prediction time steps. For start_step=1, predictions are for
         k+1 to k+Np, which is typically used for reference trajectories. For start_step=0, 
@@ -164,7 +164,7 @@ class MPCBase:
         Ts : float
             Sampling interval [s].
         vector_in : n x 1 ndarray
-            Input vector with alpha-beta state pairs at current time step.
+            Input vector with variables in alpha-beta frame at current time step.
         start_step : int, optional
             Starting rotation step (default=1 for references k+1...k+Np, 
             use 0 for disturbances k...k+Np-1).
@@ -180,13 +180,13 @@ class MPCBase:
         R_rot = np.array([[np.cos(theta), -np.sin(theta)],
                           [np.sin(theta), np.cos(theta)]])
 
-        # Check how many alpha-beta pairs are in the input vector
+        # Check how many variables are in the input vector
         variables = vector_in.shape[0] // 2
 
-        # Preallocate vector (Np * n_pairs * 2, 1)
+        # Preallocate vector (Np * n_variables * 2, 1)
         horizon_vector = np.zeros(self.Np * variables * 2)
 
-        # Rotate each alpha-beta pair for each step and pack into the horizon vector
+        # Rotate each variable for each step and pack into the horizon vector
         for ell in range(self.Np):
             R_rot_ell = np.linalg.matrix_power(R_rot, ell + start_step)
             for var_idx in range(variables):

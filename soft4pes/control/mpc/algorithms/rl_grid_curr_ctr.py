@@ -23,11 +23,6 @@ class RLGridCurrCtr(MPCBase, Controller):
     disc_method : str, optional
         Discretization method for the state-space model ('forward_euler' or 
         'exact_discretization'). Default is 'forward_euler'.
-        
-    Attributes
-    ----------
-    vg : 1 x 2 ndarray of floats
-        Grid voltage [p.u.].
     """
 
     def __init__(self, solver, Np, lambda_u, disc_method='forward_euler'):
@@ -72,13 +67,13 @@ class RLGridCurrCtr(MPCBase, Controller):
         self.get_ctr_state_space(sys, self.Ts)
 
         # Get the grid voltage and save it for future use
-        self.vg = sys.get_grid_voltage(kTs)
+        vg = sys.get_grid_voltage(kTs)
 
         # Get the reference for current step
         ig_ref_dq = self.input.ig_ref_dq
 
         # Get the grid-voltage angle and calculate the reference in alpha-beta frame
-        theta = np.arctan2(self.vg[1], self.vg[0])
+        theta = np.arctan2(vg[1], vg[0])
         ig_ref = dq_2_alpha_beta(ig_ref_dq, theta)
 
         # Predict the current reference over the prediction horizon
@@ -86,7 +81,7 @@ class RLGridCurrCtr(MPCBase, Controller):
         y_ref_pred = self.make_reference_vector(sys.par.wg, Ts_pu, ig_ref)
 
         # Predict the grid voltage disturbance over the horizon
-        d_pred = self.make_disturbance_vector(sys.par.wg, Ts_pu, self.vg)
+        d_pred = self.make_disturbance_vector(sys.par.wg, Ts_pu, vg)
 
         # Solve the control problem
         u_abc = self.solver(sys, self, y_ref_pred, d_pred)

@@ -1,20 +1,28 @@
-"""Enumeration-based solver for direct model predictive control (MPC)."""
+"""Enumeration-based solver for direct model predictive control (MPC) with integer optimization 
+problems."""
 
 from itertools import product
 import numpy as np
-from soft4pes.control.mpc.solvers.base_solver import BaseMpcSolver
+from soft4pes.control.mpc.common.solver_base import MPCSolverBase
 from soft4pes.control.mpc.solvers.utils import (switching_constraint_violated,
                                                 compute_next_state,
                                                 compute_step_ell_cost)
 
 
-class Enumeration(BaseMpcSolver):
+class Enumeration(MPCSolverBase):
     """
-    Enumeration-based solver for direct MPC.
+    Enumeration-based solver for direct MPC with integer optimization problems.
     
-    This solver exhaustively evaluates all possible switching sequences over the prediction horizon,
-    computing the cost for each sequence. The sequence with the minimum cost is selected as the 
-    optimal solution. 
+    This solver exhaustively evaluates all possible three-phase switching sequences over the 
+    prediction horizon, computing the cost for each sequence. The sequence with the minimum cost is 
+    selected as the optimal solution. 
+
+    "Slack variables" can be included in the cost function. In the enumeration-based solvers, slack 
+    variables are not explicit optimization variables. Instead, they are represented as a function 
+    of the predicted state that quantifies constraint violation and enters the objective function as
+    a penalty term. Therefore, the direct enumeration problem remains a discrete search over three-
+    phase switching sequences with an augmented cost, rather than a mixed-integer optimization with
+    explicit continuous slack optimization variables.
 
     Attributes
     ----------
@@ -48,7 +56,7 @@ class Enumeration(BaseMpcSolver):
         """
 
         if not self.initialized:
-            # Initialize array for switching sequences
+            # Initialize array for the trhee-phase switching sequences
             sw_pos_3ph = np.array(sys.conv.sw_pos_3ph)
             self.U_seq = np.array(list(product(sw_pos_3ph, repeat=3 * ctr.Np)))
             self.initialized = True
@@ -56,21 +64,21 @@ class Enumeration(BaseMpcSolver):
             # Initialize soft constraint matrices if needed
             self.init_soft_constraints(ctr)
 
-        # Compute the cost for all switching sequences
+        # Compute the cost for all three-phase switching sequences
         J = self.solve(sys, ctr, sys.x, y_ref_pred, ctr.u_km1_abc, d_pred)
 
-        # Find the switching sequences with the lowest cost
+        # Find the three-phase switching sequences with the lowest cost
         min_index = np.argmin(J)
         u_abc = self.U_seq[min_index, 0:3]
         return u_abc
 
     def solve(self, sys, ctr, xk, y_ref_pred, u_km1_abc, d_pred):
         """
-        Compute the cost for all possible switching sequences.
+        Compute the cost for all possible three-phase switching sequences.
         
-        This method evaluates the total cost of each precomputed switching sequence by stepping 
-        through the prediction horizon. Sequences that violate switching constraints are assigned 
-        infinite cost.
+        This method evaluates the total cost of each precomputed three-phase switching sequence by 
+        stepping through the prediction horizon. Sequences that violate switching constraints are 
+        assigned infinite cost.
 
         Parameters
         ----------
@@ -96,7 +104,7 @@ class Enumeration(BaseMpcSolver):
         # Initialize the cost array
         J = np.zeros((sys.conv.nl**(3 * ctr.Np), 1))
 
-        # Iterate over all possible switching sequences and three-phase switch positions
+        # Iterate over all possible three-phase switching sequences and three-phase switch positions
         for i, u_seq in enumerate(self.U_seq):
             for ell in range(ctr.Np):
                 u_ell_abc = u_seq[3 * ell:3 * (ell + 1)]

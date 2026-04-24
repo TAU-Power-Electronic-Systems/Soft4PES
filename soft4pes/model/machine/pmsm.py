@@ -106,7 +106,7 @@ class PMSM(SystemModel):
         """
         return self.mtpa.get_optimal_current(T_ref)
 
-    def get_continuous_state_space(self):
+    def get_continuous_time_state_space(self):
         """
         Calculate the continuous-time state-space model of the system.
 

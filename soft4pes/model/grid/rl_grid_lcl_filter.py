@@ -69,7 +69,7 @@ class RLGridLCLFilter(RLGrid):
 
         self.x = np.zeros(6)
 
-    def get_continuous_state_space(self):
+    def get_continuous_time_state_space(self):
         """
         Get the continuous-time state-space model of the system in alpha-beta frame. 
 
