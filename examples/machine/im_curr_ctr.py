@@ -9,7 +9,7 @@ import numpy as np
 
 from pars.machine_config import get_custom_system
 from soft4pes import model
-from soft4pes.control import mpc, common, modulation
+from soft4pes.control import lin, modulation, mpc, common
 from soft4pes.utils import Sequence
 from soft4pes.sim import Simulation
 from soft4pes.utils.plotter import Plotter
@@ -26,8 +26,8 @@ ref_seq = SimpleNamespace(T_ref_seq=T_ref_seq)
 # Get the system parameters from the ready made components. All the available components and systems
 # are defined in the examples/machine/pars/machine_parameter_sets.json file, and given in the
 # documentation. Here, a 2-level converter connected to low voltage induction machine is used.
-config = get_custom_system(machine_name='LV_Induction_Machine',
-                           converter_name='2L_LV_Converter')
+config = get_custom_system(
+    machine_name='LV_Induction_Machine', converter_name='2L_LV_Converter')
 
 # Create the system model consisting of the induction machine and converter. The stator flux
 # magnitude reference and initial torque reference are passed to the IM model to set the initial
@@ -40,25 +40,41 @@ sys = model.machine.InductionMachine(
     T_ref_init=T_ref_seq(0),
 )
 
-# Use Branch-and-Bound solver
-solver = mpc.solvers.BranchAndBound()
+# Choose the control strategy. "MPC" for model predictive control, "FOC" for field-oriented control.
+CTR_STRATEGY = "FOC"
 
-# Define the MPC current controller, which tracks the stator current references, derived from the
-# stator flux magnitude and torque references
-ctr = mpc.algorithms.IMCurrCtr(solver=solver,
-                               lambda_u=10e-3,
-                               Np=2,
-                               disc_method='exact_discretization')
-ctr_sys = common.ControlSystem(control_loops=[ctr],
-                               ref_seq=ref_seq,
-                               Ts=50e-6,
-                               pwm=modulation.CarrierPWM())
+match CTR_STRATEGY:
+    case "MPC":
+        # Use Branch-and-Bound solver
+        solver = mpc.solvers.BranchAndBound()
+
+        # Define the direct MPC current controller, which tracks the stator current references,
+        # derived from the stator flux magnitude and torque references.
+        ctr = mpc.algorithms.IMCurrCtr(
+            solver=solver,
+            lambda_u=10e-3,
+            Np=2,
+            disc_method='exact_discretization')
+
+        # Instantiate the controller
+        ctr_sys = common.ControlSystem(
+            control_loops=[ctr], ref_seq=ref_seq, Ts=50e-6)
+    case "FOC":
+        # Define the field-oriented controller, which tracks the stator current references,
+        # derived from the stator flux magnitude and torque references.
+        ctr = lin.FOCCurrCtr(sys=sys)
+
+        # Instantiate the controller
+        ctr_sys = common.ControlSystem(
+            control_loops=[ctr],
+            ref_seq=ref_seq,
+            Ts=120e-6,
+            pwm=modulation.CarrierPWM(),
+            common_mode_inj=modulation.CommonModeInjection(mode='MinMax'))
 
 # Simulate the system
-sim = Simulation(sys=sys,
-                 ctr=ctr_sys,
-                 Ts_sim=5e-6,
-                 disc_method='exact_discretization')
+sim = Simulation(
+    sys=sys, ctr=ctr_sys, Ts_sim=5e-6, disc_method='exact_discretization')
 sim_data = sim.simulate(t_stop=0.2)
 
 # Save the simulation data to a .mat file
@@ -66,15 +82,14 @@ sim.save_data()
 
 # Plot the results
 plotter = Plotter(data=sim_data, sys=sys)
-plotter.plot_states(states_to_plot=['iS', 'psiR'],
-                    frames=['dq', 'abc'],
-                    plot_u_abc=True,
-                    plot_u_abc_ref=True)
+plotter.plot_states(
+    states_to_plot=['iS', 'psiR'], frames=['dq', 'abc'], plot_u_abc=True)
 plotter.plot_control_signals_machine(plot_T=True, T_ref=T_ref_seq)
-plotter.plot_spectra(states_to_plot=['iS'],
-                     f_fund_SI=config.base.w / (2 * np.pi),
-                     f_max_SI_plot=2500,
-                     start_time=0.06,
-                     n_cycles=2,
-                     style='line')
+plotter.plot_spectra(
+    states_to_plot=['iS'],
+    f_fund_SI=config.base.w/(2*np.pi),
+    f_max_SI_plot=2500,
+    start_time=0.06,
+    n_cycles=2,
+    style='line')
 plotter.show_all()
