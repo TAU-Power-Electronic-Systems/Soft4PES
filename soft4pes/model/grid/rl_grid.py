@@ -76,14 +76,14 @@ class RLGrid(SystemModel):
         else:
             self.x = np.zeros(2)
 
-    def get_continuous_state_space(self):
+    def get_continuous_time_state_space(self):
         """
         Calculate the continuous-time state-space model of the system.
 
         Returns
         -------
         SimpleNamespace
-            A SimpleNamespace object containing matrices F, G1 and G2 of the continuous-time 
+            A SimpleNamespace object containing matrices F, G and P of the continuous-time 
             state-space model. 
         """
 
@@ -95,10 +95,10 @@ class RLGrid(SystemModel):
                                 [0, np.sqrt(3) / 2, -np.sqrt(3) / 2]])
 
         F = -Rg / Xg * np.eye(2)
-        G1 = self.conv.v_dc / 2 * 1 / Xg * K
-        G2 = -1 / Xg * np.eye(2)
+        G = self.conv.v_dc / 2 * 1 / Xg * K
+        P = -1 / Xg * np.eye(2)
 
-        return SimpleNamespace(F=F, G1=G1, G2=G2)
+        return SimpleNamespace(F=F, G=G, P=P)
 
     def get_grid_voltage(self, kTs):
         """
@@ -137,7 +137,7 @@ class RLGrid(SystemModel):
         u_abc : 1 x 3 ndarray of floats
             Converter three-phase switch position or modulating signal.
         matrices : SimpleNamespace
-            A SimpleNamespace object containing the state-space model matrices.
+            A SimpleNamespace object containing the state-space model matrices A, B and D.
         kTs : float
             Current discrete time instant [s].
         Ts : float
@@ -151,7 +151,7 @@ class RLGrid(SystemModel):
 
         vg = self.get_grid_voltage(kTs)
         x_kp1 = np.dot(matrices.A, self.x) + np.dot(
-            matrices.B1, u_abc) + np.dot(matrices.B2, vg)
+            matrices.B, u_abc) + np.dot(matrices.D, vg)
         return x_kp1
 
     def get_measurements(self, kTs):

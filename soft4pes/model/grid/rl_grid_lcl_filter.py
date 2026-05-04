@@ -69,14 +69,14 @@ class RLGridLCLFilter(RLGrid):
 
         self.x = np.zeros(6)
 
-    def get_continuous_state_space(self):
+    def get_continuous_time_state_space(self):
         """
         Get the continuous-time state-space model of the system in alpha-beta frame. 
 
         Returns
         -------
         SimpleNamespace
-            A SimpleNamespace object containing matrices F, G1 and G2 of the continuous-time 
+            A SimpleNamespace object containing matrices F, G and P of the continuous-time 
             state-space model. 
         """
 
@@ -115,11 +115,10 @@ class RLGridLCLFilter(RLGrid):
             [F31, F32, F33],
         ])
 
-        G1 = (self.conv.v_dc / (2 * X_fc)) * np.dot(
+        G = (self.conv.v_dc / (2 * X_fc)) * np.dot(
             np.block([[np.eye(2), np.zeros((2, 4))]]).T, K)
 
-        G2 = np.block(
-            [[np.zeros((2, 2)), -1 / X * np.eye(2),
-              np.zeros((2, 2))]]).T
+        P = np.block([[np.zeros((2, 2)), -1 / X * np.eye(2),
+                       np.zeros((2, 2))]]).T
 
-        return SimpleNamespace(F=F, G1=G1, G2=G2)
+        return SimpleNamespace(F=F, G=G, P=P)
