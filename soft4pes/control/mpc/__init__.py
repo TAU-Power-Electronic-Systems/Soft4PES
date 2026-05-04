@@ -3,10 +3,10 @@ Model predictive control (MPC) algorithms and solvers for power electronic syste
 
 """
 
-from soft4pes.control.mpc import controllers
+from soft4pes.control.mpc import algorithms
 from soft4pes.control.mpc import solvers
 
 __all__ = [
-    "controllers",
+    "algorithms",
     "solvers",
 ]

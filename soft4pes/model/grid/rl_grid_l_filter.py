@@ -54,15 +54,15 @@ class RLGridLFilter(RLGrid):
         super().__init__(par=par, conv=conv, base=base)
         self.set_initial_state(ig_ref_init=ig_ref_init)
 
-    def get_continuous_state_space(self):
+    def get_continuous_time_state_space(self):
         """
         Get the continuous-time state-space model of the system in alpha-beta frame. 
 
         Returns
         -------
         SimpleNamespace
-            A SimpleNamespace object containing matrices F, G1 and G2 of the continuous-time 
-            state-space model. 
+            A SimpleNamespace object containing matrices F, G and P of the continuous-time state-
+            space model. 
         """
 
         X_fc = self.par.X_fc

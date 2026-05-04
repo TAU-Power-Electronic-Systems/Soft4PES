@@ -63,10 +63,10 @@ sys = model.machine.PMSM(par=sm_params,
                          mtpa_lut=MPTA_lut)
 
 # Use Branch-and-Bound solver
-solver = mpc.solvers.MpcBnB(conv=conv)
+solver = mpc.solvers.BranchAndBound()
 
 # Define current controller
-ctr = mpc.controllers.PMSMMpcCurrCtr(
+ctr = mpc.algorithms.PMSMCurrCtr(
     solver,
     lambda_u=1e-3,
     Np=2,

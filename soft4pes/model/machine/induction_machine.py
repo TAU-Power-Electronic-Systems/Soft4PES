@@ -164,7 +164,7 @@ class InductionMachine(SystemModel):
         iS_q = T_ref / (psiR_mag * self.par.Xm / self.par.Xr)
         return np.array([iS_d, iS_q])
 
-    def get_continuous_state_space(self):
+    def get_continuous_time_state_space(self):
         """
         Calculate the continuous-time state-space model of the system.
 
