@@ -164,7 +164,8 @@
 </ul>
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../control/mpc/index.html">soft4pes.control.mpc</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../control/mpc/controllers/index.html">soft4pes.control.mpc.controllers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../control/mpc/algorithms/index.html">soft4pes.control.mpc.algorithms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../control/mpc/common/index.html">soft4pes.control.mpc.common</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../control/mpc/solvers/index.html">soft4pes.control.mpc.solvers</a></li>
 </ul>
 </li>
@@ -424,7 +425,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLCLFilter.cont_state_space"><code class="docutils literal notranslate"><span class="pre">RLGridLCLFilter.cont_state_space</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLCLFilter.state_map"><code class="docutils literal notranslate"><span class="pre">RLGridLCLFilter.state_map</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLCLFilter.set_initial_state"><code class="docutils literal notranslate"><span class="pre">RLGridLCLFilter.set_initial_state()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLCLFilter.get_continuous_state_space"><code class="docutils literal notranslate"><span class="pre">RLGridLCLFilter.get_continuous_state_space()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLCLFilter.get_continuous_time_state_space"><code class="docutils literal notranslate"><span class="pre">RLGridLCLFilter.get_continuous_time_state_space()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid"><code class="docutils literal notranslate"><span class="pre">RLGrid</span></code></a><ul class="nav section-nav flex-column">
@@ -436,7 +437,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.cont_state_space"><code class="docutils literal notranslate"><span class="pre">RLGrid.cont_state_space</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.state_map"><code class="docutils literal notranslate"><span class="pre">RLGrid.state_map</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.set_initial_state"><code class="docutils literal notranslate"><span class="pre">RLGrid.set_initial_state()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.get_continuous_state_space"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_continuous_state_space()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.get_continuous_time_state_space"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_continuous_time_state_space()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.get_grid_voltage"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_grid_voltage()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.get_next_state"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_next_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.get_measurements"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_measurements()</span></code></a></li>
@@ -463,7 +464,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLFilter.base"><code class="docutils literal notranslate"><span class="pre">RLGridLFilter.base</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLFilter.cont_state_space"><code class="docutils literal notranslate"><span class="pre">RLGridLFilter.cont_state_space</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLFilter.state_map"><code class="docutils literal notranslate"><span class="pre">RLGridLFilter.state_map</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLFilter.get_continuous_state_space"><code class="docutils literal notranslate"><span class="pre">RLGridLFilter.get_continuous_state_space()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLFilter.get_continuous_time_state_space"><code class="docutils literal notranslate"><span class="pre">RLGridLFilter.get_continuous_time_state_space()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -820,12 +821,12 @@ and given to the model in the parent class RLGrid.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="soft4pes.model.grid.RLGridLCLFilter.get_continuous_state_space">
-<span class="sig-name descname"><span class="pre">get_continuous_state_space</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/grid/rl_grid_lcl_filter.html#RLGridLCLFilter.get_continuous_state_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.RLGridLCLFilter.get_continuous_state_space" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="soft4pes.model.grid.RLGridLCLFilter.get_continuous_time_state_space">
+<span class="sig-name descname"><span class="pre">get_continuous_time_state_space</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/grid/rl_grid_lcl_filter.html#RLGridLCLFilter.get_continuous_time_state_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.RLGridLCLFilter.get_continuous_time_state_space" title="Permalink to this definition">#</a></dt>
 <dd><p>Get the continuous-time state-space model of the system in alpha-beta frame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A SimpleNamespace object containing matrices F, G1 and G2 of the continuous-time
+<dd class="field-odd"><p>A SimpleNamespace object containing matrices F, G and P of the continuous-time
 state-space model.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -945,12 +946,12 @@ Sequence object.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="soft4pes.model.grid.RLGrid.get_continuous_state_space">
-<span class="sig-name descname"><span class="pre">get_continuous_state_space</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/grid/rl_grid.html#RLGrid.get_continuous_state_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.RLGrid.get_continuous_state_space" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="soft4pes.model.grid.RLGrid.get_continuous_time_state_space">
+<span class="sig-name descname"><span class="pre">get_continuous_time_state_space</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/grid/rl_grid.html#RLGrid.get_continuous_time_state_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.RLGrid.get_continuous_time_state_space" title="Permalink to this definition">#</a></dt>
 <dd><p>Calculate the continuous-time state-space model of the system.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A SimpleNamespace object containing matrices F, G1 and G2 of the continuous-time
+<dd class="field-odd"><p>A SimpleNamespace object containing matrices F, G and P of the continuous-time
 state-space model.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -984,7 +985,7 @@ state-space model.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>u_abc</strong> (<em>1 x 3 ndarray</em><em> of </em><em>floats</em>) – Converter three-phase switch position or modulating signal.</p></li>
-<li><p><strong>matrices</strong> (<em>SimpleNamespace</em>) – A SimpleNamespace object containing the state-space model matrices.</p></li>
+<li><p><strong>matrices</strong> (<em>SimpleNamespace</em>) – A SimpleNamespace object containing the state-space model matrices A, B and D.</p></li>
 <li><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p></li>
 <li><p><strong>Ts</strong> (<em>float</em>) – Sampling interval [s] (not used).</p></li>
 </ul>
@@ -1225,13 +1226,13 @@ and given to the model in the parent class RLGrid.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="soft4pes.model.grid.RLGridLFilter.get_continuous_state_space">
-<span class="sig-name descname"><span class="pre">get_continuous_state_space</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/grid/rl_grid_l_filter.html#RLGridLFilter.get_continuous_state_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.RLGridLFilter.get_continuous_state_space" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="soft4pes.model.grid.RLGridLFilter.get_continuous_time_state_space">
+<span class="sig-name descname"><span class="pre">get_continuous_time_state_space</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/grid/rl_grid_l_filter.html#RLGridLFilter.get_continuous_time_state_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.RLGridLFilter.get_continuous_time_state_space" title="Permalink to this definition">#</a></dt>
 <dd><p>Get the continuous-time state-space model of the system in alpha-beta frame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A SimpleNamespace object containing matrices F, G1 and G2 of the continuous-time
-state-space model.</p>
+<dd class="field-odd"><p>A SimpleNamespace object containing matrices F, G and P of the continuous-time state-
+space model.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>SimpleNamespace</p>
@@ -1320,7 +1321,7 @@ state-space model.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLCLFilter.cont_state_space"><code class="docutils literal notranslate"><span class="pre">RLGridLCLFilter.cont_state_space</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLCLFilter.state_map"><code class="docutils literal notranslate"><span class="pre">RLGridLCLFilter.state_map</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLCLFilter.set_initial_state"><code class="docutils literal notranslate"><span class="pre">RLGridLCLFilter.set_initial_state()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLCLFilter.get_continuous_state_space"><code class="docutils literal notranslate"><span class="pre">RLGridLCLFilter.get_continuous_state_space()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLCLFilter.get_continuous_time_state_space"><code class="docutils literal notranslate"><span class="pre">RLGridLCLFilter.get_continuous_time_state_space()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid"><code class="docutils literal notranslate"><span class="pre">RLGrid</span></code></a><ul class="nav section-nav flex-column">
@@ -1332,7 +1333,7 @@ state-space model.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.cont_state_space"><code class="docutils literal notranslate"><span class="pre">RLGrid.cont_state_space</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.state_map"><code class="docutils literal notranslate"><span class="pre">RLGrid.state_map</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.set_initial_state"><code class="docutils literal notranslate"><span class="pre">RLGrid.set_initial_state()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.get_continuous_state_space"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_continuous_state_space()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.get_continuous_time_state_space"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_continuous_time_state_space()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.get_grid_voltage"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_grid_voltage()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.get_next_state"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_next_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGrid.get_measurements"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_measurements()</span></code></a></li>
@@ -1359,7 +1360,7 @@ state-space model.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLFilter.base"><code class="docutils literal notranslate"><span class="pre">RLGridLFilter.base</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLFilter.cont_state_space"><code class="docutils literal notranslate"><span class="pre">RLGridLFilter.cont_state_space</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLFilter.state_map"><code class="docutils literal notranslate"><span class="pre">RLGridLFilter.state_map</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLFilter.get_continuous_state_space"><code class="docutils literal notranslate"><span class="pre">RLGridLFilter.get_continuous_state_space()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.RLGridLFilter.get_continuous_time_state_space"><code class="docutils literal notranslate"><span class="pre">RLGridLFilter.get_continuous_time_state_space()</span></code></a></li>
 </ul>
 </li>
 </ul>

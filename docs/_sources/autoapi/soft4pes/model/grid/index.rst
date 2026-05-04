@@ -317,12 +317,12 @@ Package Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: get_continuous_state_space()
+   .. py:method:: get_continuous_time_state_space()
 
       
       Get the continuous-time state-space model of the system in alpha-beta frame.
 
-      :returns: A SimpleNamespace object containing matrices F, G1 and G2 of the continuous-time
+      :returns: A SimpleNamespace object containing matrices F, G and P of the continuous-time
                 state-space model.
       :rtype: SimpleNamespace
 
@@ -452,12 +452,12 @@ Package Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: get_continuous_state_space()
+   .. py:method:: get_continuous_time_state_space()
 
       
       Calculate the continuous-time state-space model of the system.
 
-      :returns: A SimpleNamespace object containing matrices F, G1 and G2 of the continuous-time
+      :returns: A SimpleNamespace object containing matrices F, G and P of the continuous-time
                 state-space model.
       :rtype: SimpleNamespace
 
@@ -515,7 +515,7 @@ Package Contents
 
       :param u_abc: Converter three-phase switch position or modulating signal.
       :type u_abc: 1 x 3 ndarray of floats
-      :param matrices: A SimpleNamespace object containing the state-space model matrices.
+      :param matrices: A SimpleNamespace object containing the state-space model matrices A, B and D.
       :type matrices: SimpleNamespace
       :param kTs: Current discrete time instant [s].
       :type kTs: float
@@ -758,13 +758,13 @@ Package Contents
    ..
        !! processed by numpydoc !!
 
-   .. py:method:: get_continuous_state_space()
+   .. py:method:: get_continuous_time_state_space()
 
       
       Get the continuous-time state-space model of the system in alpha-beta frame.
 
-      :returns: A SimpleNamespace object containing matrices F, G1 and G2 of the continuous-time
-                state-space model.
+      :returns: A SimpleNamespace object containing matrices F, G and P of the continuous-time state-
+                space model.
       :rtype: SimpleNamespace
 
 

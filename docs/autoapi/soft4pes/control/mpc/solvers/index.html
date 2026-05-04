@@ -48,8 +48,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'autoapi/soft4pes/control/mpc/solvers/index';</script>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
-    <link rel="next" title="soft4pes.control.mpc.solvers.mpc_QP" href="mpc_QP/index.html" />
-    <link rel="prev" title="soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr" href="../controllers/rl_grid_mpc_curr_ctr/index.html" />
+    <link rel="next" title="soft4pes.control.mpc.solvers.branch_and_bound" href="branch_and_bound/index.html" />
+    <link rel="prev" title="soft4pes.control.mpc.common.solver_base" href="../common/solver_base/index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -164,7 +164,8 @@
 </ul>
 </li>
 <li class="toctree-l3 current active has-children"><a class="reference internal" href="../index.html">soft4pes.control.mpc</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="../controllers/index.html">soft4pes.control.mpc.controllers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../algorithms/index.html">soft4pes.control.mpc.algorithms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../common/index.html">soft4pes.control.mpc.common</a></li>
 <li class="toctree-l4 current active"><a class="current reference internal" href="#">soft4pes.control.mpc.solvers</a></li>
 </ul>
 </li>
@@ -396,25 +397,24 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#package-contents">Package Contents</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.IndirectMpcQP"><code class="docutils literal notranslate"><span class="pre">IndirectMpcQP</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.IndirectMpcQP.QP_matrices"><code class="docutils literal notranslate"><span class="pre">IndirectMpcQP.QP_matrices</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.IndirectMpcQP.__call__"><code class="docutils literal notranslate"><span class="pre">IndirectMpcQP.__call__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.iMPCQP"><code class="docutils literal notranslate"><span class="pre">iMPCQP</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.iMPCQP.QP_matrices"><code class="docutils literal notranslate"><span class="pre">iMPCQP.QP_matrices</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.iMPCQP.__call__"><code class="docutils literal notranslate"><span class="pre">iMPCQP.__call__()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcBnB"><code class="docutils literal notranslate"><span class="pre">MpcBnB</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcBnB.J_min"><code class="docutils literal notranslate"><span class="pre">MpcBnB.J_min</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcBnB.U_seq"><code class="docutils literal notranslate"><span class="pre">MpcBnB.U_seq</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcBnB.U_temp"><code class="docutils literal notranslate"><span class="pre">MpcBnB.U_temp</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcBnB.SW_COMB"><code class="docutils literal notranslate"><span class="pre">MpcBnB.SW_COMB</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcBnB.__call__"><code class="docutils literal notranslate"><span class="pre">MpcBnB.__call__()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcBnB.solve"><code class="docutils literal notranslate"><span class="pre">MpcBnB.solve()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.BranchAndBound"><code class="docutils literal notranslate"><span class="pre">BranchAndBound</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.BranchAndBound.J_min"><code class="docutils literal notranslate"><span class="pre">BranchAndBound.J_min</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.BranchAndBound.U_seq"><code class="docutils literal notranslate"><span class="pre">BranchAndBound.U_seq</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.BranchAndBound.U_temp"><code class="docutils literal notranslate"><span class="pre">BranchAndBound.U_temp</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.BranchAndBound.SW_COMB"><code class="docutils literal notranslate"><span class="pre">BranchAndBound.SW_COMB</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.BranchAndBound.__call__"><code class="docutils literal notranslate"><span class="pre">BranchAndBound.__call__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.BranchAndBound.solve"><code class="docutils literal notranslate"><span class="pre">BranchAndBound.solve()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcEnum"><code class="docutils literal notranslate"><span class="pre">MpcEnum</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcEnum.U_seq"><code class="docutils literal notranslate"><span class="pre">MpcEnum.U_seq</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcEnum.sw_pos_3ph"><code class="docutils literal notranslate"><span class="pre">MpcEnum.sw_pos_3ph</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcEnum.__call__"><code class="docutils literal notranslate"><span class="pre">MpcEnum.__call__()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcEnum.solve"><code class="docutils literal notranslate"><span class="pre">MpcEnum.solve()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.Enumeration"><code class="docutils literal notranslate"><span class="pre">Enumeration</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.Enumeration.U_seq"><code class="docutils literal notranslate"><span class="pre">Enumeration.U_seq</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.Enumeration.__call__"><code class="docutils literal notranslate"><span class="pre">Enumeration.__call__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.Enumeration.solve"><code class="docutils literal notranslate"><span class="pre">Enumeration.solve()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.switching_constraint_violated"><code class="docutils literal notranslate"><span class="pre">switching_constraint_violated()</span></code></a></li>
@@ -442,9 +442,9 @@ document.write(`
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="mpc_QP/index.html">soft4pes.control.mpc.solvers.mpc_QP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mpc_bnb/index.html">soft4pes.control.mpc.solvers.mpc_bnb</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mpc_enum/index.html">soft4pes.control.mpc.solvers.mpc_enum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="branch_and_bound/index.html">soft4pes.control.mpc.solvers.branch_and_bound</a></li>
+<li class="toctree-l1"><a class="reference internal" href="enumeration/index.html">soft4pes.control.mpc.solvers.enumeration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="indirect_mpc_qp/index.html">soft4pes.control.mpc.solvers.indirect_mpc_qp</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils/index.html">soft4pes.control.mpc.solvers.utils</a></li>
 </ul>
 </div>
@@ -453,14 +453,14 @@ document.write(`
 <h2>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h2>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.IndirectMpcQP" title="soft4pes.control.mpc.solvers.IndirectMpcQP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IndirectMpcQP</span></code></a></p></td>
-<td><p>Problem formulation and QP solver for indirect MPC.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.iMPCQP" title="soft4pes.control.mpc.solvers.iMPCQP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">iMPCQP</span></code></a></p></td>
+<td><p>QP solver for indirect MPC.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.MpcBnB" title="soft4pes.control.mpc.solvers.MpcBnB"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MpcBnB</span></code></a></p></td>
-<td><p>Branch-and-bound (BnB) solver for model predictive control (MPC).</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.BranchAndBound" title="soft4pes.control.mpc.solvers.BranchAndBound"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BranchAndBound</span></code></a></p></td>
+<td><p>BnB solver for direct MPC with integer optimization problems.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.MpcEnum" title="soft4pes.control.mpc.solvers.MpcEnum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MpcEnum</span></code></a></p></td>
-<td><p>Enumeration-based solver for model predictive control (MPC).</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.Enumeration" title="soft4pes.control.mpc.solvers.Enumeration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Enumeration</span></code></a></p></td>
+<td><p>Enumeration-based solver for direct MPC with integer optimization problems.</p></td>
 </tr>
 </tbody>
 </table>
@@ -475,14 +475,14 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.squared_weighted_second_norm" title="soft4pes.control.mpc.solvers.squared_weighted_second_norm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">squared_weighted_second_norm</span></code></a>(vector, Q)</p></td>
 <td><p>Compute the squared weighted second norm of a vector. The elements of the norm are weighted by</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.make_QP_matrices" title="soft4pes.control.mpc.solvers.make_QP_matrices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_QP_matrices</span></code></a>(sys, ctr)</p></td>
-<td><p>Create the QP matrices.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.make_QP_matrices" title="soft4pes.control.mpc.solvers.make_QP_matrices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_QP_matrices</span></code></a>(ctr)</p></td>
+<td><p>Construct matrices for the quadratic programming (QP) formulation of MPC.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.make_Gamma" title="soft4pes.control.mpc.solvers.make_Gamma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_Gamma</span></code></a>(Np, C, A)</p></td>
-<td><p>Make Gamma matrix for the QP.</p></td>
+<td><p>Construct the Gamma matrix mapping initial state to future outputs.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.make_Upsilon" title="soft4pes.control.mpc.solvers.make_Upsilon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_Upsilon</span></code></a>(Np, C, A, B)</p></td>
-<td><p>Make Upsilon matrix for the QP.</p></td>
+<td><p>Construct the Upsilon matrix mapping control inputs to future outputs.</p></td>
 </tr>
 </tbody>
 </table>
@@ -490,13 +490,16 @@ document.write(`
 <section id="package-contents">
 <h2>Package Contents<a class="headerlink" href="#package-contents" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.IndirectMpcQP">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.</span></span><span class="sig-name descname"><span class="pre">IndirectMpcQP</span></span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/mpc_QP.html#IndirectMpcQP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.IndirectMpcQP" title="Permalink to this definition">#</a></dt>
-<dd><p>Problem formulation and QP solver for indirect MPC.</p>
+<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.iMPCQP">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.</span></span><span class="sig-name descname"><span class="pre">iMPCQP</span></span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/indirect_mpc_qp.html#iMPCQP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.iMPCQP" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../common/solver_base/index.html#soft4pes.control.mpc.common.solver_base.MPCSolverBase" title="soft4pes.control.mpc.common.solver_base.MPCSolverBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.control.mpc.common.solver_base.MPCSolverBase</span></code></a></p>
+<p>QP solver for indirect MPC.</p>
+<p>This solver reformulates the MPC problem as a quadratic program with linear constraints, solving
+it at each time step to find the optimal control action.</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.IndirectMpcQP.QP_matrices">
-<span class="sig-name descname"><span class="pre">QP_matrices</span></span><a class="headerlink" href="#soft4pes.control.mpc.solvers.IndirectMpcQP.QP_matrices" title="Permalink to this definition">#</a></dt>
-<dd><p>Namespace containing the matrices used in the QP problem.</p>
+<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.iMPCQP.QP_matrices">
+<span class="sig-name descname"><span class="pre">QP_matrices</span></span><a class="headerlink" href="#soft4pes.control.mpc.solvers.iMPCQP.QP_matrices" title="Permalink to this definition">#</a></dt>
+<dd><p>Namespace containing the precomputed matrices used in the QP problem.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>SimpleNamespace</p>
@@ -505,19 +508,20 @@ document.write(`
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.IndirectMpcQP.__call__">
-<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_ref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/mpc_QP.html#IndirectMpcQP.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.IndirectMpcQP.__call__" title="Permalink to this definition">#</a></dt>
-<dd><p>Formulate and solve the MPC QP.</p>
+<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.iMPCQP.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_ref_pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d_pred</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/indirect_mpc_qp.html#iMPCQP.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.iMPCQP.__call__" title="Permalink to this definition">#</a></dt>
+<dd><p>Solve the MPC optimization problem by formulating and solving a quadratic program.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sys</strong> (<em>system object</em>) – System model.</p></li>
 <li><p><strong>ctr</strong> (<em>controller object</em>) – Controller object.</p></li>
-<li><p><strong>y_ref</strong> (<em>ndarray</em><em> of </em><em>floats</em>) – Reference vector [p.u.].</p></li>
+<li><p><strong>y_ref_pred</strong> (<em>ndarray</em><em> of </em><em>floats</em>) – Reference trajectory over the prediction horizon [p.u.].</p></li>
+<li><p><strong>d_pred</strong> (<em>ndarray</em><em> of </em><em>floats</em><em>, </em><em>optional</em>) – Disturbance trajectory over the prediction horizon [p.u.].</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>u_abc</strong> – The three-phase modulating signal.</p>
+<dd class="field-even"><p><strong>u_abc</strong> – Optimal three-phase modulating signal for the current time step.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>1 x 3 ndarray of floats</p>
@@ -528,18 +532,24 @@ document.write(`
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.MpcBnB">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.</span></span><span class="sig-name descname"><span class="pre">MpcBnB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conv</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/mpc_bnb.html#MpcBnB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.MpcBnB" title="Permalink to this definition">#</a></dt>
-<dd><p>Branch-and-bound (BnB) solver for model predictive control (MPC).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>conv</strong> (<em>converter object</em>) – Converter model.</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.BranchAndBound">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.</span></span><span class="sig-name descname"><span class="pre">BranchAndBound</span></span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/branch_and_bound.html#BranchAndBound"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.BranchAndBound" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../common/solver_base/index.html#soft4pes.control.mpc.common.solver_base.MPCSolverBase" title="soft4pes.control.mpc.common.solver_base.MPCSolverBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.control.mpc.common.solver_base.MPCSolverBase</span></code></a></p>
+<p>BnB solver for direct MPC with integer optimization problems.</p>
+<p>This solver exhaustively explores the tree of possible three-phase switching sequences using a
+recursive depth-first search with pruning. Branches are pruned when their accumulated cost
+exceeds the current best solution, significantly reducing the search space compared to
+enumeration.</p>
+<p>“Slack variables” can be included in the cost function. In the enumeration-based solvers, slack
+variables are not explicit optimization variables. Instead, they are represented as a function
+of the predicted state that quantifies constraint violation and enters the objective function as
+a penalty term. Therefore, the direct enumeration problem remains a discrete search over three-
+phase switching sequences with an augmented cost, rather than a mixed-integer optimization with
+explicit continuous slack optimization variables.</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.MpcBnB.J_min">
-<span class="sig-name descname"><span class="pre">J_min</span></span><a class="headerlink" href="#soft4pes.control.mpc.solvers.MpcBnB.J_min" title="Permalink to this definition">#</a></dt>
-<dd><p>Minimum cost.</p>
+<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.BranchAndBound.J_min">
+<span class="sig-name descname"><span class="pre">J_min</span></span><a class="headerlink" href="#soft4pes.control.mpc.solvers.BranchAndBound.J_min" title="Permalink to this definition">#</a></dt>
+<dd><p>Minimum cost found during the search.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -548,8 +558,8 @@ document.write(`
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.MpcBnB.U_seq">
-<span class="sig-name descname"><span class="pre">U_seq</span></span><a class="headerlink" href="#soft4pes.control.mpc.solvers.MpcBnB.U_seq" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.BranchAndBound.U_seq">
+<span class="sig-name descname"><span class="pre">U_seq</span></span><a class="headerlink" href="#soft4pes.control.mpc.solvers.BranchAndBound.U_seq" title="Permalink to this definition">#</a></dt>
 <dd><p>Sequence of three-phase switch positions (switching sequence) with the lowest cost.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -559,9 +569,9 @@ document.write(`
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.MpcBnB.U_temp">
-<span class="sig-name descname"><span class="pre">U_temp</span></span><a class="headerlink" href="#soft4pes.control.mpc.solvers.MpcBnB.U_temp" title="Permalink to this definition">#</a></dt>
-<dd><p>Temporary array for incumbent swithing sequence.</p>
+<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.BranchAndBound.U_temp">
+<span class="sig-name descname"><span class="pre">U_temp</span></span><a class="headerlink" href="#soft4pes.control.mpc.solvers.BranchAndBound.U_temp" title="Permalink to this definition">#</a></dt>
+<dd><p>Temporary array storing the incumbent switching sequence during recursion.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>1 x 3*Np ndarray of ints</p>
@@ -570,30 +580,31 @@ document.write(`
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.MpcBnB.SW_COMB">
-<span class="sig-name descname"><span class="pre">SW_COMB</span></span><a class="headerlink" href="#soft4pes.control.mpc.solvers.MpcBnB.SW_COMB" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.BranchAndBound.SW_COMB">
+<span class="sig-name descname"><span class="pre">SW_COMB</span></span><a class="headerlink" href="#soft4pes.control.mpc.solvers.BranchAndBound.SW_COMB" title="Permalink to this definition">#</a></dt>
 <dd><p>All possible three-phase switch positions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>1 x conv.nl^3 ndarray of ints</p>
+<dd class="field-odd"><p>conv.nl^3 x 3 ndarray of ints</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.MpcBnB.__call__">
-<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_ref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/mpc_bnb.html#MpcBnB.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.MpcBnB.__call__" title="Permalink to this definition">#</a></dt>
-<dd><p>Solve MPC problem by using a simple BnB method.</p>
+<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.BranchAndBound.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_ref_pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d_pred</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/branch_and_bound.html#BranchAndBound.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.BranchAndBound.__call__" title="Permalink to this definition">#</a></dt>
+<dd><p>Solve the MPC optimization problem using the BnB algorithm.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sys</strong> (<em>system object</em>) – System model.</p></li>
 <li><p><strong>ctr</strong> (<em>controller object</em>) – Controller object.</p></li>
-<li><p><strong>y_ref</strong> (<em>ndarray</em><em> of </em><em>floats</em>) – Reference vector [p.u.].</p></li>
+<li><p><strong>y_ref_pred</strong> (<em>ndarray</em><em> of </em><em>floats</em>) – Reference trajectory over the prediction horizon [p.u.].</p></li>
+<li><p><strong>d_pred</strong> (<em>ndarray</em><em> of </em><em>floats</em><em>, </em><em>optional</em>) – Disturbance trajectory over the prediction horizon [p.u.].</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>u_abc</strong> – The three-phase switch position.</p>
+<dd class="field-even"><p><strong>u_abc</strong> – Optimal three-phase switch position for the current time step.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>1 x 3 ndarray of ints</p>
@@ -602,19 +613,26 @@ document.write(`
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.MpcBnB.solve">
-<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_ell</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_ell_abc_prev</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">J_prev</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/mpc_bnb.html#MpcBnB.solve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.MpcBnB.solve" title="Permalink to this definition">#</a></dt>
-<dd><p>Recursively compute the cost for different switching sequences.</p>
+<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.BranchAndBound.solve">
+<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_ell</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_ref_pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_ell_abc_prev</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d_pred</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">J_prev</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/branch_and_bound.html#BranchAndBound.solve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.BranchAndBound.solve" title="Permalink to this definition">#</a></dt>
+<dd><p>Recursively explore three-phase switching sequences and prune branches with suboptimal
+costs.</p>
+<p>This method implements the core branch-and-bound logic: for each possible three-phase switch
+position at the current prediction step, it computes the cost and either prunes the branch
+(if cost exceeds J_min) or recursively explores deeper levels. When reaching the final
+prediction step, it updates the best solution if a lower cost is found.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sys</strong> (<em>object</em>) – System model.</p></li>
 <li><p><strong>ctr</strong> (<em>object</em>) – Controller object.</p></li>
-<li><p><strong>x_ell</strong> (<em>ndarray</em><em> of </em><em>floats</em>) – State vector [p.u.].</p></li>
-<li><p><strong>y_ref</strong> (<em>ndarray</em><em> of </em><em>floats</em>) – Reference vector [p.u.].</p></li>
-<li><p><strong>u_ell_abc_prev</strong> (<em>1 x 3 ndarray</em><em> of </em><em>ints</em>) – Previous three-phase switch position.</p></li>
-<li><p><strong>ell</strong> (<em>int</em>) – Prediction step. The default is 0.</p></li>
-<li><p><strong>J_prev</strong> (<em>float</em>) – Previous cost. The default is 0.</p></li>
+<li><p><strong>x_ell</strong> (<em>ndarray</em><em> of </em><em>floats</em>) – State vector at prediction step ell [p.u.].</p></li>
+<li><p><strong>y_ref_pred</strong> (<em>ndarray</em><em> of </em><em>floats</em>) – Reference trajectory over the prediction horizon [p.u.].</p></li>
+<li><p><strong>u_ell_abc_prev</strong> (<em>1 x 3 ndarray</em><em> of </em><em>ints</em>) – Three-phase switch position from the previous prediction step or the last applied switch
+position for ell=0.</p></li>
+<li><p><strong>d_pred</strong> (<em>ndarray</em><em> of </em><em>floats</em><em>, </em><em>optional</em>) – Disturbance trajectory over the prediction horizon [p.u.].</p></li>
+<li><p><strong>ell</strong> (<em>int</em><em>, </em><em>optional</em>) – Current prediction step index (default is 0).</p></li>
+<li><p><strong>J_prev</strong> (<em>float</em><em>, </em><em>optional</em>) – Accumulated cost from previous prediction steps (default is 0).</p></li>
 </ul>
 </dd>
 </dl>
@@ -623,50 +641,45 @@ document.write(`
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.MpcEnum">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.</span></span><span class="sig-name descname"><span class="pre">MpcEnum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conv</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/mpc_enum.html#MpcEnum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.MpcEnum" title="Permalink to this definition">#</a></dt>
-<dd><p>Enumeration-based solver for model predictive control (MPC).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>conv</strong> (<em>converter object</em>) – Converter model.</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.Enumeration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.</span></span><span class="sig-name descname"><span class="pre">Enumeration</span></span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/enumeration.html#Enumeration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.Enumeration" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../common/solver_base/index.html#soft4pes.control.mpc.common.solver_base.MPCSolverBase" title="soft4pes.control.mpc.common.solver_base.MPCSolverBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.control.mpc.common.solver_base.MPCSolverBase</span></code></a></p>
+<p>Enumeration-based solver for direct MPC with integer optimization problems.</p>
+<p>This solver exhaustively evaluates all possible three-phase switching sequences over the
+prediction horizon, computing the cost for each sequence. The sequence with the minimum cost is
+selected as the optimal solution.</p>
+<p>“Slack variables” can be included in the cost function. In the enumeration-based solvers, slack
+variables are not explicit optimization variables. Instead, they are represented as a function
+of the predicted state that quantifies constraint violation and enters the objective function as
+a penalty term. Therefore, the direct enumeration problem remains a discrete search over three-
+phase switching sequences with an augmented cost, rather than a mixed-integer optimization with
+explicit continuous slack optimization variables.</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.MpcEnum.U_seq">
-<span class="sig-name descname"><span class="pre">U_seq</span></span><a class="headerlink" href="#soft4pes.control.mpc.solvers.MpcEnum.U_seq" title="Permalink to this definition">#</a></dt>
-<dd><p>Array for sequences of three-phase switch positions (switching sequences).</p>
+<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.Enumeration.U_seq">
+<span class="sig-name descname"><span class="pre">U_seq</span></span><a class="headerlink" href="#soft4pes.control.mpc.solvers.Enumeration.U_seq" title="Permalink to this definition">#</a></dt>
+<dd><p>Precomputed array of all possible switching sequences (three-phase switch positions).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>3*Np x conv.nl^(3*Np) ndarray of ints</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.MpcEnum.sw_pos_3ph">
-<span class="sig-name descname"><span class="pre">sw_pos_3ph</span></span><a class="headerlink" href="#soft4pes.control.mpc.solvers.MpcEnum.sw_pos_3ph" title="Permalink to this definition">#</a></dt>
-<dd><p>Possible one-phase switch positions.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>1 x conv.nl ndarray of ints</p>
+<dd class="field-odd"><p>conv.nl^(3*Np) x 3*Np ndarray of ints</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.MpcEnum.__call__">
-<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_ref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/mpc_enum.html#MpcEnum.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.MpcEnum.__call__" title="Permalink to this definition">#</a></dt>
-<dd><p>Solve MPC problem with exhaustive enumeration.</p>
+<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.Enumeration.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_ref_pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d_pred</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/enumeration.html#Enumeration.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.Enumeration.__call__" title="Permalink to this definition">#</a></dt>
+<dd><p>Solve the MPC optimization problem using exhaustive enumeration.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sys</strong> (<em>system object</em>) – System model.</p></li>
 <li><p><strong>ctr</strong> (<em>controller object</em>) – Controller object.</p></li>
-<li><p><strong>y_ref</strong> (<em>ndarray</em><em> of </em><em>floats</em>) – Reference vector [p.u.].</p></li>
+<li><p><strong>y_ref_pred</strong> (<em>ndarray</em><em> of </em><em>floats</em>) – Reference trajectory over the prediction horizon [p.u.].</p></li>
+<li><p><strong>d_pred</strong> (<em>ndarray</em><em> of </em><em>floats</em><em>, </em><em>optional</em>) – Disturbance trajectory over the prediction horizon [p.u.].</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>u_abc</strong> – The three-phase switch position with the lowest cost.</p>
+<dd class="field-even"><p><strong>u_abc</strong> – Optimal three-phase switch position for the current time step.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>1 x 3 ndarray of ints</p>
@@ -675,21 +688,25 @@ document.write(`
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.MpcEnum.solve">
-<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_km1_abc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/mpc_enum.html#MpcEnum.solve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.MpcEnum.solve" title="Permalink to this definition">#</a></dt>
-<dd><p>Recursively compute the cost for different switching sequences</p>
+<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.Enumeration.solve">
+<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_ref_pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_km1_abc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d_pred</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/enumeration.html#Enumeration.solve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.Enumeration.solve" title="Permalink to this definition">#</a></dt>
+<dd><p>Compute the cost for all possible three-phase switching sequences.</p>
+<p>This method evaluates the total cost of each precomputed three-phase switching sequence by
+stepping through the prediction horizon. Sequences that violate switching constraints are
+assigned infinite cost.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sys</strong> (<em>system object</em>) – System model.</p></li>
 <li><p><strong>ctr</strong> (<em>controller object.</em>) – Controller object.</p></li>
-<li><p><strong>xk</strong> (<em>ndarray</em><em> of </em><em>floats</em>) – Current state vector [p.u.].</p></li>
-<li><p><strong>y_ref</strong> (<em>ndarray</em><em> of </em><em>floats</em>) – Reference vector [p.u.].</p></li>
+<li><p><strong>xk</strong> (<em>ndarray</em><em> of </em><em>floats</em>) – Current state vector at time step k [p.u.].</p></li>
+<li><p><strong>y_ref_pred</strong> (<em>ndarray</em><em> of </em><em>floats</em>) – Reference trajectory over the prediction horizon [p.u.].</p></li>
 <li><p><strong>u_km1_abc</strong> (<em>1 x 3 ndarray</em><em> of </em><em>ints</em>) – Three-phase switch position applied at step k-1.</p></li>
+<li><p><strong>d_pred</strong> (<em>ndarray</em><em> of </em><em>floats</em><em>, </em><em>optional</em>) – Disturbance trajectory over the prediction horizon [p.u.].</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>J</strong> – Cost array.</p>
+<dd class="field-even"><p><strong>J</strong> – Cost array with one entry per switching sequence.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>1 x nl^(3*Np) ndarray of floats</p>
@@ -708,13 +725,13 @@ on one phase.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>nl</strong> (<em>int</em>) – Number of converter voltage levels.</p></li>
-<li><p><strong>u_abc</strong> (<em>1 x 3 ndarray</em><em> of </em><em>ints</em>) – three-phase switch position.</p></li>
+<li><p><strong>nl</strong> (<em>int</em>) – Number of converter voltage levels (2 or 3).</p></li>
+<li><p><strong>u_abc</strong> (<em>1 x 3 ndarray</em><em> of </em><em>ints</em>) – Candidate three-phase switch position.</p></li>
 <li><p><strong>u_km1_abc</strong> (<em>1 x 3 ndarray</em><em> of </em><em>ints</em>) – Previously applied three-phase switch position.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Constraint violated.</p>
+<dd class="field-even"><p>True if switching constraint is violated, False otherwise.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>bool</p>
@@ -730,8 +747,8 @@ the weighting matrix Q, i.e. sqrt(x.T * Q * x)^2 = x.T * Q * x.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>vector</strong> (<em>ndarray</em>) – Vector.</p></li>
-<li><p><strong>Q</strong> (<em>ndarray</em>) – Weighting matrix.</p></li>
+<li><p><strong>vector</strong> (<em>ndarray</em>) – Input vector.</p></li>
+<li><p><strong>Q</strong> (<em>ndarray</em>) – Symmetric positive semi-definite weighting matrix.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -745,14 +762,14 @@ the weighting matrix Q, i.e. sqrt(x.T * Q * x)^2 = x.T * Q * x.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.make_QP_matrices">
-<span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.</span></span><span class="sig-name descname"><span class="pre">make_QP_matrices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/utils.html#make_QP_matrices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.make_QP_matrices" title="Permalink to this definition">#</a></dt>
-<dd><p>Create the QP matrices.</p>
+<span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.</span></span><span class="sig-name descname"><span class="pre">make_QP_matrices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/utils.html#make_QP_matrices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.make_QP_matrices" title="Permalink to this definition">#</a></dt>
+<dd><p>Construct matrices for the quadratic programming (QP) formulation of MPC.</p>
+<p>This function builds the matrices needed for the QP problem:
+minimize (1/2) * x.T &#64; H &#64; x + f.T &#64; x
+subject to A &#64; x &lt;= b.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>sys</strong> (<em>system object</em>) – System model.</p></li>
-<li><p><strong>ctr</strong> (<em>controller object</em>) – Controller object.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>ctr</strong> (<em>controller object</em>) – Controller object.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Namespace containing the QP matrices.</p>
@@ -766,13 +783,13 @@ the weighting matrix Q, i.e. sqrt(x.T * Q * x)^2 = x.T * Q * x.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.make_Gamma">
 <span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.</span></span><span class="sig-name descname"><span class="pre">make_Gamma</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Np</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/utils.html#make_Gamma"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.make_Gamma" title="Permalink to this definition">#</a></dt>
-<dd><p>Make Gamma matrix for the QP.</p>
+<dd><p>Construct the Gamma matrix mapping initial state to future outputs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>Np</strong> (<em>int</em>) – Prediction horizon.</p></li>
-<li><p><strong>C</strong> (<em>ndarray</em>) – Output matrix of the system.</p></li>
-<li><p><strong>A</strong> (<em>ndarray</em>) – State matrix of the system.</p></li>
+<li><p><strong>Np</strong> (<em>int</em>) – Prediction horizon steps.</p></li>
+<li><p><strong>C</strong> (<em>ndarray</em>) – Output matrix of the discrete-time state-space model.</p></li>
+<li><p><strong>A</strong> (<em>ndarray</em>) – State matrix of the discrete-time state-space model.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -787,14 +804,14 @@ the weighting matrix Q, i.e. sqrt(x.T * Q * x)^2 = x.T * Q * x.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.make_Upsilon">
 <span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.</span></span><span class="sig-name descname"><span class="pre">make_Upsilon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Np</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/solvers/utils.html#make_Upsilon"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.make_Upsilon" title="Permalink to this definition">#</a></dt>
-<dd><p>Make Upsilon matrix for the QP.</p>
+<dd><p>Construct the Upsilon matrix mapping control inputs to future outputs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>Np</strong> (<em>int</em>) – Prediction horizon.</p></li>
-<li><p><strong>C</strong> (<em>ndarray</em>) – Output matrix of the system.</p></li>
-<li><p><strong>A</strong> (<em>ndarray</em>) – State matrix of the system.</p></li>
-<li><p><strong>B</strong> (<em>ndarray</em>) – Input matrix of the system.</p></li>
+<li><p><strong>Np</strong> (<em>int</em>) – Prediction horizon steps.</p></li>
+<li><p><strong>C</strong> (<em>ndarray</em>) – Output matrix of the discrete-time state-space model.</p></li>
+<li><p><strong>A</strong> (<em>ndarray</em>) – State matrix of the discrete-time state-space model.</p></li>
+<li><p><strong>B</strong> (<em>ndarray</em>) – Input matrix of the discrete-time state-space model.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -821,20 +838,20 @@ the weighting matrix Q, i.e. sqrt(x.T * Q * x)^2 = x.T * Q * x.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../controllers/rl_grid_mpc_curr_ctr/index.html"
+       href="../common/solver_base/index.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr</p>
+        <p class="prev-next-title">soft4pes.control.mpc.common.solver_base</p>
       </div>
     </a>
     <a class="right-next"
-       href="mpc_QP/index.html"
+       href="branch_and_bound/index.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">soft4pes.control.mpc.solvers.mpc_QP</p>
+        <p class="prev-next-title">soft4pes.control.mpc.solvers.branch_and_bound</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -857,25 +874,24 @@ the weighting matrix Q, i.e. sqrt(x.T * Q * x)^2 = x.T * Q * x.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#package-contents">Package Contents</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.IndirectMpcQP"><code class="docutils literal notranslate"><span class="pre">IndirectMpcQP</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.IndirectMpcQP.QP_matrices"><code class="docutils literal notranslate"><span class="pre">IndirectMpcQP.QP_matrices</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.IndirectMpcQP.__call__"><code class="docutils literal notranslate"><span class="pre">IndirectMpcQP.__call__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.iMPCQP"><code class="docutils literal notranslate"><span class="pre">iMPCQP</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.iMPCQP.QP_matrices"><code class="docutils literal notranslate"><span class="pre">iMPCQP.QP_matrices</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.iMPCQP.__call__"><code class="docutils literal notranslate"><span class="pre">iMPCQP.__call__()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcBnB"><code class="docutils literal notranslate"><span class="pre">MpcBnB</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcBnB.J_min"><code class="docutils literal notranslate"><span class="pre">MpcBnB.J_min</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcBnB.U_seq"><code class="docutils literal notranslate"><span class="pre">MpcBnB.U_seq</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcBnB.U_temp"><code class="docutils literal notranslate"><span class="pre">MpcBnB.U_temp</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcBnB.SW_COMB"><code class="docutils literal notranslate"><span class="pre">MpcBnB.SW_COMB</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcBnB.__call__"><code class="docutils literal notranslate"><span class="pre">MpcBnB.__call__()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcBnB.solve"><code class="docutils literal notranslate"><span class="pre">MpcBnB.solve()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.BranchAndBound"><code class="docutils literal notranslate"><span class="pre">BranchAndBound</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.BranchAndBound.J_min"><code class="docutils literal notranslate"><span class="pre">BranchAndBound.J_min</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.BranchAndBound.U_seq"><code class="docutils literal notranslate"><span class="pre">BranchAndBound.U_seq</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.BranchAndBound.U_temp"><code class="docutils literal notranslate"><span class="pre">BranchAndBound.U_temp</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.BranchAndBound.SW_COMB"><code class="docutils literal notranslate"><span class="pre">BranchAndBound.SW_COMB</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.BranchAndBound.__call__"><code class="docutils literal notranslate"><span class="pre">BranchAndBound.__call__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.BranchAndBound.solve"><code class="docutils literal notranslate"><span class="pre">BranchAndBound.solve()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcEnum"><code class="docutils literal notranslate"><span class="pre">MpcEnum</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcEnum.U_seq"><code class="docutils literal notranslate"><span class="pre">MpcEnum.U_seq</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcEnum.sw_pos_3ph"><code class="docutils literal notranslate"><span class="pre">MpcEnum.sw_pos_3ph</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcEnum.__call__"><code class="docutils literal notranslate"><span class="pre">MpcEnum.__call__()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.MpcEnum.solve"><code class="docutils literal notranslate"><span class="pre">MpcEnum.solve()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.Enumeration"><code class="docutils literal notranslate"><span class="pre">Enumeration</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.Enumeration.U_seq"><code class="docutils literal notranslate"><span class="pre">Enumeration.U_seq</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.Enumeration.__call__"><code class="docutils literal notranslate"><span class="pre">Enumeration.__call__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.Enumeration.solve"><code class="docutils literal notranslate"><span class="pre">Enumeration.solve()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.switching_constraint_violated"><code class="docutils literal notranslate"><span class="pre">switching_constraint_violated()</span></code></a></li>

@@ -164,7 +164,8 @@
 </ul>
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../control/mpc/index.html">soft4pes.control.mpc</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../control/mpc/controllers/index.html">soft4pes.control.mpc.controllers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../control/mpc/algorithms/index.html">soft4pes.control.mpc.algorithms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../control/mpc/common/index.html">soft4pes.control.mpc.common</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../control/mpc/solvers/index.html">soft4pes.control.mpc.solvers</a></li>
 </ul>
 </li>
@@ -418,7 +419,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.set_initial_state"><code class="docutils literal notranslate"><span class="pre">InductionMachine.set_initial_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.get_steady_state_psir"><code class="docutils literal notranslate"><span class="pre">InductionMachine.get_steady_state_psir()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.calc_stator_current"><code class="docutils literal notranslate"><span class="pre">InductionMachine.calc_stator_current()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.get_continuous_state_space"><code class="docutils literal notranslate"><span class="pre">InductionMachine.get_continuous_state_space()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.get_continuous_time_state_space"><code class="docutils literal notranslate"><span class="pre">InductionMachine.get_continuous_time_state_space()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.get_next_state"><code class="docutils literal notranslate"><span class="pre">InductionMachine.get_next_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.get_measurements"><code class="docutils literal notranslate"><span class="pre">InductionMachine.get_measurements()</span></code></a></li>
 </ul>
@@ -445,7 +446,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.theta_el"><code class="docutils literal notranslate"><span class="pre">PMSM.theta_el</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.set_initial_state"><code class="docutils literal notranslate"><span class="pre">PMSM.set_initial_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.get_stator_current_ref_dq"><code class="docutils literal notranslate"><span class="pre">PMSM.get_stator_current_ref_dq()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.get_continuous_state_space"><code class="docutils literal notranslate"><span class="pre">PMSM.get_continuous_state_space()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.get_continuous_time_state_space"><code class="docutils literal notranslate"><span class="pre">PMSM.get_continuous_time_state_space()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.get_next_state"><code class="docutils literal notranslate"><span class="pre">PMSM.get_next_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.get_measurements"><code class="docutils literal notranslate"><span class="pre">PMSM.get_measurements()</span></code></a></li>
 </ul>
@@ -783,8 +784,8 @@ stator flux magnitude reference.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="soft4pes.model.machine.InductionMachine.get_continuous_state_space">
-<span class="sig-name descname"><span class="pre">get_continuous_state_space</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/machine/induction_machine.html#InductionMachine.get_continuous_state_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.machine.InductionMachine.get_continuous_state_space" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="soft4pes.model.machine.InductionMachine.get_continuous_time_state_space">
+<span class="sig-name descname"><span class="pre">get_continuous_time_state_space</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/machine/induction_machine.html#InductionMachine.get_continuous_time_state_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.machine.InductionMachine.get_continuous_time_state_space" title="Permalink to this definition">#</a></dt>
 <dd><p>Calculate the continuous-time state-space model of the system.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1095,13 +1096,13 @@ The initial state of the model is based on the torque reference.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="soft4pes.model.machine.PMSM.get_continuous_state_space">
-<span class="sig-name descname"><span class="pre">get_continuous_state_space</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/machine/pmsm.html#PMSM.get_continuous_state_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.machine.PMSM.get_continuous_state_space" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="soft4pes.model.machine.PMSM.get_continuous_time_state_space">
+<span class="sig-name descname"><span class="pre">get_continuous_time_state_space</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/machine/pmsm.html#PMSM.get_continuous_time_state_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.machine.PMSM.get_continuous_time_state_space" title="Permalink to this definition">#</a></dt>
 <dd><p>Calculate the continuous-time state-space model of the system.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A SimpleNamespace object containing matrices F and G of the continuous-time state-space
-model.</p>
+<dd class="field-odd"><p>A SimpleNamespace object containing matrices F, G and P of the continuous-time state-
+space model.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>SimpleNamespace</p>
@@ -1116,7 +1117,7 @@ model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>matrices</strong> (<em>SimpleNamespace</em>) – A SimpleNamespace object containing the state-space model matrices A and B.</p></li>
+<li><p><strong>matrices</strong> (<em>SimpleNamespace</em>) – A SimpleNamespace object containing the state-space model matrices A, B and D.</p></li>
 <li><p><strong>u_abc</strong> (<em>1 x 3 ndarray</em><em> of </em><em>floats</em>) – Converter three-phase switch position or modulating signal [p.u.].</p></li>
 <li><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p></li>
 <li><p><strong>Ts</strong> (<em>float</em>) – Sampling interval [s].</p></li>
@@ -1319,7 +1320,7 @@ model.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.set_initial_state"><code class="docutils literal notranslate"><span class="pre">InductionMachine.set_initial_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.get_steady_state_psir"><code class="docutils literal notranslate"><span class="pre">InductionMachine.get_steady_state_psir()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.calc_stator_current"><code class="docutils literal notranslate"><span class="pre">InductionMachine.calc_stator_current()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.get_continuous_state_space"><code class="docutils literal notranslate"><span class="pre">InductionMachine.get_continuous_state_space()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.get_continuous_time_state_space"><code class="docutils literal notranslate"><span class="pre">InductionMachine.get_continuous_time_state_space()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.get_next_state"><code class="docutils literal notranslate"><span class="pre">InductionMachine.get_next_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.InductionMachine.get_measurements"><code class="docutils literal notranslate"><span class="pre">InductionMachine.get_measurements()</span></code></a></li>
 </ul>
@@ -1346,7 +1347,7 @@ model.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.theta_el"><code class="docutils literal notranslate"><span class="pre">PMSM.theta_el</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.set_initial_state"><code class="docutils literal notranslate"><span class="pre">PMSM.set_initial_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.get_stator_current_ref_dq"><code class="docutils literal notranslate"><span class="pre">PMSM.get_stator_current_ref_dq()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.get_continuous_state_space"><code class="docutils literal notranslate"><span class="pre">PMSM.get_continuous_state_space()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.get_continuous_time_state_space"><code class="docutils literal notranslate"><span class="pre">PMSM.get_continuous_time_state_space()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.get_next_state"><code class="docutils literal notranslate"><span class="pre">PMSM.get_next_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.machine.PMSM.get_measurements"><code class="docutils literal notranslate"><span class="pre">PMSM.get_measurements()</span></code></a></li>
 </ul>

@@ -105,13 +105,13 @@ Module Contents
    ..
        !! processed by numpydoc !!
 
-   .. py:method:: get_continuous_state_space()
+   .. py:method:: get_continuous_time_state_space()
 
       
       Get the continuous-time state-space model of the system in alpha-beta frame.
 
-      :returns: A SimpleNamespace object containing matrices F, G1 and G2 of the continuous-time
-                state-space model.
+      :returns: A SimpleNamespace object containing matrices F, G and P of the continuous-time state-
+                space model.
       :rtype: SimpleNamespace
 
 

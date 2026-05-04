@@ -33,7 +33,8 @@ Submodules
 .. toctree::
    :maxdepth: 1
 
-   /autoapi/soft4pes/control/mpc/controllers/index
+   /autoapi/soft4pes/control/mpc/algorithms/index
+   /autoapi/soft4pes/control/mpc/common/index
    /autoapi/soft4pes/control/mpc/solvers/index
 
 

@@ -164,7 +164,8 @@
 </ul>
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../control/mpc/index.html">soft4pes.control.mpc</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../control/mpc/controllers/index.html">soft4pes.control.mpc.controllers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../control/mpc/algorithms/index.html">soft4pes.control.mpc.algorithms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../control/mpc/common/index.html">soft4pes.control.mpc.common</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../control/mpc/solvers/index.html">soft4pes.control.mpc.solvers</a></li>
 </ul>
 </li>
@@ -398,7 +399,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.conv.Converter"><code class="docutils literal notranslate"><span class="pre">Converter</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.conv.Converter.v_dc"><code class="docutils literal notranslate"><span class="pre">Converter.v_dc</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.conv.Converter.nl"><code class="docutils literal notranslate"><span class="pre">Converter.nl</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.conv.Converter.SW_COMB"><code class="docutils literal notranslate"><span class="pre">Converter.SW_COMB</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.conv.Converter.sw_pos_3ph"><code class="docutils literal notranslate"><span class="pre">Converter.sw_pos_3ph</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -441,7 +442,6 @@ document.write(`
 <dt class="sig sig-object py" id="soft4pes.model.conv.Converter">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.model.conv.</span></span><span class="sig-name descname"><span class="pre">Converter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v_dc_SI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/conv/converter.html#Converter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.conv.Converter" title="Permalink to this definition">#</a></dt>
 <dd><p>Class representing a 2- or 3-level converter with constant dc-link voltage.</p>
-<p>Initialize a Converter instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -474,12 +474,12 @@ document.write(`
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="soft4pes.model.conv.Converter.SW_COMB">
-<span class="sig-name descname"><span class="pre">SW_COMB</span></span><a class="headerlink" href="#soft4pes.model.conv.Converter.SW_COMB" title="Permalink to this definition">#</a></dt>
-<dd><p>Possible converter three-phase switch positions.</p>
+<dt class="sig sig-object py" id="soft4pes.model.conv.Converter.sw_pos_3ph">
+<span class="sig-name descname"><span class="pre">sw_pos_3ph</span></span><a class="headerlink" href="#soft4pes.model.conv.Converter.sw_pos_3ph" title="Permalink to this definition">#</a></dt>
+<dd><p>Possible one-phase switch positions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>3^nl x 3 ndarray of ints</p>
+<dd class="field-odd"><p>list of ints</p>
 </dd>
 </dl>
 </dd></dl>
@@ -539,7 +539,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.conv.Converter"><code class="docutils literal notranslate"><span class="pre">Converter</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.conv.Converter.v_dc"><code class="docutils literal notranslate"><span class="pre">Converter.v_dc</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.conv.Converter.nl"><code class="docutils literal notranslate"><span class="pre">Converter.nl</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.conv.Converter.SW_COMB"><code class="docutils literal notranslate"><span class="pre">Converter.SW_COMB</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.conv.Converter.sw_pos_3ph"><code class="docutils literal notranslate"><span class="pre">Converter.sw_pos_3ph</span></code></a></li>
 </ul>
 </li>
 </ul>

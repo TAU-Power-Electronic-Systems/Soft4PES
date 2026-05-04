@@ -49,7 +49,7 @@
     <link rel="index" title="Index" href="../../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../../search.html" />
     <link rel="next" title="soft4pes.model" href="../../../../model/index.html" />
-    <link rel="prev" title="soft4pes.control.mpc.solvers.mpc_enum" href="../mpc_enum/index.html" />
+    <link rel="prev" title="soft4pes.control.mpc.solvers.indirect_mpc_qp" href="../indirect_mpc_qp/index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -164,7 +164,8 @@
 </ul>
 </li>
 <li class="toctree-l3 current active has-children"><a class="reference internal" href="../../index.html">soft4pes.control.mpc</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="../../controllers/index.html">soft4pes.control.mpc.controllers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../algorithms/index.html">soft4pes.control.mpc.algorithms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../common/index.html">soft4pes.control.mpc.common</a></li>
 <li class="toctree-l4 current active"><a class="reference internal" href="../index.html">soft4pes.control.mpc.solvers</a></li>
 </ul>
 </li>
@@ -396,6 +397,8 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.utils.switching_constraint_violated"><code class="docutils literal notranslate"><span class="pre">switching_constraint_violated()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.utils.squared_weighted_second_norm"><code class="docutils literal notranslate"><span class="pre">squared_weighted_second_norm()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.utils.compute_next_state"><code class="docutils literal notranslate"><span class="pre">compute_next_state()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.utils.compute_step_ell_cost"><code class="docutils literal notranslate"><span class="pre">compute_step_ell_cost()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.utils.make_QP_matrices"><code class="docutils literal notranslate"><span class="pre">make_QP_matrices()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.utils.make_Gamma"><code class="docutils literal notranslate"><span class="pre">make_Gamma()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.utils.make_Upsilon"><code class="docutils literal notranslate"><span class="pre">make_Upsilon()</span></code></a></li>
@@ -414,7 +417,7 @@ document.write(`
                   
   <section id="module-soft4pes.control.mpc.solvers.utils">
 <span id="soft4pes-control-mpc-solvers-utils"></span><h1>soft4pes.control.mpc.solvers.utils<a class="headerlink" href="#module-soft4pes.control.mpc.solvers.utils" title="Permalink to this heading">#</a></h1>
-<p>Utility functions for MPC solvers.</p>
+<p>Utility functions for solvers used for model predictive control (MPC).</p>
 <section id="functions">
 <h2>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h2>
 <table class="autosummary longtable table autosummary">
@@ -425,14 +428,20 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.utils.squared_weighted_second_norm" title="soft4pes.control.mpc.solvers.utils.squared_weighted_second_norm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">squared_weighted_second_norm</span></code></a>(vector, Q)</p></td>
 <td><p>Compute the squared weighted second norm of a vector. The elements of the norm are weighted by</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.utils.make_QP_matrices" title="soft4pes.control.mpc.solvers.utils.make_QP_matrices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_QP_matrices</span></code></a>(sys, ctr)</p></td>
-<td><p>Create the QP matrices.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.utils.compute_next_state" title="soft4pes.control.mpc.solvers.utils.compute_next_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_next_state</span></code></a>(state_space, x_ell, u_ell_abc, ...)</p></td>
+<td><p>Compute the next state using discrete-time state-space.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.utils.compute_step_ell_cost" title="soft4pes.control.mpc.solvers.utils.compute_step_ell_cost"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_step_ell_cost</span></code></a>(ctr, y_ref_pred, u_ell_abc, ...)</p></td>
+<td><p>Compute the total cost for a single prediction step.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.utils.make_QP_matrices" title="soft4pes.control.mpc.solvers.utils.make_QP_matrices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_QP_matrices</span></code></a>(ctr)</p></td>
+<td><p>Construct matrices for the quadratic programming (QP) formulation of MPC.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.utils.make_Gamma" title="soft4pes.control.mpc.solvers.utils.make_Gamma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_Gamma</span></code></a>(Np, C, A)</p></td>
-<td><p>Make Gamma matrix for the QP.</p></td>
+<td><p>Construct the Gamma matrix mapping initial state to future outputs.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.mpc.solvers.utils.make_Upsilon" title="soft4pes.control.mpc.solvers.utils.make_Upsilon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_Upsilon</span></code></a>(Np, C, A, B)</p></td>
-<td><p>Make Upsilon matrix for the QP.</p></td>
+<td><p>Construct the Upsilon matrix mapping control inputs to future outputs.</p></td>
 </tr>
 </tbody>
 </table>
@@ -448,13 +457,13 @@ on one phase.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>nl</strong> (<em>int</em>) – Number of converter voltage levels.</p></li>
-<li><p><strong>u_abc</strong> (<em>1 x 3 ndarray</em><em> of </em><em>ints</em>) – three-phase switch position.</p></li>
+<li><p><strong>nl</strong> (<em>int</em>) – Number of converter voltage levels (2 or 3).</p></li>
+<li><p><strong>u_abc</strong> (<em>1 x 3 ndarray</em><em> of </em><em>ints</em>) – Candidate three-phase switch position.</p></li>
 <li><p><strong>u_km1_abc</strong> (<em>1 x 3 ndarray</em><em> of </em><em>ints</em>) – Previously applied three-phase switch position.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Constraint violated.</p>
+<dd class="field-even"><p>True if switching constraint is violated, False otherwise.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>bool</p>
@@ -470,8 +479,8 @@ the weighting matrix Q, i.e. sqrt(x.T * Q * x)^2 = x.T * Q * x.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>vector</strong> (<em>ndarray</em>) – Vector.</p></li>
-<li><p><strong>Q</strong> (<em>ndarray</em>) – Weighting matrix.</p></li>
+<li><p><strong>vector</strong> (<em>ndarray</em>) – Input vector.</p></li>
+<li><p><strong>Q</strong> (<em>ndarray</em>) – Symmetric positive semi-definite weighting matrix.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -484,15 +493,63 @@ the weighting matrix Q, i.e. sqrt(x.T * Q * x)^2 = x.T * Q * x.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.utils.make_QP_matrices">
-<span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.utils.</span></span><span class="sig-name descname"><span class="pre">make_QP_matrices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/soft4pes/control/mpc/solvers/utils.html#make_QP_matrices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.utils.make_QP_matrices" title="Permalink to this definition">#</a></dt>
-<dd><p>Create the QP matrices.</p>
+<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.utils.compute_next_state">
+<span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.utils.</span></span><span class="sig-name descname"><span class="pre">compute_next_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state_space</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_ell</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_ell_abc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d_pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ell</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/soft4pes/control/mpc/solvers/utils.html#compute_next_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.utils.compute_next_state" title="Permalink to this definition">#</a></dt>
+<dd><p>Compute the next state using discrete-time state-space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sys</strong> (<em>system object</em>) – System model.</p></li>
-<li><p><strong>ctr</strong> (<em>controller object</em>) – Controller object.</p></li>
+<li><p><strong>state_space</strong> (<em>SimpleNamespace</em>) – Discrete-time state-space model.</p></li>
+<li><p><strong>x_ell</strong> (<em>ndarray</em>) – State vector at prediction step ell [p.u.].</p></li>
+<li><p><strong>u_ell_abc</strong> (<em>ndarray</em>) – Three-phase switch position or modulating signal at step ell.</p></li>
+<li><p><strong>d_pred</strong> (<em>ndarray</em><em> or </em><em>None</em>) – Disturbance trajectory over the prediction horizon [p.u.].</p></li>
+<li><p><strong>ell</strong> (<em>int</em>) – Current prediction step index.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>State vector at prediction step ell+1 [p.u.].</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.utils.compute_step_ell_cost">
+<span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.utils.</span></span><span class="sig-name descname"><span class="pre">compute_step_ell_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_ref_pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_ell_abc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_ell_abc_prev</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_ell_next</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ell</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soft_constraint_matrices</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/soft4pes/control/mpc/solvers/utils.html#compute_step_ell_cost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.utils.compute_step_ell_cost" title="Permalink to this definition">#</a></dt>
+<dd><p>Compute the total cost for a single prediction step.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ctr</strong> (<em>object</em>) – Controller object.</p></li>
+<li><p><strong>y_ref_pred</strong> (<em>ndarray</em>) – Reference trajectory over the prediction horizon [p.u.].</p></li>
+<li><p><strong>u_ell_abc</strong> (<em>1 x 3 ndarray</em><em> of </em><em>ints</em><em> or </em><em>floats</em>) – Three-phase switch position or modulating signal at step ell.</p></li>
+<li><p><strong>u_ell_abc_prev</strong> (<em>1 x 3 ndarray</em><em> of </em><em>ints</em><em> or </em><em>floats</em>) – Three-phase switch position or modulating signal from the previous step.</p></li>
+<li><p><strong>x_ell_next</strong> (<em>ndarray</em>) – State vector at step ell+1 [p.u.].</p></li>
+<li><p><strong>ell</strong> (<em>int</em>) – Current prediction step index.</p></li>
+<li><p><strong>soft_constraint_matrices</strong> (<em>SimpleNamespace</em><em> or </em><em>None</em>) – Namespace containing soft constraint matrices.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Total cost for prediction step ell.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.utils.make_QP_matrices">
+<span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.utils.</span></span><span class="sig-name descname"><span class="pre">make_QP_matrices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/soft4pes/control/mpc/solvers/utils.html#make_QP_matrices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.utils.make_QP_matrices" title="Permalink to this definition">#</a></dt>
+<dd><p>Construct matrices for the quadratic programming (QP) formulation of MPC.</p>
+<p>This function builds the matrices needed for the QP problem:
+minimize (1/2) * x.T &#64; H &#64; x + f.T &#64; x
+subject to A &#64; x &lt;= b.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ctr</strong> (<em>controller object</em>) – Controller object.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Namespace containing the QP matrices.</p>
@@ -506,13 +563,13 @@ the weighting matrix Q, i.e. sqrt(x.T * Q * x)^2 = x.T * Q * x.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.utils.make_Gamma">
 <span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.utils.</span></span><span class="sig-name descname"><span class="pre">make_Gamma</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Np</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/soft4pes/control/mpc/solvers/utils.html#make_Gamma"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.utils.make_Gamma" title="Permalink to this definition">#</a></dt>
-<dd><p>Make Gamma matrix for the QP.</p>
+<dd><p>Construct the Gamma matrix mapping initial state to future outputs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>Np</strong> (<em>int</em>) – Prediction horizon.</p></li>
-<li><p><strong>C</strong> (<em>ndarray</em>) – Output matrix of the system.</p></li>
-<li><p><strong>A</strong> (<em>ndarray</em>) – State matrix of the system.</p></li>
+<li><p><strong>Np</strong> (<em>int</em>) – Prediction horizon steps.</p></li>
+<li><p><strong>C</strong> (<em>ndarray</em>) – Output matrix of the discrete-time state-space model.</p></li>
+<li><p><strong>A</strong> (<em>ndarray</em>) – State matrix of the discrete-time state-space model.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -527,14 +584,14 @@ the weighting matrix Q, i.e. sqrt(x.T * Q * x)^2 = x.T * Q * x.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="soft4pes.control.mpc.solvers.utils.make_Upsilon">
 <span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.solvers.utils.</span></span><span class="sig-name descname"><span class="pre">make_Upsilon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Np</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/soft4pes/control/mpc/solvers/utils.html#make_Upsilon"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.solvers.utils.make_Upsilon" title="Permalink to this definition">#</a></dt>
-<dd><p>Make Upsilon matrix for the QP.</p>
+<dd><p>Construct the Upsilon matrix mapping control inputs to future outputs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>Np</strong> (<em>int</em>) – Prediction horizon.</p></li>
-<li><p><strong>C</strong> (<em>ndarray</em>) – Output matrix of the system.</p></li>
-<li><p><strong>A</strong> (<em>ndarray</em>) – State matrix of the system.</p></li>
-<li><p><strong>B</strong> (<em>ndarray</em>) – Input matrix of the system.</p></li>
+<li><p><strong>Np</strong> (<em>int</em>) – Prediction horizon steps.</p></li>
+<li><p><strong>C</strong> (<em>ndarray</em>) – Output matrix of the discrete-time state-space model.</p></li>
+<li><p><strong>A</strong> (<em>ndarray</em>) – State matrix of the discrete-time state-space model.</p></li>
+<li><p><strong>B</strong> (<em>ndarray</em>) – Input matrix of the discrete-time state-space model.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -561,12 +618,12 @@ the weighting matrix Q, i.e. sqrt(x.T * Q * x)^2 = x.T * Q * x.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../mpc_enum/index.html"
+       href="../indirect_mpc_qp/index.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">soft4pes.control.mpc.solvers.mpc_enum</p>
+        <p class="prev-next-title">soft4pes.control.mpc.solvers.indirect_mpc_qp</p>
       </div>
     </a>
     <a class="right-next"
@@ -597,6 +654,8 @@ the weighting matrix Q, i.e. sqrt(x.T * Q * x)^2 = x.T * Q * x.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.utils.switching_constraint_violated"><code class="docutils literal notranslate"><span class="pre">switching_constraint_violated()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.utils.squared_weighted_second_norm"><code class="docutils literal notranslate"><span class="pre">squared_weighted_second_norm()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.utils.compute_next_state"><code class="docutils literal notranslate"><span class="pre">compute_next_state()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.utils.compute_step_ell_cost"><code class="docutils literal notranslate"><span class="pre">compute_step_ell_cost()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.utils.make_QP_matrices"><code class="docutils literal notranslate"><span class="pre">make_QP_matrices()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.utils.make_Gamma"><code class="docutils literal notranslate"><span class="pre">make_Gamma()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.solvers.utils.make_Upsilon"><code class="docutils literal notranslate"><span class="pre">make_Upsilon()</span></code></a></li>

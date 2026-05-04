@@ -1,0 +1,763 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>soft4pes.control.mpc.algorithms &#8212; Soft4PES  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+    <script src="../../../../../_static/doctools.js"></script>
+    <script src="../../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../../_static/clipboard.min.js"></script>
+    <script src="../../../../../_static/copybutton.js"></script>
+    <script src="../../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'autoapi/soft4pes/control/mpc/algorithms/index';</script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+    <link rel="next" title="soft4pes.control.mpc.algorithms.im_curr_ctr" href="im_curr_ctr/index.html" />
+    <link rel="prev" title="soft4pes.control.mpc" href="../index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Soft4PES  documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../../index.html">API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../../index.html">soft4pes.control</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../common/index.html">soft4pes.control.common</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../common/control_system/index.html">soft4pes.control.common.control_system</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../common/controller/index.html">soft4pes.control.common.controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../common/utils/index.html">soft4pes.control.common.utils</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../lin/index.html">soft4pes.control.lin</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../lin/grid_curr_ref_gen/index.html">soft4pes.control.lin.grid_curr_ref_gen</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../lin/im_foc_curr_ctr/index.html">soft4pes.control.lin.im_foc_curr_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../lin/l_conv_curr_ctr/index.html">soft4pes.control.lin.l_conv_curr_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../lin/lcl_conv_curr_ctr/index.html">soft4pes.control.lin.lcl_conv_curr_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../lin/lcl_grid_curr_ctr_wacfb/index.html">soft4pes.control.lin.lcl_grid_curr_ctr_wacfb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../lin/lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../lin/rfpsc/index.html">soft4pes.control.lin.rfpsc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../lin/state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../modulation/index.html">soft4pes.control.modulation</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../modulation/carrier_pwm/index.html">soft4pes.control.modulation.carrier_pwm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modulation/common_mode_injection/index.html">soft4pes.control.modulation.common_mode_injection</a></li>
+</ul>
+</li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="../index.html">soft4pes.control.mpc</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">soft4pes.control.mpc.algorithms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../common/index.html">soft4pes.control.mpc.common</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../solvers/index.html">soft4pes.control.mpc.solvers</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../model/index.html">soft4pes.model</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../model/conv/index.html">soft4pes.model.conv</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../model/conv/converter/index.html">soft4pes.model.conv.converter</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../model/grid/index.html">soft4pes.model.grid</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../model/grid/base_grid/index.html">soft4pes.model.grid.base_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../model/grid/l_filter_param/index.html">soft4pes.model.grid.l_filter_param</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../model/grid/lcl_filter_param/index.html">soft4pes.model.grid.lcl_filter_param</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../model/grid/rl_grid/index.html">soft4pes.model.grid.rl_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../model/grid/rl_grid_l_filter/index.html">soft4pes.model.grid.rl_grid_l_filter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../model/grid/rl_grid_lcl_filter/index.html">soft4pes.model.grid.rl_grid_lcl_filter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../model/grid/rl_grid_param/index.html">soft4pes.model.grid.rl_grid_param</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../model/machine/index.html">soft4pes.model.machine</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../model/machine/base_machine/index.html">soft4pes.model.machine.base_machine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../model/machine/induction_machine/index.html">soft4pes.model.machine.induction_machine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../model/machine/induction_machine_param/index.html">soft4pes.model.machine.induction_machine_param</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../model/machine/pmsm/index.html">soft4pes.model.machine.pmsm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../model/machine/pmsm_param/index.html">soft4pes.model.machine.pmsm_param</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../sim/index.html">soft4pes.sim</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../sim/simulation/index.html">soft4pes.sim.simulation</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../utils/index.html">soft4pes.utils</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/conversions/index.html">soft4pes.utils.conversions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/plotter/index.html">soft4pes.utils.plotter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/sequence/index.html">soft4pes.utils.sequence</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parameter Sets</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../parameter_sets/grid_parameter_sets.html">Grid Parameter Sets</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../parameter_sets/grid/systems.html">Grid Systems</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../parameter_sets/grid/components.html">Grid Components</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-14"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../parameter_sets/grid/components/grids.html">Grids</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../parameter_sets/grid/components/filters.html">Filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../parameter_sets/grid/components/converters.html">Converters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../parameter_sets/drive_parameter_sets.html">Drive Parameter Sets</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-15"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../parameter_sets/drive/systems.html">Drive Systems</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../parameter_sets/drive/components.html">Drive Components</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-16"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../parameter_sets/drive/components/machines.html">Machines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../parameter_sets/drive/components/converters.html">Converters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/TAU-Power-Electronic-Systems/Soft4PES" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../../../_sources/autoapi/soft4pes/control/mpc/algorithms/index.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>soft4pes.control.mpc.algorithms</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#package-contents">Package Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.algorithms.LCLGridVcCtr"><code class="docutils literal notranslate"><span class="pre">LCLGridVcCtr</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.algorithms.LCLGridVcCtr.execute"><code class="docutils literal notranslate"><span class="pre">LCLGridVcCtr.execute()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.algorithms.IMCurrCtr"><code class="docutils literal notranslate"><span class="pre">IMCurrCtr</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.algorithms.IMCurrCtr.execute"><code class="docutils literal notranslate"><span class="pre">IMCurrCtr.execute()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.algorithms.PMSMCurrCtr"><code class="docutils literal notranslate"><span class="pre">PMSMCurrCtr</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.algorithms.PMSMCurrCtr.execute"><code class="docutils literal notranslate"><span class="pre">PMSMCurrCtr.execute()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.algorithms.RLGridCurrCtr"><code class="docutils literal notranslate"><span class="pre">RLGridCurrCtr</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.algorithms.RLGridCurrCtr.execute"><code class="docutils literal notranslate"><span class="pre">RLGridCurrCtr.execute()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="module-soft4pes.control.mpc.algorithms">
+<span id="soft4pes-control-mpc-algorithms"></span><h1>soft4pes.control.mpc.algorithms<a class="headerlink" href="#module-soft4pes.control.mpc.algorithms" title="Permalink to this heading">#</a></h1>
+<p>Model predictive control (MPC) for power electronic systems.</p>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="im_curr_ctr/index.html">soft4pes.control.mpc.algorithms.im_curr_ctr</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lcl_grid_vc_ctr/index.html">soft4pes.control.mpc.algorithms.lcl_grid_vc_ctr</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pmsm_curr_ctr/index.html">soft4pes.control.mpc.algorithms.pmsm_curr_ctr</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rl_grid_curr_ctr/index.html">soft4pes.control.mpc.algorithms.rl_grid_curr_ctr</a></li>
+</ul>
+</div>
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h2>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.mpc.algorithms.LCLGridVcCtr" title="soft4pes.control.mpc.algorithms.LCLGridVcCtr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LCLGridVcCtr</span></code></a></p></td>
+<td><p>MPC for filter capacitor voltage tracking in LCL-filtered grid-connected systems.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.mpc.algorithms.IMCurrCtr" title="soft4pes.control.mpc.algorithms.IMCurrCtr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IMCurrCtr</span></code></a></p></td>
+<td><p>MPC for induction machine stator current control.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.mpc.algorithms.PMSMCurrCtr" title="soft4pes.control.mpc.algorithms.PMSMCurrCtr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PMSMCurrCtr</span></code></a></p></td>
+<td><p>MPC for PMSM stator current control.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.mpc.algorithms.RLGridCurrCtr" title="soft4pes.control.mpc.algorithms.RLGridCurrCtr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RLGridCurrCtr</span></code></a></p></td>
+<td><p>Model predictive control (MPC) for grid current. The converter is connected directly to the</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="package-contents">
+<h2>Package Contents<a class="headerlink" href="#package-contents" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="soft4pes.control.mpc.algorithms.LCLGridVcCtr">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.algorithms.</span></span><span class="sig-name descname"><span class="pre">LCLGridVcCtr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solver</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Np</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">I_conv_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disc_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'exact_discretization'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/algorithms/lcl_grid_vc_ctr.html#LCLGridVcCtr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.algorithms.LCLGridVcCtr" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../common/mpc_base/index.html#soft4pes.control.mpc.common.mpc_base.MPCBase" title="soft4pes.control.mpc.common.mpc_base.MPCBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.control.mpc.common.mpc_base.MPCBase</span></code></a>, <a class="reference internal" href="../../common/controller/index.html#soft4pes.control.common.controller.Controller" title="soft4pes.control.common.controller.Controller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.control.common.controller.Controller</span></code></a></p>
+<p>MPC for filter capacitor voltage tracking in LCL-filtered grid-connected systems.</p>
+<p>The controller tracks only the filter capacitor voltage reference in the alpha-beta frame.
+Moreover, converter current limits have been included as soft constraints in the MPC problem.</p>
+<p>The soft constraints are penalized in the cost function with a weight of 10e6, which ensures
+that the converter current limits are respected.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>solver</strong> (<em>solver object</em>) – Solver for an MPC algorithm.</p></li>
+<li><p><strong>Np</strong> (<em>int</em>) – Prediction horizon steps.</p></li>
+<li><p><strong>lambda_u</strong> (<em>float</em>) – Weighting factor for the control effort.</p></li>
+<li><p><strong>I_conv_max</strong> (<em>float</em>) – Maximum converter current [p.u.].</p></li>
+<li><p><strong>disc_method</strong> (<em>str</em><em>, </em><em>optional</em>) – Discretization method for the state-space model (‘forward_euler’ or
+‘exact_discretization’). Default is ‘exact_discretization’.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.control.mpc.algorithms.LCLGridVcCtr.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/algorithms/lcl_grid_vc_ctr.html#LCLGridVcCtr.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.algorithms.LCLGridVcCtr.execute" title="Permalink to this definition">#</a></dt>
+<dd><p>Execute one control step of the MPC algorithm.</p>
+<p>Transforms the capacitor voltage reference from dq to alpha-beta frame, predicts grid
+voltage disturbance over the horizon, and solves the MPC optimization problem with soft
+constraints to obtain the optimal control action.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sys</strong> (<em>system object</em>) – System model.</p></li>
+<li><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Output namespace with field <cite>u_abc</cite> containing the converter three-phase switch
+position or modulating signal.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>SimpleNamespace</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="soft4pes.control.mpc.algorithms.IMCurrCtr">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.algorithms.</span></span><span class="sig-name descname"><span class="pre">IMCurrCtr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solver</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Np</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disc_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'forward_euler'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/algorithms/im_curr_ctr.html#IMCurrCtr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.algorithms.IMCurrCtr" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../common/mpc_base/index.html#soft4pes.control.mpc.common.mpc_base.MPCBase" title="soft4pes.control.mpc.common.mpc_base.MPCBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.control.mpc.common.mpc_base.MPCBase</span></code></a>, <a class="reference internal" href="../../common/controller/index.html#soft4pes.control.common.controller.Controller" title="soft4pes.control.common.controller.Controller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.control.common.controller.Controller</span></code></a></p>
+<p>MPC for induction machine stator current control.</p>
+<p>The controller tracks the stator current in the alpha-beta frame. The current reference
+is calculated based on the torque reference and rotor flux magnitude.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>solver</strong> (<em>solver object</em>) – Solver for an MPC algorithm.</p></li>
+<li><p><strong>Np</strong> (<em>int</em>) – Prediction horizon steps.</p></li>
+<li><p><strong>lambda_u</strong> (<em>float</em>) – Weighting factor for the control effort.</p></li>
+<li><p><strong>disc_method</strong> (<em>str</em><em>, </em><em>optional</em>) – Discretization method for the state-space model (‘forward_euler’ or
+‘exact_discretization’). Default is ‘forward_euler’.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.control.mpc.algorithms.IMCurrCtr.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/algorithms/im_curr_ctr.html#IMCurrCtr.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.algorithms.IMCurrCtr.execute" title="Permalink to this definition">#</a></dt>
+<dd><p>Execute one control step of the MPC algorithm.</p>
+<p>Calculates the stator current reference from the torque reference, predicts it over
+the horizon, and solves the MPC optimization problem to obtain the optimal control action.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sys</strong> (<em>system object</em>) – System model.</p></li>
+<li><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Output namespace with field <cite>u_abc</cite> containing the three-phase switch position or
+modulating signal.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>SimpleNamespace</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="soft4pes.control.mpc.algorithms.PMSMCurrCtr">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.algorithms.</span></span><span class="sig-name descname"><span class="pre">PMSMCurrCtr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solver</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Np</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disc_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'forward_euler'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/algorithms/pmsm_curr_ctr.html#PMSMCurrCtr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.algorithms.PMSMCurrCtr" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../common/mpc_base/index.html#soft4pes.control.mpc.common.mpc_base.MPCBase" title="soft4pes.control.mpc.common.mpc_base.MPCBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.control.mpc.common.mpc_base.MPCBase</span></code></a>, <a class="reference internal" href="../../common/controller/index.html#soft4pes.control.common.controller.Controller" title="soft4pes.control.common.controller.Controller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.control.common.controller.Controller</span></code></a></p>
+<p>MPC for PMSM stator current control.</p>
+<p>The controller tracks the stator current reference in the alpha-beta frame. The PMSM model is
+time-varying due to rotor position dependency, requiring state-space model updates at each
+control step.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>solver</strong> (<em>solver object</em>) – Solver for an MPC algorithm.</p></li>
+<li><p><strong>Np</strong> (<em>int</em>) – Prediction horizon steps.</p></li>
+<li><p><strong>lambda_u</strong> (<em>float</em>) – Weighting factor for the control effort.</p></li>
+<li><p><strong>disc_method</strong> (<em>str</em><em>, </em><em>optional</em>) – Discretization method for the state-space model (‘forward_euler’ or
+‘exact_discretization’). Default is ‘forward_euler’.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.control.mpc.algorithms.PMSMCurrCtr.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/algorithms/pmsm_curr_ctr.html#PMSMCurrCtr.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.algorithms.PMSMCurrCtr.execute" title="Permalink to this definition">#</a></dt>
+<dd><p>Execute one control step of the MPC algorithm.</p>
+<p>Transforms the current reference from dq to alpha-beta frame using the electrical angle,
+predicts permanent magnet flux disturbance over the horizon, and solves the MPC
+optimization problem to obtain the optimal control action.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sys</strong> (<em>system object</em>) – System model.</p></li>
+<li><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Output namespace with field <cite>u_abc</cite> containing the three-phase switch position or
+modulating signal.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>SimpleNamespace</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="soft4pes.control.mpc.algorithms.RLGridCurrCtr">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.mpc.algorithms.</span></span><span class="sig-name descname"><span class="pre">RLGridCurrCtr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solver</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Np</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disc_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'forward_euler'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/algorithms/rl_grid_curr_ctr.html#RLGridCurrCtr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.algorithms.RLGridCurrCtr" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../common/mpc_base/index.html#soft4pes.control.mpc.common.mpc_base.MPCBase" title="soft4pes.control.mpc.common.mpc_base.MPCBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.control.mpc.common.mpc_base.MPCBase</span></code></a>, <a class="reference internal" href="../../common/controller/index.html#soft4pes.control.common.controller.Controller" title="soft4pes.control.common.controller.Controller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.control.common.controller.Controller</span></code></a></p>
+<p>Model predictive control (MPC) for grid current. The converter is connected directly to the
+grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>solver</strong> (<em>solver object</em>) – Solver for an MPC algorithm.</p></li>
+<li><p><strong>Np</strong> (<em>int</em>) – Prediction horizon steps.</p></li>
+<li><p><strong>lambda_u</strong> (<em>float</em>) – Weighting factor for the control effort.</p></li>
+<li><p><strong>disc_method</strong> (<em>str</em><em>, </em><em>optional</em>) – Discretization method for the state-space model (‘forward_euler’ or
+‘exact_discretization’). Default is ‘forward_euler’.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.control.mpc.algorithms.RLGridCurrCtr.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/control/mpc/algorithms/rl_grid_curr_ctr.html#RLGridCurrCtr.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.mpc.algorithms.RLGridCurrCtr.execute" title="Permalink to this definition">#</a></dt>
+<dd><p>Execute one control step of the MPC algorithm.</p>
+<p>Transforms the current reference from dq to alpha-beta frame using the grid voltage angle,
+predicts grid voltage disturbance over the horizon, and solves the MPC optimization problem
+to obtain the optimal control action.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sys</strong> (<em>system object</em>) – System model.</p></li>
+<li><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Output namespace with field <cite>u_abc</cite> containing the three-phase
+switch position or modulating signal.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>SimpleNamespace</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">soft4pes.control.mpc</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="im_curr_ctr/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">soft4pes.control.mpc.algorithms.im_curr_ctr</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#package-contents">Package Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.algorithms.LCLGridVcCtr"><code class="docutils literal notranslate"><span class="pre">LCLGridVcCtr</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.algorithms.LCLGridVcCtr.execute"><code class="docutils literal notranslate"><span class="pre">LCLGridVcCtr.execute()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.algorithms.IMCurrCtr"><code class="docutils literal notranslate"><span class="pre">IMCurrCtr</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.algorithms.IMCurrCtr.execute"><code class="docutils literal notranslate"><span class="pre">IMCurrCtr.execute()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.algorithms.PMSMCurrCtr"><code class="docutils literal notranslate"><span class="pre">PMSMCurrCtr</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.algorithms.PMSMCurrCtr.execute"><code class="docutils literal notranslate"><span class="pre">PMSMCurrCtr.execute()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.algorithms.RLGridCurrCtr"><code class="docutils literal notranslate"><span class="pre">RLGridCurrCtr</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.mpc.algorithms.RLGridCurrCtr.execute"><code class="docutils literal notranslate"><span class="pre">RLGridCurrCtr.execute()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By TAU Power Electronic Systems
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024 TAU Power Electronic Systems.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

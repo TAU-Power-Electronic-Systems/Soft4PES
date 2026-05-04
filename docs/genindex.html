@@ -161,7 +161,8 @@
 </ul>
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="autoapi/soft4pes/control/mpc/index.html">soft4pes.control.mpc</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l4"><a class="reference internal" href="autoapi/soft4pes/control/mpc/controllers/index.html">soft4pes.control.mpc.controllers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/soft4pes/control/mpc/algorithms/index.html">soft4pes.control.mpc.algorithms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi/soft4pes/control/mpc/common/index.html">soft4pes.control.mpc.common</a></li>
 <li class="toctree-l4"><a class="reference internal" href="autoapi/soft4pes/control/mpc/solvers/index.html">soft4pes.control.mpc.solvers</a></li>
 </ul>
 </li>
@@ -355,6 +356,7 @@ document.write(`
  | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
+ | <a href="#H"><strong>H</strong></a>
  | <a href="#I"><strong>I</strong></a>
  | <a href="#J"><strong>J</strong></a>
  | <a href="#K"><strong>K</strong></a>
@@ -386,17 +388,21 @@ document.write(`
 </li>
         <li><a href="autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#soft4pes.control.lin.state_space_curr_ctr.RLGridStateSpaceCurrCtr.__call__">(soft4pes.control.lin.state_space_curr_ctr.RLGridStateSpaceCurrCtr method)</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.IndirectMpcQP.__call__">(soft4pes.control.mpc.solvers.IndirectMpcQP method)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/common/index.html#soft4pes.control.mpc.common.MPCSolverBase.__call__">(soft4pes.control.mpc.common.MPCSolverBase method)</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/solvers/mpc_bnb/index.html#soft4pes.control.mpc.solvers.mpc_bnb.MpcBnB.__call__">(soft4pes.control.mpc.solvers.mpc_bnb.MpcBnB method)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/common/solver_base/index.html#soft4pes.control.mpc.common.solver_base.MPCSolverBase.__call__">(soft4pes.control.mpc.common.solver_base.MPCSolverBase method)</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/solvers/mpc_enum/index.html#soft4pes.control.mpc.solvers.mpc_enum.MpcEnum.__call__">(soft4pes.control.mpc.solvers.mpc_enum.MpcEnum method)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/solvers/branch_and_bound/index.html#soft4pes.control.mpc.solvers.branch_and_bound.BranchAndBound.__call__">(soft4pes.control.mpc.solvers.branch_and_bound.BranchAndBound method)</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/solvers/mpc_QP/index.html#soft4pes.control.mpc.solvers.mpc_QP.IndirectMpcQP.__call__">(soft4pes.control.mpc.solvers.mpc_QP.IndirectMpcQP method)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.BranchAndBound.__call__">(soft4pes.control.mpc.solvers.BranchAndBound method)</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.MpcBnB.__call__">(soft4pes.control.mpc.solvers.MpcBnB method)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.Enumeration.__call__">(soft4pes.control.mpc.solvers.Enumeration method)</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.MpcEnum.__call__">(soft4pes.control.mpc.solvers.MpcEnum method)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/solvers/enumeration/index.html#soft4pes.control.mpc.solvers.enumeration.Enumeration.__call__">(soft4pes.control.mpc.solvers.enumeration.Enumeration method)</a>
+</li>
+        <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.iMPCQP.__call__">(soft4pes.control.mpc.solvers.iMPCQP method)</a>
+</li>
+        <li><a href="autoapi/soft4pes/control/mpc/solvers/indirect_mpc_qp/index.html#soft4pes.control.mpc.solvers.indirect_mpc_qp.iMPCQP.__call__">(soft4pes.control.mpc.solvers.indirect_mpc_qp.iMPCQP method)</a>
 </li>
         <li><a href="autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.simulation.ProgressPrinter.__call__">(soft4pes.sim.simulation.ProgressPrinter method)</a>
 </li>
@@ -493,44 +499,32 @@ document.write(`
         <li><a href="autoapi/soft4pes/model/machine/base_machine/index.html#soft4pes.model.machine.base_machine.BaseMachine">(class in soft4pes.model.machine.base_machine)</a>
 </li>
       </ul></li>
+      <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.BranchAndBound">BranchAndBound (class in soft4pes.control.mpc.solvers)</a>
+
+      <ul>
+        <li><a href="autoapi/soft4pes/control/mpc/solvers/branch_and_bound/index.html#soft4pes.control.mpc.solvers.branch_and_bound.BranchAndBound">(class in soft4pes.control.mpc.solvers.branch_and_bound)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.C">C (soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr attribute)</a>
+      <li><a href="autoapi/soft4pes/control/mpc/common/mpc_base/index.html#soft4pes.control.mpc.common.mpc_base.MPCBase.C">C (soft4pes.control.mpc.common.mpc_base.MPCBase attribute)</a>
 
       <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.IMMpcCurrCtr.C">(soft4pes.control.mpc.controllers.IMMpcCurrCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/lcl_vc_mpc_ctr/index.html#soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr.LCLVcMpcCtr.C">(soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr.LCLVcMpcCtr attribute)</a>
-</li>
-      </ul></li>
-      <li><a href="autoapi/soft4pes/control/mpc/controllers/lcl_vc_mpc_ctr/index.html#soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr.LCLVcMpcCtr.c">c (soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr.LCLVcMpcCtr attribute)</a>
-</li>
-      <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.LCLVcMpcCtr.C">C (soft4pes.control.mpc.controllers.LCLVcMpcCtr attribute)</a>
-</li>
-      <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.LCLVcMpcCtr.c">c (soft4pes.control.mpc.controllers.LCLVcMpcCtr attribute)</a>
-</li>
-      <li><a href="autoapi/soft4pes/control/mpc/controllers/pmsm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.pmsm_mpc_curr_ctr.PMSMMpcCurrCtr.C">C (soft4pes.control.mpc.controllers.pmsm_mpc_curr_ctr.PMSMMpcCurrCtr attribute)</a>
-
-      <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.PMSMMpcCurrCtr.C">(soft4pes.control.mpc.controllers.PMSMMpcCurrCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr.RLGridMpcCurrCtr.C">(soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr.RLGridMpcCurrCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.C">(soft4pes.control.mpc.controllers.RLGridMpcCurrCtr attribute)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/common/index.html#soft4pes.control.mpc.common.MPCBase.C">(soft4pes.control.mpc.common.MPCBase attribute)</a>
 </li>
         <li><a href="autoapi/soft4pes/model/grid/base_grid/index.html#soft4pes.model.grid.base_grid.BaseGrid.C">(soft4pes.model.grid.base_grid.BaseGrid attribute)</a>
 </li>
         <li><a href="autoapi/soft4pes/model/grid/index.html#soft4pes.model.grid.BaseGrid.C">(soft4pes.model.grid.BaseGrid attribute)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/soft4pes/control/mpc/controllers/lcl_vc_mpc_ctr/index.html#soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr.LCLVcMpcCtr.C_constr">C_constr (soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr.LCLVcMpcCtr attribute)</a>
+      <li><a href="autoapi/soft4pes/control/mpc/common/mpc_base/index.html#soft4pes.control.mpc.common.mpc_base.MPCBase.C_soft_constr">C_soft_constr (soft4pes.control.mpc.common.mpc_base.MPCBase attribute)</a>
 
       <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.LCLVcMpcCtr.C_constr">(soft4pes.control.mpc.controllers.LCLVcMpcCtr attribute)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/common/index.html#soft4pes.control.mpc.common.MPCBase.C_soft_constr">(soft4pes.control.mpc.common.MPCBase attribute)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/soft4pes/utils/index.html#soft4pes.utils.Plotter.calc_harmonics">calc_harmonics() (soft4pes.utils.Plotter method)</a>
@@ -563,6 +557,10 @@ document.write(`
         <li><a href="autoapi/soft4pes/control/modulation/common_mode_injection/index.html#soft4pes.control.modulation.common_mode_injection.CommonModeInjection">(class in soft4pes.control.modulation.common_mode_injection)</a>
 </li>
       </ul></li>
+      <li><a href="autoapi/soft4pes/control/mpc/solvers/utils/index.html#soft4pes.control.mpc.solvers.utils.compute_next_state">compute_next_state() (in module soft4pes.control.mpc.solvers.utils)</a>
+</li>
+      <li><a href="autoapi/soft4pes/control/mpc/solvers/utils/index.html#soft4pes.control.mpc.solvers.utils.compute_step_ell_cost">compute_step_ell_cost() (in module soft4pes.control.mpc.solvers.utils)</a>
+</li>
       <li><a href="autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.rl_grid.RLGrid.cont_state_space">cont_state_space (soft4pes.model.grid.rl_grid.RLGrid attribute)</a>
 
       <ul>
@@ -585,8 +583,6 @@ document.write(`
         <li><a href="autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.pmsm.PMSM.cont_state_space">(soft4pes.model.machine.pmsm.PMSM attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/soft4pes/control/common/control_system/index.html#soft4pes.control.common.control_system.ControlSystem.control_loops">control_loops (soft4pes.control.common.control_system.ControlSystem attribute)</a>
 
       <ul>
@@ -599,6 +595,8 @@ document.write(`
         <li><a href="autoapi/soft4pes/control/common/controller/index.html#soft4pes.control.common.controller.Controller">(class in soft4pes.control.common.controller)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/soft4pes/control/common/index.html#soft4pes.control.common.ControlSystem">ControlSystem (class in soft4pes.control.common)</a>
 
       <ul>
@@ -713,22 +711,10 @@ document.write(`
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.disc_method">disc_method (soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr attribute)</a>
+      <li><a href="autoapi/soft4pes/control/mpc/common/mpc_base/index.html#soft4pes.control.mpc.common.mpc_base.MPCBase.disc_method">disc_method (soft4pes.control.mpc.common.mpc_base.MPCBase attribute)</a>
 
       <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.IMMpcCurrCtr.disc_method">(soft4pes.control.mpc.controllers.IMMpcCurrCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/lcl_vc_mpc_ctr/index.html#soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr.LCLVcMpcCtr.disc_method">(soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr.LCLVcMpcCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.LCLVcMpcCtr.disc_method">(soft4pes.control.mpc.controllers.LCLVcMpcCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/pmsm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.pmsm_mpc_curr_ctr.PMSMMpcCurrCtr.disc_method">(soft4pes.control.mpc.controllers.pmsm_mpc_curr_ctr.PMSMMpcCurrCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.PMSMMpcCurrCtr.disc_method">(soft4pes.control.mpc.controllers.PMSMMpcCurrCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr.RLGridMpcCurrCtr.disc_method">(soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr.RLGridMpcCurrCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.disc_method">(soft4pes.control.mpc.controllers.RLGridMpcCurrCtr attribute)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/common/index.html#soft4pes.control.mpc.common.MPCBase.disc_method">(soft4pes.control.mpc.common.MPCBase attribute)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/soft4pes/control/common/index.html#soft4pes.control.common.DiscreteTransferFunction">DiscreteTransferFunction (class in soft4pes.control.common)</a>
@@ -755,6 +741,12 @@ document.write(`
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.Enumeration">Enumeration (class in soft4pes.control.mpc.solvers)</a>
+
+      <ul>
+        <li><a href="autoapi/soft4pes/control/mpc/solvers/enumeration/index.html#soft4pes.control.mpc.solvers.enumeration.Enumeration">(class in soft4pes.control.mpc.solvers.enumeration)</a>
+</li>
+      </ul></li>
       <li><a href="autoapi/soft4pes/control/common/index.html#soft4pes.control.common.Controller.execute">execute() (soft4pes.control.common.Controller method)</a>
 
       <ul>
@@ -798,21 +790,21 @@ document.write(`
 </li>
         <li><a href="autoapi/soft4pes/control/modulation/index.html#soft4pes.control.modulation.CommonModeInjection.execute">(soft4pes.control.modulation.CommonModeInjection method)</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.execute">(soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr method)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/algorithms/im_curr_ctr/index.html#soft4pes.control.mpc.algorithms.im_curr_ctr.IMCurrCtr.execute">(soft4pes.control.mpc.algorithms.im_curr_ctr.IMCurrCtr method)</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.IMMpcCurrCtr.execute">(soft4pes.control.mpc.controllers.IMMpcCurrCtr method)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/algorithms/index.html#soft4pes.control.mpc.algorithms.IMCurrCtr.execute">(soft4pes.control.mpc.algorithms.IMCurrCtr method)</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/lcl_vc_mpc_ctr/index.html#soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr.LCLVcMpcCtr.execute">(soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr.LCLVcMpcCtr method)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/algorithms/lcl_grid_vc_ctr/index.html#soft4pes.control.mpc.algorithms.lcl_grid_vc_ctr.LCLGridVcCtr.execute">(soft4pes.control.mpc.algorithms.lcl_grid_vc_ctr.LCLGridVcCtr method)</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.LCLVcMpcCtr.execute">(soft4pes.control.mpc.controllers.LCLVcMpcCtr method)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/algorithms/index.html#soft4pes.control.mpc.algorithms.LCLGridVcCtr.execute">(soft4pes.control.mpc.algorithms.LCLGridVcCtr method)</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/pmsm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.pmsm_mpc_curr_ctr.PMSMMpcCurrCtr.execute">(soft4pes.control.mpc.controllers.pmsm_mpc_curr_ctr.PMSMMpcCurrCtr method)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/algorithms/pmsm_curr_ctr/index.html#soft4pes.control.mpc.algorithms.pmsm_curr_ctr.PMSMCurrCtr.execute">(soft4pes.control.mpc.algorithms.pmsm_curr_ctr.PMSMCurrCtr method)</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.PMSMMpcCurrCtr.execute">(soft4pes.control.mpc.controllers.PMSMMpcCurrCtr method)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/algorithms/index.html#soft4pes.control.mpc.algorithms.PMSMCurrCtr.execute">(soft4pes.control.mpc.algorithms.PMSMCurrCtr method)</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr.RLGridMpcCurrCtr.execute">(soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr.RLGridMpcCurrCtr method)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/algorithms/rl_grid_curr_ctr/index.html#soft4pes.control.mpc.algorithms.rl_grid_curr_ctr.RLGridCurrCtr.execute">(soft4pes.control.mpc.algorithms.rl_grid_curr_ctr.RLGridCurrCtr method)</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.execute">(soft4pes.control.mpc.controllers.RLGridMpcCurrCtr method)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/algorithms/index.html#soft4pes.control.mpc.algorithms.RLGridCurrCtr.execute">(soft4pes.control.mpc.algorithms.RLGridCurrCtr method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -849,26 +841,26 @@ document.write(`
       </ul></li>
       <li><a href="autoapi/soft4pes/control/common/index.html#soft4pes.control.common.MTPALookupTable.generate_mtpa_trajectory">generate_mtpa_trajectory() (soft4pes.control.common.MTPALookupTable method)</a>
 </li>
-      <li><a href="autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.rl_grid.RLGrid.get_continuous_state_space">get_continuous_state_space() (soft4pes.model.grid.rl_grid.RLGrid method)</a>
+      <li><a href="autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.rl_grid.RLGrid.get_continuous_time_state_space">get_continuous_time_state_space() (soft4pes.model.grid.rl_grid.RLGrid method)</a>
 
       <ul>
-        <li><a href="autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.rl_grid_l_filter.RLGridLFilter.get_continuous_state_space">(soft4pes.model.grid.rl_grid_l_filter.RLGridLFilter method)</a>
+        <li><a href="autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.rl_grid_l_filter.RLGridLFilter.get_continuous_time_state_space">(soft4pes.model.grid.rl_grid_l_filter.RLGridLFilter method)</a>
 </li>
-        <li><a href="autoapi/soft4pes/model/grid/rl_grid_lcl_filter/index.html#soft4pes.model.grid.rl_grid_lcl_filter.RLGridLCLFilter.get_continuous_state_space">(soft4pes.model.grid.rl_grid_lcl_filter.RLGridLCLFilter method)</a>
+        <li><a href="autoapi/soft4pes/model/grid/rl_grid_lcl_filter/index.html#soft4pes.model.grid.rl_grid_lcl_filter.RLGridLCLFilter.get_continuous_time_state_space">(soft4pes.model.grid.rl_grid_lcl_filter.RLGridLCLFilter method)</a>
 </li>
-        <li><a href="autoapi/soft4pes/model/grid/index.html#soft4pes.model.grid.RLGrid.get_continuous_state_space">(soft4pes.model.grid.RLGrid method)</a>
+        <li><a href="autoapi/soft4pes/model/grid/index.html#soft4pes.model.grid.RLGrid.get_continuous_time_state_space">(soft4pes.model.grid.RLGrid method)</a>
 </li>
-        <li><a href="autoapi/soft4pes/model/grid/index.html#soft4pes.model.grid.RLGridLCLFilter.get_continuous_state_space">(soft4pes.model.grid.RLGridLCLFilter method)</a>
+        <li><a href="autoapi/soft4pes/model/grid/index.html#soft4pes.model.grid.RLGridLCLFilter.get_continuous_time_state_space">(soft4pes.model.grid.RLGridLCLFilter method)</a>
 </li>
-        <li><a href="autoapi/soft4pes/model/grid/index.html#soft4pes.model.grid.RLGridLFilter.get_continuous_state_space">(soft4pes.model.grid.RLGridLFilter method)</a>
+        <li><a href="autoapi/soft4pes/model/grid/index.html#soft4pes.model.grid.RLGridLFilter.get_continuous_time_state_space">(soft4pes.model.grid.RLGridLFilter method)</a>
 </li>
-        <li><a href="autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.induction_machine.InductionMachine.get_continuous_state_space">(soft4pes.model.machine.induction_machine.InductionMachine method)</a>
+        <li><a href="autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.induction_machine.InductionMachine.get_continuous_time_state_space">(soft4pes.model.machine.induction_machine.InductionMachine method)</a>
 </li>
-        <li><a href="autoapi/soft4pes/model/machine/index.html#soft4pes.model.machine.InductionMachine.get_continuous_state_space">(soft4pes.model.machine.InductionMachine method)</a>
+        <li><a href="autoapi/soft4pes/model/machine/index.html#soft4pes.model.machine.InductionMachine.get_continuous_time_state_space">(soft4pes.model.machine.InductionMachine method)</a>
 </li>
-        <li><a href="autoapi/soft4pes/model/machine/index.html#soft4pes.model.machine.PMSM.get_continuous_state_space">(soft4pes.model.machine.PMSM method)</a>
+        <li><a href="autoapi/soft4pes/model/machine/index.html#soft4pes.model.machine.PMSM.get_continuous_time_state_space">(soft4pes.model.machine.PMSM method)</a>
 </li>
-        <li><a href="autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.pmsm.PMSM.get_continuous_state_space">(soft4pes.model.machine.pmsm.PMSM method)</a>
+        <li><a href="autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.pmsm.PMSM.get_continuous_time_state_space">(soft4pes.model.machine.pmsm.PMSM method)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/soft4pes/control/common/control_system/index.html#soft4pes.control.common.control_system.ControlSystem.get_control_system_data">get_control_system_data() (soft4pes.control.common.control_system.ControlSystem method)</a>
@@ -879,6 +871,12 @@ document.write(`
         <li><a href="autoapi/soft4pes/control/lin/index.html#soft4pes.control.lin.RLGridStateSpaceCurrCtr.get_control_system_data">(soft4pes.control.lin.RLGridStateSpaceCurrCtr method)</a>
 </li>
         <li><a href="autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#soft4pes.control.lin.state_space_curr_ctr.RLGridStateSpaceCurrCtr.get_control_system_data">(soft4pes.control.lin.state_space_curr_ctr.RLGridStateSpaceCurrCtr method)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/soft4pes/control/mpc/common/mpc_base/index.html#soft4pes.control.mpc.common.mpc_base.MPCBase.get_ctr_state_space">get_ctr_state_space() (soft4pes.control.mpc.common.mpc_base.MPCBase method)</a>
+
+      <ul>
+        <li><a href="autoapi/soft4pes/control/mpc/common/index.html#soft4pes.control.mpc.common.MPCBase.get_ctr_state_space">(soft4pes.control.mpc.common.MPCBase method)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.rl_grid.RLGrid.get_grid_voltage">get_grid_voltage() (soft4pes.model.grid.rl_grid.RLGrid method)</a>
@@ -901,33 +899,17 @@ document.write(`
         <li><a href="autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.pmsm.PMSM.get_measurements">(soft4pes.model.machine.pmsm.PMSM method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/soft4pes/control/common/index.html#soft4pes.control.common.get_modulating_signal">get_modulating_signal() (in module soft4pes.control.common)</a>
 
       <ul>
         <li><a href="autoapi/soft4pes/control/common/utils/index.html#soft4pes.control.common.utils.get_modulating_signal">(in module soft4pes.control.common.utils)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.get_next_state">get_next_state() (soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr method)</a>
+      <li><a href="autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.rl_grid.RLGrid.get_next_state">get_next_state() (soft4pes.model.grid.rl_grid.RLGrid method)</a>
 
       <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.IMMpcCurrCtr.get_next_state">(soft4pes.control.mpc.controllers.IMMpcCurrCtr method)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/lcl_vc_mpc_ctr/index.html#soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr.LCLVcMpcCtr.get_next_state">(soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr.LCLVcMpcCtr method)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.LCLVcMpcCtr.get_next_state">(soft4pes.control.mpc.controllers.LCLVcMpcCtr method)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/pmsm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.pmsm_mpc_curr_ctr.PMSMMpcCurrCtr.get_next_state">(soft4pes.control.mpc.controllers.pmsm_mpc_curr_ctr.PMSMMpcCurrCtr method)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.PMSMMpcCurrCtr.get_next_state">(soft4pes.control.mpc.controllers.PMSMMpcCurrCtr method)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr.RLGridMpcCurrCtr.get_next_state">(soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr.RLGridMpcCurrCtr method)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.get_next_state">(soft4pes.control.mpc.controllers.RLGridMpcCurrCtr method)</a>
-</li>
-        <li><a href="autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.rl_grid.RLGrid.get_next_state">(soft4pes.model.grid.rl_grid.RLGrid method)</a>
-</li>
         <li><a href="autoapi/soft4pes/model/grid/index.html#soft4pes.model.grid.RLGrid.get_next_state">(soft4pes.model.grid.RLGrid method)</a>
 </li>
         <li><a href="autoapi/soft4pes/model/machine/induction_machine/index.html#soft4pes.model.machine.induction_machine.InductionMachine.get_next_state">(soft4pes.model.machine.induction_machine.InductionMachine method)</a>
@@ -976,6 +958,22 @@ document.write(`
   </ul></td>
 </tr></table>
 
+<h2 id="H">H</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/soft4pes/control/mpc/common/mpc_base/index.html#soft4pes.control.mpc.common.mpc_base.MPCBase.has_soft_constraints">has_soft_constraints (soft4pes.control.mpc.common.mpc_base.MPCBase attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/soft4pes/control/mpc/common/index.html#soft4pes.control.mpc.common.MPCBase.has_soft_constraints">(soft4pes.control.mpc.common.MPCBase attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/soft4pes/control/mpc/common/mpc_base/index.html#soft4pes.control.mpc.common.mpc_base.has_soft_constraints">has_soft_constraints() (in module soft4pes.control.mpc.common.mpc_base)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -1013,18 +1011,18 @@ document.write(`
         <li><a href="autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#soft4pes.control.lin.state_space_curr_ctr.RLGridStateSpaceCurrCtr.ig_ref_seq_dq">(soft4pes.control.lin.state_space_curr_ctr.RLGridStateSpaceCurrCtr attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.IMMpcCurrCtr">IMMpcCurrCtr (class in soft4pes.control.mpc.controllers)</a>
+      <li><a href="autoapi/soft4pes/control/mpc/algorithms/index.html#soft4pes.control.mpc.algorithms.IMCurrCtr">IMCurrCtr (class in soft4pes.control.mpc.algorithms)</a>
 
       <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr">(class in soft4pes.control.mpc.controllers.im_mpc_curr_ctr)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/algorithms/im_curr_ctr/index.html#soft4pes.control.mpc.algorithms.im_curr_ctr.IMCurrCtr">(class in soft4pes.control.mpc.algorithms.im_curr_ctr)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.IndirectMpcQP">IndirectMpcQP (class in soft4pes.control.mpc.solvers)</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.iMPCQP">iMPCQP (class in soft4pes.control.mpc.solvers)</a>
 
       <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/solvers/mpc_QP/index.html#soft4pes.control.mpc.solvers.mpc_QP.IndirectMpcQP">(class in soft4pes.control.mpc.solvers.mpc_QP)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/solvers/indirect_mpc_qp/index.html#soft4pes.control.mpc.solvers.indirect_mpc_qp.iMPCQP">(class in soft4pes.control.mpc.solvers.indirect_mpc_qp)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/soft4pes/model/machine/index.html#soft4pes.model.machine.InductionMachine">InductionMachine (class in soft4pes.model.machine)</a>
@@ -1037,6 +1035,18 @@ document.write(`
 
       <ul>
         <li><a href="autoapi/soft4pes/model/machine/induction_machine_param/index.html#soft4pes.model.machine.induction_machine_param.InductionMachineParameters">(class in soft4pes.model.machine.induction_machine_param)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/soft4pes/control/mpc/common/index.html#soft4pes.control.mpc.common.MPCSolverBase.init_soft_constraints">init_soft_constraints() (soft4pes.control.mpc.common.MPCSolverBase method)</a>
+
+      <ul>
+        <li><a href="autoapi/soft4pes/control/mpc/common/solver_base/index.html#soft4pes.control.mpc.common.solver_base.MPCSolverBase.init_soft_constraints">(soft4pes.control.mpc.common.solver_base.MPCSolverBase method)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/soft4pes/control/mpc/common/index.html#soft4pes.control.mpc.common.MPCSolverBase.initialized">initialized (soft4pes.control.mpc.common.MPCSolverBase attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/soft4pes/control/mpc/common/solver_base/index.html#soft4pes.control.mpc.common.solver_base.MPCSolverBase.initialized">(soft4pes.control.mpc.common.solver_base.MPCSolverBase attribute)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/soft4pes/control/common/index.html#soft4pes.control.common.Controller.input">input (soft4pes.control.common.Controller attribute)</a>
@@ -1057,10 +1067,10 @@ document.write(`
 <h2 id="J">J</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="autoapi/soft4pes/control/mpc/solvers/mpc_bnb/index.html#soft4pes.control.mpc.solvers.mpc_bnb.MpcBnB.J_min">J_min (soft4pes.control.mpc.solvers.mpc_bnb.MpcBnB attribute)</a>
+      <li><a href="autoapi/soft4pes/control/mpc/solvers/branch_and_bound/index.html#soft4pes.control.mpc.solvers.branch_and_bound.BranchAndBound.J_min">J_min (soft4pes.control.mpc.solvers.branch_and_bound.BranchAndBound attribute)</a>
 
       <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.MpcBnB.J_min">(soft4pes.control.mpc.solvers.MpcBnB attribute)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.BranchAndBound.J_min">(soft4pes.control.mpc.solvers.BranchAndBound attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -1101,22 +1111,10 @@ document.write(`
         <li><a href="autoapi/soft4pes/model/machine/index.html#soft4pes.model.machine.BaseMachine.L">(soft4pes.model.machine.BaseMachine attribute)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.lambda_u">lambda_u (soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr attribute)</a>
+      <li><a href="autoapi/soft4pes/control/mpc/common/mpc_base/index.html#soft4pes.control.mpc.common.mpc_base.MPCBase.lambda_u">lambda_u (soft4pes.control.mpc.common.mpc_base.MPCBase attribute)</a>
 
       <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.IMMpcCurrCtr.lambda_u">(soft4pes.control.mpc.controllers.IMMpcCurrCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/lcl_vc_mpc_ctr/index.html#soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr.LCLVcMpcCtr.lambda_u">(soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr.LCLVcMpcCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.LCLVcMpcCtr.lambda_u">(soft4pes.control.mpc.controllers.LCLVcMpcCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/pmsm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.pmsm_mpc_curr_ctr.PMSMMpcCurrCtr.lambda_u">(soft4pes.control.mpc.controllers.pmsm_mpc_curr_ctr.PMSMMpcCurrCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.PMSMMpcCurrCtr.lambda_u">(soft4pes.control.mpc.controllers.PMSMMpcCurrCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr.RLGridMpcCurrCtr.lambda_u">(soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr.RLGridMpcCurrCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.lambda_u">(soft4pes.control.mpc.controllers.RLGridMpcCurrCtr attribute)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/common/index.html#soft4pes.control.mpc.common.MPCBase.lambda_u">(soft4pes.control.mpc.common.MPCBase attribute)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.simulation.ProgressPrinter.last_printed_percent">last_printed_percent (soft4pes.sim.simulation.ProgressPrinter attribute)</a>
@@ -1133,24 +1131,24 @@ document.write(`
         <li><a href="autoapi/soft4pes/model/grid/lcl_filter_param/index.html#soft4pes.model.grid.lcl_filter_param.LCLFilterParameters">(class in soft4pes.model.grid.lcl_filter_param)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/soft4pes/control/lin/index.html#soft4pes.control.lin.LCLGridCurrCtrWACFB">LCLGridCurrCtrWACFB (class in soft4pes.control.lin)</a>
 
       <ul>
         <li><a href="autoapi/soft4pes/control/lin/lcl_grid_curr_ctr_wacfb/index.html#soft4pes.control.lin.lcl_grid_curr_ctr_wacfb.LCLGridCurrCtrWACFB">(class in soft4pes.control.lin.lcl_grid_curr_ctr_wacfb)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/soft4pes/control/mpc/algorithms/index.html#soft4pes.control.mpc.algorithms.LCLGridVcCtr">LCLGridVcCtr (class in soft4pes.control.mpc.algorithms)</a>
+
+      <ul>
+        <li><a href="autoapi/soft4pes/control/mpc/algorithms/lcl_grid_vc_ctr/index.html#soft4pes.control.mpc.algorithms.lcl_grid_vc_ctr.LCLGridVcCtr">(class in soft4pes.control.mpc.algorithms.lcl_grid_vc_ctr)</a>
+</li>
+      </ul></li>
       <li><a href="autoapi/soft4pes/control/lin/index.html#soft4pes.control.lin.LCLVcCtr">LCLVcCtr (class in soft4pes.control.lin)</a>
 
       <ul>
         <li><a href="autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html#soft4pes.control.lin.lcl_vc_ctr.LCLVcCtr">(class in soft4pes.control.lin.lcl_vc_ctr)</a>
-</li>
-      </ul></li>
-      <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.LCLVcMpcCtr">LCLVcMpcCtr (class in soft4pes.control.mpc.controllers)</a>
-
-      <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/lcl_vc_mpc_ctr/index.html#soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr.LCLVcMpcCtr">(class in soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/soft4pes/control/lin/index.html#soft4pes.control.lin.LConvCurrCtr">LConvCurrCtr (class in soft4pes.control.lin)</a>
@@ -1195,10 +1193,22 @@ document.write(`
         <li><a href="autoapi/soft4pes/control/common/utils/index.html#soft4pes.control.common.utils.magnitude_limiter">(in module soft4pes.control.common.utils)</a>
 </li>
       </ul></li>
+      <li><a href="autoapi/soft4pes/control/mpc/common/mpc_base/index.html#soft4pes.control.mpc.common.mpc_base.MPCBase.make_disturbance_vector">make_disturbance_vector() (soft4pes.control.mpc.common.mpc_base.MPCBase method)</a>
+
+      <ul>
+        <li><a href="autoapi/soft4pes/control/mpc/common/index.html#soft4pes.control.mpc.common.MPCBase.make_disturbance_vector">(soft4pes.control.mpc.common.MPCBase method)</a>
+</li>
+      </ul></li>
       <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.make_Gamma">make_Gamma() (in module soft4pes.control.mpc.solvers)</a>
 
       <ul>
         <li><a href="autoapi/soft4pes/control/mpc/solvers/utils/index.html#soft4pes.control.mpc.solvers.utils.make_Gamma">(in module soft4pes.control.mpc.solvers.utils)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/soft4pes/control/mpc/common/mpc_base/index.html#soft4pes.control.mpc.common.mpc_base.MPCBase.make_horizon_vector">make_horizon_vector() (soft4pes.control.mpc.common.mpc_base.MPCBase method)</a>
+
+      <ul>
+        <li><a href="autoapi/soft4pes/control/mpc/common/index.html#soft4pes.control.mpc.common.MPCBase.make_horizon_vector">(soft4pes.control.mpc.common.MPCBase method)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.make_QP_matrices">make_QP_matrices() (in module soft4pes.control.mpc.solvers)</a>
@@ -1207,6 +1217,14 @@ document.write(`
         <li><a href="autoapi/soft4pes/control/mpc/solvers/utils/index.html#soft4pes.control.mpc.solvers.utils.make_QP_matrices">(in module soft4pes.control.mpc.solvers.utils)</a>
 </li>
       </ul></li>
+      <li><a href="autoapi/soft4pes/control/mpc/common/mpc_base/index.html#soft4pes.control.mpc.common.mpc_base.MPCBase.make_reference_vector">make_reference_vector() (soft4pes.control.mpc.common.mpc_base.MPCBase method)</a>
+
+      <ul>
+        <li><a href="autoapi/soft4pes/control/mpc/common/index.html#soft4pes.control.mpc.common.MPCBase.make_reference_vector">(soft4pes.control.mpc.common.MPCBase method)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/soft4pes/control/mpc/common/solver_base/index.html#soft4pes.control.mpc.common.solver_base.make_soft_constraint_matrices">make_soft_constraint_matrices() (in module soft4pes.control.mpc.common.solver_base)</a>
+</li>
       <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.make_Upsilon">make_Upsilon() (in module soft4pes.control.mpc.solvers)</a>
 
       <ul>
@@ -1267,23 +1285,29 @@ document.write(`
 </li>
         <li><a href="autoapi/soft4pes/control/mpc/index.html#module-soft4pes.control.mpc">soft4pes.control.mpc</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#module-soft4pes.control.mpc.controllers">soft4pes.control.mpc.controllers</a>
+        <li><a href="autoapi/soft4pes/control/mpc/algorithms/index.html#module-soft4pes.control.mpc.algorithms">soft4pes.control.mpc.algorithms</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#module-soft4pes.control.mpc.controllers.im_mpc_curr_ctr">soft4pes.control.mpc.controllers.im_mpc_curr_ctr</a>
+        <li><a href="autoapi/soft4pes/control/mpc/algorithms/im_curr_ctr/index.html#module-soft4pes.control.mpc.algorithms.im_curr_ctr">soft4pes.control.mpc.algorithms.im_curr_ctr</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/lcl_vc_mpc_ctr/index.html#module-soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr">soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr</a>
+        <li><a href="autoapi/soft4pes/control/mpc/algorithms/lcl_grid_vc_ctr/index.html#module-soft4pes.control.mpc.algorithms.lcl_grid_vc_ctr">soft4pes.control.mpc.algorithms.lcl_grid_vc_ctr</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/pmsm_mpc_curr_ctr/index.html#module-soft4pes.control.mpc.controllers.pmsm_mpc_curr_ctr">soft4pes.control.mpc.controllers.pmsm_mpc_curr_ctr</a>
+        <li><a href="autoapi/soft4pes/control/mpc/algorithms/pmsm_curr_ctr/index.html#module-soft4pes.control.mpc.algorithms.pmsm_curr_ctr">soft4pes.control.mpc.algorithms.pmsm_curr_ctr</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#module-soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr">soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr</a>
+        <li><a href="autoapi/soft4pes/control/mpc/algorithms/rl_grid_curr_ctr/index.html#module-soft4pes.control.mpc.algorithms.rl_grid_curr_ctr">soft4pes.control.mpc.algorithms.rl_grid_curr_ctr</a>
+</li>
+        <li><a href="autoapi/soft4pes/control/mpc/common/index.html#module-soft4pes.control.mpc.common">soft4pes.control.mpc.common</a>
+</li>
+        <li><a href="autoapi/soft4pes/control/mpc/common/mpc_base/index.html#module-soft4pes.control.mpc.common.mpc_base">soft4pes.control.mpc.common.mpc_base</a>
+</li>
+        <li><a href="autoapi/soft4pes/control/mpc/common/solver_base/index.html#module-soft4pes.control.mpc.common.solver_base">soft4pes.control.mpc.common.solver_base</a>
 </li>
         <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#module-soft4pes.control.mpc.solvers">soft4pes.control.mpc.solvers</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/solvers/mpc_bnb/index.html#module-soft4pes.control.mpc.solvers.mpc_bnb">soft4pes.control.mpc.solvers.mpc_bnb</a>
+        <li><a href="autoapi/soft4pes/control/mpc/solvers/branch_and_bound/index.html#module-soft4pes.control.mpc.solvers.branch_and_bound">soft4pes.control.mpc.solvers.branch_and_bound</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/solvers/mpc_enum/index.html#module-soft4pes.control.mpc.solvers.mpc_enum">soft4pes.control.mpc.solvers.mpc_enum</a>
+        <li><a href="autoapi/soft4pes/control/mpc/solvers/enumeration/index.html#module-soft4pes.control.mpc.solvers.enumeration">soft4pes.control.mpc.solvers.enumeration</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/solvers/mpc_QP/index.html#module-soft4pes.control.mpc.solvers.mpc_QP">soft4pes.control.mpc.solvers.mpc_QP</a>
+        <li><a href="autoapi/soft4pes/control/mpc/solvers/indirect_mpc_qp/index.html#module-soft4pes.control.mpc.solvers.indirect_mpc_qp">soft4pes.control.mpc.solvers.indirect_mpc_qp</a>
 </li>
         <li><a href="autoapi/soft4pes/control/mpc/solvers/utils/index.html#module-soft4pes.control.mpc.solvers.utils">soft4pes.control.mpc.solvers.utils</a>
 </li>
@@ -1336,16 +1360,16 @@ document.write(`
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.MpcBnB">MpcBnB (class in soft4pes.control.mpc.solvers)</a>
+      <li><a href="autoapi/soft4pes/control/mpc/common/index.html#soft4pes.control.mpc.common.MPCBase">MPCBase (class in soft4pes.control.mpc.common)</a>
 
       <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/solvers/mpc_bnb/index.html#soft4pes.control.mpc.solvers.mpc_bnb.MpcBnB">(class in soft4pes.control.mpc.solvers.mpc_bnb)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/common/mpc_base/index.html#soft4pes.control.mpc.common.mpc_base.MPCBase">(class in soft4pes.control.mpc.common.mpc_base)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.MpcEnum">MpcEnum (class in soft4pes.control.mpc.solvers)</a>
+      <li><a href="autoapi/soft4pes/control/mpc/common/index.html#soft4pes.control.mpc.common.MPCSolverBase">MPCSolverBase (class in soft4pes.control.mpc.common)</a>
 
       <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/solvers/mpc_enum/index.html#soft4pes.control.mpc.solvers.mpc_enum.MpcEnum">(class in soft4pes.control.mpc.solvers.mpc_enum)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/common/solver_base/index.html#soft4pes.control.mpc.common.solver_base.MPCSolverBase">(class in soft4pes.control.mpc.common.solver_base)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/soft4pes/control/common/index.html#soft4pes.control.common.MTPALookupTable">MTPALookupTable (class in soft4pes.control.common)</a>
@@ -1362,22 +1386,12 @@ document.write(`
         <li><a href="autoapi/soft4pes/model/conv/converter/index.html#soft4pes.model.conv.converter.Converter.nl">(soft4pes.model.conv.converter.Converter attribute)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.Np">Np (soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr attribute)</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/soft4pes/control/mpc/common/mpc_base/index.html#soft4pes.control.mpc.common.mpc_base.MPCBase.Np">Np (soft4pes.control.mpc.common.mpc_base.MPCBase attribute)</a>
 
       <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.IMMpcCurrCtr.Np">(soft4pes.control.mpc.controllers.IMMpcCurrCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/lcl_vc_mpc_ctr/index.html#soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr.LCLVcMpcCtr.Np">(soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr.LCLVcMpcCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.LCLVcMpcCtr.Np">(soft4pes.control.mpc.controllers.LCLVcMpcCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/pmsm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.pmsm_mpc_curr_ctr.PMSMMpcCurrCtr.Np">(soft4pes.control.mpc.controllers.pmsm_mpc_curr_ctr.PMSMMpcCurrCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.PMSMMpcCurrCtr.Np">(soft4pes.control.mpc.controllers.PMSMMpcCurrCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr.RLGridMpcCurrCtr.Np">(soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr.RLGridMpcCurrCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.Np">(soft4pes.control.mpc.controllers.RLGridMpcCurrCtr attribute)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/common/index.html#soft4pes.control.mpc.common.MPCBase.Np">(soft4pes.control.mpc.common.MPCBase attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -1472,10 +1486,10 @@ document.write(`
         <li><a href="autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.pmsm.PMSM">(class in soft4pes.model.machine.pmsm)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.PMSMMpcCurrCtr">PMSMMpcCurrCtr (class in soft4pes.control.mpc.controllers)</a>
+      <li><a href="autoapi/soft4pes/control/mpc/algorithms/index.html#soft4pes.control.mpc.algorithms.PMSMCurrCtr">PMSMCurrCtr (class in soft4pes.control.mpc.algorithms)</a>
 
       <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/pmsm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.pmsm_mpc_curr_ctr.PMSMMpcCurrCtr">(class in soft4pes.control.mpc.controllers.pmsm_mpc_curr_ctr)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/algorithms/pmsm_curr_ctr/index.html#soft4pes.control.mpc.algorithms.pmsm_curr_ctr.PMSMCurrCtr">(class in soft4pes.control.mpc.algorithms.pmsm_curr_ctr)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/soft4pes/model/machine/index.html#soft4pes.model.machine.PMSMParameters">PMSMParameters (class in soft4pes.model.machine)</a>
@@ -1516,18 +1530,18 @@ document.write(`
 <h2 id="Q">Q</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="autoapi/soft4pes/control/mpc/controllers/lcl_vc_mpc_ctr/index.html#soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr.LCLVcMpcCtr.Q">Q (soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr.LCLVcMpcCtr attribute)</a>
+      <li><a href="autoapi/soft4pes/control/mpc/common/mpc_base/index.html#soft4pes.control.mpc.common.mpc_base.MPCBase.Q">Q (soft4pes.control.mpc.common.mpc_base.MPCBase attribute)</a>
 
       <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.LCLVcMpcCtr.Q">(soft4pes.control.mpc.controllers.LCLVcMpcCtr attribute)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/common/index.html#soft4pes.control.mpc.common.MPCBase.Q">(soft4pes.control.mpc.common.MPCBase attribute)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.IndirectMpcQP.QP_matrices">QP_matrices (soft4pes.control.mpc.solvers.IndirectMpcQP attribute)</a>
+      <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.iMPCQP.QP_matrices">QP_matrices (soft4pes.control.mpc.solvers.iMPCQP attribute)</a>
 
       <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/solvers/mpc_QP/index.html#soft4pes.control.mpc.solvers.mpc_QP.IndirectMpcQP.QP_matrices">(soft4pes.control.mpc.solvers.mpc_QP.IndirectMpcQP attribute)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/solvers/indirect_mpc_qp/index.html#soft4pes.control.mpc.solvers.indirect_mpc_qp.iMPCQP.QP_matrices">(soft4pes.control.mpc.solvers.indirect_mpc_qp.iMPCQP attribute)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/soft4pes/sim/simulation/index.html#soft4pes.sim.simulation.SwitchingLogic.quantize_switching_time_instants">quantize_switching_time_instants() (soft4pes.sim.simulation.SwitchingLogic method)</a>
@@ -1538,12 +1552,6 @@ document.write(`
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="autoapi/soft4pes/control/mpc/controllers/lcl_vc_mpc_ctr/index.html#soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr.LCLVcMpcCtr.R">R (soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr.LCLVcMpcCtr attribute)</a>
-
-      <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.LCLVcMpcCtr.R">(soft4pes.control.mpc.controllers.LCLVcMpcCtr attribute)</a>
-</li>
-      </ul></li>
       <li><a href="autoapi/soft4pes/model/grid/l_filter_param/index.html#soft4pes.model.grid.l_filter_param.LFilterParameters.R_fc">R_fc (soft4pes.model.grid.l_filter_param.LFilterParameters attribute)</a>
 
       <ul>
@@ -1604,6 +1612,12 @@ document.write(`
         <li><a href="autoapi/soft4pes/model/grid/rl_grid/index.html#soft4pes.model.grid.rl_grid.RLGrid">(class in soft4pes.model.grid.rl_grid)</a>
 </li>
       </ul></li>
+      <li><a href="autoapi/soft4pes/control/mpc/algorithms/index.html#soft4pes.control.mpc.algorithms.RLGridCurrCtr">RLGridCurrCtr (class in soft4pes.control.mpc.algorithms)</a>
+
+      <ul>
+        <li><a href="autoapi/soft4pes/control/mpc/algorithms/rl_grid_curr_ctr/index.html#soft4pes.control.mpc.algorithms.rl_grid_curr_ctr.RLGridCurrCtr">(class in soft4pes.control.mpc.algorithms.rl_grid_curr_ctr)</a>
+</li>
+      </ul></li>
       <li><a href="autoapi/soft4pes/model/grid/index.html#soft4pes.model.grid.RLGridLCLFilter">RLGridLCLFilter (class in soft4pes.model.grid)</a>
 
       <ul>
@@ -1614,12 +1628,6 @@ document.write(`
 
       <ul>
         <li><a href="autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.rl_grid_l_filter.RLGridLFilter">(class in soft4pes.model.grid.rl_grid_l_filter)</a>
-</li>
-      </ul></li>
-      <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr">RLGridMpcCurrCtr (class in soft4pes.control.mpc.controllers)</a>
-
-      <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr.RLGridMpcCurrCtr">(class in soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/soft4pes/model/grid/index.html#soft4pes.model.grid.RLGridParameters">RLGridParameters (class in soft4pes.model.grid)</a>
@@ -1892,38 +1900,59 @@ document.write(`
 </li>
       </ul></li>
       <li>
-    soft4pes.control.mpc.controllers
+    soft4pes.control.mpc.algorithms
 
       <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#module-soft4pes.control.mpc.controllers">module</a>
+        <li><a href="autoapi/soft4pes/control/mpc/algorithms/index.html#module-soft4pes.control.mpc.algorithms">module</a>
 </li>
       </ul></li>
       <li>
-    soft4pes.control.mpc.controllers.im_mpc_curr_ctr
+    soft4pes.control.mpc.algorithms.im_curr_ctr
 
       <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#module-soft4pes.control.mpc.controllers.im_mpc_curr_ctr">module</a>
+        <li><a href="autoapi/soft4pes/control/mpc/algorithms/im_curr_ctr/index.html#module-soft4pes.control.mpc.algorithms.im_curr_ctr">module</a>
 </li>
       </ul></li>
       <li>
-    soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr
+    soft4pes.control.mpc.algorithms.lcl_grid_vc_ctr
 
       <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/lcl_vc_mpc_ctr/index.html#module-soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr">module</a>
+        <li><a href="autoapi/soft4pes/control/mpc/algorithms/lcl_grid_vc_ctr/index.html#module-soft4pes.control.mpc.algorithms.lcl_grid_vc_ctr">module</a>
 </li>
       </ul></li>
       <li>
-    soft4pes.control.mpc.controllers.pmsm_mpc_curr_ctr
+    soft4pes.control.mpc.algorithms.pmsm_curr_ctr
 
       <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/pmsm_mpc_curr_ctr/index.html#module-soft4pes.control.mpc.controllers.pmsm_mpc_curr_ctr">module</a>
+        <li><a href="autoapi/soft4pes/control/mpc/algorithms/pmsm_curr_ctr/index.html#module-soft4pes.control.mpc.algorithms.pmsm_curr_ctr">module</a>
 </li>
       </ul></li>
       <li>
-    soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr
+    soft4pes.control.mpc.algorithms.rl_grid_curr_ctr
 
       <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#module-soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr">module</a>
+        <li><a href="autoapi/soft4pes/control/mpc/algorithms/rl_grid_curr_ctr/index.html#module-soft4pes.control.mpc.algorithms.rl_grid_curr_ctr">module</a>
+</li>
+      </ul></li>
+      <li>
+    soft4pes.control.mpc.common
+
+      <ul>
+        <li><a href="autoapi/soft4pes/control/mpc/common/index.html#module-soft4pes.control.mpc.common">module</a>
+</li>
+      </ul></li>
+      <li>
+    soft4pes.control.mpc.common.mpc_base
+
+      <ul>
+        <li><a href="autoapi/soft4pes/control/mpc/common/mpc_base/index.html#module-soft4pes.control.mpc.common.mpc_base">module</a>
+</li>
+      </ul></li>
+      <li>
+    soft4pes.control.mpc.common.solver_base
+
+      <ul>
+        <li><a href="autoapi/soft4pes/control/mpc/common/solver_base/index.html#module-soft4pes.control.mpc.common.solver_base">module</a>
 </li>
       </ul></li>
       <li>
@@ -1934,24 +1963,26 @@ document.write(`
 </li>
       </ul></li>
       <li>
-    soft4pes.control.mpc.solvers.mpc_bnb
+    soft4pes.control.mpc.solvers.branch_and_bound
 
       <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/solvers/mpc_bnb/index.html#module-soft4pes.control.mpc.solvers.mpc_bnb">module</a>
+        <li><a href="autoapi/soft4pes/control/mpc/solvers/branch_and_bound/index.html#module-soft4pes.control.mpc.solvers.branch_and_bound">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    soft4pes.control.mpc.solvers.enumeration
+
+      <ul>
+        <li><a href="autoapi/soft4pes/control/mpc/solvers/enumeration/index.html#module-soft4pes.control.mpc.solvers.enumeration">module</a>
 </li>
       </ul></li>
       <li>
-    soft4pes.control.mpc.solvers.mpc_enum
+    soft4pes.control.mpc.solvers.indirect_mpc_qp
 
       <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/solvers/mpc_enum/index.html#module-soft4pes.control.mpc.solvers.mpc_enum">module</a>
-</li>
-      </ul></li>
-      <li>
-    soft4pes.control.mpc.solvers.mpc_QP
-
-      <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/solvers/mpc_QP/index.html#module-soft4pes.control.mpc.solvers.mpc_QP">module</a>
+        <li><a href="autoapi/soft4pes/control/mpc/solvers/indirect_mpc_qp/index.html#module-soft4pes.control.mpc.solvers.indirect_mpc_qp">module</a>
 </li>
       </ul></li>
       <li>
@@ -1968,8 +1999,6 @@ document.write(`
         <li><a href="autoapi/soft4pes/model/index.html#module-soft4pes.model">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     soft4pes.model.conv
 
@@ -2124,32 +2153,38 @@ document.write(`
         <li><a href="autoapi/soft4pes/utils/sequence/index.html#module-soft4pes.utils.sequence">module</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/soft4pes/control/mpc/solvers/mpc_bnb/index.html#soft4pes.control.mpc.solvers.mpc_bnb.MpcBnB.solve">solve() (soft4pes.control.mpc.solvers.mpc_bnb.MpcBnB method)</a>
+      <li><a href="autoapi/soft4pes/control/mpc/common/mpc_base/index.html#soft4pes.control.mpc.common.mpc_base.MPCBase.soft_constr_weights">soft_constr_weights (soft4pes.control.mpc.common.mpc_base.MPCBase attribute)</a>
 
       <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/solvers/mpc_enum/index.html#soft4pes.control.mpc.solvers.mpc_enum.MpcEnum.solve">(soft4pes.control.mpc.solvers.mpc_enum.MpcEnum method)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.MpcBnB.solve">(soft4pes.control.mpc.solvers.MpcBnB method)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.MpcEnum.solve">(soft4pes.control.mpc.solvers.MpcEnum method)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/common/index.html#soft4pes.control.mpc.common.MPCBase.soft_constr_weights">(soft4pes.control.mpc.common.MPCBase attribute)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.solver">solver (soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr attribute)</a>
+      <li><a href="autoapi/soft4pes/control/mpc/common/index.html#soft4pes.control.mpc.common.MPCSolverBase.soft_constraint_matrices">soft_constraint_matrices (soft4pes.control.mpc.common.MPCSolverBase attribute)</a>
 
       <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.IMMpcCurrCtr.solver">(soft4pes.control.mpc.controllers.IMMpcCurrCtr attribute)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/common/solver_base/index.html#soft4pes.control.mpc.common.solver_base.MPCSolverBase.soft_constraint_matrices">(soft4pes.control.mpc.common.solver_base.MPCSolverBase attribute)</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/lcl_vc_mpc_ctr/index.html#soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr.LCLVcMpcCtr.solver">(soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr.LCLVcMpcCtr attribute)</a>
+      </ul></li>
+      <li><a href="autoapi/soft4pes/control/mpc/common/mpc_base/index.html#soft4pes.control.mpc.common.mpc_base.MPCBase.soft_constraints_max">soft_constraints_max (soft4pes.control.mpc.common.mpc_base.MPCBase attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/soft4pes/control/mpc/common/index.html#soft4pes.control.mpc.common.MPCBase.soft_constraints_max">(soft4pes.control.mpc.common.MPCBase attribute)</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.LCLVcMpcCtr.solver">(soft4pes.control.mpc.controllers.LCLVcMpcCtr attribute)</a>
+      </ul></li>
+      <li><a href="autoapi/soft4pes/control/mpc/solvers/branch_and_bound/index.html#soft4pes.control.mpc.solvers.branch_and_bound.BranchAndBound.solve">solve() (soft4pes.control.mpc.solvers.branch_and_bound.BranchAndBound method)</a>
+
+      <ul>
+        <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.BranchAndBound.solve">(soft4pes.control.mpc.solvers.BranchAndBound method)</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/pmsm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.pmsm_mpc_curr_ctr.PMSMMpcCurrCtr.solver">(soft4pes.control.mpc.controllers.pmsm_mpc_curr_ctr.PMSMMpcCurrCtr attribute)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.Enumeration.solve">(soft4pes.control.mpc.solvers.Enumeration method)</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.PMSMMpcCurrCtr.solver">(soft4pes.control.mpc.controllers.PMSMMpcCurrCtr attribute)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/solvers/enumeration/index.html#soft4pes.control.mpc.solvers.enumeration.Enumeration.solve">(soft4pes.control.mpc.solvers.enumeration.Enumeration method)</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr.RLGridMpcCurrCtr.solver">(soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr.RLGridMpcCurrCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.solver">(soft4pes.control.mpc.controllers.RLGridMpcCurrCtr attribute)</a>
+      </ul></li>
+      <li><a href="autoapi/soft4pes/control/mpc/common/mpc_base/index.html#soft4pes.control.mpc.common.mpc_base.MPCBase.solver">solver (soft4pes.control.mpc.common.mpc_base.MPCBase attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/soft4pes/control/mpc/common/index.html#soft4pes.control.mpc.common.MPCBase.solver">(soft4pes.control.mpc.common.MPCBase attribute)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.squared_weighted_second_norm">squared_weighted_second_norm() (in module soft4pes.control.mpc.solvers)</a>
@@ -2180,22 +2215,10 @@ document.write(`
         <li><a href="autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.pmsm.PMSM.state_map">(soft4pes.model.machine.pmsm.PMSM attribute)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.state_space">state_space (soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr attribute)</a>
+      <li><a href="autoapi/soft4pes/control/mpc/common/mpc_base/index.html#soft4pes.control.mpc.common.mpc_base.MPCBase.state_space">state_space (soft4pes.control.mpc.common.mpc_base.MPCBase attribute)</a>
 
       <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.IMMpcCurrCtr.state_space">(soft4pes.control.mpc.controllers.IMMpcCurrCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/lcl_vc_mpc_ctr/index.html#soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr.LCLVcMpcCtr.state_space">(soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr.LCLVcMpcCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.LCLVcMpcCtr.state_space">(soft4pes.control.mpc.controllers.LCLVcMpcCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/pmsm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.pmsm_mpc_curr_ctr.PMSMMpcCurrCtr.state_space">(soft4pes.control.mpc.controllers.pmsm_mpc_curr_ctr.PMSMMpcCurrCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.PMSMMpcCurrCtr.state_space">(soft4pes.control.mpc.controllers.PMSMMpcCurrCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr.RLGridMpcCurrCtr.state_space">(soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr.RLGridMpcCurrCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.state_space">(soft4pes.control.mpc.controllers.RLGridMpcCurrCtr attribute)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/common/index.html#soft4pes.control.mpc.common.MPCBase.state_space">(soft4pes.control.mpc.common.MPCBase attribute)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/soft4pes/control/lin/index.html#soft4pes.control.lin.RLGridStateSpaceCurrCtr.state_space_controller">state_space_controller() (soft4pes.control.lin.RLGridStateSpaceCurrCtr method)</a>
@@ -2204,20 +2227,16 @@ document.write(`
         <li><a href="autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html#soft4pes.control.lin.state_space_curr_ctr.RLGridStateSpaceCurrCtr.state_space_controller">(soft4pes.control.lin.state_space_curr_ctr.RLGridStateSpaceCurrCtr method)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/soft4pes/control/mpc/solvers/mpc_bnb/index.html#soft4pes.control.mpc.solvers.mpc_bnb.MpcBnB.SW_COMB">SW_COMB (soft4pes.control.mpc.solvers.mpc_bnb.MpcBnB attribute)</a>
+      <li><a href="autoapi/soft4pes/control/mpc/solvers/branch_and_bound/index.html#soft4pes.control.mpc.solvers.branch_and_bound.BranchAndBound.SW_COMB">SW_COMB (soft4pes.control.mpc.solvers.branch_and_bound.BranchAndBound attribute)</a>
 
       <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.MpcBnB.SW_COMB">(soft4pes.control.mpc.solvers.MpcBnB attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/model/conv/index.html#soft4pes.model.conv.Converter.SW_COMB">(soft4pes.model.conv.Converter attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/model/conv/converter/index.html#soft4pes.model.conv.converter.Converter.SW_COMB">(soft4pes.model.conv.converter.Converter attribute)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.BranchAndBound.SW_COMB">(soft4pes.control.mpc.solvers.BranchAndBound attribute)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/soft4pes/control/mpc/solvers/mpc_enum/index.html#soft4pes.control.mpc.solvers.mpc_enum.MpcEnum.sw_pos_3ph">sw_pos_3ph (soft4pes.control.mpc.solvers.mpc_enum.MpcEnum attribute)</a>
+      <li><a href="autoapi/soft4pes/model/conv/index.html#soft4pes.model.conv.Converter.sw_pos_3ph">sw_pos_3ph (soft4pes.model.conv.Converter attribute)</a>
 
       <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.MpcEnum.sw_pos_3ph">(soft4pes.control.mpc.solvers.MpcEnum attribute)</a>
+        <li><a href="autoapi/soft4pes/model/conv/converter/index.html#soft4pes.model.conv.converter.Converter.sw_pos_3ph">(soft4pes.model.conv.converter.Converter attribute)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.switching_constraint_violated">switching_constraint_violated() (in module soft4pes.control.mpc.solvers)</a>
@@ -2361,39 +2380,27 @@ document.write(`
       <ul>
         <li><a href="autoapi/soft4pes/control/lin/index.html#soft4pes.control.lin.LCLConvCurrCtr.u_km1_abc">(soft4pes.control.lin.LCLConvCurrCtr attribute)</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/im_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr.u_km1_abc">(soft4pes.control.mpc.controllers.im_mpc_curr_ctr.IMMpcCurrCtr attribute)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/common/mpc_base/index.html#soft4pes.control.mpc.common.mpc_base.MPCBase.u_km1_abc">(soft4pes.control.mpc.common.mpc_base.MPCBase attribute)</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.IMMpcCurrCtr.u_km1_abc">(soft4pes.control.mpc.controllers.IMMpcCurrCtr attribute)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/common/index.html#soft4pes.control.mpc.common.MPCBase.u_km1_abc">(soft4pes.control.mpc.common.MPCBase attribute)</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/lcl_vc_mpc_ctr/index.html#soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr.LCLVcMpcCtr.u_km1_abc">(soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr.LCLVcMpcCtr attribute)</a>
+      </ul></li>
+      <li><a href="autoapi/soft4pes/control/mpc/solvers/branch_and_bound/index.html#soft4pes.control.mpc.solvers.branch_and_bound.BranchAndBound.U_seq">U_seq (soft4pes.control.mpc.solvers.branch_and_bound.BranchAndBound attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.BranchAndBound.U_seq">(soft4pes.control.mpc.solvers.BranchAndBound attribute)</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.LCLVcMpcCtr.u_km1_abc">(soft4pes.control.mpc.controllers.LCLVcMpcCtr attribute)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.Enumeration.U_seq">(soft4pes.control.mpc.solvers.Enumeration attribute)</a>
 </li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/pmsm_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.pmsm_mpc_curr_ctr.PMSMMpcCurrCtr.u_km1_abc">(soft4pes.control.mpc.controllers.pmsm_mpc_curr_ctr.PMSMMpcCurrCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.PMSMMpcCurrCtr.u_km1_abc">(soft4pes.control.mpc.controllers.PMSMMpcCurrCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr.RLGridMpcCurrCtr.u_km1_abc">(soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr.RLGridMpcCurrCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.u_km1_abc">(soft4pes.control.mpc.controllers.RLGridMpcCurrCtr attribute)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/solvers/enumeration/index.html#soft4pes.control.mpc.solvers.enumeration.Enumeration.U_seq">(soft4pes.control.mpc.solvers.enumeration.Enumeration attribute)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="autoapi/soft4pes/control/mpc/solvers/mpc_bnb/index.html#soft4pes.control.mpc.solvers.mpc_bnb.MpcBnB.U_seq">U_seq (soft4pes.control.mpc.solvers.mpc_bnb.MpcBnB attribute)</a>
+      <li><a href="autoapi/soft4pes/control/mpc/solvers/branch_and_bound/index.html#soft4pes.control.mpc.solvers.branch_and_bound.BranchAndBound.U_temp">U_temp (soft4pes.control.mpc.solvers.branch_and_bound.BranchAndBound attribute)</a>
 
       <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/solvers/mpc_enum/index.html#soft4pes.control.mpc.solvers.mpc_enum.MpcEnum.U_seq">(soft4pes.control.mpc.solvers.mpc_enum.MpcEnum attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.MpcBnB.U_seq">(soft4pes.control.mpc.solvers.MpcBnB attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.MpcEnum.U_seq">(soft4pes.control.mpc.solvers.MpcEnum attribute)</a>
-</li>
-      </ul></li>
-      <li><a href="autoapi/soft4pes/control/mpc/solvers/mpc_bnb/index.html#soft4pes.control.mpc.solvers.mpc_bnb.MpcBnB.U_temp">U_temp (soft4pes.control.mpc.solvers.mpc_bnb.MpcBnB attribute)</a>
-
-      <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.MpcBnB.U_temp">(soft4pes.control.mpc.solvers.MpcBnB attribute)</a>
+        <li><a href="autoapi/soft4pes/control/mpc/solvers/index.html#soft4pes.control.mpc.solvers.BranchAndBound.U_temp">(soft4pes.control.mpc.solvers.BranchAndBound attribute)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/soft4pes/control/lin/index.html#soft4pes.control.lin.RLGridStateSpaceCurrCtr.uc_ii_dq">uc_ii_dq (soft4pes.control.lin.RLGridStateSpaceCurrCtr attribute)</a>
@@ -2442,22 +2449,12 @@ document.write(`
         <li><a href="autoapi/soft4pes/model/conv/converter/index.html#soft4pes.model.conv.converter.Converter.v_dc">(soft4pes.model.conv.converter.Converter attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/soft4pes/utils/index.html#soft4pes.utils.Sequence.values">values (soft4pes.utils.Sequence attribute)</a>
 
       <ul>
         <li><a href="autoapi/soft4pes/utils/sequence/index.html#soft4pes.utils.sequence.Sequence.values">(soft4pes.utils.sequence.Sequence attribute)</a>
-</li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="autoapi/soft4pes/control/mpc/controllers/lcl_vc_mpc_ctr/index.html#soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr.LCLVcMpcCtr.vg">vg (soft4pes.control.mpc.controllers.lcl_vc_mpc_ctr.LCLVcMpcCtr attribute)</a>
-
-      <ul>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.LCLVcMpcCtr.vg">(soft4pes.control.mpc.controllers.LCLVcMpcCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/rl_grid_mpc_curr_ctr/index.html#soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr.RLGridMpcCurrCtr.vg">(soft4pes.control.mpc.controllers.rl_grid_mpc_curr_ctr.RLGridMpcCurrCtr attribute)</a>
-</li>
-        <li><a href="autoapi/soft4pes/control/mpc/controllers/index.html#soft4pes.control.mpc.controllers.RLGridMpcCurrCtr.vg">(soft4pes.control.mpc.controllers.RLGridMpcCurrCtr attribute)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/soft4pes/model/grid/rl_grid_param/index.html#soft4pes.model.grid.rl_grid_param.RLGridParameters.Vg">Vg (soft4pes.model.grid.rl_grid_param.RLGridParameters attribute)</a>

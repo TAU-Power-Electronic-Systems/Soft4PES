@@ -176,13 +176,13 @@ Module Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: get_continuous_state_space()
+   .. py:method:: get_continuous_time_state_space()
 
       
       Calculate the continuous-time state-space model of the system.
 
-      :returns: A SimpleNamespace object containing matrices F and G of the continuous-time state-space
-                model.
+      :returns: A SimpleNamespace object containing matrices F, G and P of the continuous-time state-
+                space model.
       :rtype: SimpleNamespace
 
 
@@ -208,7 +208,7 @@ Module Contents
       
       Calculate the next state of the system.
 
-      :param matrices: A SimpleNamespace object containing the state-space model matrices A and B.
+      :param matrices: A SimpleNamespace object containing the state-space model matrices A, B and D.
       :type matrices: SimpleNamespace
       :param u_abc: Converter three-phase switch position or modulating signal [p.u.].
       :type u_abc: 1 x 3 ndarray of floats

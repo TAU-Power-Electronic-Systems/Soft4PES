@@ -5,7 +5,7 @@ soft4pes.model.conv.converter
 
 .. autoapi-nested-parse::
 
-   n-level converter model.
+   Class representing a 2- or 3-level converter with constant dc-link voltage.
 
    ..
        !! processed by numpydoc !!
@@ -27,8 +27,6 @@ Module Contents
    
    Class representing a 2- or 3-level converter with constant dc-link voltage.
 
-   Initialize a Converter instance.
-
    :param v_dc_SI: Dc-link voltage [V].
    :type v_dc_SI: float
    :param nl: Number of voltage levels in the converter.
@@ -48,11 +46,11 @@ Module Contents
 
       :type: int
 
-   .. attribute:: SW_COMB
+   .. attribute:: sw_pos_3ph
 
-      Possible converter three-phase switch positions.
+      Possible one-phase switch positions.
 
-      :type: 3^nl x 3 ndarray of ints
+      :type: list of ints
 
 
 

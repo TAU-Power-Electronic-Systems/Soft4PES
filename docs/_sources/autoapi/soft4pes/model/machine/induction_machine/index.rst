@@ -207,7 +207,7 @@ Module Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: get_continuous_state_space()
+   .. py:method:: get_continuous_time_state_space()
 
       
       Calculate the continuous-time state-space model of the system.
