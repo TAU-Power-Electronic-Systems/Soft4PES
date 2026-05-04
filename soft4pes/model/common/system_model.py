@@ -43,6 +43,12 @@ class SystemModel(ABC):
         Indicates if the system model is time-varying.
     cont_state_space : SimpleNamespace
         The continuous-time state-space model of the system.
+    u_abc_k : 1 x 3 ndarray of floats
+        Converter three-phase switch position or modulating signal at the current time step.
+    Ts_k : float
+        Sampling interval at the current time step.
+    xkm1 : ndarray
+        State vector at the previous time step.
     """
 
     def __init__(self, par, base, conv, x_size, state_map):
@@ -60,7 +66,7 @@ class SystemModel(ABC):
         x_size : int
             Length of the state vector.
         state_map : dict
-            A dictionary mapping states to elements of the state vector.
+            A dictionary mapping states to elements of the state vector.        
         """
         self.base = base
         self.data = SimpleNamespace(x=[], t=[], u_abc=[])
@@ -70,7 +76,10 @@ class SystemModel(ABC):
             self.x = np.zeros(x_size)
         self.state_map = state_map
         self.time_varying_model = False
-        self.cont_state_space = self.get_continuous_time_state_space()
+        self.cont_state_space = self.get_continuous_state_space()
+        self.u_abc_k = np.zeros(3)
+        self.x_km1 = np.zeros(x_size)
+        self.Ts_k = 0
 
     def __getattr__(self, name):
         """
@@ -186,6 +195,8 @@ class SystemModel(ABC):
 
         Parameters
         ----------
+        u_abc : 1 x 3 ndarray of floats
+            Converter three-phase switch position or modulating signal.
         kTs : float
             Current discrete time instant [s].
         """
@@ -202,12 +213,14 @@ class SystemModel(ABC):
             Converter three-phase switch position or modulating signal.
         kTs : float
             Current discrete time instant [s].
-        meas : SimpleNamespace, optional
-            Measurement data.
+        Ts : float
+            Sampling interval at the current time step.
         """
-
+        self.u_abc_k = u_abc
+        self.Ts_k = Ts
         meas = self.get_measurements(kTs)
         self.save_data(kTs, u_abc, meas)
+        self.x_km1 = self.x
         self.x = self.get_next_state(matrices, u_abc, kTs, Ts)
 
     def save_data(self, kTs, u_abc, meas):

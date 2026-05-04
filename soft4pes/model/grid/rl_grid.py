@@ -128,6 +128,23 @@ class RLGrid(SystemModel):
         vg = abc_2_alpha_beta(vg_abc)
         return vg
 
+    def get_pcc_voltage(self):
+        """
+        Get the voltage at the point of common coupling (PCC) at a specific discrete time instant.
+
+        In the RL grid model, the PCC is located at the converter terminals. The PCC voltage 
+        therefore equals the converter output voltage.
+        
+
+        Returns
+        -------
+        1 x 2 ndarray of floats
+            Voltage at the point of common coupling (PCC) in alpha-beta frame [p.u.].
+        """
+
+        v_pcc = self.conv.v_dc / 2 * abc_2_alpha_beta(self.u_abc_k)
+        return v_pcc
+
     def get_next_state(self, matrices, u_abc, kTs, Ts):
         """
         Calculate the next state of the system.
@@ -168,5 +185,6 @@ class RLGrid(SystemModel):
         SimpleNamespace
             A SimpleNamespace object containing the grid voltage in alpha-beta frame.
         """
-
-        return SimpleNamespace(vg=self.get_grid_voltage(kTs))
+        vg = self.get_grid_voltage(kTs)
+        v_pcc = self.get_pcc_voltage()
+        return SimpleNamespace(vg=vg, v_pcc=v_pcc)

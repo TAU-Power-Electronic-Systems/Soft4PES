@@ -82,14 +82,8 @@ class LConvCurrCtr(Controller):
             Three-phase modulating signal.
         """
 
-        # Grid voltage in alpha-beta frame
-        vg = sys.get_grid_voltage(kTs)
-
         # Calculate the transformation angle
-        theta = np.arctan2(vg[1], vg[0])
-
-        # Grid voltage in dq-frame
-        vg_dq = alpha_beta_2_dq(vg, theta)
+        theta = self.input.theta
 
         # Get the reference for current step (converter current equals grid current)
         i_conv_ref_dq = self.input.ig_ref_dq
@@ -108,12 +102,13 @@ class LConvCurrCtr(Controller):
 
         # Calculate the PCC output voltage in dq frame
         J = np.array([[0, -1], [1, 0]])
-        v_pcc_dq = (self.sys.par.Rg * np.eye(2) + self.sys.par.Xg *
-                    self.sys.par.wg * J).dot(i_conv_dq) + vg_dq
+        v_pcc = sys.get_pcc_voltage()
+        v_pcc_dq = alpha_beta_2_dq(v_pcc, theta)
 
         # Calculate the switching state functions in the dq frame
         v_conv_ref_dq = lambda_dq + (self.sys.par.X_fc * self.sys.par.wg *
-                                     (J.dot(i_conv_dq))) + v_pcc_dq
+                                     (J.dot(i_conv_dq))) + np.array(
+                                         [v_pcc_dq[0], 0])
 
         # Get the modulating signal in abc frame
         v_conv_ref = dq_2_alpha_beta(v_conv_ref_dq, theta)

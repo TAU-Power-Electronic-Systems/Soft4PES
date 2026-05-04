@@ -136,13 +136,14 @@ class DiscreteTransferFunction:
 
     def __init__(self, numerator_coeffs, denominator_coeffs=None):
         self.numerator_coeffs = np.array(numerator_coeffs)
-        self.denominator_coeffs = np.array(
-            [1] if denominator_coeffs is None else denominator_coeffs
-        )
+        self.denominator_coeffs = np.array([1] if denominator_coeffs is
+                                           None else denominator_coeffs)
 
         if self.denominator_coeffs[0] != 1:
-            self.numerator_coeffs = self.numerator_coeffs / self.denominator_coeffs[0]
-            self.denominator_coeffs = self.denominator_coeffs / self.denominator_coeffs[0]
+            self.numerator_coeffs = self.numerator_coeffs / self.denominator_coeffs[
+                0]
+            self.denominator_coeffs = self.denominator_coeffs / self.denominator_coeffs[
+                0]
 
         self.buffer_input = None
         self.buffer_output = None
@@ -168,16 +169,22 @@ class DiscreteTransferFunction:
             input_signal = np.array([input_signal])
 
         if self.buffer_input is None:
-            self.buffer_input = np.zeros((len(self.numerator_coeffs),) + input_signal.shape)
-            self.buffer_output = np.zeros((len(self.denominator_coeffs) - 1,) + input_signal.shape)
+            self.buffer_input = np.zeros((len(self.numerator_coeffs), ) +
+                                         input_signal.shape)
+            self.buffer_output = np.zeros((len(self.denominator_coeffs) -
+                                           1, ) + input_signal.shape)
 
         self.buffer_input[1:] = self.buffer_input[:-1]
         self.buffer_input[0] = input_signal
 
-        output = np.tensordot(self.numerator_coeffs, self.buffer_input, axes=(0, 0))
+        output = np.tensordot(self.numerator_coeffs,
+                              self.buffer_input,
+                              axes=(0, 0))
 
         if len(self.denominator_coeffs) > 1:
-            output -= np.tensordot(self.denominator_coeffs[1:], self.buffer_output, axes=(0, 0))
+            output -= np.tensordot(self.denominator_coeffs[1:],
+                                   self.buffer_output,
+                                   axes=(0, 0))
             self.buffer_output[1:] = self.buffer_output[:-1]
             self.buffer_output[0] = output
 

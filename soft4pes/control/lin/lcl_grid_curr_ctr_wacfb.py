@@ -157,8 +157,7 @@ class LCLGridCurrCtrWACFB(Controller):
 
     def execute(self, sys, kTs):
 
-        vg_ab = sys.get_grid_voltage(kTs)
-        theta = np.arctan2(vg_ab[1], vg_ab[0])
+        theta = self.input.theta
 
         # Get the grid current reference
         ig_ref_dq = self.input.ig_ref_dq
