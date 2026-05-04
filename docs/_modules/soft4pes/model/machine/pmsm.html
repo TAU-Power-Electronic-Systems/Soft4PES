@@ -151,6 +151,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_conv_curr_ctr/index.html">soft4pes.control.lin.lcl_conv_curr_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_grid_curr_ctr_wacfb/index.html">soft4pes.control.lin.lcl_grid_curr_ctr_wacfb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/pll/index.html">soft4pes.control.lin.pll</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/rfpsc/index.html">soft4pes.control.lin.rfpsc</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
 </ul>
@@ -409,21 +410,21 @@ document.write(`
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">par</span><span class="o">=</span><span class="n">par</span><span class="p">,</span>
                          <span class="n">conv</span><span class="o">=</span><span class="n">conv</span><span class="p">,</span>
                          <span class="n">base</span><span class="o">=</span><span class="n">base</span><span class="p">,</span>
-<div class="viewcode-block" id="PMSM.base"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.base">[docs]</a>                         <span class="n">x_size</span><span class="o">=</span><span class="n">x_size</span><span class="p">,</span></div>
-<div class="viewcode-block" id="PMSM.data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.data">[docs]</a>                         <span class="n">state_map</span><span class="o">=</span><span class="n">state_map</span><span class="p">)</span></div>
-<div class="viewcode-block" id="PMSM.time_varying_model"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.time_varying_model">[docs]</a><div class="viewcode-block" id="PMSM.par"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.par">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">time_varying_model</span> <span class="o">=</span> <span class="kc">True</span></div></div>
-<div class="viewcode-block" id="PMSM.conv"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.conv">[docs]</a></div>
+                         <span class="n">x_size</span><span class="o">=</span><span class="n">x_size</span><span class="p">,</span>
+                         <span class="n">state_map</span><span class="o">=</span><span class="n">state_map</span><span class="p">)</span>
+<div class="viewcode-block" id="PMSM.time_varying_model"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.time_varying_model">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">time_varying_model</span> <span class="o">=</span> <span class="kc">True</span></div>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">set_initial_state</span><span class="p">(</span><span class="n">T_ref_init</span><span class="o">=</span><span class="n">T_ref_init</span><span class="p">,</span> <span class="n">mtpa_lut</span><span class="o">=</span><span class="n">mtpa_lut</span><span class="p">)</span>
 
-<div class="viewcode-block" id="PMSM.state_map"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.state_map">[docs]</a><div class="viewcode-block" id="PMSM.set_initial_state"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.set_initial_state">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_initial_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span></div>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<div class="viewcode-block" id="PMSM.cont_state_space"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.cont_state_space">[docs]</a><span class="sd">        Calculate the initial state of the machine based on the torque reference.</span></div>
-
+<div class="viewcode-block" id="PMSM.base"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.base">[docs]</a><div class="viewcode-block" id="PMSM.set_initial_state"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.set_initial_state">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_initial_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span></div>
+<div class="viewcode-block" id="PMSM.data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.data">[docs]</a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span></div>
+<div class="viewcode-block" id="PMSM.par"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.par">[docs]</a><span class="sd">        Calculate the initial state of the machine based on the torque reference.</span></div>
+<div class="viewcode-block" id="PMSM.conv"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.conv">[docs]</a></div>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        **kwargs : dict</span>
+<div class="viewcode-block" id="PMSM.state_map"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.state_map">[docs]</a><span class="sd">        **kwargs : dict</span></div>
 <span class="sd">            Keyword arguments containing:</span>
-<span class="sd">            - T_ref_init : float</span>
+<div class="viewcode-block" id="PMSM.cont_state_space"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html#soft4pes.model.machine.PMSM.cont_state_space">[docs]</a><span class="sd">            - T_ref_init : float</span></div>
 <span class="sd">                The initial torque reference [p.u.].</span>
 <span class="sd">            - mtpa_lut : MTPALookupTable</span>
 <span class="sd">                MTPA lookup table for optimal current calculation.</span>

@@ -151,6 +151,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_conv_curr_ctr/index.html">soft4pes.control.lin.lcl_conv_curr_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_grid_curr_ctr_wacfb/index.html">soft4pes.control.lin.lcl_grid_curr_ctr_wacfb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/pll/index.html">soft4pes.control.lin.pll</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/rfpsc/index.html">soft4pes.control.lin.rfpsc</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
 </ul>
@@ -504,8 +505,7 @@ document.write(`
 
 <div class="viewcode-block" id="LCLGridCurrCtrWACFB.execute"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/lcl_grid_curr_ctr_wacfb/index.html#soft4pes.control.lin.LCLGridCurrCtrWACFB.execute">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
 
-        <span class="n">vg_ab</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">get_grid_voltage</span><span class="p">(</span><span class="n">kTs</span><span class="p">)</span>
-        <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">vg_ab</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">vg_ab</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">theta</span>
 
         <span class="c1"># Get the grid current reference</span>
         <span class="n">ig_ref_dq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">ig_ref_dq</span>

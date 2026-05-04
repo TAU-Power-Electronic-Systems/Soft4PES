@@ -154,6 +154,7 @@
 <li class="toctree-l4"><a class="reference internal" href="lcl_conv_curr_ctr/index.html">soft4pes.control.lin.lcl_conv_curr_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="lcl_grid_curr_ctr_wacfb/index.html">soft4pes.control.lin.lcl_grid_curr_ctr_wacfb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pll/index.html">soft4pes.control.lin.pll</a></li>
 <li class="toctree-l4"><a class="reference internal" href="rfpsc/index.html">soft4pes.control.lin.rfpsc</a></li>
 <li class="toctree-l4"><a class="reference internal" href="state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
 </ul>
@@ -464,6 +465,11 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB.execute"><code class="docutils literal notranslate"><span class="pre">LCLGridCurrCtrWACFB.execute()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.PLL"><code class="docutils literal notranslate"><span class="pre">PLL</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.PLL.set_sampling_interval"><code class="docutils literal notranslate"><span class="pre">PLL.set_sampling_interval()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.PLL.execute"><code class="docutils literal notranslate"><span class="pre">PLL.execute()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.FOCCurrCtr"><code class="docutils literal notranslate"><span class="pre">FOCCurrCtr</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.FOCCurrCtr.iS_ii_dq"><code class="docutils literal notranslate"><span class="pre">FOCCurrCtr.iS_ii_dq</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.FOCCurrCtr.sys"><code class="docutils literal notranslate"><span class="pre">FOCCurrCtr.sys</span></code></a></li>
@@ -498,6 +504,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="lcl_conv_curr_ctr/index.html">soft4pes.control.lin.lcl_conv_curr_ctr</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lcl_grid_curr_ctr_wacfb/index.html">soft4pes.control.lin.lcl_grid_curr_ctr_wacfb</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pll/index.html">soft4pes.control.lin.pll</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rfpsc/index.html">soft4pes.control.lin.rfpsc</a></li>
 <li class="toctree-l1"><a class="reference internal" href="state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
 </ul>
@@ -528,7 +535,10 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB" title="soft4pes.control.lin.LCLGridCurrCtrWACFB"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LCLGridCurrCtrWACFB</span></code></a></p></td>
 <td><p>Grid current controller for a converter with LCL filter based on weighted average based (WAC)</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.lin.FOCCurrCtr" title="soft4pes.control.lin.FOCCurrCtr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FOCCurrCtr</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.lin.PLL" title="soft4pes.control.lin.PLL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PLL</span></code></a></p></td>
+<td><p>Phase-locked loop (PLL) implementation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.lin.FOCCurrCtr" title="soft4pes.control.lin.FOCCurrCtr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FOCCurrCtr</span></code></a></p></td>
 <td><p>Field-oriented control (FOC) for the current control of a induction machine (IM).</p></td>
 </tr>
 </tbody>
@@ -1248,6 +1258,43 @@ feedback.</p>
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="soft4pes.control.lin.PLL">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.lin.</span></span><span class="sig-name descname"><span class="pre">PLL</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zeta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.sqrt(2)</span> <span class="pre">/</span> <span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span> <span class="pre">*</span> <span class="pre">np.pi</span> <span class="pre">*</span> <span class="pre">20</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/lin/pll.html#PLL"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.lin.PLL" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../common/controller/index.html#soft4pes.control.common.controller.Controller" title="soft4pes.control.common.controller.Controller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.control.common.controller.Controller</span></code></a></p>
+<p>Phase-locked loop (PLL) implementation.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.control.lin.PLL.set_sampling_interval">
+<span class="sig-name descname"><span class="pre">set_sampling_interval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Ts</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/lin/pll.html#PLL.set_sampling_interval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.lin.PLL.set_sampling_interval" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the sampling interval and compute controller parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Ts</strong> (<em>float</em>) – Sampling interval [s].</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.control.lin.PLL.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/lin/pll.html#PLL.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.lin.PLL.execute" title="Permalink to this definition">#</a></dt>
+<dd><p>Execute the PLL control algorithm to estimate the grid voltage angle.
+:param sys: System model.
+:type sys: object
+:param kTs: Current discrete time instant [s].
+:type kTs: float</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>output</strong> – The output of the PLL, containing the estimated grid voltage angle (theta) and
+the active and reactive power references.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>SimpleNamespace</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="soft4pes.control.lin.FOCCurrCtr">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.lin.</span></span><span class="sig-name descname"><span class="pre">FOCCurrCtr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/lin/im_foc_curr_ctr.html#FOCCurrCtr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.lin.FOCCurrCtr" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../common/controller/index.html#soft4pes.control.common.controller.Controller" title="soft4pes.control.common.controller.Controller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.control.common.controller.Controller</span></code></a></p>
@@ -1445,6 +1492,11 @@ pp. 489-497, May-June 1990, doi: 10.1109/28.55967</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB.ctr"><code class="docutils literal notranslate"><span class="pre">LCLGridCurrCtrWACFB.ctr</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB.set_sampling_interval"><code class="docutils literal notranslate"><span class="pre">LCLGridCurrCtrWACFB.set_sampling_interval()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.LCLGridCurrCtrWACFB.execute"><code class="docutils literal notranslate"><span class="pre">LCLGridCurrCtrWACFB.execute()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.PLL"><code class="docutils literal notranslate"><span class="pre">PLL</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.PLL.set_sampling_interval"><code class="docutils literal notranslate"><span class="pre">PLL.set_sampling_interval()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.PLL.execute"><code class="docutils literal notranslate"><span class="pre">PLL.execute()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.lin.FOCCurrCtr"><code class="docutils literal notranslate"><span class="pre">FOCCurrCtr</span></code></a><ul class="nav section-nav flex-column">

@@ -39,6 +39,7 @@ Submodules
    /autoapi/soft4pes/control/lin/lcl_conv_curr_ctr/index
    /autoapi/soft4pes/control/lin/lcl_grid_curr_ctr_wacfb/index
    /autoapi/soft4pes/control/lin/lcl_vc_ctr/index
+   /autoapi/soft4pes/control/lin/pll/index
    /autoapi/soft4pes/control/lin/rfpsc/index
    /autoapi/soft4pes/control/lin/state_space_curr_ctr/index
 
@@ -55,6 +56,7 @@ Classes
    soft4pes.control.lin.LCLVcCtr
    soft4pes.control.lin.RFPSC
    soft4pes.control.lin.LCLGridCurrCtrWACFB
+   soft4pes.control.lin.PLL
    soft4pes.control.lin.FOCCurrCtr
 
 
@@ -919,6 +921,89 @@ Package Contents
       :type kTs: float
 
       :returns: **output** -- The output of the controller after execution.
+      :rtype: SimpleNamespace
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: PLL(sys, zeta=np.sqrt(2) / 2, wn=2 * np.pi * 20)
+
+   Bases: :py:obj:`soft4pes.control.common.controller.Controller`
+
+
+   
+   Phase-locked loop (PLL) implementation.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:method:: set_sampling_interval(Ts)
+
+      
+      Set the sampling interval and compute controller parameters.
+
+      :param Ts: Sampling interval [s].
+      :type Ts: float
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: execute(sys, kTs)
+
+      
+      Execute the PLL control algorithm to estimate the grid voltage angle.
+      :param sys: System model.
+      :type sys: object
+      :param kTs: Current discrete time instant [s].
+      :type kTs: float
+
+      :returns: **output** -- The output of the PLL, containing the estimated grid voltage angle (theta) and
+                the active and reactive power references.
       :rtype: SimpleNamespace
 
 

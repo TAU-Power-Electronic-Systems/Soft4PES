@@ -154,6 +154,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../control/lin/lcl_conv_curr_ctr/index.html">soft4pes.control.lin.lcl_conv_curr_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../control/lin/lcl_grid_curr_ctr_wacfb/index.html">soft4pes.control.lin.lcl_grid_curr_ctr_wacfb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../control/lin/lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../control/lin/pll/index.html">soft4pes.control.lin.pll</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../control/lin/rfpsc/index.html">soft4pes.control.lin.rfpsc</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../control/lin/state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
 </ul>
@@ -406,6 +407,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.set_initial_state"><code class="docutils literal notranslate"><span class="pre">RLGrid.set_initial_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.get_continuous_time_state_space"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_continuous_time_state_space()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.get_grid_voltage"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_grid_voltage()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.get_pcc_voltage"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_pcc_voltage()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.get_next_state"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_next_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.get_measurements"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_measurements()</span></code></a></li>
 </ul>
@@ -580,6 +582,22 @@ state-space model.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.model.grid.rl_grid.RLGrid.get_pcc_voltage">
+<span class="sig-name descname"><span class="pre">get_pcc_voltage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/model/grid/rl_grid.html#RLGrid.get_pcc_voltage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.rl_grid.RLGrid.get_pcc_voltage" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the voltage at the point of common coupling (PCC) at a specific discrete time instant.</p>
+<p>In the RL grid model, the PCC is located at the converter terminals. The PCC voltage
+therefore equals the converter output voltage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Voltage at the point of common coupling (PCC) in alpha-beta frame [p.u.].</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>1 x 2 ndarray of floats</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.model.grid.rl_grid.RLGrid.get_next_state">
 <span class="sig-name descname"><span class="pre">get_next_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_abc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ts</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/model/grid/rl_grid.html#RLGrid.get_next_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.rl_grid.RLGrid.get_next_state" title="Permalink to this definition">#</a></dt>
 <dd><p>Calculate the next state of the system.</p>
@@ -680,6 +698,7 @@ state-space model.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.set_initial_state"><code class="docutils literal notranslate"><span class="pre">RLGrid.set_initial_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.get_continuous_time_state_space"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_continuous_time_state_space()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.get_grid_voltage"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_grid_voltage()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.get_pcc_voltage"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_pcc_voltage()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.get_next_state"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_next_state()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid.RLGrid.get_measurements"><code class="docutils literal notranslate"><span class="pre">RLGrid.get_measurements()</span></code></a></li>
 </ul>

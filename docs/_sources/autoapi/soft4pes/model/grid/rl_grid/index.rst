@@ -187,6 +187,35 @@ Module Contents
           !! processed by numpydoc !!
 
 
+   .. py:method:: get_pcc_voltage()
+
+      
+      Get the voltage at the point of common coupling (PCC) at a specific discrete time instant.
+
+      In the RL grid model, the PCC is located at the converter terminals. The PCC voltage
+      therefore equals the converter output voltage.
+
+      :returns: Voltage at the point of common coupling (PCC) in alpha-beta frame [p.u.].
+      :rtype: 1 x 2 ndarray of floats
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
    .. py:method:: get_next_state(matrices, u_abc, kTs, Ts)
 
       

@@ -151,6 +151,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_conv_curr_ctr/index.html">soft4pes.control.lin.lcl_conv_curr_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_grid_curr_ctr_wacfb/index.html">soft4pes.control.lin.lcl_grid_curr_ctr_wacfb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/pll/index.html">soft4pes.control.lin.pll</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/rfpsc/index.html">soft4pes.control.lin.rfpsc</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
 </ul>
@@ -348,7 +349,7 @@ document.write(`
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Grid current reference generator.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-
+<span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleNamespace</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.control.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">Controller</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">alpha_beta_2_dq</span>
@@ -380,11 +381,24 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">vg</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">get_grid_voltage</span><span class="p">(</span><span class="n">kTs</span><span class="p">)</span>
-        <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">vg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">vg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">,</span> <span class="s2">&quot;theta&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">vg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">vg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">theta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">theta</span>
+
         <span class="n">vg_dq</span> <span class="o">=</span> <span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="n">vg</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
-        <span class="n">ig_ref_d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">P_ref</span> <span class="o">/</span> <span class="n">vg_dq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">ig_ref_q</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">Q_ref</span> <span class="o">/</span> <span class="n">vg_dq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">ig_ref_dq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">ig_ref_d</span><span class="p">,</span> <span class="n">ig_ref_q</span><span class="p">])</span>
+        <span class="n">den</span> <span class="o">=</span> <span class="n">vg_dq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">vg_dq</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>
+
+        <span class="n">P_ref</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">P_ref</span>
+        <span class="n">Q_ref</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">Q_ref</span>
+
+        <span class="n">ig_ref_d</span> <span class="o">=</span> <span class="p">(</span><span class="n">P_ref</span> <span class="o">*</span> <span class="n">vg_dq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">Q_ref</span> <span class="o">*</span> <span class="n">vg_dq</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="n">den</span>
+        <span class="n">ig_ref_q</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">Q_ref</span> <span class="o">*</span> <span class="n">vg_dq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">P_ref</span> <span class="o">*</span> <span class="n">vg_dq</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="n">den</span>
+
+        <span class="n">ig_ref_dq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">ig_ref_d</span><span class="p">,</span> <span class="n">ig_ref_q</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">ig_ref_dq</span><span class="o">=</span><span class="n">ig_ref_dq</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="n">theta</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span></div></div>
 </pre></div>

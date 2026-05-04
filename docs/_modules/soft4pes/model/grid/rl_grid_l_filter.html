@@ -151,6 +151,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_conv_curr_ctr/index.html">soft4pes.control.lin.lcl_conv_curr_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_grid_curr_ctr_wacfb/index.html">soft4pes.control.lin.lcl_grid_curr_ctr_wacfb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/pll/index.html">soft4pes.control.lin.pll</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/rfpsc/index.html">soft4pes.control.lin.rfpsc</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
 </ul>
@@ -353,6 +354,7 @@ document.write(`
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.model.grid.rl_grid</span><span class="w"> </span><span class="kn">import</span> <span class="n">RLGrid</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">abc_2_alpha_beta</span>
 
 
 <div class="viewcode-block" id="RLGridLFilter"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RLGridLFilter</span><span class="p">(</span><span class="n">RLGrid</span><span class="p">):</span>
@@ -409,22 +411,50 @@ document.write(`
 <span class="sd">        SimpleNamespace</span>
 <span class="sd">            A SimpleNamespace object containing matrices F, G and P of the continuous-time state-</span>
 <span class="sd">            space model. </span>
-<div class="viewcode-block" id="RLGridLFilter.base"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter.base">[docs]</a><span class="sd">        &quot;&quot;&quot;</span></div>
-<div class="viewcode-block" id="RLGridLFilter.data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter.data">[docs]</a></div>
-<div class="viewcode-block" id="RLGridLFilter.par"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter.par">[docs]</a>        <span class="n">X_fc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">X_fc</span></div>
-<div class="viewcode-block" id="RLGridLFilter.conv"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter.conv">[docs]</a>        <span class="n">R_fc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">R_fc</span></div>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">X_fc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">X_fc</span>
+        <span class="n">R_fc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">R_fc</span>
         <span class="n">Xg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xg</span>
-        <span class="n">Rg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Rg</span>
-<div class="viewcode-block" id="RLGridLFilter.state_map"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter.state_map">[docs]</a></div>
-        <span class="c1"># Clarke transformation matrix</span>
-<div class="viewcode-block" id="RLGridLFilter.cont_state_space"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter.cont_state_space">[docs]</a>        <span class="n">K</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">],</span></div>
+<div class="viewcode-block" id="RLGridLFilter.base"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter.base">[docs]</a>        <span class="n">Rg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Rg</span></div>
+<div class="viewcode-block" id="RLGridLFilter.data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter.data">[docs]</a></div>
+<div class="viewcode-block" id="RLGridLFilter.par"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter.par">[docs]</a>        <span class="c1"># Clarke transformation matrix</span></div>
+<div class="viewcode-block" id="RLGridLFilter.conv"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter.conv">[docs]</a>        <span class="n">K</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">],</span></div>
                                 <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]])</span>
 
-        <span class="n">F</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">Rg</span> <span class="o">+</span> <span class="n">R_fc</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">Xg</span> <span class="o">+</span> <span class="n">X_fc</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">G</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">Xg</span> <span class="o">+</span> <span class="n">X_fc</span><span class="p">)</span> <span class="o">*</span> <span class="n">K</span>
-        <span class="n">P</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">Xg</span> <span class="o">+</span> <span class="n">X_fc</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<div class="viewcode-block" id="RLGridLFilter.state_map"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter.state_map">[docs]</a>        <span class="n">F</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">Rg</span> <span class="o">+</span> <span class="n">R_fc</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">Xg</span> <span class="o">+</span> <span class="n">X_fc</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span></div>
+        <span class="n">G1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">Xg</span> <span class="o">+</span> <span class="n">X_fc</span><span class="p">)</span> <span class="o">*</span> <span class="n">K</span>
+<div class="viewcode-block" id="RLGridLFilter.cont_state_space"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter.cont_state_space">[docs]</a>        <span class="n">G2</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">Xg</span> <span class="o">+</span> <span class="n">X_fc</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span></div>
 
-        <span class="k">return</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">F</span><span class="o">=</span><span class="n">F</span><span class="p">,</span> <span class="n">G</span><span class="o">=</span><span class="n">G</span><span class="p">,</span> <span class="n">P</span><span class="o">=</span><span class="n">P</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">F</span><span class="o">=</span><span class="n">F</span><span class="p">,</span> <span class="n">G1</span><span class="o">=</span><span class="n">G1</span><span class="p">,</span> <span class="n">G2</span><span class="o">=</span><span class="n">G2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RLGridLFilter.get_pcc_voltage"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html#soft4pes.model.grid.RLGridLFilter.get_pcc_voltage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_pcc_voltage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the voltage at the point of common coupling (PCC).</span>
+
+<span class="sd">        In the L-filter grid model, the PCC is located between the L filter and the grid </span>
+<span class="sd">        impedance. The PCC voltage is computed from the converter side using Kirchhoff&#39;s voltage </span>
+<span class="sd">        law:</span>
+<span class="sd">            v_pcc = v_conv - R_fc * ig - X_fc * d(ig)/d(tau).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        1 x 2 ndarray of floats</span>
+<span class="sd">            Voltage at the point of common coupling (PCC) in alpha-beta frame [p.u.].</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">v_conv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">abc_2_alpha_beta</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u_abc_k</span><span class="p">)</span>
+
+        <span class="n">ig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ig</span>
+        <span class="n">ig_km1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_km1</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">state_map</span><span class="p">[</span><span class="s1">&#39;ig&#39;</span><span class="p">]]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ts_k</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">dig_dtau</span> <span class="o">=</span> <span class="p">(</span><span class="n">ig</span> <span class="o">-</span> <span class="n">ig_km1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Ts_k</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">w</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dig_dtau</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="n">v_pcc</span> <span class="o">=</span> <span class="n">v_conv</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">R_fc</span> <span class="o">*</span> <span class="n">ig</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">X_fc</span> <span class="o">*</span> <span class="n">dig_dtau</span>
+        <span class="k">return</span> <span class="n">v_pcc</span></div></div>
 </pre></div>
 
                 </article>

@@ -132,3 +132,34 @@ Module Contents
           !! processed by numpydoc !!
 
 
+   .. py:method:: get_pcc_voltage()
+
+      
+      Get the voltage at the point of common coupling (PCC).
+
+      In the L-filter grid model, the PCC is located between the L filter and the grid
+      impedance. The PCC voltage is computed from the converter side using Kirchhoff's voltage
+      law:
+          v_pcc = v_conv - R_fc * ig - X_fc * d(ig)/d(tau).
+
+      :returns: Voltage at the point of common coupling (PCC) in alpha-beta frame [p.u.].
+      :rtype: 1 x 2 ndarray of floats
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+

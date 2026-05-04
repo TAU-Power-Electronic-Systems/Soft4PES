@@ -154,6 +154,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../control/lin/lcl_conv_curr_ctr/index.html">soft4pes.control.lin.lcl_conv_curr_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../control/lin/lcl_grid_curr_ctr_wacfb/index.html">soft4pes.control.lin.lcl_grid_curr_ctr_wacfb</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../control/lin/lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../control/lin/pll/index.html">soft4pes.control.lin.pll</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../control/lin/rfpsc/index.html">soft4pes.control.lin.rfpsc</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../control/lin/state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
 </ul>
@@ -404,6 +405,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid_l_filter.RLGridLFilter.cont_state_space"><code class="docutils literal notranslate"><span class="pre">RLGridLFilter.cont_state_space</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid_l_filter.RLGridLFilter.state_map"><code class="docutils literal notranslate"><span class="pre">RLGridLFilter.state_map</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid_l_filter.RLGridLFilter.get_continuous_time_state_space"><code class="docutils literal notranslate"><span class="pre">RLGridLFilter.get_continuous_time_state_space()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid_l_filter.RLGridLFilter.get_pcc_voltage"><code class="docutils literal notranslate"><span class="pre">RLGridLFilter.get_pcc_voltage()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -547,6 +549,26 @@ space model.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.model.grid.rl_grid_l_filter.RLGridLFilter.get_pcc_voltage">
+<span class="sig-name descname"><span class="pre">get_pcc_voltage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../_modules/soft4pes/model/grid/rl_grid_l_filter.html#RLGridLFilter.get_pcc_voltage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.rl_grid_l_filter.RLGridLFilter.get_pcc_voltage" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the voltage at the point of common coupling (PCC).</p>
+<p>In the L-filter grid model, the PCC is located between the L filter and the grid
+impedance. The PCC voltage is computed from the converter side using Kirchhoff’s voltage
+law:</p>
+<blockquote>
+<div><p>v_pcc = v_conv - R_fc * ig - X_fc * d(ig)/d(tau).</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Voltage at the point of common coupling (PCC) in alpha-beta frame [p.u.].</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>1 x 2 ndarray of floats</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -607,6 +629,7 @@ space model.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid_l_filter.RLGridLFilter.cont_state_space"><code class="docutils literal notranslate"><span class="pre">RLGridLFilter.cont_state_space</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid_l_filter.RLGridLFilter.state_map"><code class="docutils literal notranslate"><span class="pre">RLGridLFilter.state_map</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid_l_filter.RLGridLFilter.get_continuous_time_state_space"><code class="docutils literal notranslate"><span class="pre">RLGridLFilter.get_continuous_time_state_space()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.model.grid.rl_grid_l_filter.RLGridLFilter.get_pcc_voltage"><code class="docutils literal notranslate"><span class="pre">RLGridLFilter.get_pcc_voltage()</span></code></a></li>
 </ul>
 </li>
 </ul>
