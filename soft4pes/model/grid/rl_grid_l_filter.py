@@ -75,10 +75,10 @@ class RLGridLFilter(RLGrid):
                                 [0, np.sqrt(3) / 2, -np.sqrt(3) / 2]])
 
         F = -(Rg + R_fc) / (Xg + X_fc) * np.eye(2)
-        G1 = self.conv.v_dc / 2 * 1 / (Xg + X_fc) * K
-        G2 = -1 / (Xg + X_fc) * np.eye(2)
+        G = self.conv.v_dc / 2 * 1 / (Xg + X_fc) * K
+        P = -1 / (Xg + X_fc) * np.eye(2)
 
-        return SimpleNamespace(F=F, G1=G1, G2=G2)
+        return SimpleNamespace(F=F, G=G, P=P)
 
     def get_pcc_voltage(self):
         """
