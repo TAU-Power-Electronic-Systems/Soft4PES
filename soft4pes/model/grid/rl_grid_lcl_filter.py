@@ -95,20 +95,19 @@ class RLGridLCLFilter(RLGrid):
         X = X_fg + Xg
 
         # Clarke transformation matrix
-        K = (2 / 3) * np.array([[1, -1 / 2, -1 / 2],
-                                [0, np.sqrt(3) / 2, -np.sqrt(3) / 2]])
+        K = (2/3)*np.array([[1, -1/2, -1/2], [0, np.sqrt(3)/2, -np.sqrt(3)/2]])
 
-        F11 = (-R1 / X_fc) * np.eye(2)
-        F13 = (-1 / X_fc) * np.eye(2)
-        F12 = (Rc / X_fc) * np.eye(2)
+        F11 = (-R1/X_fc)*np.eye(2)
+        F13 = (-1/X_fc)*np.eye(2)
+        F12 = (Rc/X_fc)*np.eye(2)
 
-        F31 = (1 / Xc) * np.eye(2)
+        F31 = (1/Xc)*np.eye(2)
         F33 = np.zeros((2, 2))
-        F32 = (-1 / Xc) * np.eye(2)
+        F32 = (-1/Xc)*np.eye(2)
 
-        F21 = (Rc / X) * np.eye(2)
-        F23 = (1 / X) * np.eye(2)
-        F22 = (-R2 / X) * np.eye(2)
+        F21 = (Rc/X)*np.eye(2)
+        F23 = (1/X)*np.eye(2)
+        F22 = (-R2/X)*np.eye(2)
 
         F = np.block([
             [F11, F12, F13],
@@ -116,13 +115,12 @@ class RLGridLCLFilter(RLGrid):
             [F31, F32, F33],
         ])
 
-        G = (self.conv.v_dc / (2 * X_fc)) * np.dot(
+        G = (self.conv.v_dc/(2*X_fc))*np.dot(
             np.block([[np.eye(2), np.zeros((2, 4))]]).T, K)
 
-        P = np.block([[np.zeros((2, 2)), -1 / X * np.eye(2),
-                       np.zeros((2, 2))]]).T
+        P = np.block([[np.zeros((2, 2)), -1/X*np.eye(2), np.zeros((2, 2))]]).T
 
-        return SimpleNamespace(F=F, G1=G1, G2=G2)
+        return SimpleNamespace(F=F, G=G, P=P)
 
     def get_pcc_voltage(self):
         """
@@ -144,9 +142,9 @@ class RLGridLCLFilter(RLGrid):
         ig_km1 = self.x_km1[self.state_map['ig']]
 
         if self.Ts_k > 0:
-            dig_dtau = (ig - ig_km1) / (self.Ts_k * self.base.w)
+            dig_dtau = (ig - ig_km1)/(self.Ts_k*self.base.w)
         else:
             dig_dtau = np.zeros(2)
 
-        v_pcc = vc - self.par.R_fg * ig - self.par.X_fg * dig_dtau
+        v_pcc = vc - self.par.R_fg*ig - self.par.X_fg*dig_dtau
         return v_pcc

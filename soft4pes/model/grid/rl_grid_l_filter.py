@@ -71,14 +71,13 @@ class RLGridLFilter(RLGrid):
         Rg = self.par.Rg
 
         # Clarke transformation matrix
-        K = (2 / 3) * np.array([[1, -1 / 2, -1 / 2],
-                                [0, np.sqrt(3) / 2, -np.sqrt(3) / 2]])
+        K = (2/3)*np.array([[1, -1/2, -1/2], [0, np.sqrt(3)/2, -np.sqrt(3)/2]])
 
-        F = -(Rg + R_fc) / (Xg + X_fc) * np.eye(2)
-        G1 = self.conv.v_dc / 2 * 1 / (Xg + X_fc) * K
-        G2 = -1 / (Xg + X_fc) * np.eye(2)
+        F = -(Rg + R_fc)/(Xg + X_fc)*np.eye(2)
+        G = self.conv.v_dc/2*1/(Xg + X_fc)*K
+        P = -1/(Xg + X_fc)*np.eye(2)
 
-        return SimpleNamespace(F=F, G1=G1, G2=G2)
+        return SimpleNamespace(F=F, G=G, P=P)
 
     def get_pcc_voltage(self):
         """
@@ -95,15 +94,15 @@ class RLGridLFilter(RLGrid):
             Voltage at the point of common coupling (PCC) in alpha-beta frame [p.u.].
         """
 
-        v_conv = self.conv.v_dc / 2 * abc_2_alpha_beta(self.u_abc_k)
+        v_conv = self.conv.v_dc/2*abc_2_alpha_beta(self.u_abc_k)
 
         ig = self.ig
         ig_km1 = self.x_km1[self.state_map['ig']]
 
         if self.Ts_k > 0:
-            dig_dtau = (ig - ig_km1) / (self.Ts_k * self.base.w)
+            dig_dtau = (ig - ig_km1)/(self.Ts_k*self.base.w)
         else:
             dig_dtau = np.zeros(2)
 
-        v_pcc = v_conv - self.par.R_fc * ig - self.par.X_fc * dig_dtau
+        v_pcc = v_conv - self.par.R_fc*ig - self.par.X_fc*dig_dtau
         return v_pcc

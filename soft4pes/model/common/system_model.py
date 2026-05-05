@@ -76,7 +76,7 @@ class SystemModel(ABC):
             self.x = np.zeros(x_size)
         self.state_map = state_map
         self.time_varying_model = False
-        self.cont_state_space = self.get_continuous_state_space()
+        self.cont_state_space = self.get_continuous_time_state_space()
         self.u_abc_k = np.zeros(3)
         self.x_km1 = np.zeros(x_size)
         self.Ts_k = 0
@@ -130,7 +130,7 @@ class SystemModel(ABC):
         """
 
         cont_state_space = self.cont_state_space
-        Ts_pu = Ts * self.base.w
+        Ts_pu = Ts*self.base.w
         F_size = cont_state_space.F.shape[0]
 
         # Discretize the continuous-time state-space model using the specified method.
@@ -140,18 +140,18 @@ class SystemModel(ABC):
         # discretize them and store them in a SimpleNamespace object. Rename the matrices
         # to A, B, and optional D, forming a discrete-time state-space model.
         if method == 'forward_euler':
-            A = np.eye(F_size) + cont_state_space.F * Ts_pu
-            B = cont_state_space.G * Ts_pu
-            D = cont_state_space.P * Ts_pu if hasattr(cont_state_space,
-                                                      'P') else None
+            A = np.eye(F_size) + cont_state_space.F*Ts_pu
+            B = cont_state_space.G*Ts_pu
+            D = cont_state_space.P*Ts_pu if hasattr(
+                cont_state_space, 'P') else None
         elif method == 'exact_discretization':
-            A = expm(cont_state_space.F * Ts_pu)
+            A = expm(cont_state_space.F*Ts_pu)
             try:
                 F_inv = np.linalg.inv(cont_state_space.F)
             except np.linalg.LinAlgError as exc:
                 raise ValueError("Matrix F is not invertible.") from exc
-            common_term = np.dot(-F_inv,
-                                 (np.eye(cont_state_space.F.shape[0]) - A))
+            common_term = np.dot(
+                -F_inv, (np.eye(cont_state_space.F.shape[0]) - A))
             B = common_term.dot(cont_state_space.G)
             D = common_term.dot(cont_state_space.P) if hasattr(
                 cont_state_space, 'P') else None
