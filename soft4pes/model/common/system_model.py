@@ -76,7 +76,7 @@ class SystemModel(ABC):
             self.x = np.zeros(x_size)
         self.state_map = state_map
         self.time_varying_model = False
-        self.cont_state_space = self.get_continuous_state_space()
+        self.cont_state_space = self.get_continuous_time_state_space()
         self.u_abc_k = np.zeros(3)
         self.x_km1 = np.zeros(x_size)
         self.Ts_k = 0

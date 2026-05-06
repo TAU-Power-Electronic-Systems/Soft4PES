@@ -122,7 +122,7 @@ class RLGridLCLFilter(RLGrid):
         P = np.block([[np.zeros((2, 2)), -1 / X * np.eye(2),
                        np.zeros((2, 2))]]).T
 
-        return SimpleNamespace(F=F, G1=G1, G2=G2)
+        return SimpleNamespace(F=F, G=G, P=P)
 
     def get_pcc_voltage(self):
         """
