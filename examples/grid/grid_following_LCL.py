@@ -58,4 +58,5 @@ plotter.plot_control_signals_grid(plot_P=True,
                                   plot_Q=True,
                                   P_ref=P_ref_seq,
                                   Q_ref=Q_ref_seq)
+plotter.plot_vg_and_v_pcc(frame='abc')
 plotter.show_all()

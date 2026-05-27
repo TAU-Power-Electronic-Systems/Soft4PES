@@ -128,7 +128,7 @@ class RLGrid(SystemModel):
         vg = abc_2_alpha_beta(vg_abc)
         return vg
 
-    def get_pcc_voltage(self):
+    def get_pcc_voltage(self, vg):
         """
         Get the voltage at the point of common coupling (PCC) at a specific discrete time instant.
 
@@ -186,5 +186,5 @@ class RLGrid(SystemModel):
             A SimpleNamespace object containing the grid voltage in alpha-beta frame.
         """
         vg = self.get_grid_voltage(kTs)
-        v_pcc = self.get_pcc_voltage()
+        v_pcc = self.get_pcc_voltage(vg)
         return SimpleNamespace(vg=vg, v_pcc=v_pcc)

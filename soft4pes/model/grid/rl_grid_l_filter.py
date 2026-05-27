@@ -80,14 +80,14 @@ class RLGridLFilter(RLGrid):
 
         return SimpleNamespace(F=F, G=G, P=P)
 
-    def get_pcc_voltage(self):
+    def get_pcc_voltage(self, vg):
         """
         Get the voltage at the point of common coupling (PCC).
-
-        In the L-filter grid model, the PCC is located between the L filter and the grid 
-        impedance. The PCC voltage is computed from the converter side using Kirchhoff's voltage 
-        law:
-            v_pcc = v_conv - R_fc * ig - X_fc * d(ig)/d(tau).
+        
+        Parameters
+        ---------- 
+        vg : 1 x 2 ndarray of floats
+            Grid voltage in alpha-beta frame [p.u.].
 
         Returns
         -------
@@ -95,15 +95,8 @@ class RLGridLFilter(RLGrid):
             Voltage at the point of common coupling (PCC) in alpha-beta frame [p.u.].
         """
 
-        v_conv = self.conv.v_dc / 2 * abc_2_alpha_beta(self.u_abc_k)
-
         ig = self.ig
-        ig_km1 = self.x_km1[self.state_map['ig']]
+        J = np.array([[0, -1], [1, 0]])
+        v_pcc = vg + self.par.Rg * ig + self.par.Xg * J.dot(ig)
 
-        if self.Ts_k > 0:
-            dig_dtau = (ig - ig_km1) / (self.Ts_k * self.base.w)
-        else:
-            dig_dtau = np.zeros(2)
-
-        v_pcc = v_conv - self.par.R_fc * ig - self.par.X_fc * dig_dtau
         return v_pcc

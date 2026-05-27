@@ -2,6 +2,7 @@
 Phase-locked loop (PLL)
 """
 
+import sys
 from types import SimpleNamespace
 import numpy as np
 from soft4pes.utils import alpha_beta_2_dq
@@ -60,12 +61,14 @@ class PLL(Controller):
         theta = self.theta_pll
 
         # Get PCC voltage and transform to dq-frame
-        v_pcc = sys.get_pcc_voltage()
+        vg = sys.get_grid_voltage(kTs)
+        v_pcc = sys.get_pcc_voltage(vg)
         v_pcc_dq = alpha_beta_2_dq(v_pcc, self.theta_pll)
 
         # Update PLL states
-        w_pll = self.ctr_pars.k_p * v_pcc_dq[1] + self.w_pll_ii
         self.w_pll_ii += self.ctr_pars.k_i * v_pcc_dq[1]
+        w_pll = self.ctr_pars.k_p * v_pcc_dq[1] + self.w_pll_ii
+
         self.theta_pll += w_pll * self.Ts * self.sys.base.w
 
         # Wrap the angle to [-pi, pi]

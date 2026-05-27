@@ -74,4 +74,5 @@ plotter.plot_spectra(states_to_plot=['ig'],
                      f_max_SI_plot=7500,
                      start_time=0.075,
                      n_cycles=3)
+plotter.plot_vg_and_v_pcc(frame='abc')
 plotter.show_all()

@@ -101,14 +101,14 @@ class LConvCurrCtr(Controller):
         lambda_dq = self.ctr_pars.k_p * e_i_conv_dq + (self.i_conv_ii_dq)
 
         # Calculate the PCC output voltage in dq frame
-        J = np.array([[0, -1], [1, 0]])
-        v_pcc = sys.get_pcc_voltage()
+        vg = sys.get_grid_voltage(kTs)
+        v_pcc = sys.get_pcc_voltage(vg)
         v_pcc_dq = alpha_beta_2_dq(v_pcc, theta)
 
         # Calculate the switching state functions in the dq frame
+        J = np.array([[0, -1], [1, 0]])
         v_conv_ref_dq = lambda_dq + (self.sys.par.X_fc * self.sys.par.wg *
-                                     (J.dot(i_conv_dq))) + np.array(
-                                         [v_pcc_dq[0], 0])
+                                     (J.dot(i_conv_dq))) + v_pcc_dq
 
         # Get the modulating signal in abc frame
         v_conv_ref = dq_2_alpha_beta(v_conv_ref_dq, theta)

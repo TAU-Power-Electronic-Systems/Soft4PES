@@ -220,7 +220,7 @@ class SystemModel(ABC):
         self.Ts_k = Ts
         meas = self.get_measurements(kTs)
         self.save_data(kTs, u_abc, meas)
-        self.x_km1 = self.x
+        self.x_km1 = np.copy(self.x)
         self.x = self.get_next_state(matrices, u_abc, kTs, Ts)
 
     def save_data(self, kTs, u_abc, meas):
