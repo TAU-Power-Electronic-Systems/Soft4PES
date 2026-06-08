@@ -2,7 +2,6 @@
 Phase-locked loop (PLL)
 """
 
-import sys
 from types import SimpleNamespace
 import numpy as np
 from soft4pes.utils import alpha_beta_2_dq

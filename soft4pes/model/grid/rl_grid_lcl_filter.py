@@ -131,7 +131,7 @@ class RLGridLCLFilter(RLGrid):
         Parameters
         ----------
         vg : 1 x 2 ndarray of floats
-            Grid voltage in alpha-beta frame [p.u.].
+            Grid voltage [p.u.].
 
         Returns
         -------

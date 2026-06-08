@@ -6,7 +6,6 @@ from types import SimpleNamespace
 import numpy as np
 
 from soft4pes.model.grid.rl_grid import RLGrid
-from soft4pes.utils import abc_2_alpha_beta
 
 
 class RLGridLFilter(RLGrid):
@@ -87,7 +86,7 @@ class RLGridLFilter(RLGrid):
         Parameters
         ---------- 
         vg : 1 x 2 ndarray of floats
-            Grid voltage in alpha-beta frame [p.u.].
+            Grid voltage [p.u.].
 
         Returns
         -------
