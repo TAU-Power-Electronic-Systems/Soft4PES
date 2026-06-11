@@ -6,7 +6,6 @@ from types import SimpleNamespace
 import numpy as np
 
 from soft4pes.model.grid.rl_grid import RLGrid
-from soft4pes.utils import abc_2_alpha_beta
 
 
 class RLGridLFilter(RLGrid):
@@ -80,30 +79,24 @@ class RLGridLFilter(RLGrid):
 
         return SimpleNamespace(F=F, G=G, P=P)
 
-    def get_pcc_voltage(self):
+    def get_pcc_voltage(self, kTs):
         """
         Get the voltage at the point of common coupling (PCC).
-
-        In the L-filter grid model, the PCC is located between the L filter and the grid 
-        impedance. The PCC voltage is computed from the converter side using Kirchhoff's voltage 
-        law:
-            v_pcc = v_conv - R_fc * ig - X_fc * d(ig)/d(tau).
+        
+        Parameters
+        ---------- 
+        kTs : float
+            Current discrete time instant [s].
 
         Returns
         -------
         1 x 2 ndarray of floats
-            Voltage at the point of common coupling (PCC) in alpha-beta frame [p.u.].
+            Voltage at the point of common coupling (PCC).
         """
 
-        v_conv = self.conv.v_dc / 2 * abc_2_alpha_beta(self.u_abc_k)
-
         ig = self.ig
-        ig_km1 = self.x_km1[self.state_map['ig']]
+        J = np.array([[0, -1], [1, 0]])
+        vg = self.get_grid_voltage(kTs)
+        v_pcc = vg + self.par.Rg * ig + self.par.Xg * J.dot(ig)
 
-        if self.Ts_k > 0:
-            dig_dtau = (ig - ig_km1) / (self.Ts_k * self.base.w)
-        else:
-            dig_dtau = np.zeros(2)
-
-        v_pcc = v_conv - self.par.R_fc * ig - self.par.X_fc * dig_dtau
         return v_pcc

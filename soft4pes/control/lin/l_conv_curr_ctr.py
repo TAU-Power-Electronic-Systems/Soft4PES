@@ -82,11 +82,16 @@ class LConvCurrCtr(Controller):
             Three-phase modulating signal.
         """
 
-        # Calculate the transformation angle
-        theta = self.input.theta
+        # Get the transformation angle from the outer loop. If not available, use the grid voltage
+        # angle.
+        if getattr(self.input, "theta", None) is not None:
+            theta = self.input.theta
+        else:
+            vg = sys.get_grid_voltage(kTs)
+            theta = np.arctan2(vg[1], vg[0])
 
         # Get the reference for current step (converter current equals grid current)
-        i_conv_ref_dq = self.input.ig_ref_dq
+        i_conv_ref_dq = alpha_beta_2_dq(self.input.ig_ref, theta)
 
         # Get dq frame current measurements
         i_conv_dq = alpha_beta_2_dq(sys.i_conv, theta)
@@ -101,14 +106,13 @@ class LConvCurrCtr(Controller):
         lambda_dq = self.ctr_pars.k_p * e_i_conv_dq + (self.i_conv_ii_dq)
 
         # Calculate the PCC output voltage in dq frame
-        J = np.array([[0, -1], [1, 0]])
-        v_pcc = sys.get_pcc_voltage()
+        v_pcc = sys.get_pcc_voltage(kTs)
         v_pcc_dq = alpha_beta_2_dq(v_pcc, theta)
 
         # Calculate the switching state functions in the dq frame
+        J = np.array([[0, -1], [1, 0]])
         v_conv_ref_dq = lambda_dq + (self.sys.par.X_fc * self.sys.par.wg *
-                                     (J.dot(i_conv_dq))) + np.array(
-                                         [v_pcc_dq[0], 0])
+                                     (J.dot(i_conv_dq))) + v_pcc_dq
 
         # Get the modulating signal in abc frame
         v_conv_ref = dq_2_alpha_beta(v_conv_ref_dq, theta)

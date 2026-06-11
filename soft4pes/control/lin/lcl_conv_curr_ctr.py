@@ -104,10 +104,13 @@ class LCLConvCurrCtr(Controller):
             Three-phase modulating signal.
         """
 
-        vg = sys.get_grid_voltage(kTs)
-
-        # Get the grid-voltage angle
-        theta = np.arctan2(vg[1], vg[0])
+        # Get the transformation angle from the outer loop. If not available, use the grid voltage
+        # angle.
+        if getattr(self.input, "theta", None) is not None:
+            theta = self.input.theta
+        else:
+            vg = sys.get_grid_voltage(kTs)
+            theta = np.arctan2(vg[1], vg[0])
 
         # Get the reference for current step
         i_conv_ref_comp = complex(*self.input.i_conv_ref_dq)

@@ -66,21 +66,15 @@ class RLGridCurrCtr(MPCBase, Controller):
 
         self.get_ctr_state_space(sys, self.Ts)
 
-        # Get the grid voltage and save it for future use
-        vg = sys.get_grid_voltage(kTs)
-
         # Get the reference for current step
-        ig_ref_dq = self.input.ig_ref_dq
-
-        # Get the grid-voltage angle and calculate the reference in alpha-beta frame
-        theta = np.arctan2(vg[1], vg[0])
-        ig_ref = dq_2_alpha_beta(ig_ref_dq, theta)
+        ig_ref = self.input.ig_ref
 
         # Predict the current reference over the prediction horizon
         Ts_pu = self.Ts * sys.base.w
         y_ref_pred = self.make_reference_vector(sys.par.wg, Ts_pu, ig_ref)
 
         # Predict the grid voltage disturbance over the horizon
+        vg = sys.get_grid_voltage(kTs)
         d_pred = self.make_disturbance_vector(sys.par.wg, Ts_pu, vg)
 
         # Solve the control problem

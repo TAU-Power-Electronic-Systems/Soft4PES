@@ -10,7 +10,6 @@ power-synchronization control,” IEEE Trans. Power Electron., vol. 35, no. 9, p
 from types import SimpleNamespace
 import numpy as np
 from soft4pes.control.common.controller import Controller
-from soft4pes.model.grid import RLGridLCLFilter
 from soft4pes.utils import alpha_beta_2_dq, dq_2_alpha_beta
 from soft4pes.control.common.utils import wrap_theta, get_modulating_signal, FirstOrderFilter
 
@@ -102,13 +101,10 @@ class RFPSC(Controller):
         v_ref_dq = V_ref * np.array([1, 0]) + self.Ra * (ig_ref_dq - ig_dq)
         v_ref = dq_2_alpha_beta(v_ref_dq, self.theta_c)
 
-        # Calculate the dq-frame reference with a frame that is aligned with the grid voltage
-        theta = np.arctan2(vg[1], vg[0])
-        v_ref_dq = alpha_beta_2_dq(v_ref, theta)
-
         self.output = SimpleNamespace(
+            vc_ref=v_ref,
+            theta=self.theta_c,
             u_abc=get_modulating_signal(v_ref, sys.conv.v_dc),
-            vc_ref_dq=v_ref_dq,
         )
 
         self.ig_filter.update(ig_dq, self.Ts, sys.base)

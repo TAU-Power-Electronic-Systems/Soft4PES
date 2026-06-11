@@ -157,13 +157,17 @@ class LCLVcCtr(Controller):
             The converter current reference in dq-frame for Current Controller (CC).
         """
 
-        vg = sys.get_grid_voltage(kTs)
-
-        # Get the grid-voltage angle
-        theta = np.arctan2(vg[1], vg[0])
+        # Get the transformation angle from the outer loop. If not available, use the grid voltage
+        # angle.
+        if getattr(self.input, "theta", None) is not None:
+            theta = self.input.theta
+        else:
+            vg = sys.get_grid_voltage(kTs)
+            theta = np.arctan2(vg[1], vg[0])
 
         # Get the capacitor voltage reference for current step
-        vc_ref_comp = complex(*self.input.vc_ref_dq)
+        vc_ref_dq = alpha_beta_2_dq(self.input.vc_ref, theta)
+        vc_ref_comp = complex(*vc_ref_dq)
 
         # Get the converter current in dq-frame
         i_conv_comp = complex(*alpha_beta_2_dq(sys.i_conv, theta))

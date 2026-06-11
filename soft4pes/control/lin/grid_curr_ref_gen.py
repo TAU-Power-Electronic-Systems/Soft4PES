@@ -4,7 +4,7 @@ Grid current reference generator.
 from types import SimpleNamespace
 import numpy as np
 from soft4pes.control.common import Controller
-from soft4pes.utils import alpha_beta_2_dq
+from soft4pes.utils import alpha_beta_2_dq, dq_2_alpha_beta
 
 
 class GridCurrRefGen(Controller):
@@ -29,17 +29,15 @@ class GridCurrRefGen(Controller):
         Returns
         -------
         output : SimpleNamespace
-            The output of the controller, containing the current reference in dq frame.
+            The output of the controller, containing the grid current reference and the grid or PLL
+            angle (theta).
         """
 
         vg = sys.get_grid_voltage(kTs)
 
-        if getattr(self.input, "theta", None) is None:
-            theta = np.arctan2(vg[1], vg[0])
-        else:
-            theta = self.input.theta
+        theta_vg = np.arctan2(vg[1], vg[0])
 
-        vg_dq = alpha_beta_2_dq(vg, theta)
+        vg_dq = alpha_beta_2_dq(vg, theta_vg)
         den = vg_dq[0]**2 + vg_dq[1]**2
 
         P_ref = self.input.P_ref
@@ -50,6 +48,13 @@ class GridCurrRefGen(Controller):
 
         ig_ref_dq = np.array([ig_ref_d, ig_ref_q])
 
-        self.output = SimpleNamespace(ig_ref_dq=ig_ref_dq, theta=theta)
+        ig_ref = dq_2_alpha_beta(ig_ref_dq, theta_vg)
+
+        if getattr(self.input, "theta", None) is None:
+            theta_out = theta_vg
+        else:
+            theta_out = self.input.theta
+
+        self.output = SimpleNamespace(ig_ref=ig_ref, theta=theta_out)
 
         return self.output
