@@ -157,10 +157,16 @@ class LCLGridCurrCtrWACFB(Controller):
 
     def execute(self, sys, kTs):
 
-        theta = self.input.theta
+        # Get the transformation angle from the outer loop. If not available, use the grid voltage
+        # angle.
+        if getattr(self.input, "theta", None) is not None:
+            theta = self.input.theta
+        else:
+            vg = sys.get_grid_voltage(kTs)
+            theta = np.arctan2(vg[1], vg[0])
 
         # Get the grid current reference
-        ig_ref_dq = self.input.ig_ref_dq
+        ig_ref_dq = alpha_beta_2_dq(self.input.ig_ref, theta)
         ig_dq = alpha_beta_2_dq(sys.ig, theta)
 
         # WAC feedback: iF_dq = W_D_if * W_Q * ig_dq

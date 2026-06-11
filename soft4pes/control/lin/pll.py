@@ -44,7 +44,7 @@ class PLL(Controller):
 
     def execute(self, sys, kTs):
         """
-        Execute the PLL control algorithm to estimate the grid voltage angle.
+        Execute the PLL control algorithm to estimate the PCC voltage angle.
         Parameters
         ----------
         sys : object
@@ -54,14 +54,13 @@ class PLL(Controller):
         Returns
         -------
         output : SimpleNamespace
-            The output of the PLL, containing the estimated grid voltage angle (theta) and 
+            The output of the PLL, containing the estimated PCC voltage angle (theta) and 
             the active and reactive power references.
         """
         theta = self.theta_pll
 
         # Get PCC voltage and transform to dq-frame
-        vg = sys.get_grid_voltage(kTs)
-        v_pcc = sys.get_pcc_voltage(vg)
+        v_pcc = sys.get_pcc_voltage(kTs)
         v_pcc_dq = alpha_beta_2_dq(v_pcc, self.theta_pll)
 
         # Update PLL states

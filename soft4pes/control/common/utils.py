@@ -31,7 +31,7 @@ def get_modulating_signal(v_ref, v_dc):
     Parameters
     ----------
     v_ref : ndarray
-        The reference voltage in alpha-beta frame.
+        The reference voltage.
     v_dc : float
         The dc-link voltage.
 

@@ -124,23 +124,24 @@ class RLGridLCLFilter(RLGrid):
 
         return SimpleNamespace(F=F, G=G, P=P)
 
-    def get_pcc_voltage(self, vg):
+    def get_pcc_voltage(self, kTs):
         """
         Get the voltage at the point of common coupling (PCC).
         
         Parameters
         ----------
-        vg : 1 x 2 ndarray of floats
-            Grid voltage [p.u.].
+        kTs : float
+            Current discrete time instant [s].
 
         Returns
         -------
         1 x 2 ndarray of floats
-            Voltage at the point of common coupling (PCC) in alpha-beta frame [p.u.].
+            Voltage at the point of common coupling (PCC) [p.u.].
         """
 
         ig = self.ig
         J = np.array([[0, -1], [1, 0]])
+        vg = self.get_grid_voltage(kTs)
         v_pcc = vg + self.par.Rg * ig + self.par.Xg * J.dot(ig)
 
         return v_pcc

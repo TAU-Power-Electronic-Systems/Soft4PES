@@ -91,20 +91,16 @@ class LCLGridVcCtr(MPCBase, Controller):
 
         self.get_ctr_state_space(sys, self.Ts)
 
-        # Get the grid voltage and save it for future use
-        vg = sys.get_grid_voltage(kTs)
-        Ts_pu = self.Ts * sys.base.w
-        d_pred = self.make_disturbance_vector(sys.par.wg, Ts_pu, vg)
-
-        # Get the reference at step k
-        vc_ref_dq = self.input.vc_ref_dq
-
-        # Get the grid-voltage angle and calculate the reference in alpha-beta frame
-        theta = np.arctan2(vg[1], vg[0])
-        vc_ref = dq_2_alpha_beta(vc_ref_dq, theta)
+        # Get the reference for current step
+        vc_ref = self.input.vc_ref
 
         # Predict the output (capacitor voltage) reference within the horizon
+        Ts_pu = self.Ts * sys.base.w
         y_ref_pred = self.make_reference_vector(sys.par.wg, Ts_pu, vc_ref)
+
+        # Predict the grid voltage disturbance over the horizon
+        vg = sys.get_grid_voltage(kTs)
+        d_pred = self.make_disturbance_vector(sys.par.wg, Ts_pu, vg)
 
         # Solve the control problem
         u_abc = self.solver(sys, self, y_ref_pred, d_pred)
