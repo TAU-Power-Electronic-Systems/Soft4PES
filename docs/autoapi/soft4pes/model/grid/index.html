@@ -156,7 +156,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../control/lin/lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../control/lin/pll/index.html">soft4pes.control.lin.pll</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../control/lin/rfpsc/index.html">soft4pes.control.lin.rfpsc</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../control/lin/state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
 </ul>
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../control/modulation/index.html">soft4pes.control.modulation</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -841,20 +840,17 @@ state-space model.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.model.grid.RLGridLCLFilter.get_pcc_voltage">
-<span class="sig-name descname"><span class="pre">get_pcc_voltage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/grid/rl_grid_lcl_filter.html#RLGridLCLFilter.get_pcc_voltage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.RLGridLCLFilter.get_pcc_voltage" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_pcc_voltage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/grid/rl_grid_lcl_filter.html#RLGridLCLFilter.get_pcc_voltage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.RLGridLCLFilter.get_pcc_voltage" title="Permalink to this definition">#</a></dt>
 <dd><p>Get the voltage at the point of common coupling (PCC).</p>
-<p>In the LCL-filter grid model, the PCC is located between the grid-side filter inductor and
-the grid impedance. The PCC voltage is computed from the filter side using Kirchhoff’s
-voltage law:</p>
-<blockquote>
-<div><p>v_pcc = v_c - R_fg * ig - X_fg * d(ig)/d(tau).</p>
-</div></blockquote>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Voltage at the point of common coupling (PCC) in alpha-beta frame [p.u.].</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>1 x 2 ndarray of floats</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Voltage at the point of common coupling (PCC) [p.u.].</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>1 x 2 ndarray of floats</p>
 </dd>
 </dl>
 </dd></dl>
@@ -993,7 +989,7 @@ state-space model.</p>
 <dd class="field-odd"><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Grid voltage in alpha-beta frame [p.u.].</p>
+<dd class="field-even"><p>Grid voltage [p.u.].</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>1 x 2 ndarray of floats</p>
@@ -1003,13 +999,13 @@ state-space model.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.model.grid.RLGrid.get_pcc_voltage">
-<span class="sig-name descname"><span class="pre">get_pcc_voltage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/grid/rl_grid.html#RLGrid.get_pcc_voltage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.RLGrid.get_pcc_voltage" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_pcc_voltage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/grid/rl_grid.html#RLGrid.get_pcc_voltage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.RLGrid.get_pcc_voltage" title="Permalink to this definition">#</a></dt>
 <dd><p>Get the voltage at the point of common coupling (PCC) at a specific discrete time instant.</p>
 <p>In the RL grid model, the PCC is located at the converter terminals. The PCC voltage
 therefore equals the converter output voltage.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Voltage at the point of common coupling (PCC) in alpha-beta frame [p.u.].</p>
+<dd class="field-odd"><p>Voltage at the point of common coupling (PCC) [p.u.].</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>1 x 2 ndarray of floats</p>
@@ -1048,7 +1044,7 @@ therefore equals the converter output voltage.</p>
 <dd class="field-odd"><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A SimpleNamespace object containing the grid voltage in alpha-beta frame.</p>
+<dd class="field-even"><p>A SimpleNamespace object containing the grid voltage and PCC voltage.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>SimpleNamespace</p>
@@ -1282,20 +1278,17 @@ space model.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.model.grid.RLGridLFilter.get_pcc_voltage">
-<span class="sig-name descname"><span class="pre">get_pcc_voltage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/grid/rl_grid_l_filter.html#RLGridLFilter.get_pcc_voltage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.RLGridLFilter.get_pcc_voltage" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_pcc_voltage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/model/grid/rl_grid_l_filter.html#RLGridLFilter.get_pcc_voltage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.model.grid.RLGridLFilter.get_pcc_voltage" title="Permalink to this definition">#</a></dt>
 <dd><p>Get the voltage at the point of common coupling (PCC).</p>
-<p>In the L-filter grid model, the PCC is located between the L filter and the grid
-impedance. The PCC voltage is computed from the converter side using Kirchhoff’s voltage
-law:</p>
-<blockquote>
-<div><p>v_pcc = v_conv - R_fc * ig - X_fc * d(ig)/d(tau).</p>
-</div></blockquote>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Voltage at the point of common coupling (PCC) in alpha-beta frame [p.u.].</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kTs</strong> (<em>float</em>) – Current discrete time instant [s].</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>1 x 2 ndarray of floats</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Voltage at the point of common coupling (PCC).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>1 x 2 ndarray of floats</p>
 </dd>
 </dl>
 </dd></dl>

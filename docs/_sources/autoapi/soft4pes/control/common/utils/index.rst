@@ -66,7 +66,7 @@ Module Contents
    
    Convert a voltage reference to a modulating signal.
 
-   :param v_ref: The reference voltage in alpha-beta frame.
+   :param v_ref: The reference voltage.
    :type v_ref: ndarray
    :param v_dc: The dc-link voltage.
    :type v_dc: float

@@ -153,7 +153,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/pll/index.html">soft4pes.control.lin.pll</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/rfpsc/index.html">soft4pes.control.lin.rfpsc</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
 </ul>
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/control/modulation/index.html">soft4pes.control.modulation</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -392,7 +391,7 @@ document.write(`
 
 <div class="viewcode-block" id="PLL.execute"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/lin/pll/index.html#soft4pes.control.lin.PLL.execute">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sys</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Execute the PLL control algorithm to estimate the grid voltage angle.</span>
+<span class="sd">        Execute the PLL control algorithm to estimate the PCC voltage angle.</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        sys : object</span>
@@ -402,18 +401,19 @@ document.write(`
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        output : SimpleNamespace</span>
-<span class="sd">            The output of the PLL, containing the estimated grid voltage angle (theta) and </span>
+<span class="sd">            The output of the PLL, containing the estimated PCC voltage angle (theta) and </span>
 <span class="sd">            the active and reactive power references.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">theta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_pll</span>
 
         <span class="c1"># Get PCC voltage and transform to dq-frame</span>
-        <span class="n">v_pcc</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">get_pcc_voltage</span><span class="p">()</span>
+        <span class="n">v_pcc</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">get_pcc_voltage</span><span class="p">(</span><span class="n">kTs</span><span class="p">)</span>
         <span class="n">v_pcc_dq</span> <span class="o">=</span> <span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="n">v_pcc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_pll</span><span class="p">)</span>
 
         <span class="c1"># Update PLL states</span>
-        <span class="n">w_pll</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr_pars</span><span class="o">.</span><span class="n">k_p</span> <span class="o">*</span> <span class="n">v_pcc_dq</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">w_pll_ii</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">w_pll_ii</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr_pars</span><span class="o">.</span><span class="n">k_i</span> <span class="o">*</span> <span class="n">v_pcc_dq</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">w_pll</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr_pars</span><span class="o">.</span><span class="n">k_p</span> <span class="o">*</span> <span class="n">v_pcc_dq</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">w_pll_ii</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">theta_pll</span> <span class="o">+=</span> <span class="n">w_pll</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ts</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">w</span>
 
         <span class="c1"># Wrap the angle to [-pi, pi]</span>

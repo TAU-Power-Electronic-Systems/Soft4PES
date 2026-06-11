@@ -153,7 +153,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/pll/index.html">soft4pes.control.lin.pll</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/rfpsc/index.html">soft4pes.control.lin.rfpsc</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
 </ul>
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/control/modulation/index.html">soft4pes.control.modulation</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -358,7 +357,6 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleNamespace</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.control.common.controller</span><span class="w"> </span><span class="kn">import</span> <span class="n">Controller</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.model.grid</span><span class="w"> </span><span class="kn">import</span> <span class="n">RLGridLCLFilter</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">alpha_beta_2_dq</span><span class="p">,</span> <span class="n">dq_2_alpha_beta</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.control.common.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">wrap_theta</span><span class="p">,</span> <span class="n">get_modulating_signal</span><span class="p">,</span> <span class="n">FirstOrderFilter</span>
 
@@ -450,13 +448,10 @@ document.write(`
         <span class="n">v_ref_dq</span> <span class="o">=</span> <span class="n">V_ref</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ra</span> <span class="o">*</span> <span class="p">(</span><span class="n">ig_ref_dq</span> <span class="o">-</span> <span class="n">ig_dq</span><span class="p">)</span>
         <span class="n">v_ref</span> <span class="o">=</span> <span class="n">dq_2_alpha_beta</span><span class="p">(</span><span class="n">v_ref_dq</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_c</span><span class="p">)</span>
 
-        <span class="c1"># Calculate the dq-frame reference with a frame that is aligned with the grid voltage</span>
-        <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">vg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">vg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="n">v_ref_dq</span> <span class="o">=</span> <span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="n">v_ref</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span>
+            <span class="n">vc_ref</span><span class="o">=</span><span class="n">v_ref</span><span class="p">,</span>
+            <span class="n">theta</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">theta_c</span><span class="p">,</span>
             <span class="n">u_abc</span><span class="o">=</span><span class="n">get_modulating_signal</span><span class="p">(</span><span class="n">v_ref</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">v_dc</span><span class="p">),</span>
-            <span class="n">vc_ref_dq</span><span class="o">=</span><span class="n">v_ref_dq</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ig_filter</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">ig_dq</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ts</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">base</span><span class="p">)</span>

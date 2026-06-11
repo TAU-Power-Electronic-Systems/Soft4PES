@@ -153,7 +153,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/pll/index.html">soft4pes.control.lin.pll</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/rfpsc/index.html">soft4pes.control.lin.rfpsc</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
 </ul>
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/control/modulation/index.html">soft4pes.control.modulation</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -472,31 +471,26 @@ document.write(`
 
         <span class="k">return</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">F</span><span class="o">=</span><span class="n">F</span><span class="p">,</span> <span class="n">G</span><span class="o">=</span><span class="n">G</span><span class="p">,</span> <span class="n">P</span><span class="o">=</span><span class="n">P</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RLGridLCLFilter.get_pcc_voltage"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_lcl_filter/index.html#soft4pes.model.grid.RLGridLCLFilter.get_pcc_voltage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_pcc_voltage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="RLGridLCLFilter.get_pcc_voltage"><a class="viewcode-back" href="../../../../autoapi/soft4pes/model/grid/rl_grid_lcl_filter/index.html#soft4pes.model.grid.RLGridLCLFilter.get_pcc_voltage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_pcc_voltage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kTs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the voltage at the point of common coupling (PCC).</span>
-
-<span class="sd">        In the LCL-filter grid model, the PCC is located between the grid-side filter inductor and </span>
-<span class="sd">        the grid impedance. The PCC voltage is computed from the filter side using Kirchhoff&#39;s </span>
-<span class="sd">        voltage law: </span>
-<span class="sd">            v_pcc = v_c - R_fg * ig - X_fg * d(ig)/d(tau).</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        kTs : float</span>
+<span class="sd">            Current discrete time instant [s].</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        1 x 2 ndarray of floats</span>
-<span class="sd">            Voltage at the point of common coupling (PCC) in alpha-beta frame [p.u.].</span>
+<span class="sd">            Voltage at the point of common coupling (PCC) [p.u.].</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">ig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ig</span>
-        <span class="n">vc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vc</span>
-        <span class="n">ig_km1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_km1</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">state_map</span><span class="p">[</span><span class="s1">&#39;ig&#39;</span><span class="p">]]</span>
+        <span class="n">J</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+        <span class="n">vg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_grid_voltage</span><span class="p">(</span><span class="n">kTs</span><span class="p">)</span>
+        <span class="n">v_pcc</span> <span class="o">=</span> <span class="n">vg</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Rg</span> <span class="o">*</span> <span class="n">ig</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">Xg</span> <span class="o">*</span> <span class="n">J</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ig</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ts_k</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">dig_dtau</span> <span class="o">=</span> <span class="p">(</span><span class="n">ig</span> <span class="o">-</span> <span class="n">ig_km1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Ts_k</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">w</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">dig_dtau</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-
-        <span class="n">v_pcc</span> <span class="o">=</span> <span class="n">vc</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">R_fg</span> <span class="o">*</span> <span class="n">ig</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">X_fg</span> <span class="o">*</span> <span class="n">dig_dtau</span>
         <span class="k">return</span> <span class="n">v_pcc</span></div></div>
 </pre></div>
 

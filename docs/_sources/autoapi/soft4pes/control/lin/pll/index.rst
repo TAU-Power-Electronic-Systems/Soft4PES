@@ -77,13 +77,13 @@ Module Contents
    .. py:method:: execute(sys, kTs)
 
       
-      Execute the PLL control algorithm to estimate the grid voltage angle.
+      Execute the PLL control algorithm to estimate the PCC voltage angle.
       :param sys: System model.
       :type sys: object
       :param kTs: Current discrete time instant [s].
       :type kTs: float
 
-      :returns: **output** -- The output of the PLL, containing the estimated grid voltage angle (theta) and
+      :returns: **output** -- The output of the PLL, containing the estimated PCC voltage angle (theta) and
                 the active and reactive power references.
       :rtype: SimpleNamespace
 

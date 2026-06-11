@@ -153,7 +153,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/pll/index.html">soft4pes.control.lin.pll</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/rfpsc/index.html">soft4pes.control.lin.rfpsc</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/state_space_curr_ctr/index.html">soft4pes.control.lin.state_space_curr_ctr</a></li>
 </ul>
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/control/modulation/index.html">soft4pes.control.modulation</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -430,11 +429,16 @@ document.write(`
 <span class="sd">            Three-phase modulating signal.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="c1"># Calculate the transformation angle</span>
-        <span class="n">theta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">theta</span>
+        <span class="c1"># Get the transformation angle from the outer loop. If not available, use the grid voltage</span>
+        <span class="c1"># angle.</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">,</span> <span class="s2">&quot;theta&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">theta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">theta</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">vg</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">get_grid_voltage</span><span class="p">(</span><span class="n">kTs</span><span class="p">)</span>
+            <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">vg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">vg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
         <span class="c1"># Get the reference for current step (converter current equals grid current)</span>
-        <span class="n">i_conv_ref_dq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">ig_ref_dq</span>
+        <span class="n">i_conv_ref_dq</span> <span class="o">=</span> <span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">ig_ref</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
 
         <span class="c1"># Get dq frame current measurements</span>
         <span class="n">i_conv_dq</span> <span class="o">=</span> <span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">i_conv</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
@@ -449,14 +453,13 @@ document.write(`
         <span class="n">lambda_dq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctr_pars</span><span class="o">.</span><span class="n">k_p</span> <span class="o">*</span> <span class="n">e_i_conv_dq</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">i_conv_ii_dq</span><span class="p">)</span>
 
         <span class="c1"># Calculate the PCC output voltage in dq frame</span>
-        <span class="n">J</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
-        <span class="n">v_pcc</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">get_pcc_voltage</span><span class="p">()</span>
+        <span class="n">v_pcc</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">get_pcc_voltage</span><span class="p">(</span><span class="n">kTs</span><span class="p">)</span>
         <span class="n">v_pcc_dq</span> <span class="o">=</span> <span class="n">alpha_beta_2_dq</span><span class="p">(</span><span class="n">v_pcc</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
 
         <span class="c1"># Calculate the switching state functions in the dq frame</span>
+        <span class="n">J</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
         <span class="n">v_conv_ref_dq</span> <span class="o">=</span> <span class="n">lambda_dq</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">X_fc</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">par</span><span class="o">.</span><span class="n">wg</span> <span class="o">*</span>
-                                     <span class="p">(</span><span class="n">J</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">i_conv_dq</span><span class="p">)))</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-                                         <span class="p">[</span><span class="n">v_pcc_dq</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">])</span>
+                                     <span class="p">(</span><span class="n">J</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">i_conv_dq</span><span class="p">)))</span> <span class="o">+</span> <span class="n">v_pcc_dq</span>
 
         <span class="c1"># Get the modulating signal in abc frame</span>
         <span class="n">v_conv_ref</span> <span class="o">=</span> <span class="n">dq_2_alpha_beta</span><span class="p">(</span><span class="n">v_conv_ref_dq</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>

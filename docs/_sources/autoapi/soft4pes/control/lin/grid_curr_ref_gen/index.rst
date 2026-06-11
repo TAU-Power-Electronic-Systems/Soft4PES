@@ -61,7 +61,8 @@ Module Contents
       :param kTs: Current discrete time instant [s].
       :type kTs: float
 
-      :returns: **output** -- The output of the controller, containing the current reference in dq frame.
+      :returns: **output** -- The output of the controller, containing the grid current reference and the grid or PLL
+                angle (theta).
       :rtype: SimpleNamespace
 
 

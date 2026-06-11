@@ -166,7 +166,7 @@ Module Contents
       :param kTs: Current discrete time instant [s].
       :type kTs: float
 
-      :returns: Grid voltage in alpha-beta frame [p.u.].
+      :returns: Grid voltage [p.u.].
       :rtype: 1 x 2 ndarray of floats
 
 
@@ -187,7 +187,7 @@ Module Contents
           !! processed by numpydoc !!
 
 
-   .. py:method:: get_pcc_voltage()
+   .. py:method:: get_pcc_voltage(kTs)
 
       
       Get the voltage at the point of common coupling (PCC) at a specific discrete time instant.
@@ -195,7 +195,7 @@ Module Contents
       In the RL grid model, the PCC is located at the converter terminals. The PCC voltage
       therefore equals the converter output voltage.
 
-      :returns: Voltage at the point of common coupling (PCC) in alpha-beta frame [p.u.].
+      :returns: Voltage at the point of common coupling (PCC) [p.u.].
       :rtype: 1 x 2 ndarray of floats
 
 
@@ -259,7 +259,7 @@ Module Contents
       :param kTs: Current discrete time instant [s].
       :type kTs: float
 
-      :returns: A SimpleNamespace object containing the grid voltage in alpha-beta frame.
+      :returns: A SimpleNamespace object containing the grid voltage and PCC voltage.
       :rtype: SimpleNamespace
 
 
