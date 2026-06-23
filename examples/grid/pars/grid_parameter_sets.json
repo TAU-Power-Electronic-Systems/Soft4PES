@@ -32,6 +32,15 @@
             "L_fg_SI": 3e-3,
             "R_fg_SI": 0.1
         },
+        "LCL_Filter_fr_794": {
+            "Type": "LCL",
+            "L_fc_SI": 6.4e-3,
+            "R_fc_SI": 0.15,
+            "C_SI": 10e-6,
+            "R_c_SI": 1,
+            "L_fg_SI": 5.8e-3,
+            "R_fg_SI": 0.22
+        },
         "LCL_Filter_fr_380": {
             "Type": "LCL",
             "L_fc_SI": 0.4e-3,
@@ -56,6 +65,10 @@
     "converters": {
         "2L_LV_Converter": {
             "Vdc_SI": 750,
+            "conv_nl": 2
+        },
+        "2L_LV_Converter_2": {
+            "Vdc_SI": 650,
             "conv_nl": 2
         },
         "3L_LV_Converter": {
@@ -83,6 +96,14 @@
             "grid": "Strong_LV_Grid",
             "filter": "LCL_Filter_fr_1300",
             "converter": "2L_LV_Converter"
+        },
+        "Strong_LV_Grid_LCL_Filter_2L_conv_2": {
+            "description": [
+                "2-level converter connected to a strong low-voltage grid via an LCL filter"
+            ],
+            "grid": "Strong_LV_Grid",
+            "filter": "LCL_Filter_fr_794",
+            "converter": "2L_LV_Converter_2"
         },
         "Strong_MV_Grid_L_Filter_3L_conv": {
             "description": [
