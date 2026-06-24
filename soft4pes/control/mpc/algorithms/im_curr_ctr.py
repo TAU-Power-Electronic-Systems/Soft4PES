@@ -67,16 +67,7 @@ class IMCurrCtr(MPCBase, Controller):
 
         self.get_ctr_state_space(sys, self.Ts)
 
-        T_ref = self.input.T_ref
-
-        # Calculate the reference stator current based on the torque and rotor flux magnitude
-        # references. Rotor-field orientation is assumed.
-        iS_ref_dq = sys.calc_stator_current(sys.psiR_mag_ref, T_ref)
-
-        # Get the rotor flux angle and calculate the reference in alpha-beta frame
-        theta = np.arctan2(sys.psiR[1], sys.psiR[0])
-        iS_ref = dq_2_alpha_beta(iS_ref_dq, theta)
-        self.input.iS_ref = iS_ref
+        iS_ref = self.input.iS_ref
 
         # Predict the current reference over the prediction horizon
         Ts_pu = self.Ts * sys.base.w
