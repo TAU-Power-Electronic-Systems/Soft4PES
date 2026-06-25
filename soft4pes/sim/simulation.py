@@ -89,8 +89,8 @@ class SwitchingLogic:
         ndarray
             Quantized switching time instants.
         """
-
-        return np.round(t_switch * self.Ts / self.Ts_sim)
+        return np.minimum(np.round(t_switch * self.Ts / self.Ts_sim),
+                          self.Ts / self.Ts_sim - 1)
 
     def get_switch_positions(self, ctr_output, k_sim):
         """

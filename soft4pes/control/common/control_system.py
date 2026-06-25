@@ -103,8 +103,11 @@ class ControlSystem:
         # interval.
         if self.pwm is None:
             self.save_data(kTs=kTs, u_abc_ref=np.copy(ctr_output.u_abc))
-            ctr_output = SimpleNamespace(t_switch=0,
-                                         switch_pos=ctr_output.u_abc)
+            if hasattr(ctr_output, 't_switch'):
+                pass
+            else:
+                ctr_output = SimpleNamespace(t_switch=0,
+                                             switch_pos=ctr_output.u_abc)
         else:
             self.save_data(kTs=kTs, u_abc_ref=np.copy(self.pwm.input.u_abc))
 

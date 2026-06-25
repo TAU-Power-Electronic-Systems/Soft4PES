@@ -9,7 +9,7 @@ import numpy as np
 
 from pars.machine_config import get_custom_system
 from soft4pes import model
-from soft4pes.control import lin, modulation, mpc, common
+from soft4pes.control import lin, modulation, mpc, common, opp
 from soft4pes.utils import Sequence
 from soft4pes.sim import Simulation
 from soft4pes.utils.plotter import Plotter
@@ -42,7 +42,7 @@ wr_seq = Sequence(
 # are defined in the examples/machine/pars/machine_parameter_sets.json file, and given in the
 # documentation. Here, a 2-level converter connected to low voltage induction machine is used.
 config = get_custom_system(machine_name='LV_Induction_Machine',
-                           converter_name='2L_LV_Converter')
+                           converter_name='3L_LV_Converter')
 
 # Create the system model consisting of the induction machine and converter. The initial stator flux
 # magnitude reference and torque reference are passed to the IM model to set the initial
@@ -79,7 +79,7 @@ match CTR_STRATEGY:
         # Instantiate the controller
         ctr_sys = common.ControlSystem(control_loops=[iS_ref_gen, iS_mpc],
                                        ref_seq=ref_seq,
-                                       Ts=50e-6)
+                                       Ts=250e-6)
     case "FOC":
         # Define the field-oriented controller, which tracks the stator current references,
         # derived from the stator flux magnitude and torque references.
