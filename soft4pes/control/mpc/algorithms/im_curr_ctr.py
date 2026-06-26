@@ -4,7 +4,6 @@ from types import SimpleNamespace
 import numpy as np
 from soft4pes.control.common.controller import Controller
 from soft4pes.control.mpc.common.mpc_base import MPCBase
-from soft4pes.utils import dq_2_alpha_beta
 
 
 class IMCurrCtr(MPCBase, Controller):
@@ -70,8 +69,8 @@ class IMCurrCtr(MPCBase, Controller):
         iS_ref = self.input.iS_ref
 
         # Predict the current reference over the prediction horizon
-        Ts_pu = self.Ts * sys.base.w
-        y_ref_pred = self.make_reference_vector(sys.par.ws, Ts_pu, iS_ref)
+        Ts_pu = self.Ts * sys.ws
+        y_ref_pred = self.make_reference_vector(sys.ws, Ts_pu, iS_ref)
 
         # Solve the control problem
         u_abc = self.solver(sys, self, y_ref_pred)

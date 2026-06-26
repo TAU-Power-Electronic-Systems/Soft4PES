@@ -87,7 +87,9 @@ def create_machine_parameters(machine_params, base):
     if machine_type == "Induction_Machine":
         return model.machine.InductionMachineParameters(
             fs_SI=machine_params["fm_R_SI"],
+            n_R_SI=machine_params["n_R_SI"],
             pf=machine_params["pf"],
+            npp = machine_params["npp"],
             Rs_SI=machine_params["Rs_SI"],
             Rr_SI=machine_params["Rr_SI"],
             Lls_SI=machine_params["Lls_SI"],
