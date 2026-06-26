@@ -14,22 +14,29 @@ from soft4pes.utils import Sequence
 from soft4pes.sim import Simulation
 from soft4pes.utils.plotter import Plotter
 
-# Define torque reference sequence and rotor flux magnitude reference sequence using sequence
+# Define torque reference sequence and stator flux magnitude reference sequence using sequence
 # objects. The first array contains the time instants (in seconds) and the second array the
 # corresponding reference values (in per unit). The reference is interpolated linearly between the
 # time instants.
 T_ref_seq = Sequence(
-    np.array([0, 0.05, 0.05, 0.15, 0.15, 0.2]),
-    np.array([0, 0, 1, 1, 0.5, 0.5]),
+    np.array([0, 0.05, 0.05, 0.3]),
+    np.array([0, 0, 1, 1]),
 )
 
 psiS_mag_ref_seq = Sequence(
-    np.array([0, 0.2]),
+    np.array([0, 0.3]),
     np.array([1, 1]),
 )
 
 ref_seq = SimpleNamespace(T_ref_seq=T_ref_seq,
                           psiS_mag_ref_seq=psiS_mag_ref_seq)
+
+# Define the rotor speed sequence. The rotor speed are given in per unit so that the stator
+# electrical angular frequency is 1 p.u. on rated torque.
+wr_seq = Sequence(
+    np.array([0, 0.15, 0.25, 0.3]),
+    np.array([0.9583, 0.9583, 0.4583, 0.4583]),
+)
 
 # Get the system parameters from the ready made components. All the available components and systems
 # are defined in the examples/machine/pars/machine_parameter_sets.json file, and given in the
@@ -37,13 +44,15 @@ ref_seq = SimpleNamespace(T_ref_seq=T_ref_seq,
 config = get_custom_system(machine_name='LV_Induction_Machine',
                            converter_name='2L_LV_Converter')
 
-# Create the system model consisting of the induction machine and converter. The initial rotor flux
+# Create the system model consisting of the induction machine and converter. The initial stator flux
 # magnitude reference and torque reference are passed to the IM model to set the initial
-# state.
+# state. Moreover, a sequence object is passed to the IM model to define the time-varying rotor
+# speed.
 sys = model.machine.InductionMachine(
     par=config.machine_params,
     conv=config.conv,
     base=config.base,
+    wr=wr_seq,
     psiS_mag_ref_init=psiS_mag_ref_seq(0),
     T_ref_init=T_ref_seq(0),
 )
@@ -63,7 +72,7 @@ match CTR_STRATEGY:
         # derived from the stator flux magnitude and torque references.
         iS_ref_gen = lin.IMStatorCurrRefGen()
         iS_mpc = mpc.algorithms.IMCurrCtr(solver=solver,
-                                          lambda_u=1e-2,
+                                          lambda_u=5e-3,
                                           Np=4,
                                           disc_method='exact_discretization')
 
@@ -83,14 +92,14 @@ match CTR_STRATEGY:
             ref_seq=ref_seq,
             Ts=200e-6,
             pwm=modulation.CarrierPWM(),
-            common_mode_inj=modulation.CommonModeInjection(mode='MinMax'))
+            common_mode_inj=modulation.CommonModeInjection())
 
 # Simulate the system
 sim = Simulation(sys=sys,
                  ctr=ctr_sys,
                  Ts_sim=5e-6,
                  disc_method='exact_discretization')
-sim_data = sim.simulate(t_stop=0.2)
+sim_data = sim.simulate(t_stop=0.3)
 
 # Save the simulation data to a .mat file
 sim.save_data()

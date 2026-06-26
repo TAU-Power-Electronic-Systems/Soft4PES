@@ -4,8 +4,9 @@ Induction machine model. The machine operates at a constant (rated) electrical a
 
 from types import SimpleNamespace
 import numpy as np
-from soft4pes.utils import dq_2_alpha_beta
+from soft4pes.utils import dq_2_alpha_beta, alpha_beta_2_dq
 from soft4pes.model.common.system_model import SystemModel
+from soft4pes.utils.sequence import Sequence
 
 
 class InductionMachine(SystemModel):
@@ -24,10 +25,15 @@ class InductionMachine(SystemModel):
         Converter object.
     base : base value object
         Base values.
+    wr : float or Sequence
+        Electrical angular rotor speed [p.u.]. If a Sequence object is provided, the rotor speed is
+        time-varying and the sequence is used to update the rotor speed at each time step. Optional,
+        default is None, in which case the rotor speed is defined so that teh stator electrical 
+        angular frequency is 1 p.u.
     psiS_mag_ref_init : float
-        Initial stator flux magnitude reference [p.u.].
+        Initial stator flux magnitude reference [p.u.]. Optional, default is 1 p.u.
     T_ref_init : float
-        Initial torque reference [p.u.].
+        Initial torque reference [p.u.]. Optional, default is 0 p.u.
 
     Attributes
     ----------
@@ -41,29 +47,53 @@ class InductionMachine(SystemModel):
         Base values.
     x : 1 x 4 ndarray of floats
         Current state of the machine [p.u.].
-    psiS_mag_ref : float
-        Stator flux magnitude reference [p.u.].
+    wr : float
+        Electrical angular rotor speed [p.u.].
+    wr_seq : Sequence or None
+        Sequence object for time-varying rotor speed, or None if the rotor speed is constant.
     cont_state_space : SimpleNamespace
         The continuous-time state-space model of the system.
     state_map : dict
         A dictionary mapping states to elements of the state vector.
     """
 
-    def __init__(self, par, conv, base, psiS_mag_ref_init, T_ref_init):
+    def __init__(self,
+                 par,
+                 conv,
+                 base,
+                 wr=None,
+                 psiS_mag_ref_init=1,
+                 T_ref_init=0):
         self.par = par
         self.set_initial_state(psiS_mag_ref_init=psiS_mag_ref_init,
                                T_ref_init=T_ref_init)
+
+        # Set the rotor speed. If a Sequence object is provided, the rotor speed is time-varying and
+        # the sequence is used to update the rotor speed at each time step. If None, the rotor speed
+        # is defined so that the stator electrical angular frequency is 1 p.u. Otherwise, the
+        # rotor speed is set to the provided value.
+        if isinstance(wr, Sequence):
+            self.wr = wr(0)
+            self.wr_seq = wr
+        elif wr is None:
+            self.wr = self.par.ws - self.par.wl
+            self.wr_seq = None
+        else:
+            self.wr = wr
+            self.wr_seq = None
+
         x_size = 4
         state_map = {
             'iS': slice(0, 2),  # Stator current (x[0:2])
             'psiR': slice(2, 4),  # Rotor flux (x[2:4])
         }
-        super().__init__(par=par,
-                         conv=conv,
-                         base=base,
-                         x_size=x_size,
-                         state_map=state_map)
-        self.time_varying_model = True
+        super().__init__(
+            par=par,
+            conv=conv,
+            base=base,
+            x_size=x_size,
+            state_map=state_map,
+            time_varying_model=True if self.wr_seq is not None else False)
 
     def set_initial_state(self, **kwargs):
         """
@@ -81,12 +111,12 @@ class InductionMachine(SystemModel):
         psiS_mag_ref = kwargs.get('psiS_mag_ref_init')
         T_ref_init = kwargs.get('T_ref_init')
 
-        psiR = self.calculate_steady_state_rotor_flux(psiS_mag_ref)
+        psiR = self.calculate_steady_state_rotor_flux(psiS_mag_ref, T_ref_init)
         iS = self.calc_steady_state_stator_current(psiR, T_ref_init)
 
         self.x = np.concatenate((iS, psiR))
 
-    def calculate_steady_state_rotor_flux(self, psiS_mag_ref):
+    def calculate_steady_state_rotor_flux(self, psiS_mag_ref, T_ref):
         D = self.par.D
         kT = self.par.kT
         Xm = self.par.Xm
@@ -97,12 +127,11 @@ class InductionMachine(SystemModel):
         psiS_d = psiS_mag_ref
 
         # Rotor flux in dq-frame
-        psiR_q = -D / (Xm * kT) * psiS_d
-        A = Rr * Xm / D
-        B = Rr * Xs / D
-        a = -B
-        b = A * psiS_d
-        c = -B * psiR_q**2
+        psiR_q = -D / (Xm * kT) * T_ref / psiS_d
+
+        a = -Rr * Xs / D
+        b = Rr * Xm / D * psiS_d
+        c = -Rr * Xs / D * psiR_q**2
 
         psiR_d = (-b - np.sqrt(b**2 - 4 * a * c)) / (2 * a)
 
@@ -182,9 +211,13 @@ class InductionMachine(SystemModel):
             self.psiR, self.iS)
 
     @property
-    def wr(self):
-        return self.par.ws - (self.par.Rr * self.Te /
-                              np.linalg.norm(self.psiR)**2)
+    def ws(self):
+        theta = np.arctan2(self.psiR[1], self.psiR[0])
+        psiR_dq = alpha_beta_2_dq(self.psiR, theta)
+        iS_dq = alpha_beta_2_dq(self.iS, theta)
+        wl = self.par.Rr * self.par.Xm / (self.par.Xm +
+                                          self.par.Xlr) * iS_dq[1] / psiR_dq[0]
+        return self.wr + wl
 
     def get_next_state(self, matrices, u_abc, kTs, Ts):
         """
@@ -209,6 +242,7 @@ class InductionMachine(SystemModel):
         """
 
         x_kp1 = np.dot(matrices.A, self.x) + np.dot(matrices.B, u_abc)
+        self.wr = self.wr_seq(kTs + Ts) if self.wr_seq is not None else self.wr
         return x_kp1
 
     def get_measurements(self, kTs):
@@ -227,4 +261,4 @@ class InductionMachine(SystemModel):
             speed.
         """
 
-        return SimpleNamespace(Te=self.Te, wr=self.wr)
+        return SimpleNamespace(Te=self.Te, wr=self.wr, ws=self.ws)

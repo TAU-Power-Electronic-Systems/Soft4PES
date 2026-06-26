@@ -29,7 +29,8 @@ class IMStatorCurrRefGen(Controller):
         T_ref = self.input.T_ref
         psiS_mag_ref = self.input.psiS_mag_ref
 
-        psiR_steady_state = sys.calculate_steady_state_rotor_flux(psiS_mag_ref)
+        psiR_steady_state = sys.calculate_steady_state_rotor_flux(
+            psiS_mag_ref, T_ref)
         iS_ref_steady_state = sys.calc_steady_state_stator_current(
             psiR_steady_state, T_ref)
 
