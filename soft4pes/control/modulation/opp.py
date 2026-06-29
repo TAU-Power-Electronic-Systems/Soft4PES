@@ -1,106 +1,129 @@
 """
 Offline optimal pulse pattern (OPP) computation.
 
-This module provides functionality for computing OPPs using multistart nonlinear optimization.
-
 Supported features
 ------------------
 - Two-level and three-level converters
 - QaHWS and HWS pulse patterns
 - Load-connected and grid-connected converters
-
-Notes
------
-The optimization is intended for offline lookup-table generation and is
-not designed for real-time control applications.
 """
 
+from datetime import datetime
 import multiprocessing as mp
+from types import SimpleNamespace
 
 import control as ct
 import numpy as np
-from scipy.io import savemat
+import xarray as xr
 from scipy.optimize import Bounds, LinearConstraint, minimize
 from scipy.stats import qmc
 
-
-# =========================================================================
-# Multiprocessing helper functions
-# =========================================================================
-
+# Data shared by worker processes.
 _WORKER_DATA = None
 
-def _init_worker(worker_data):
+
+def init_worker(worker_data):
     """
     Initialize worker-local data.
 
-    Large arrays are stored once per worker process to reduce
-    inter-process communication overhead.
+    Large arrays are stored once per worker process to reduce inter-process
+    communication overhead.
+
+    Parameters
+    ----------
+    worker_data : dict
+        Data shared by all optimization tasks executed by the worker.
     """
 
     global _WORKER_DATA
     _WORKER_DATA = worker_data
 
 
-def _objective_function(x):
+def objective_function(x):
     """
     Evaluate the OPP objective function.
 
+    Parameters
+    ----------
+    x : ndarray
+        Switching-angle vector.
+
+    Returns
+    -------
+    float
+        Objective-function value.
     """
 
     data = _WORKER_DATA
 
     x = np.asarray(x)
 
-    harmonics_int = data["harmonics_int"]
+    harmonic_orders = data["harmonic_orders"]
     delta_u = data["delta_u"]
-    g_n_ab = data["g_n_ab"]
+    harmonic_weights = data["harmonic_weights"]
 
-    level = data["level"]
-    sys_ind = data["sys_ind"]
-    hws = data["hws"]
+    converter_level = data["level"]
+    is_grid = data["is_grid"]
+    symmetry = data["symmetry"]
 
-    cost = 0.0
+    cost = 0
 
-    for k_i, k in enumerate(harmonics_int):
+    for harmonic_index, harmonic_order in enumerate(harmonic_orders):
+        harmonic_weight = harmonic_weights[harmonic_index]
 
-        if hws:
-            coeff_cos = np.dot(delta_u, np.cos(k*x))
-            coeff_sin = np.dot(delta_u, np.sin(k*x))
+        if symmetry == "HWS":
+            coeff_cos = np.dot(delta_u, np.cos(harmonic_order * x))
+            coeff_sin = np.dot(delta_u, np.sin(harmonic_order * x))
 
-            coeff_energy = coeff_cos**2 + coeff_sin**2
-
-            if sys_ind:
-                cost += ((g_n_ab[k_i]/k)**2) * coeff_energy
+            if is_grid:
+                cost += (
+                    (harmonic_weight / harmonic_order) ** 2
+                ) * (coeff_cos ** 2 + coeff_sin ** 2)
             else:
-                cost += ((g_n_ab[k_i]/(k**2))**2) * coeff_energy
+                cost += (
+                    (harmonic_weight / (harmonic_order ** 2)) ** 2
+                ) * (coeff_cos ** 2 + coeff_sin ** 2)
 
         else:
-            inner = np.dot(delta_u, np.cos(k*x))
 
-            if level:
-                coeff = 1.0 + 2.0*inner
+            if converter_level == 2:
+                harmonic_coeff = 1 + 2 * np.dot(delta_u, np.cos(harmonic_order * x))
             else:
-                coeff = inner
+                harmonic_coeff = np.dot(delta_u, np.cos(harmonic_order * x))
 
-            if sys_ind:
-                cost += ((g_n_ab[k_i]*coeff)/k)**2
+            if is_grid:
+                cost += (
+                    (harmonic_weight * harmonic_coeff)
+                    / harmonic_order
+                ) ** 2
             else:
-                cost += ((g_n_ab[k_i]*coeff)/(k**2))**2
+                cost += (
+                    (harmonic_weight * harmonic_coeff)
+                    / (harmonic_order ** 2)
+                ) ** 2
 
     return cost
 
 
-def _nonlinear_constraint_function(x, modulation_index, u0):
+def nonlinear_constraint_function(x, modulation_index, u0):
     """
-    Equality constraints.
+    Evaluate the OPP equality constraints.
 
-    QaHWS:
-          One equality constraint to enforce a fundamental OPP component with the desired amplitude (modulation index).
+    Parameters
+    ----------
+    x : ndarray
+        Switching-angle vector.
 
-    HWS:
-          Two equality constraints corresponding to the amplitude and
-          phase of the fundamental OPP component.
+    modulation_index : float
+        Desired modulation index.
+
+    u0 : int
+        Initial switching state.
+
+    Returns
+    -------
+    ndarray
+        Equality-constraint values.
     """
 
     data = _WORKER_DATA
@@ -108,35 +131,44 @@ def _nonlinear_constraint_function(x, modulation_index, u0):
     x = np.asarray(x)
 
     delta_u = data["delta_u"]
-    level = data["level"]
-    hws = data["hws"]
+    converter_level = data["level"]
+    symmetry = data["symmetry"]
 
-    if hws:
+    if symmetry == "HWS":
         coeff_cos = np.dot(delta_u, np.cos(x))
         coeff_sin = np.dot(delta_u, np.sin(x))
 
-        if level:
-            ceq1 = +(u0*4.0/np.pi)*coeff_cos - modulation_index
-            ceq2 = -(u0*4.0/np.pi)*coeff_sin
+        if converter_level == 2:
+            ceq1 = (u0 * 4 / np.pi) * coeff_cos - modulation_index
+            ceq2 = -(u0 * 4 / np.pi) * coeff_sin
         else:
-            ceq1 = +(2.0/np.pi)*coeff_cos - modulation_index
-            ceq2 = -(2.0/np.pi)*coeff_sin
+            ceq1 = (2 / np.pi) * coeff_cos - modulation_index
+            ceq2 = -(2 / np.pi) * coeff_sin
 
         return np.array([ceq1, ceq2])
 
-    inner = np.dot(delta_u, np.cos(x))
-
-    if level:
-        ceq = (u0*4.0/np.pi)*(1.0 + 2.0*inner) - modulation_index
+    if converter_level == 2:
+        ceq = (u0 * 4 / np.pi) * (1 + 2 * np.dot(delta_u, np.cos(x))) - modulation_index
     else:
-        ceq = (4.0/np.pi)*inner - modulation_index
+        ceq = (4 / np.pi) * np.dot(delta_u, np.cos(x)) - modulation_index
 
     return np.array([ceq])
 
 
-def _run_single_optimization(task):
+def run_single_optimization(task):
     """
-    Run one local SLSQP optimization from one initial point.
+    Run a local SLSQP optimization from a single initial point.
+
+    Parameters
+    ----------
+    task : tuple
+        Tuple containing the initial switching-angle vector, modulation index,
+        and switching-sequence-specific data.
+
+    Returns
+    -------
+    OptimizeResult
+        Optimization result returned by scipy.optimize.minimize.
     """
 
     x0, modulation_index, u0 = task
@@ -145,15 +177,15 @@ def _run_single_optimization(task):
 
     nonlinear_constraint = {
         "type": "eq",
-        "fun": lambda x: _nonlinear_constraint_function(
+        "fun": lambda x: nonlinear_constraint_function(
             x,
             modulation_index,
-            u0
+            u0,
         )
     }
 
     result = minimize(
-        _objective_function,
+        objective_function,
         x0,
         method="SLSQP",
         bounds=data["bounds"],
@@ -171,154 +203,147 @@ def _run_single_optimization(task):
     return result
 
 
-# ======================================================================
-# MAIN OPP CLASS
-# ======================================================================
-
 class OPP:
     """
     Offline OPP computation.
+    
+    Parameters
+    ----------
+    sys : SystemModel
+        System model.
+
+    d : int, default=5
+        Pulse number.
+
+    symmetry : str, default="QaHWS"
+        Waveform symmetry.
+
+        Options
+        -------
+        - "HWS": half-wave symmetry
+        - "QaHWS": quarter- and half-wave symmetry
+
+    n_m : int, default=256
+        Number of modulation-index samples.
+
+    n_ini_points : int, default=1000
+        Number of multistart initial points.
+
+    max_harmonics : int, default=500
+        Maximum harmonic order included in the objective function.
+
+    Attributes
+    ----------
+    results : dict
+        Computed OPP lookup table.
     """
 
     def __init__(
         self,
         sys,
         d=5,
-        level=1,
-        sys_ind=1,
-        hws=0,
+        symmetry="QaHWS",
         n_m=256,
-        n_ini_points=100,
+        n_ini_points=1000,
         max_harmonics=500,
-        include_zero_modulation=False):
-       
-       """
-       Initialize the OPP problem.
+    ):
 
-       Parameters
-       ----------
-       sys : SystemModel
-        Soft4PES system model.
+        self.sys = sys
+        self.d = d
+        self.level = sys.conv.nl
 
-       d : int
-        Pulse number.
+        if symmetry not in ("HWS", "QaHWS"):
+            raise ValueError("symmetry must be either 'QaHWS' or 'HWS'.")
+        self.symmetry = symmetry
 
-       level : int
-        Converter topology.
+        self.is_grid = hasattr(sys, "cont_state_space")
+        self.n_m = n_m
+        self.n_ini_points = n_ini_points
+        self.max_harmonics = max_harmonics
 
-        - 1 : two-level converter
-        - 0 : three-level converter
+        self.harmonic_orders = None
+        self.n_angles = None
+        self.n_sequences = None
+        self.u0_candidates = None
+        self.delta_u = None
+        self.harmonic_weights = None
+        self.x0_set = None
+        self.results = None
+        self.constraints = SimpleNamespace(
+            angle_max=None,
+            bounds=None,
+            linear_constraint=None,
+        )
 
-       sys_ind : int
-        System type.
+        self.build_problem()
 
-        - 1 : grid-connected system
-        - 0 : load-connected system
+    # Problem setup
 
-       hws : int
-        Waveform symmetry.
-
-        - 1 : half-wave symmetry (HWS)
-        - 0 : quarter-wave and half-wave symmetry (QaHWS)
-
-       n_m : int
-        Number of modulation-index samples.
-
-       n_ini_points : int
-        Number of multistart initial points.
-
-       max_harmonics : int
-        Maximum harmonic order included in the objective function.
-
-       include_zero_modulation : bool
-        Include the zero-modulation operating point.
-       """
-
-       self.sys = sys
-
-       self.d = d
-       self.level = level
-       self.sys_ind = sys_ind
-       self.hws = hws
-       self.n_m = n_m
-       self.n_ini_points = n_ini_points
-       self.max_harmonics = max_harmonics
-       self.include_zero_modulation = include_zero_modulation
-
-       self._build_problem()
-
-    # ==================================================================
-    # PROBLEM SETUP
-    # ==================================================================
-
-    def _build_problem(self):
+    def build_problem(self):
         """
-        Build all quantities needed before optimization.
+        Build all quantities required for OPP computation.
         """
 
-        self._build_harmonics()
-        self._build_switching_sequence()
-        self._build_system_model()
-        self._build_constraints()
-        self._build_initial_points()
+        self.build_harmonics()
+        self.build_switching_sequence()
+        self.build_system_model()
+        self.build_constraints()
+        self.build_initial_points()
 
-    def _build_harmonics(self):
+    def build_harmonics(self):
         """
-        Build the considered harmonic orders.
-
-        Only non-triplen odd harmonics are included:
+        Build the set of considered non-triplen odd harmonic orders.
         """
 
         harmonics = np.arange(2, self.max_harmonics + 1)
 
-        self.harmonics_int = harmonics[
-            (harmonics % 2 == 1)
-            &
+        self.harmonic_orders = harmonics[
+            (harmonics % 2 == 1) &
             (harmonics % 3 != 0)
         ]
 
-    def _build_switching_sequence(self):
+    def build_switching_sequence(self):
         """
         Build switching-angle and switching-sequence information.
         """
 
-        if self.hws:
-            if self.level:
-                self.n_angles = 2*self.d + 1
+        if self.symmetry == "HWS":
+            if self.level == 2:
+                self.n_angles = 2 * self.d + 1
             else:
-                self.n_angles = 2*self.d
+                self.n_angles = 2 * self.d
         else:
             self.n_angles = self.d
 
-        if self.level:
+        if self.level == 2:
             self.n_sequences = 2
-            self.u0_candidates = np.array([1.0, -1.0])
-            self.delta_u = (-1.0)**np.arange(1, self.n_angles + 1)
+            self.u0_candidates = np.array([1, -1])
+            self.delta_u = (-1) ** np.arange(1, self.n_angles + 1)
         else:
             self.n_sequences = 1
-            self.u0_candidates = np.array([1.0])
-            self.delta_u = (-1.0)**np.arange(2, self.n_angles + 2)
+            self.u0_candidates = np.array([1])
+            self.delta_u = (-1) ** np.arange(2, self.n_angles + 2)
 
         self.delta_u = self.delta_u.astype(float)
 
-    def _build_system_model(self):
+    def build_system_model(self):
         """
-        Build the harmonic weighting.
+        Build harmonic weighting factors used in the objective function.
 
-        For grid-connected systems, the LCL-filter transfer function is
-        included through the frequency response magnitude.
+        For grid-connected systems, the weighting factors are obtained from the
+        LCL-filter frequency-response magnitude.
         """
 
-        if not self.sys_ind:
-            self.g_n_ab = np.ones(len(self.harmonics_int))
+        if not self.is_grid:
+            self.harmonic_weights = np.ones(len(self.harmonic_orders))
             return
 
-        ss = self.sys.cont_state_space
+        state_space = self.sys.cont_state_space
 
-        A_sys = ss.F
-        B_sys = ss.G
+        F_sys = state_space.F
+        G_sys = state_space.G
 
-        # Select the grid current as the output.
+        # Grid current as the output.
         C_sys = np.array([
             [0, 0, 1, 0, 0, 0],
             [0, 0, 0, 1, 0, 0],
@@ -326,39 +351,35 @@ class OPP:
 
         D_sys = np.zeros((2, 3))
 
-        sys_g = ct.ss(A_sys, B_sys, C_sys, D_sys)
+        filter_model = ct.ss(F_sys, G_sys, C_sys, D_sys)
 
-        self.g_n_ab = np.zeros(len(self.harmonics_int))
+        self.harmonic_weights = np.zeros(len(self.harmonic_orders))
 
-        for i, n in enumerate(self.harmonics_int):
-            mag, _, _ = ct.frequency_response(sys_g, [n])
-            self.g_n_ab[i] = np.linalg.norm(mag)
+        for harmonic_index, harmonic_order in enumerate(self.harmonic_orders):
+            mag, _, _ = ct.frequency_response(filter_model, [harmonic_order])
+            self.harmonic_weights[harmonic_index] = np.linalg.norm(mag)
 
-    def _build_constraints(self):
+    def build_constraints(self):
         """
-        Build bound and ascending-order constraints for the switching angles.
-
-        For QaHWS:
-            0 <= alpha_1 <= alpha_2 <= ... <= pi/2
-
-        For HWS:
-            ordering constraints are used over [0, pi].
+        Build bound and ordering constraints for the switching angles.
         """
 
-        self.angle_max = np.pi if self.hws else np.pi/2
-
-        self.bounds = Bounds(
-            np.zeros(self.n_angles),
-            np.ones(self.n_angles)*self.angle_max,
+        self.constraints.angle_max = (
+            np.pi if self.symmetry == "HWS" else np.pi / 2
         )
 
-        if self.hws:
+        self.constraints.bounds = Bounds(
+            np.zeros(self.n_angles),
+            np.ones(self.n_angles) * self.constraints.angle_max,
+        )
+
+        if self.symmetry == "HWS":
             A = np.eye(self.n_angles)
 
             A += np.block([
                 [
-                    np.zeros((self.n_angles-1, 1)),
-                    -np.eye(self.n_angles-1),
+                    np.zeros((self.n_angles - 1, 1)),
+                    -np.eye(self.n_angles - 1),
                 ],
                 [
                     np.zeros((1, self.n_angles)),
@@ -368,22 +389,22 @@ class OPP:
             A[-1, 0] = 1
 
             b = np.concatenate((
-                np.zeros(self.n_angles-1),
+                np.zeros(self.n_angles - 1),
                 [np.pi + 1e-12],
             ))
 
         else:
-            A = np.zeros((self.n_angles-1, self.n_angles))
+            A = np.zeros((self.n_angles - 1, self.n_angles))
 
-            for i in range(self.n_angles-1):
+            for i in range(self.n_angles - 1):
                 A[i, i] = 1.0
-                A[i, i+1] = -1.0
+                A[i, i + 1] = -1.0
 
-            b = np.zeros(self.n_angles-1)
+            b = np.zeros(self.n_angles - 1)
 
-        self.linear_constraint = LinearConstraint(A, -np.inf, b)
+        self.constraints.linear_constraint = LinearConstraint(A, -np.inf, b)
 
-    def _build_initial_points(self):
+    def build_initial_points(self):
         """
         Generate Halton initial points for multistart optimization.
         """
@@ -396,30 +417,33 @@ class OPP:
 
         sampler.fast_forward(1000)
 
-        raw = sampler.random(self.n_ini_points)
-        raw = np.sort(raw, axis=1)
+        initial_points = sampler.random(self.n_ini_points)
+        initial_points = np.sort(initial_points, axis=1)
 
-        self.x0_set = raw * self.angle_max
+        self.x0_set = initial_points * self.constraints.angle_max
 
-    def _get_worker_data(self):
+    def get_worker_data(self):
         """
         Collect data required by multiprocessing workers.
+
+        Returns
+        -------
+        dict
+            Data shared with worker processes.
         """
 
         return {
-            "harmonics_int": self.harmonics_int,
+            "harmonic_orders": self.harmonic_orders,
             "delta_u": self.delta_u,
-            "g_n_ab": self.g_n_ab,
+            "harmonic_weights": self.harmonic_weights,
             "level": self.level,
-            "sys_ind": self.sys_ind,
-            "hws": self.hws,
-            "bounds": self.bounds,
-            "linear_constraint": self.linear_constraint,
+            "is_grid": self.is_grid,
+            "symmetry": self.symmetry,
+            "bounds": self.constraints.bounds,
+            "linear_constraint": self.constraints.linear_constraint,
         }
 
-    # ==================================================================
-    # COMPUTATION
-    # ==================================================================
+    # Computation
 
     def compute(self, m_values=None, use_parallel=True):
         """
@@ -427,81 +451,82 @@ class OPP:
 
         Parameters
         ----------
-        m_values : list[int] or None
-            Specific modulation-index indices to compute.
-            If None, all modulation indices are computed.
+        m_values : list[int] or None, default=None
+            Modulation-index sample indices to compute. If None, all
+            modulation-index samples are computed.
 
-        use_parallel : bool
-            If True, multistart points are solved in parallel.
+        use_parallel : bool, default=True
+            If True, the multistart initial points are solved in parallel.
 
         Returns
         -------
-        results : dict
-            Dictionary containing angles, cost, exitflag, modulation index,
-            and sequence information.
+        dict
+            Computed OPP data, including switching angles, modulation indices,
+            and switch positions.
         """
 
         results = {
             "angles": np.zeros((self.n_m, self.n_angles)),
-            "cost": np.zeros((self.n_m, 1)),
-            "exitflag": np.zeros((self.n_m, 1)),
-            "mod_index": np.zeros((self.n_m, 1)),
-            "hws": self.hws,
-            "level": self.level,
+            "modulation_index": np.zeros((self.n_m, 1)),
+            "switch_positions": np.zeros((self.n_m, self.n_angles + 1)),
+            "symmetry": self.symmetry,
+            "converter_type": "2Level" if self.level == 2 else "3Level",
             "d": self.d,
-            "n_angles": self.n_angles,
+            "system_type": "grid" if self.is_grid else "load",
         }
 
-        if self.level:
-            results["sequence"] = np.zeros((self.n_m, 1))
-
         if m_values is None:
-            if self.include_zero_modulation:
-                m_values = range(self.n_m)
-            else:
-                m_values = range(1, self.n_m)
+            m_values = range(1, self.n_m)
 
-        worker_data = self._get_worker_data()
+        worker_data = self.get_worker_data()
 
         if use_parallel:
             n_workers = max(1, mp.cpu_count() - 1)
 
             with mp.Pool(
                 processes=n_workers,
-                initializer=_init_worker,
+                initializer=init_worker,
                 initargs=(worker_data,),
             ) as pool:
-
-                self._compute_loop(results, m_values, pool)
+                self.compute_loop(results, m_values, pool)
 
         else:
-            _init_worker(worker_data)
-            self._compute_loop(results, m_values, pool=None)
+            init_worker(worker_data)
+            self.compute_loop(results, m_values, pool=None)
 
         self.results = results
 
         return results
 
-    def _compute_loop(self, results, m_values, pool):
+    def compute_loop(self, results, m_values, pool):
         """
         Main loop over modulation indices and switching sequences.
+
+        Parameters
+        ----------
+        results : dict
+            Dictionary used to store computed OPP data.
+
+        m_values : iterable
+            Modulation-index samples to compute.
+
+        pool : multiprocessing.Pool or None
+            Worker pool used for parallel execution.
         """
 
-        for m in m_values:
+        for m_index in m_values:
 
-            print(f"m = {m+1} / {self.n_m}")
+            print(f"m = {m_index + 1} / {self.n_m}")
 
-            modulation_index = (
-                m / (self.n_m - 1)
-            ) * (4.0/np.pi)
+            modulation_index = (m_index / (self.n_m - 1)) * (4 / np.pi)
 
-            results["mod_index"][m, 0] = modulation_index
+            results["modulation_index"][m_index, 0] = modulation_index
 
             best_cost = np.inf
             best_result = None
-            best_sequence = None
+            best_u0 = None
 
-            for seq, u0 in enumerate(self.u0_candidates, start=1):
+            for u0 in self.u0_candidates:
 
                 tasks = [
                     (x0, modulation_index, u0)
@@ -510,65 +535,110 @@ class OPP:
 
                 if pool is None:
                     local_results = [
-                        _run_single_optimization(task)
+                        run_single_optimization(task)
                         for task in tasks
                     ]
                 else:
                     local_results = pool.map(
-                        _run_single_optimization,
+                        run_single_optimization,
                         tasks
                     )
 
-                successful = [
-                    res for res in local_results
-                    if res.success
+                converged_results = [
+                    result for result in local_results
+                    if result.success
                 ]
 
-                if successful:
-                    candidate = min(successful, key=lambda res: res.fun)
+                if converged_results:
+                    candidate = min(
+                        converged_results,
+                        key=lambda result: result.fun,
+                    )
                 else:
-                    candidate = min(local_results, key=lambda res: res.fun)
+                    candidate = min(
+                        local_results,
+                        key=lambda result: result.fun,
+                    )
 
                 if candidate.fun < best_cost:
                     best_cost = candidate.fun
                     best_result = candidate
-                    best_sequence = seq
+                    best_u0 = u0
 
             if best_result is not None:
-                results["angles"][m, :] = best_result.x
-                results["cost"][m, 0] = best_result.fun
-                results["exitflag"][m, 0] = int(best_result.success)
+                results["angles"][m_index, :] = best_result.x
 
-                if self.level:
-                    results["sequence"][m, 0] = best_sequence
+                if self.level == 2:
+                    switch_positions = np.empty(self.n_angles + 1)
+                    switch_positions[0] = best_u0
 
-    # ==================================================================
-    # SAVE
-    # ==================================================================
+                    for k in range(self.n_angles):
+                        switch_positions[k + 1] = -switch_positions[k]
+
+                else:
+
+                    switch_positions = np.zeros(self.n_angles + 1)
+                    switch_positions[1:] = np.cumsum(self.delta_u)
+
+                results["switch_positions"][m_index, :] = switch_positions
+
+    # Save
 
     def save_results(self, file_name=None):
         """
-        Save computed OPPs to a .mat file.
+        Save computed OPPs to a NetCDF file.
+
+        Parameters
+        ----------
+        file_name : str, optional
+            Output file name.
+            If None, a file name is generated from the OPP configuration.
         """
 
-        if not hasattr(self, "results"):
+        if self.results is None:
             raise RuntimeError(
                 "No results found. Run compute() before save_results()."
             )
 
         if file_name is None:
-            system_name = "grid" if self.sys_ind else "load"
-            level_name = "2Level" if self.level else "3Level"
-            symmetry_name = "HWS" if self.hws else "QaHWS"
+            system_name = "grid" if self.is_grid else "load"
+            level_name = "2Level" if self.level == 2 else "3Level"
+            symmetry_name = self.symmetry
 
             file_name = (
                 f"d{self.d}_"
                 f"{level_name}_"
                 f"{system_name}_"
                 f"{symmetry_name}_"
-                f"OPPs.mat"
+                f"OPPs.nc"
             )
 
-        savemat(file_name, {"results": self.results})
+        dataset = xr.Dataset(
+            data_vars={
+                "switching_angles": (
+                    ["angle_index", "modulation_index"],
+                    self.results["angles"].T,
+                ),
+                "switch_positions": (
+                    ["position_index", "modulation_index"],
+                    self.results["switch_positions"].T,
+                ),
+            },
+            coords={
+                "angle_index": np.arange(1, self.n_angles + 1),
+                "position_index": np.arange(0, self.n_angles + 1),
+                "modulation_index": self.results["modulation_index"].flatten(),
+            },
+            attrs={
+                "description": "Optimized pulse pattern switching angles",
+                "angle_units": "radians",
+                "converter_type": f"{self.level}Level",
+                "system_type": "grid" if self.is_grid else "load",
+                "symmetry": self.symmetry,
+                "pulse_number": self.d,
+                "creation_date": datetime.now().strftime("%d-%b-%Y %H:%M:%S"),
+            },
+        )
+        dataset.to_netcdf(file_name)
 
         print(f"Saved: {file_name}")
