@@ -43,11 +43,11 @@ class GridOpenLoopOPP(Controller):
         super().__init__()
         self.sys = sys
         self.wg = 1
+        self.d = d
         self.m = None
         self.angles = None
         self.positions = None
         self.lut = None
-        self.d = d
 
     def set_sampling_interval(self, Ts):
         """

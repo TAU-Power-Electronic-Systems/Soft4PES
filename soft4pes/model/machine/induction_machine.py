@@ -217,6 +217,7 @@ class InductionMachine(SystemModel):
         iS_dq = alpha_beta_2_dq(self.iS, theta)
         wl = self.par.Rr * self.par.Xm / (self.par.Xm +
                                           self.par.Xlr) * iS_dq[1] / psiR_dq[0]
+
         return self.wr + wl
 
     def get_next_state(self, matrices, u_abc, kTs, Ts):

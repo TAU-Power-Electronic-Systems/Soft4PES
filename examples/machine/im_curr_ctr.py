@@ -9,7 +9,7 @@ import numpy as np
 
 from pars.machine_config import get_custom_system
 from soft4pes import model
-from soft4pes.control import lin, modulation, mpc, common, opp
+from soft4pes.control import lin, modulation, mpc, common
 from soft4pes.utils import Sequence
 from soft4pes.sim import Simulation
 from soft4pes.utils.plotter import Plotter

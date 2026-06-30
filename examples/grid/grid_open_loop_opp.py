@@ -17,7 +17,7 @@ base = model.grid.BaseGrid(Vg_R_SI=3300, Ig_R_SI=1575, fg_R_SI=50)
 # Define power reference sequences
 # The first array contains the time instants (in seconds) and the second array the corresponding
 # reference values (in per unit). The reference is interpolated linearly between the time instants.
-P_ref_seq = Sequence(np.array([0, 0.05, 0.05, 0.2]), np.array([1, 1, 0, 0]))
+P_ref_seq = Sequence(np.array([0, 0.05, 0.05, 0.2]), np.array([1, 1, 1, 1]))
 Q_ref_seq = Sequence(
     np.array([0, 0.05, 0.05, 0.2]),
     np.array([0, 0, 0, 0]),

@@ -25,7 +25,7 @@ class ImOpenLoopOPP(Controller):
     sys : object
         System model.
     m : float
-        Curretn modulation index.
+        Current modulation index.
     angles : 1 x d ndarray
         Switching angles.
     positions : 1 x d ndarray
@@ -41,10 +41,10 @@ class ImOpenLoopOPP(Controller):
         super().__init__()
         self.sys = sys
         self.m = None
+        self.d = d
         self.angles = None
         self.positions = None
         self.lut = None
-        self.d = d
 
     def set_sampling_interval(self, Ts):
         """
@@ -82,15 +82,16 @@ class ImOpenLoopOPP(Controller):
         # Calculate the transformation angle
         theta = np.arctan2(sys.psiR[1], sys.psiR[0])
 
-        T_ref = self.input.T_ref
-
         # Calculate load angle
-        gamma = np.arcsin(sys.par.D / sys.par.Xm * T_ref / 1 /
-                          sys.psiR_mag_ref / sys.par.kT)
+        gamma = np.arcsin(sys.par.D / sys.par.Xm * self.input.T_ref /
+                          self.input.psiS_mag_ref / self.input.psiR_mag_ref /
+                          sys.par.kT)
 
         # Get stator current reference in dq frame
-        iS_ref_dq = sys.calc_stator_current(alpha_beta_2_dq(sys.psiR, theta),
-                                            T_ref)
+        iS_ref = self.input.iS_ref
+        iS_ref_dq = alpha_beta_2_dq(iS_ref, theta)
+
+        ws = self.input.ws
 
         # Calculate converter voltage vector
         v_conv = dq_2_alpha_beta(
@@ -99,7 +100,7 @@ class ImOpenLoopOPP(Controller):
 
         # Compute angle and modulation index
         vs_ang = np.arctan2(v_conv[1], v_conv[0])
-        m = 2 / sys.conv.v_dc * np.linalg.norm(v_conv) * 1
+        m = 2 / sys.conv.v_dc * np.linalg.norm(v_conv) * ws
 
         # Read the switching angles and positions from the LUT
         # If the modulation index has changed significantly, update the angles and positions
@@ -111,7 +112,7 @@ class ImOpenLoopOPP(Controller):
                 modulation_index=m, method='nearest').values
 
         t_nom, U, u0 = read_switching_angles(self.angles, self.positions,
-                                             vs_ang, self.Ts, 1, sys)
+                                             vs_ang, self.Ts, ws, sys)
 
         self.output = SimpleNamespace(t_switch=t_nom / self.Ts,
                                       switch_pos=np.transpose(U),

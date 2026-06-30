@@ -9,19 +9,34 @@ import numpy as np
 
 from pars.machine_config import get_custom_system
 from soft4pes import model
-from soft4pes.control import common, opp
+from soft4pes.control import common, opp, lin
 from soft4pes.utils import Sequence
 from soft4pes.sim import Simulation
 from soft4pes.utils.plotter import Plotter
 
-# Define torque reference sequence using a sequence object
-# The first array contains the time instants (in seconds) and the second array the corresponding
-# reference values (in per unit). The reference is interpolated linearly between the time instants.
+# Define torque reference sequence and stator flux magnitude reference sequence using sequence
+# objects. The first array contains the time instants (in seconds) and the second array the
+# corresponding reference values (in per unit). The reference is interpolated linearly between the
+# time instants.
 T_ref_seq = Sequence(
-    np.array([0, 0.05, 0.05, 0.2]),
-    np.array([1, 1, 1, 1]),
+    np.array([0, 0.05, 0.05, 0.3]),
+    np.array([1, 1, 0, 0]),
 )
-ref_seq = SimpleNamespace(T_ref_seq=T_ref_seq)
+
+psiS_mag_ref_seq = Sequence(
+    np.array([0]),
+    np.array([1]),
+)
+
+ref_seq = SimpleNamespace(T_ref_seq=T_ref_seq,
+                          psiS_mag_ref_seq=psiS_mag_ref_seq)
+
+# Define the rotor speed sequence. The rotor speed are given in per unit so that the stator
+# electrical angular frequency is 1 p.u. on rated torque.
+# wr_seq = Sequence(
+#     np.array([0]),
+#     np.array([0.9583]),
+# )
 
 # Get the system parameters from the ready made components. All the available components and systems
 # are defined in the examples/machine/pars/machine_parameter_sets.json file, and given in the
@@ -29,21 +44,26 @@ ref_seq = SimpleNamespace(T_ref_seq=T_ref_seq)
 config = get_custom_system(machine_name='MV_Induction_Machine',
                            converter_name='3L_MV_Converter')
 
-# Create the system model consisting of the induction machine and converter. The stator flux
-# magnitude reference and initial torque reference are passed to the IM model to set the initial
-# state.
+# Create the system model consisting of the induction machine and converter. The initial stator flux
+# magnitude reference and torque reference are passed to the IM model to set the initial
+# state. Moreover, a sequence object is passed to the IM model to define the time-varying rotor
+# speed.
 sys = model.machine.InductionMachine(
     par=config.machine_params,
     conv=config.conv,
     base=config.base,
-    psiS_mag_ref=1,
+    psiS_mag_ref_init=psiS_mag_ref_seq(0),
     T_ref_init=T_ref_seq(0),
 )
 
-ctr = opp.ImOpenLoopOPP(sys=sys, d=7)
+wS_calc = lin.WSCalculator(sys=sys)
+iS_ref_gen = lin.IMStatorCurrRefGen()
+ctr = opp.ImOpenLoopOPP(sys=sys, d=6)
 
 # Instantiate the controller
-ctr_sys = common.ControlSystem(control_loops=[ctr], ref_seq=ref_seq, Ts=50e-6)
+ctr_sys = common.ControlSystem(control_loops=[wS_calc, iS_ref_gen, ctr],
+                               ref_seq=ref_seq,
+                               Ts=50e-6)
 
 sim = Simulation(sys=sys,
                  ctr=ctr_sys,

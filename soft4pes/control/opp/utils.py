@@ -1,7 +1,9 @@
 """Utility functions for closed-loop control with optimized pulse patterns (OPPs)."""
 
+from pathlib import Path
 import numpy as np
 import xarray as xr
+from soft4pes.control.common.utils import wrap_to_2pi
 
 
 def read_switching_angles(angles, positions, v_ang, Tp, w, sys):
@@ -35,6 +37,7 @@ def read_switching_angles(angles, positions, v_ang, Tp, w, sys):
     # Parameters for reading the switching angles
     # Maximum number of switching events to consider within the prediction horizon.
     MAX_SIZE = 10
+
     # Threshold for angle comparison
     ANGLE_THRESHOLD = 1e-3
 
@@ -186,29 +189,16 @@ def load_switching_angles(d, sys):
         The loaded switching angles and positions.
     """
 
-    PATH = 'soft4pes/control/opp/data/'
+    BASE_PATH = Path.cwd()
+    TARGET_PATH = BASE_PATH / 'examples' / 'data'
 
     try:
-        opp_lut = xr.open_dataset(PATH + str(sys.conv.nl) + 'L_' + 'd' +
-                                  str(d) + '_opp_inductive.nc')
+        opp_lut = xr.open_dataset(
+            TARGET_PATH /
+            (str(sys.conv.nl) + 'L_' + 'd' + str(d) + '_opp_inductive.nc'))
     except FileNotFoundError as exc:
-        raise FileNotFoundError('Data for ' + str(sys.conv.nl) + 'L_' +
+        raise FileNotFoundError('Data for ' + str(sys.conv.nl) + 'L_d' +
                                 str(d) + '_opp_inductive.nc' +
                                 ' not found.') from exc
 
     return opp_lut
-
-
-def wrap_to_2pi(angles):
-    """
-    Wrap angles to the range [0, 2*pi).
-
-    Parameters
-    ----------
-    angles: float
-
-    Returns
-    -------
-    wrapped angles: float
-    """
-    return np.mod(angles, 2 * np.pi)

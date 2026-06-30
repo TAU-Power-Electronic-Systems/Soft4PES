@@ -24,6 +24,24 @@ def wrap_theta(theta):
     return (theta + np.pi) % (2 * np.pi) - np.pi
 
 
+def wrap_to_2pi(theta):
+    """
+    Wrap the angle theta to the range [0, 2*pi).
+
+    Parameters
+    ----------
+    theta : float
+        The angle in radians.
+
+    Returns
+    -------
+    float
+        The wrapped angle in radians.
+    """
+
+    return np.mod(theta, 2 * np.pi)
+
+
 def get_modulating_signal(v_ref, v_dc):
     """
     Convert a voltage reference to a modulating signal.
