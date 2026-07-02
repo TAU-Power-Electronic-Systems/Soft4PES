@@ -3,12 +3,13 @@
 from pathlib import Path
 import numpy as np
 import xarray as xr
-from soft4pes.control.common.utils import wrap_to_2pi
+from soft4pes.control.common.utils import wrap_theta
 
 
 def read_switching_angles(angles, positions, v_ang, Tp, w, sys):
     """
-    Read the switching angles that fall within the prediction horizon of the MPC controller. 
+    Read the switching angles of a QaHWS OPP that fall within 
+    the prediction horizon of the MPC controller. 
 
     Parameters
     ----------
@@ -17,11 +18,11 @@ def read_switching_angles(angles, positions, v_ang, Tp, w, sys):
     positions : 1 x d ndarray
         Switching positions corresponding to the switching angles.
     v_ang : float
-        Angle of the converter voltage vector.
+        Angle of the converter voltage reference vector.
     Tp : float
         Length of the prediction horizon.
     w : float
-        Angular frequency of the converter voltage vector.
+        Angular frequency of the converter voltage reference vector.
     sys : system object
             The system model.
     Returns
@@ -82,13 +83,13 @@ def read_switching_angles(angles, positions, v_ang, Tp, w, sys):
     positions_a = positions_fw
 
     # Phase B
-    angles_b_wrapped = wrap_to_2pi(angles_fw + 2 * np.pi / 3)
+    angles_b_wrapped = wrap_theta(angles_fw + 2 * np.pi / 3 - np.pi) + np.pi
     sort_b = np.argsort(angles_b_wrapped)
     angles_b = angles_b_wrapped[sort_b]
     positions_b = positions_fw[sort_b]
 
     # Phase C
-    angles_c_wrapped = wrap_to_2pi(angles_fw + 4 * np.pi / 3)
+    angles_c_wrapped = wrap_theta(angles_fw + 4 * np.pi / 3 - np.pi) + np.pi
     sort_c = np.argsort(angles_c_wrapped)
     angles_c = angles_c_wrapped[sort_c]
     positions_c = positions_fw[sort_c]
@@ -102,7 +103,7 @@ def read_switching_angles(angles, positions, v_ang, Tp, w, sys):
     angles_3p = np.concatenate([angles_3p, angles_3p + 2 * np.pi], axis=1)
 
     # Add pi/2 to align the converter voltage with the OPP
-    v_ang = wrap_to_2pi(v_ang + np.pi / 2)
+    v_ang = wrap_theta(v_ang + np.pi / 2 - np.pi) + np.pi
 
     # Angle of the end of Tp
     TpAngle = Tp * w * sys.base.w + v_ang
@@ -165,21 +166,21 @@ def read_switching_angles(angles, positions, v_ang, Tp, w, sys):
         if i < MAX_SIZE:
             U[:, i] = current_u
 
-    # If n_valid was shorter than MAX_SIZE, pad the rest of U with the last valid state
+    #If n_valid was shorter than MAX_SIZE, pad the rest of U with the last valid state
     if n_valid < MAX_SIZE:
         U[:, n_valid:] = current_u.reshape(3, 1)
 
     return t_nom, U, u_0
 
 
-def load_switching_angles(d, sys):
+def load_switching_angles(filename, sys):
     """
     Load the switching angles and positions from a file.
 
     Parameters
     ----------
-    d : int 
-        pulse number
+    filename : str
+        The name of the file to load.
     sys : system object
         The system model.
 
@@ -190,15 +191,12 @@ def load_switching_angles(d, sys):
     """
 
     BASE_PATH = Path.cwd()
-    TARGET_PATH = BASE_PATH / 'examples' / 'data'
+    TARGET_PATH = BASE_PATH / 'examples' / 'opp_data'
 
     try:
-        opp_lut = xr.open_dataset(
-            TARGET_PATH /
-            (str(sys.conv.nl) + 'L_' + 'd' + str(d) + '_opp_inductive.nc'))
+        opp_lut = xr.open_dataset(TARGET_PATH / filename)
     except FileNotFoundError as exc:
-        raise FileNotFoundError('Data for ' + str(sys.conv.nl) + 'L_d' +
-                                str(d) + '_opp_inductive.nc' +
+        raise FileNotFoundError('Data for ' + filename +
                                 ' not found.') from exc
 
     return opp_lut

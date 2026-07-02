@@ -4,22 +4,45 @@ Electrical angular speed calculation for an induction machine (IM).
 
 import numpy as np
 from soft4pes.control.common.controller import Controller
+from soft4pes.control.common.utils import FirstOrderFilter
 
 
-class WSCalculator(Controller):
+class IMwsEstimator(Controller):
     """
     Electrical angular speed calculator for an induction machine (IM).
     The angular speed is calculated based on the rotor flux angle, which 
     is derived from the rotor flux components. The angular speed is filtered 
-    using a first-order low-pass filter to reduce noise in the estimation. 
+    using a first-order low-pass filter to reduce noise in the estimation.
+
+    Parameters
+    ----------
+    sys : object
+        System model.
+    w_bw : float, optional
+        Cutoff frequency for the low-pass filter 
+        applied to the angular speed estimation.
+    
+    Attributes
+    ----------
+    sys : object
+        System model.
+    theta_km1 : float
+        Previous rotor flux angle used for 
+        angular speed calculation.
+    w_bw : float
+        Cutoff frequency for the low-pass filter 
+        applied to the angular speed estimation [p.u.]
+    filter : FirstOrderFilter
+        First-order low-pass filter for smoothing the 
+        angular speed estimate.
     """
 
-    def __init__(self, sys):
+    def __init__(self, sys, w_bw=0.5):
         super().__init__()
         self.sys = sys
-        self.ws = 1
         self.theta_km1 = None
-        self.tau_ws = 0.01
+        self.w_bw = w_bw
+        self.filter = FirstOrderFilter(w_bw=w_bw, size=1, init=sys.wr)
 
     def set_sampling_interval(self, Ts):
         """
@@ -34,7 +57,7 @@ class WSCalculator(Controller):
 
     def execute(self, sys, kTs):
         """
-        Calculate electrical angular speed
+        Calculate and filter electrical angular speed
 
         Parameters
         ----------
@@ -43,8 +66,8 @@ class WSCalculator(Controller):
 
         Returns
         -------
-        ws : float
-            Electrical angular speed [rad/s].
+        output : SimpleNamespace
+            Output containing the estimated electrical angular speed.
         """
         self.output = self.input
 
@@ -61,16 +84,15 @@ class WSCalculator(Controller):
         if theta < 0 and self.theta_km1 > 0:
             self.theta_km1 -= 2 * np.pi
 
-        # Raw derivative of the angle to calculate angular speed
+        # Raw derivative of the angle
         ws_raw = (theta - self.theta_km1) / self.Ts / sys.base.w
 
         # Apply a first-order low-pass filter to smooth the angular speed estimate
-        alpha = self.Ts / (self.tau_ws + self.Ts)
-        self.ws = alpha * ws_raw + (1.0 - alpha) * self.ws
+        self.filter.update(ws_raw, self.Ts, sys.base)
 
         # Update the previous angle for next step
         self.theta_km1 = theta
 
-        self.output.ws = self.ws
+        self.output.ws = self.filter.output
 
         return self.output

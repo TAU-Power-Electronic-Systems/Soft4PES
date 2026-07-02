@@ -1,7 +1,5 @@
 """
-Example of direct model predictive control (MPC) for an induction machine drive system. The 
-controller aims to track the stator current reference calculated based on the reference values of 
-the stator flux magnitude and torque. The machine operates at a constant (nominal) speed.
+Example of open-loop control for IM with OPPs
 """
 
 from types import SimpleNamespace
@@ -19,28 +17,21 @@ from soft4pes.utils.plotter import Plotter
 # corresponding reference values (in per unit). The reference is interpolated linearly between the
 # time instants.
 T_ref_seq = Sequence(
-    np.array([0, 0.05, 0.05, 0.3]),
-    np.array([1, 1, 0, 0]),
+    np.array([0, 0.2]),
+    np.array([1, 1]),
 )
 
 psiS_mag_ref_seq = Sequence(
-    np.array([0]),
-    np.array([1]),
+    np.array([0, 0.2]),
+    np.array([1, 1]),
 )
 
 ref_seq = SimpleNamespace(T_ref_seq=T_ref_seq,
                           psiS_mag_ref_seq=psiS_mag_ref_seq)
 
-# Define the rotor speed sequence. The rotor speed are given in per unit so that the stator
-# electrical angular frequency is 1 p.u. on rated torque.
-# wr_seq = Sequence(
-#     np.array([0]),
-#     np.array([0.9583]),
-# )
-
 # Get the system parameters from the ready made components. All the available components and systems
 # are defined in the examples/machine/pars/machine_parameter_sets.json file, and given in the
-# documentation. Here, a 2-level converter connected to low voltage induction machine is used.
+# documentation. Here, a 3-level converter connected to medium voltage induction machine is used.
 config = get_custom_system(machine_name='MV_Induction_Machine',
                            converter_name='3L_MV_Converter')
 
@@ -56,12 +47,13 @@ sys = model.machine.InductionMachine(
     T_ref_init=T_ref_seq(0),
 )
 
-wS_calc = lin.WSCalculator(sys=sys)
+# Define the control loops
+im_ws_est = lin.IMwsEstimator(sys=sys)
 iS_ref_gen = lin.IMStatorCurrRefGen()
-ctr = opp.ImOpenLoopOPP(sys=sys, d=6)
+ctr = opp.IMOpenLoopOPP(sys=sys, d=6, opp_file='3L_d6_opp_inductive.nc')
 
 # Instantiate the controller
-ctr_sys = common.ControlSystem(control_loops=[wS_calc, iS_ref_gen, ctr],
+ctr_sys = common.ControlSystem(control_loops=[im_ws_est, iS_ref_gen, ctr],
                                ref_seq=ref_seq,
                                Ts=50e-6)
 
@@ -84,6 +76,6 @@ plotter.plot_spectra(states_to_plot=['iS'],
                      f_fund_SI=config.base.w / (2 * np.pi),
                      f_max_SI_plot=2500,
                      start_time=0.1,
-                     n_cycles=5,
+                     n_cycles=1,
                      style='bar')
 plotter.show_all()

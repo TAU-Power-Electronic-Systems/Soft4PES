@@ -1,42 +1,33 @@
 """
-Example of grid-following control of a converter with an L filter.
+Example of grid-following control of a converter with an L filter with open-loop OPPs.
 """
 
 from types import SimpleNamespace
 import numpy as np
 
+from pars.grid_config import get_default_system
 from soft4pes import model
 from soft4pes.control import common, lin, opp
 from soft4pes.utils import Sequence
 from soft4pes.sim import Simulation
 from soft4pes.utils.plotter import Plotter
 
-# Define the base values
-base = model.grid.BaseGrid(Vg_R_SI=3300, Ig_R_SI=1575, fg_R_SI=50)
-
 # Define power reference sequences
 # The first array contains the time instants (in seconds) and the second array the corresponding
 # reference values (in per unit). The reference is interpolated linearly between the time instants.
-P_ref_seq = Sequence(np.array([0, 0.05, 0.05, 0.2]), np.array([1, 1, 1, 1]))
+P_ref_seq = Sequence(np.array([0, 0.2]), np.array([1, 1]))
 Q_ref_seq = Sequence(
-    np.array([0, 0.05, 0.05, 0.2]),
-    np.array([0, 0, 0, 0]),
+    np.array([0, 0.2]),
+    np.array([0, 0]),
 )
 ref_seq = SimpleNamespace(P_ref_seq=P_ref_seq, Q_ref_seq=Q_ref_seq)
 
-# Define the grid parameters
-grid_params = model.grid.RLGridParameters(Vg_SI=3300,
-                                          fg_SI=50,
-                                          Rg_SI=0.01815,
-                                          Lg_SI=5.7773e-4,
-                                          base=base)
-
-# Define the LC-filter parameters
-l_params = model.grid.LFilterParameters(L_fc_SI=0.5e-3, R_fc_SI=0.1, base=base)
-
-# Define the system model
-conv = model.conv.Converter(v_dc_SI=6200, nl=2, base=base)
-sys = model.grid.RLGridLFilter(grid_params, l_params, conv, base)
+# Define the base values
+config = get_default_system(name='Strong_MV_Grid_L_Filter_3L_conv')
+sys = model.grid.RLGridLFilter(par_grid=config.grid_params,
+                               par_l_filter=config.filter_params,
+                               conv=config.conv,
+                               base=config.base)
 
 # PLL implementation
 pll = lin.PLL(sys=sys, zeta=1, wn=2 * np.pi * 5)
@@ -44,12 +35,13 @@ pll = lin.PLL(sys=sys, zeta=1, wn=2 * np.pi * 5)
 # Build the current reference
 curr_ref = lin.GridCurrRefGen()
 
-# Build the current controller
-i_conv_ctr = opp.GridOpenLoopOPP(sys=sys, d=11)
+# Build the open-loop current controller
+i_conv_ctr = opp.RLGridLFilterOpenLoopOPP(sys=sys,
+                                          d=5,
+                                          opp_file='3L_d5_opp_inductive.nc')
 
 # Define the control loops: the PLL is used for synchronization, the outer loop generates
-# the grid current reference from the power references, and the inner loop (current
-# controller) tracks the grid current reference.
+# the grid current reference from the power references, and the inner loop applies the open-loop control.
 control_loops = [pll, curr_ref, i_conv_ctr]
 ctr_sys = common.ControlSystem(control_loops=control_loops,
                                ref_seq=ref_seq,
@@ -57,7 +49,7 @@ ctr_sys = common.ControlSystem(control_loops=control_loops,
 
 # Simulate the system
 sim = Simulation(sys=sys, ctr=ctr_sys, Ts_sim=5e-6)
-sim_data = sim.simulate(t_stop=0.101)
+sim_data = sim.simulate(t_stop=0.2)
 sim.save_data()
 
 # Plot the results
@@ -71,5 +63,5 @@ plotter.plot_spectra(states_to_plot=['ig'],
                      f_fund_SI=50.0,
                      f_max_SI_plot=7500,
                      start_time=0.075,
-                     n_cycles=5)
+                     n_cycles=1)
 plotter.show_all()

@@ -5,11 +5,12 @@ Open-loop OPP implementation for induction machine control.
 from types import SimpleNamespace
 import numpy as np
 from soft4pes.control.common import Controller
+from soft4pes.control.common.utils import get_modulating_signal
 from soft4pes.utils import alpha_beta_2_dq, dq_2_alpha_beta
 from soft4pes.control.opp.utils import read_switching_angles, load_switching_angles
 
 
-class ImOpenLoopOPP(Controller):
+class IMOpenLoopOPP(Controller):
     """
     Open-loop optimized pulse pattern (OPP) implementation for induction machine control.
 
@@ -19,6 +20,11 @@ class ImOpenLoopOPP(Controller):
         System model.
     d : int
         Number of switching angles.
+    opp_file : str
+        The name of the OPP data file.   
+    m_tol : float, optional
+        Tolerance for modulation index change to 
+        update the switching angles and positions.
     
     Attributes
     ----------
@@ -35,16 +41,23 @@ class ImOpenLoopOPP(Controller):
         for different modulation indices.
     d : int
         Number of switching angles.
+    m_tol : float
+        Tolerance for modulation index change to 
+        update the switching angles and positions.
+    opp_file : str
+        The name of the OPP data file.      
     """
 
-    def __init__(self, sys, d):
+    def __init__(self, sys, d, opp_file, m_tol=1e-3):
         super().__init__()
         self.sys = sys
         self.m = None
         self.d = d
         self.angles = None
         self.positions = None
-        self.lut = None
+        self.lut_opp = None
+        self.m_tol = m_tol
+        self.opp_file = opp_file
 
     def set_sampling_interval(self, Ts):
         """
@@ -59,7 +72,7 @@ class ImOpenLoopOPP(Controller):
         self.Ts = Ts
 
         # Load the OPP data
-        self.lut = load_switching_angles(self.d, self.sys)
+        self.lut_opp = load_switching_angles(self.opp_file, self.sys)
 
     def execute(self, sys, kTs):
         """
@@ -76,7 +89,7 @@ class ImOpenLoopOPP(Controller):
         -------
         output : SimpleNamespace
             Output from the controller including the switching time instants and the corresponding 
-            switch position or modulating signal.
+            switch position.
         """
 
         # Calculate the transformation angle
@@ -104,18 +117,21 @@ class ImOpenLoopOPP(Controller):
 
         # Read the switching angles and positions from the LUT
         # If the modulation index has changed significantly, update the angles and positions
-        if self.m is None or not np.isclose(m, self.m, rtol=1e-3):
+        if self.m is None or not np.isclose(m, self.m, rtol=self.m_tol):
             self.m = m
-            self.angles = self.lut['switching_angles'].sel(
+            self.angles = self.lut_opp['switching_angles'].sel(
                 modulation_index=m, method='nearest').values
-            self.positions = self.lut['switch_positions'].sel(
+            self.positions = self.lut_opp['switch_positions'].sel(
                 modulation_index=m, method='nearest').values
 
         t_nom, U, u0 = read_switching_angles(self.angles, self.positions,
                                              vs_ang, self.Ts, ws, sys)
 
+        u_abc = get_modulating_signal(dq_2_alpha_beta(v_conv, theta),
+                                      sys.conv.v_dc)
+
         self.output = SimpleNamespace(t_switch=t_nom / self.Ts,
                                       switch_pos=np.transpose(U),
-                                      u_abc=np.array([0, 0, 0]))
+                                      u_abc=u_abc)
 
         return self.output
