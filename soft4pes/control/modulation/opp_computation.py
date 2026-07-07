@@ -18,6 +18,9 @@ import xarray as xr
 from scipy.optimize import Bounds, LinearConstraint, minimize
 from scipy.stats import qmc
 
+from soft4pes.model.grid.rl_grid import RLGrid
+from soft4pes.model.grid.rl_grid_lcl_filter import RLGridLCLFilter
+
 # Data shared by worker processes.
 _WORKER_DATA = None
 
@@ -203,7 +206,7 @@ def run_single_optimization(task):
     return result
 
 
-class OPP:
+class OPPComputation:
     """
     Offline OPP computation.
     
@@ -234,7 +237,22 @@ class OPP:
 
     Attributes
     ----------
-    results : dict
+    setup : SimpleNamespace
+        OPP configuration data.
+
+    harmonics : SimpleNamespace
+        Harmonic orders and weighting factors used in the objective function.
+
+    switching : SimpleNamespace
+        Switching-angle and switching-sequence data.
+
+    constraints : SimpleNamespace
+        Bound and linear constraints.
+
+    initial_points : ndarray or None
+        Initial switching-angle vectors used for multistart optimization.
+
+    results : dict or None
         Computed OPP lookup table.
     """
 
@@ -249,31 +267,40 @@ class OPP:
     ):
 
         self.sys = sys
-        self.d = d
-        self.level = sys.conv.nl
 
         if symmetry not in ("HWS", "QaHWS"):
             raise ValueError("symmetry must be either 'QaHWS' or 'HWS'.")
-        self.symmetry = symmetry
+        
+        self.setup = SimpleNamespace(
+            d=d,
+            level=sys.conv.nl,
+            symmetry=symmetry,
+            is_grid=isinstance(sys, RLGrid),
+            n_m=n_m,
+            n_ini_points=n_ini_points,
+            max_harmonics=max_harmonics,
+        )
 
-        self.is_grid = hasattr(sys, "cont_state_space")
-        self.n_m = n_m
-        self.n_ini_points = n_ini_points
-        self.max_harmonics = max_harmonics
+        self.harmonics = SimpleNamespace(
+            orders=None,
+            weights=None,
+        )
 
-        self.harmonic_orders = None
-        self.n_angles = None
-        self.n_sequences = None
-        self.u0_candidates = None
-        self.delta_u = None
-        self.harmonic_weights = None
-        self.x0_set = None
-        self.results = None
+        self.switching = SimpleNamespace(
+            n_angles=None,
+            n_sequences=None,
+            u0_candidates=None,
+            delta_u=None,
+        )
+
         self.constraints = SimpleNamespace(
             angle_max=None,
             bounds=None,
             linear_constraint=None,
         )
+
+        self.initial_points = None
+        self.results = None
 
         self.build_problem()
 
@@ -295,9 +322,9 @@ class OPP:
         Build the set of considered non-triplen odd harmonic orders.
         """
 
-        harmonics = np.arange(2, self.max_harmonics + 1)
+        harmonics = np.arange(2, self.setup.max_harmonics + 1)
 
-        self.harmonic_orders = harmonics[
+        self.harmonics.orders = harmonics[
             (harmonics % 2 == 1) &
             (harmonics % 3 != 0)
         ]
@@ -307,24 +334,24 @@ class OPP:
         Build switching-angle and switching-sequence information.
         """
 
-        if self.symmetry == "HWS":
-            if self.level == 2:
-                self.n_angles = 2 * self.d + 1
+        if self.setup.symmetry == "HWS":
+            if self.setup.level == 2:
+                self.switching.n_angles = 2 * self.setup.d + 1
             else:
-                self.n_angles = 2 * self.d
+                self.switching.n_angles = 2 * self.setup.d
         else:
-            self.n_angles = self.d
+            self.switching.n_angles = self.setup.d
 
-        if self.level == 2:
-            self.n_sequences = 2
-            self.u0_candidates = np.array([1, -1])
-            self.delta_u = (-1) ** np.arange(1, self.n_angles + 1)
+        if self.setup.level == 2:
+            self.switching.n_sequences = 2
+            self.switching.u0_candidates = np.array([1, -1])
+            self.switching.delta_u = (-1) ** np.arange(1, self.switching.n_angles + 1)
         else:
-            self.n_sequences = 1
-            self.u0_candidates = np.array([1])
-            self.delta_u = (-1) ** np.arange(2, self.n_angles + 2)
+            self.switching.n_sequences = 1
+            self.switching.u0_candidates = np.array([1])
+            self.switching.delta_u = (-1) ** np.arange(2, self.switching.n_angles + 2)
 
-        self.delta_u = self.delta_u.astype(float)
+        self.switching.delta_u = self.switching.delta_u.astype(float)
 
     def build_system_model(self):
         """
@@ -334,8 +361,8 @@ class OPP:
         LCL-filter frequency-response magnitude.
         """
 
-        if not self.is_grid:
-            self.harmonic_weights = np.ones(len(self.harmonic_orders))
+        if not isinstance(self.sys, RLGridLCLFilter):
+            self.harmonics.weights = np.ones(len(self.harmonics.orders))
             return
 
         state_space = self.sys.cont_state_space
@@ -353,11 +380,11 @@ class OPP:
 
         filter_model = ct.ss(F_sys, G_sys, C_sys, D_sys)
 
-        self.harmonic_weights = np.zeros(len(self.harmonic_orders))
+        self.harmonics.weights = np.zeros(len(self.harmonics.orders))
 
-        for harmonic_index, harmonic_order in enumerate(self.harmonic_orders):
+        for harmonic_index, harmonic_order in enumerate(self.harmonics.orders):
             mag, _, _ = ct.frequency_response(filter_model, [harmonic_order])
-            self.harmonic_weights[harmonic_index] = np.linalg.norm(mag)
+            self.harmonics.weights[harmonic_index] = np.linalg.norm(mag)
 
     def build_constraints(self):
         """
@@ -365,42 +392,42 @@ class OPP:
         """
 
         self.constraints.angle_max = (
-            np.pi if self.symmetry == "HWS" else np.pi / 2
+            np.pi if self.setup.symmetry == "HWS" else np.pi / 2
         )
 
         self.constraints.bounds = Bounds(
-            np.zeros(self.n_angles),
-            np.ones(self.n_angles) * self.constraints.angle_max,
+            np.zeros(self.switching.n_angles),
+            np.ones(self.switching.n_angles) * self.constraints.angle_max,
         )
 
-        if self.symmetry == "HWS":
-            A = np.eye(self.n_angles)
+        if self.setup.symmetry == "HWS":
+            A = np.eye(self.switching.n_angles)
 
             A += np.block([
                 [
-                    np.zeros((self.n_angles - 1, 1)),
-                    -np.eye(self.n_angles - 1),
+                    np.zeros((self.switching.n_angles - 1, 1)),
+                    -np.eye(self.switching.n_angles - 1),
                 ],
                 [
-                    np.zeros((1, self.n_angles)),
+                    np.zeros((1, self.switching.n_angles)),
                 ],
             ])
 
             A[-1, 0] = 1
 
             b = np.concatenate((
-                np.zeros(self.n_angles - 1),
+                np.zeros(self.switching.n_angles - 1),
                 [np.pi + 1e-12],
             ))
 
         else:
-            A = np.zeros((self.n_angles - 1, self.n_angles))
+            A = np.zeros((self.switching.n_angles - 1, self.switching.n_angles))
 
-            for i in range(self.n_angles - 1):
+            for i in range(self.switching.n_angles - 1):
                 A[i, i] = 1.0
                 A[i, i + 1] = -1.0
 
-            b = np.zeros(self.n_angles - 1)
+            b = np.zeros(self.switching.n_angles - 1)
 
         self.constraints.linear_constraint = LinearConstraint(A, -np.inf, b)
 
@@ -410,17 +437,17 @@ class OPP:
         """
 
         sampler = qmc.Halton(
-            d=self.n_angles,
+            d=self.switching.n_angles,
             scramble=True,
             seed=0,
         )
 
         sampler.fast_forward(1000)
 
-        initial_points = sampler.random(self.n_ini_points)
+        initial_points = sampler.random(self.setup.n_ini_points)
         initial_points = np.sort(initial_points, axis=1)
 
-        self.x0_set = initial_points * self.constraints.angle_max
+        self.initial_points = initial_points * self.constraints.angle_max
 
     def get_worker_data(self):
         """
@@ -433,12 +460,12 @@ class OPP:
         """
 
         return {
-            "harmonic_orders": self.harmonic_orders,
-            "delta_u": self.delta_u,
-            "harmonic_weights": self.harmonic_weights,
-            "level": self.level,
-            "is_grid": self.is_grid,
-            "symmetry": self.symmetry,
+            "harmonic_orders": self.harmonics.orders,
+            "delta_u": self.switching.delta_u,
+            "harmonic_weights": self.harmonics.weights,
+            "level": self.setup.level,
+            "is_grid": self.setup.is_grid,
+            "symmetry": self.setup.symmetry,
             "bounds": self.constraints.bounds,
             "linear_constraint": self.constraints.linear_constraint,
         }
@@ -464,19 +491,21 @@ class OPP:
             Computed OPP data, including switching angles, modulation indices,
             and switch positions.
         """
+        if use_parallel:
+            mp.freeze_support()
 
         results = {
-            "angles": np.zeros((self.n_m, self.n_angles)),
-            "modulation_index": np.zeros((self.n_m, 1)),
-            "switch_positions": np.zeros((self.n_m, self.n_angles + 1)),
-            "symmetry": self.symmetry,
-            "converter_type": "2Level" if self.level == 2 else "3Level",
-            "d": self.d,
-            "system_type": "grid" if self.is_grid else "load",
+            "angles": np.zeros((self.setup.n_m, self.switching.n_angles)),
+            "modulation_index": np.zeros((self.setup.n_m, 1)),
+            "switch_positions": np.zeros((self.setup.n_m, self.switching.n_angles + 1)),
+            "symmetry": self.setup.symmetry,
+            "converter_type": "2Level" if self.setup.level == 2 else "3Level",
+            "d": self.setup.d,
+            "system_type": "grid" if self.setup.is_grid else "load",
         }
 
         if m_values is None:
-            m_values = range(1, self.n_m)
+            m_values = range(1, self.setup.n_m)
 
         worker_data = self.get_worker_data()
 
@@ -516,9 +545,9 @@ class OPP:
 
         for m_index in m_values:
 
-            print(f"m = {m_index + 1} / {self.n_m}")
+            print(f"m = {m_index + 1} / {self.setup.n_m}")
 
-            modulation_index = (m_index / (self.n_m - 1)) * (4 / np.pi)
+            modulation_index = (m_index / (self.setup.n_m - 1)) * (4 / np.pi)
 
             results["modulation_index"][m_index, 0] = modulation_index
 
@@ -526,11 +555,11 @@ class OPP:
             best_result = None
             best_u0 = None
 
-            for u0 in self.u0_candidates:
+            for u0 in self.switching.u0_candidates:
 
                 tasks = [
                     (x0, modulation_index, u0)
-                    for x0 in self.x0_set
+                    for x0 in self.initial_points
                 ]
 
                 if pool is None:
@@ -568,17 +597,17 @@ class OPP:
             if best_result is not None:
                 results["angles"][m_index, :] = best_result.x
 
-                if self.level == 2:
-                    switch_positions = np.empty(self.n_angles + 1)
+                if self.setup.level == 2:
+                    switch_positions = np.empty(self.switching.n_angles + 1)
                     switch_positions[0] = best_u0
 
-                    for k in range(self.n_angles):
+                    for k in range(self.switching.n_angles):
                         switch_positions[k + 1] = -switch_positions[k]
 
                 else:
 
-                    switch_positions = np.zeros(self.n_angles + 1)
-                    switch_positions[1:] = np.cumsum(self.delta_u)
+                    switch_positions = np.zeros(self.switching.n_angles + 1)
+                    switch_positions[1:] = np.cumsum(self.switching.delta_u)
 
                 results["switch_positions"][m_index, :] = switch_positions
 
@@ -601,12 +630,12 @@ class OPP:
             )
 
         if file_name is None:
-            system_name = "grid" if self.is_grid else "load"
-            level_name = "2Level" if self.level == 2 else "3Level"
-            symmetry_name = self.symmetry
+            system_name = "grid" if self.setup.is_grid else "load"
+            level_name = "2Level" if self.setup.level == 2 else "3Level"
+            symmetry_name = self.setup.symmetry
 
             file_name = (
-                f"d{self.d}_"
+                f"d{self.setup.d}_"
                 f"{level_name}_"
                 f"{system_name}_"
                 f"{symmetry_name}_"
@@ -625,17 +654,17 @@ class OPP:
                 ),
             },
             coords={
-                "angle_index": np.arange(1, self.n_angles + 1),
-                "position_index": np.arange(0, self.n_angles + 1),
+                "angle_index": np.arange(1, self.switching.n_angles + 1),
+                "position_index": np.arange(0, self.switching.n_angles + 1),
                 "modulation_index": self.results["modulation_index"].flatten(),
             },
             attrs={
                 "description": "Optimized pulse pattern switching angles",
                 "angle_units": "radians",
-                "converter_type": f"{self.level}Level",
-                "system_type": "grid" if self.is_grid else "load",
-                "symmetry": self.symmetry,
-                "pulse_number": self.d,
+                "converter_type": f"{self.setup.level}Level",
+                "system_type": "grid" if self.setup.is_grid else "load",
+                "symmetry": self.setup.symmetry,
+                "pulse_number": self.setup.d,
                 "creation_date": datetime.now().strftime("%d-%b-%Y %H:%M:%S"),
             },
         )

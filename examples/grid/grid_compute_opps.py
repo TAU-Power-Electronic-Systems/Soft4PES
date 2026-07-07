@@ -5,15 +5,11 @@ This example computes OPPs for the selected grid-connected system and stores the
 resulting switching-angle and switch-position lookup tables in a NetCDF file.
 """
 
-import multiprocessing as mp
-
 from examples.grid.pars.grid_config import get_custom_system
-from soft4pes.control.modulation import OPP
+from soft4pes.control.modulation import OPPComputation
 
 
 if __name__ == "__main__":
-
-    mp.freeze_support()
 
     # Create the system from predefined grid, filter, and converter components.
     config = get_custom_system(
@@ -25,7 +21,7 @@ if __name__ == "__main__":
     sys = config.sys
 
     # Define the OPP problem.
-    opp = OPP(
+    opp = OPPComputation(
         sys=sys,
         d=5,
         symmetry="QaHWS",
