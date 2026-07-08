@@ -20,7 +20,7 @@ from soft4pes.utils.plotter import Plotter
 # time instants.
 T_ref_seq = Sequence(
     np.array([0, 0.05, 0.05, 0.3]),
-    np.array([0, 0, 1, 1]),
+    np.array([1, 1, 1, 1]),
 )
 
 psiS_mag_ref_seq = Sequence(
@@ -33,10 +33,10 @@ ref_seq = SimpleNamespace(T_ref_seq=T_ref_seq,
 
 # Define the rotor speed sequence. The rotor speed are given in per unit so that the stator
 # electrical angular frequency is 1 p.u. on rated torque.
-wr_seq = Sequence(
-    np.array([0, 0.15, 0.25, 0.3]),
-    np.array([0.9583, 0.9583, 0.4583, 0.4583]),
-)
+# wr_seq = Sequence(
+#     np.array([0, 0.15, 0.25, 0.3]),
+#     np.array([0.9583, 0.9583, 0.4583, 0.4583]),
+# )
 
 # Get the system parameters from the ready made components. All the available components and systems
 # are defined in the examples/machine/pars/machine_parameter_sets.json file, and given in the
@@ -52,7 +52,6 @@ sys = model.machine.InductionMachine(
     par=config.machine_params,
     conv=config.conv,
     base=config.base,
-    wr=wr_seq,
     psiS_mag_ref_init=psiS_mag_ref_seq(0),
     T_ref_init=T_ref_seq(0),
 )

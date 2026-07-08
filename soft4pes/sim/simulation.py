@@ -126,7 +126,7 @@ class SwitchingLogic:
             # step. Multiple switching time instants can be equal to the current simulation step. If
             # this is the case, the last entry is used, as it includes the preceding ones.
             self.u_abc = ctr_output.switch_pos[k_sim == self.k_switch]
-            if self.u_abc.ndim == 2:
+            if self.u_abc.ndim > 1:
                 self.u_abc = self.u_abc[-1]
         return self.u_abc
 
