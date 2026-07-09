@@ -57,7 +57,11 @@ sys = model.machine.InductionMachine(
     T_ref_init=T_ref_seq(0),
 )
 
-# Choose the control strategy. "MPC" for model predictive control, "FOC" for field-oriented control.
+# Choose the control strategy.
+# "MPC" for model predictive control,
+# "FOC" for field-oriented control,
+# "V/f" for open-loop V/f control.
+
 CTR_STRATEGY = "FOC"
 
 # Define the electrical angular frequency estimator
@@ -97,6 +101,19 @@ match CTR_STRATEGY:
             Ts=200e-6,
             pwm=modulation.CarrierPWM(),
             common_mode_inj=modulation.CommonModeInjection())
+
+    case "V/f":
+        # Define the open-loop V/f controller, which calculates the stator voltage based on the
+        # torque reference and stator flux magnitude reference.
+        iS_curr_ctr = lin.VfCurrCtr(sys=sys)
+
+        # Instantiate the controller with OPP modulator
+        ctr_sys = common.ControlSystem(control_loops=[iS_curr_ctr],
+                                       ref_seq=ref_seq,
+                                       Ts=250e-6,
+                                       pwm=modulation.OPPPWM(
+                                           sys=sys,
+                                           opp_file='2L_d11_opp_inductive.nc'))
 
 # Simulate the system
 sim = Simulation(sys=sys,

@@ -1,4 +1,4 @@
-"""Utility functions for closed-loop control with optimized pulse patterns (OPPs)."""
+"""Utility functions for modulation"""
 
 from pathlib import Path
 import numpy as np
@@ -6,41 +6,34 @@ import xarray as xr
 from soft4pes.control.common.utils import wrap_theta
 
 
-def read_switching_angles(angles, positions, v_ang, Tp, w, sys):
+def read_switching_angles(angles, positions, v_ang, Tend, w, sys):
     """
     Read the switching angles of a QaHWS OPP that fall within 
-    the prediction horizon of the MPC controller. 
+    the time window [0, Tend). 
 
     Parameters
     ----------
     angles : 1 x d ndarray
-        Array of switching angles.
+        Array of switching angles.[rad]
     positions : 1 x d ndarray
         Switching positions corresponding to the switching angles.
     v_ang : float
-        Angle of the converter voltage reference vector.
-    Tp : float
-        Length of the prediction horizon.
+        Angle of the converter voltage reference vector. [rad]
+    Tend : float
+        End time of the time window. [s]
     w : float
-        Angular frequency of the converter voltage reference vector.
+        Angular frequency of the converter voltage reference vector. [p.u.]
     sys : system object
             The system model.
     Returns
     -------
-    t_nom : 1 x N ndarray
-        Nominal switching time instants within the prediction horizon.
+    t : 1 x N ndarray 
+        Switching time instants within the time window [0, Tend). [s]
     U : 3 x N ndarray
-        Nominal three-phase switch positions corresponding to the nominal switching time instants.
+        Three-phase switch positions corresponding to the switching time instants.
     u_0 : 3 x 1 ndarray
-        Initial three-phase switch position at the beginning of the prediction horizon.
+        Initial three-phase switch position at the beginning of the time window [0, Tend).
     """
-
-    # Parameters for reading the switching angles
-    # Maximum number of switching events to consider within the prediction horizon.
-    MAX_SIZE = 10
-
-    # Threshold for angle comparison
-    ANGLE_THRESHOLD = 1e-3
 
     # Utilize QaHWS symmetry to generate full wave switching pattern
     if sys.conv.nl == 3:
@@ -78,6 +71,8 @@ def read_switching_angles(angles, positions, v_ang, Tp, w, sys):
     else:
         raise ValueError('Only two- and three-level converters are supported.')
 
+    ANGLE_TOL = 20e-3  # Tolerance for angle comparison
+
     # Phase A with zero phase shift
     angles_a = angles_fw
     positions_a = positions_fw
@@ -106,11 +101,11 @@ def read_switching_angles(angles, positions, v_ang, Tp, w, sys):
     v_ang = wrap_theta(v_ang + np.pi / 2 - np.pi) + np.pi
 
     # Angle of the end of Tp
-    TpAngle = Tp * w * sys.base.w + v_ang
+    TendAngle = Tend * w * sys.base.w + v_ang
 
     # Get angles that fall inbetween v_ang and Tp
-    ind0 = angles_3p >= v_ang - ANGLE_THRESHOLD
-    indTp = angles_3p < TpAngle
+    ind0 = angles_3p >= v_ang - ANGLE_TOL
+    indTp = angles_3p < TendAngle
     valid_mask = ind0 & indTp
 
     # Create a mask of the valid angles
@@ -146,13 +141,10 @@ def read_switching_angles(angles, positions, v_ang, Tp, w, sys):
     n_valid = len(sorted_angles)
 
     # Sorted angles within the prediction horizon
-    t_nom = np.inf * np.ones(MAX_SIZE)
-    n_fill = min(n_valid, MAX_SIZE)
-    t_nom_full = sorted_angles / sys.base.w / w
-    t_nom[:n_fill] = t_nom_full[:n_fill]
+    t = sorted_angles / sys.base.w / w
 
-    # Initialize U to a fixed size
-    U = np.zeros((3, MAX_SIZE))
+    # Initialize U
+    U = np.zeros((3, n_valid))
 
     # Initialize the current switch position to the initial switch position
     current_u = u_0.copy()
@@ -161,19 +153,12 @@ def read_switching_angles(angles, positions, v_ang, Tp, w, sys):
     for i in range(n_valid):
         switching_phase = sorted_phases[i]
         current_u[switching_phase] = sorted_patterns[i]
+        U[:, i] = current_u
 
-        # Only write to U if we haven't exceeded our fixed array size
-        if i < MAX_SIZE:
-            U[:, i] = current_u
-
-    #If n_valid was shorter than MAX_SIZE, pad the rest of U with the last valid state
-    if n_valid < MAX_SIZE:
-        U[:, n_valid:] = current_u.reshape(3, 1)
-
-    return t_nom, U, u_0
+    return t, U, u_0
 
 
-def load_switching_angles(filename, sys):
+def load_switching_angles(filename):
     """
     Load the switching angles and positions from a file.
 
