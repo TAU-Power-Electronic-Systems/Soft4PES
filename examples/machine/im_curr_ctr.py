@@ -64,9 +64,6 @@ sys = model.machine.InductionMachine(
 
 CTR_STRATEGY = "FOC"
 
-# Define the electrical angular frequency estimator
-im_ws_est = lin.IMwsEstimator(sys=sys)
-
 match CTR_STRATEGY:
     case "MPC":
         # Use Branch-and-Bound solver
@@ -84,10 +81,9 @@ match CTR_STRATEGY:
                                           disc_method='exact_discretization')
 
         # Instantiate the controller
-        ctr_sys = common.ControlSystem(
-            control_loops=[im_ws_est, iS_ref_gen, iS_mpc],
-            ref_seq=ref_seq,
-            Ts=250e-6)
+        ctr_sys = common.ControlSystem(control_loops=[iS_ref_gen, iS_mpc],
+                                       ref_seq=ref_seq,
+                                       Ts=250e-6)
     case "FOC":
         # Define the field-oriented controller, which tracks the stator current references,
         # derived from the stator flux magnitude and torque references.
@@ -96,7 +92,7 @@ match CTR_STRATEGY:
 
         # Instantiate the controller
         ctr_sys = common.ControlSystem(
-            control_loops=[im_ws_est, iS_ref_gen, foc],
+            control_loops=[iS_ref_gen, foc],
             ref_seq=ref_seq,
             Ts=200e-6,
             pwm=modulation.CarrierPWM(),

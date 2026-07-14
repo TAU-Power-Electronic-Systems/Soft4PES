@@ -13,7 +13,6 @@ from soft4pes.control.lin.pll import PLL
 from soft4pes.control.lin.im_foc_curr_ctr import FOCCurrCtr
 from soft4pes.control.lin.im_vf_curr_ctr import VfCurrCtr
 from soft4pes.control.lin.im_stator_curr_ref_gen import IMStatorCurrRefGen
-from soft4pes.control.lin.im_ws_estimator import IMwsEstimator
 
 __all__ = [
     "GridCurrRefGen",
@@ -26,5 +25,4 @@ __all__ = [
     "FOCCurrCtr",
     "VfCurrCtr",
     "IMStatorCurrRefGen",
-    "IMwsEstimator",
 ]
