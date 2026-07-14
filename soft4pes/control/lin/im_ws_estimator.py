@@ -9,32 +9,27 @@ from soft4pes.control.common.utils import FirstOrderFilter
 
 class IMwsEstimator(Controller):
     """
-    Electrical angular speed calculator for an induction machine (IM).
-    The angular speed is calculated based on the rotor flux angle, which 
-    is derived from the rotor flux components. The angular speed is filtered 
-    using a first-order low-pass filter to reduce noise in the estimation.
+    Electrical angular speed calculator for an induction machine (IM). The angular speed is 
+    calculated based on the rotor flux angle, which is derived from the rotor flux components. The 
+    angular speed is filtered using a first-order low-pass filter to reduce noise in the estimation.
 
     Parameters
     ----------
     sys : object
         System model.
     w_bw : float, optional
-        Cutoff frequency for the low-pass filter 
-        applied to the angular speed estimation.
+        Cutoff frequency for the low-pass filter applied to the angular speed estimation.
     
     Attributes
     ----------
     sys : object
         System model.
     theta_km1 : float
-        Previous rotor flux angle used for 
-        angular speed calculation.
+        Previous rotor flux angle used for angular speed calculation.
     w_bw : float
-        Cutoff frequency for the low-pass filter 
-        applied to the angular speed estimation [p.u.]
+        Cutoff frequency for the low-pass filter applied to the angular speed estimation [p.u.]
     filter : FirstOrderFilter
-        First-order low-pass filter for smoothing the 
-        angular speed estimate.
+        First-order low-pass filter for smoothing the angular speed estimate.
     """
 
     def __init__(self, sys, w_bw=0.5):

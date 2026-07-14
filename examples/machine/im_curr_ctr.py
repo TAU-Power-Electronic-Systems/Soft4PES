@@ -73,7 +73,7 @@ match CTR_STRATEGY:
         solver = mpc.solvers.BranchAndBound()
 
         # Uncomment to use enumeration based solver
-        # solver = mpc.solvers.MpcEnum(conv=config.conv)
+        # solver = mpc.solvers.Enumeration()
 
         # Define the direct MPC current controller, which tracks the stator current references,
         # derived from the stator flux magnitude and torque references.

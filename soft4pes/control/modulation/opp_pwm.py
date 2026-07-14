@@ -1,11 +1,13 @@
 """
-Optimized pulse pattern (OPP) modulator 
+Optimized pulse pattern (OPP) modulator. The modulator generates a list of the switching angles and 
+positions based on the modulation index and the converter voltage angle. The switching angles and 
+positions are read from a lookup table (LUT) that is loaded from a specified OPP file.
 """
 
 from types import SimpleNamespace
 import numpy as np
 from soft4pes.control.common.controller import Controller
-from soft4pes.control.modulation.utils import read_switching_angles, load_switching_angles
+from soft4pes.control.modulation.utils import get_opp_switching_instants, load_switching_angles_from_file
 from soft4pes.utils.conversions import abc_2_alpha_beta
 
 
@@ -26,37 +28,25 @@ class OPPPWM(Controller):
     ----------
     sys : object
         System model.
+    m_tol : float
+        Tolerance for modulation index change to update the OPP data.
+    lut_opp : xarray.Dataset
+        Lookup table (LUT) containing the switching angles and positions for different modulation
+        indices.
     opp_data : SimpleNamespace
-        Contains the OPP data including the modulation index tolerance, 
-        current modulation index, switching angles, switching positions, 
-        and the loaded OPP data.
+        A SimpleNamespace object that contains the current modulation index and the corresponding 
+        switching angles and positions.
     """
 
     def __init__(self, sys, opp_file, m_tol=1e-3):
         super().__init__()
         self.sys = sys
 
-        # Additional attributes for the OPP
-        self.opp_data = SimpleNamespace(file=opp_file,
-                                        m_tol=m_tol,
-                                        m=None,
-                                        angles=None,
-                                        positions=None,
-                                        lut_opp=None)
+        self.m_tol = m_tol
+        self.lut_opp = load_switching_angles_from_file(opp_file)
 
-    def set_sampling_interval(self, Ts):
-        """
-        Set the sampling interval and load the OPP data
-
-        Parameters
-        ----------
-        Ts : float
-            Sampling interval [s].
-        """
-        self.Ts = Ts
-
-        # Load the OPP data
-        self.opp_data.lut_opp = load_switching_angles(self.opp_data.file)
+        # Namespace to store the OPPs for the current modulation index
+        self.opp_data = SimpleNamespace(m=None, angles=None, positions=None)
 
     def update_opp(self, m):
         """
@@ -68,17 +58,15 @@ class OPPPWM(Controller):
             Modulation index.
         """
 
-        # Read the switching angles and positions from the LUT
-        # If the modulation index has changed significantly, update the angles and positions
+        # Read the switching angles and positions from the LUT.
+        # If the modulation index change exceeds the tolerance, update the angles and positions.
         if self.opp_data.m is None or not np.isclose(
-                m, self.opp_data.m, rtol=self.opp_data.m_tol):
+                m, self.opp_data.m, rtol=self.m_tol):
             self.opp_data.m = m
-            self.opp_data.angles = self.opp_data.lut_opp[
-                'switching_angles'].sel(modulation_index=m,
-                                        method='nearest').values
-            self.opp_data.positions = self.opp_data.lut_opp[
-                'switch_positions'].sel(modulation_index=m,
-                                        method='nearest').values
+            self.opp_data.angles = self.lut_opp['switching_angles'].sel(
+                modulation_index=m, method='nearest').values
+            self.opp_data.positions = self.lut_opp['switch_positions'].sel(
+                modulation_index=m, method='nearest').values
 
     def execute(self, sys, kTs):
         """
@@ -98,6 +86,7 @@ class OPPPWM(Controller):
         switch_array : 3 x MAX_COLS ndarray
             Switch positions.
         """
+
         # Maximum number of switching events in the output
         MAX_COLS = 5
 
@@ -107,13 +96,13 @@ class OPPPWM(Controller):
         u = abc_2_alpha_beta(u_ref_abc)
         u_ang = np.arctan2(u[1], u[0])
 
-        # Update OPP
+        # Update OPP to match the current modulation index
         self.update_opp(np.linalg.norm(u))
 
-        # retrieve the switch position
-        t_switch, switch_pos, u0 = read_switching_angles(
+        # Retrieve the switch position
+        t_switch, switch_pos = get_opp_switching_instants(
             self.opp_data.angles, self.opp_data.positions, u_ang, self.Ts,
-            self.input.w, sys)
+            self.input.ws, sys)
 
         # Pad output to a fixed size
         n = len(t_switch)

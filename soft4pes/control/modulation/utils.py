@@ -6,36 +6,35 @@ import xarray as xr
 from soft4pes.control.common.utils import wrap_theta
 
 
-def read_switching_angles(angles, positions, v_ang, Tend, w, sys):
+def get_opp_switching_instants(angles, positions, v_ang, T_end, w, sys):
     """
-    Read the switching angles of a QaHWS OPP that fall within 
-    the time window [0, Tend). 
+    Read the switching angles of a QaHWS OPP that fall within the time window [0, T_end). 
 
     Parameters
     ----------
     angles : 1 x d ndarray
-        Array of switching angles.[rad]
+        Array of switching angles [rad].
     positions : 1 x d ndarray
         Switching positions corresponding to the switching angles.
     v_ang : float
-        Angle of the converter voltage reference vector. [rad]
-    Tend : float
-        End time of the time window. [s]
+        Angle of the converter voltage reference vector [rad].
+    T_end : float
+        End time of the time window [s]. The time window is defined as [0, T_end).
     w : float
-        Angular frequency of the converter voltage reference vector. [p.u.]
+        Angular frequency of the converter voltage reference vector [p.u.].
     sys : system object
-            The system model.
+        The system model.
     Returns
     -------
     t : 1 x N ndarray 
-        Switching time instants within the time window [0, Tend). [s]
+        Switching time instants within the time window [0, T_end) [s].
     U : 3 x N ndarray
         Three-phase switch positions corresponding to the switching time instants.
-    u_0 : 3 x 1 ndarray
-        Initial three-phase switch position at the beginning of the time window [0, Tend).
+    u0 : 3 x 1 ndarray
+        Initial three-phase switch position at the beginning of the time window [0, T_end).
     """
 
-    # Utilize QaHWS symmetry to generate full wave switching pattern
+    # Utilize QaHWS symmetry to generate the full-wave switching pattern
     if sys.conv.nl == 3:
         angles_fw = np.concatenate([
             angles,
@@ -90,46 +89,46 @@ def read_switching_angles(angles, positions, v_ang, Tend, w, sys):
     positions_c = positions_fw[sort_c]
 
     # Combine into 3-phase matrices
-    pattern_3p = np.vstack([positions_a, positions_b, positions_c])
-    angles_3p = np.vstack([angles_a, angles_b, angles_c])
+    pattern_abc = np.vstack([positions_a, positions_b, positions_c])
+    angles_abc = np.vstack([angles_a, angles_b, angles_c])
 
     # Add a second period to ensure that all angles within the prediction horizon are captured
-    pattern_3p = np.concatenate([pattern_3p, pattern_3p], axis=1)
-    angles_3p = np.concatenate([angles_3p, angles_3p + 2 * np.pi], axis=1)
+    pattern_abc = np.concatenate([pattern_abc, pattern_abc], axis=1)
+    angles_abc = np.concatenate([angles_abc, angles_abc + 2 * np.pi], axis=1)
 
     # Add pi/2 to align the converter voltage with the OPP
     v_ang = wrap_theta(v_ang + np.pi / 2 - np.pi) + np.pi
 
-    # Angle of the end of Tp
-    TendAngle = Tend * w * sys.base.w + v_ang
+    # Angle of the end of the prediction horizon
+    theta_end = T_end * w * sys.base.w + v_ang
 
-    # Get angles that fall inbetween v_ang and Tp
-    ind0 = angles_3p >= v_ang - ANGLE_TOL
-    indTp = angles_3p < TendAngle
-    valid_mask = ind0 & indTp
+    # Get angles that fall between v_ang and theta_end
+    ind_0 = angles_abc >= v_ang - ANGLE_TOL
+    ind_theta_end = angles_abc < theta_end
+    valid_mask = ind_0 & ind_theta_end
 
     # Create a mask of the valid angles
-    delta_angs = np.where(valid_mask, angles_3p - v_ang, np.inf)
+    delta_angs = np.where(valid_mask, angles_abc - v_ang, np.inf)
 
-    # Extract initial switch position (u_0)
-    shifted_ind0 = np.roll(ind0, -1, axis=1)
-    diff_ind0 = shifted_ind0 & ~ind0
-    u_0 = np.zeros(3)
+    # Extract initial switch position (u0)
+    shifted_ind_0 = np.roll(ind_0, -1, axis=1)
+    diff_ind_0 = shifted_ind_0 & ~ind_0
+    u0 = np.zeros(3)
     for phase in range(3):
         # Check what the last valid index is for this phase
-        if np.any(diff_ind0[phase]):
-            u_0[phase] = pattern_3p[phase, diff_ind0[phase]][0]
+        if np.any(diff_ind_0[phase]):
+            u0[phase] = pattern_abc[phase, diff_ind_0[phase]][0]
         else:
             # If no valid index is found, use the last value in the pattern,
             # i.e, the first value of the next period
-            u_0[phase] = pattern_3p[phase, -1]
+            u0[phase] = pattern_abc[phase, -1]
 
     # Get the row and column indices of the valid angles
     phase_rows, angle_cols = np.where(valid_mask)
 
     # Get the angles and their corresponding pattern values
     valid_angles = delta_angs[phase_rows, angle_cols]
-    valid_patterns = pattern_3p[phase_rows, angle_cols]
+    valid_patterns = pattern_abc[phase_rows, angle_cols]
 
     # Sort everything by angle ascension
     sort_idx = np.argsort(valid_angles)
@@ -147,7 +146,7 @@ def read_switching_angles(angles, positions, v_ang, Tend, w, sys):
     U = np.zeros((3, n_valid))
 
     # Initialize the current switch position to the initial switch position
-    current_u = u_0.copy()
+    current_u = u0.copy()
 
     # Go through the sorted angles and update the switch positions accordingly
     for i in range(n_valid):
@@ -155,10 +154,10 @@ def read_switching_angles(angles, positions, v_ang, Tend, w, sys):
         current_u[switching_phase] = sorted_patterns[i]
         U[:, i] = current_u
 
-    return t, U, u_0
+    return t, U
 
 
-def load_switching_angles(filename):
+def load_switching_angles_from_file(filename):
     """
     Load the switching angles and positions from a file.
 
