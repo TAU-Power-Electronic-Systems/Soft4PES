@@ -5,11 +5,12 @@ This example computes OPPs for the selected converter-machine system and stores
 the resulting switching-angle and switch-position lookup tables in a NetCDF file.
 """
 
-from examples.machine.pars.machine_config import get_custom_system
+from pars.machine_config import get_custom_system
 from soft4pes import model
 from soft4pes.control.modulation import OPPComputation
 
-
+# Required for multiprocessing when use_parallel=True.
+# Prevents worker processes from re-executing the main script.
 if __name__ == "__main__":
 
     # Create the system from predefined machine and converter components.
@@ -32,11 +33,12 @@ if __name__ == "__main__":
         d=5,
         symmetry="QaHWS",
         n_m=256,
-        n_ini_points=10,
+        n_ini_points=500,
         max_harmonics=500,
+        modulation_indices=None,
     )
 
-    # Compute the OPPs using parallel evaluation of the multistart initial points.
+    # Compute OPPs using parallel evaluation of the multistart initial points.
     opp.compute(use_parallel=True)
 
     # Save the lookup table.
