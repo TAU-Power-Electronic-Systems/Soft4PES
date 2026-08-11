@@ -55,10 +55,12 @@ class FOCCurrCtr(Controller):
         Ts_pu = self.Ts * self.sys.base.w
 
         # First-order approximaton of the stator current dynamics, time constant
-        t1 = self.sys.par.Xsigma / self.sys.par.Rs
+        kr = self.sys.par.Xm / self.sys.par.Xr
+        R_sigma = self.sys.par.Rs + kr**2 * self.sys.par.Rr
+        t1 = self.sys.par.X_sigma / R_sigma
 
         # First-order gain
-        k1 = 1 / self.sys.par.Rs
+        k1 = 1 / R_sigma
 
         # PWM delay
         td = 1 / 2 * Ts_pu
@@ -113,8 +115,8 @@ class FOCCurrCtr(Controller):
 
         # Calculate cross coupling compensation term
         x_coup_dq = np.array([
-            -sys.wr * sys.par.Xsigma * iS_dq[1],
-            sys.wr * sys.par.Xsigma * iS_dq[0]
+            -sys.wr * sys.par.X_sigma * iS_dq[1],
+            sys.wr * sys.par.X_sigma * iS_dq[0]
         ])
 
         # Compute the voltage reference in dq frame

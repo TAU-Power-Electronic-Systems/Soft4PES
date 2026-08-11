@@ -66,5 +66,5 @@ class InductionMachineParameters:
         self.Xr = self.Xlr + self.Xm
         self.D = self.Xs * self.Xr - self.Xm**2
         self.kT = 1 / pf
-        self.Xsigma = self.D / self.Xr
+        self.X_sigma = self.D / self.Xr
         self.wl = self.ws - self.npp * n_R_SI / 60 / fs_SI

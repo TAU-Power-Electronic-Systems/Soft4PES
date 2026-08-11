@@ -1,4 +1,4 @@
-"Stator current reference generator for the induction machine"
+"Stator current reference generator for an induction machine"
 
 from types import SimpleNamespace
 import numpy as np
@@ -7,8 +7,10 @@ from soft4pes.control.common import Controller
 
 class IMStatorCurrRefGen(Controller):
     """
-    Stator current reference generator for the induction machine. This class generates the stator
-    current reference based on the stator flux magnitude and torque references.
+    Stator current reference generator for an induction machine. This class generates the stator
+    current reference based on the user defined stator flux magnitude and torque references, by 
+    calculating the steady-state rotor flux magnitude as an intermediate step, corresponding to the 
+    principle of field-oriented control (FOC).
     """
 
     def execute(self, sys, kTs):
@@ -34,7 +36,8 @@ class IMStatorCurrRefGen(Controller):
         iS_ref_steady_state = sys.calc_steady_state_stator_current(
             psiR_steady_state, T_ref)
 
-        # Rotate the reference to match the current rotor flux orientation
+        # The derivation of of the psiR_steady_state assumes that the stator flux is aligned with
+        # the alpha-axis. Rotate the reference to match the current rotor flux orientation
         theta_ref = np.arctan2(psiR_steady_state[1], psiR_steady_state[0])
         theta_real = np.arctan2(sys.psiR[1], sys.psiR[0])
         theta = theta_real - theta_ref

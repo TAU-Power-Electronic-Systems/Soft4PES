@@ -28,12 +28,12 @@ class InductionMachine(SystemModel):
     wr : float or Sequence
         Electrical angular rotor speed [p.u.]. If a Sequence object is provided, the rotor speed is
         time-varying and the sequence is used to update the rotor speed at each time step. Optional,
-        default is None, in which case the rotor speed is defined so that teh stator electrical 
+        default is None, in which case the rotor speed is defined so that the stator electrical 
         angular frequency is 1 p.u.
     psiS_mag_ref_init : float
         Initial stator flux magnitude reference [p.u.]. Optional, default is 1 p.u.
     T_ref_init : float
-        Initial torque reference [p.u.]. Optional, default is 0 p.u.
+        Initial torque reference [p.u.]. Optional, default is 1 p.u.
 
     Attributes
     ----------
@@ -63,7 +63,7 @@ class InductionMachine(SystemModel):
                  base,
                  wr=None,
                  psiS_mag_ref_init=1,
-                 T_ref_init=0):
+                 T_ref_init=1):
         self.par = par
         self.set_initial_state(psiS_mag_ref_init=psiS_mag_ref_init,
                                T_ref_init=T_ref_init)
@@ -117,23 +117,40 @@ class InductionMachine(SystemModel):
         self.x = np.concatenate((iS, psiR))
 
     def calculate_steady_state_rotor_flux(self, psiS_mag_ref, T_ref):
+        """
+        Calculate the steady-state rotor flux based on the stator flux magnitude reference and 
+        torque reference. Calculation is done assuming stator flux orientation, i.e., psiS is 
+        aligned with the d-axis.
+
+        Parameters
+        ----------
+        psiS_mag_ref : float
+            Stator flux magnitude reference [p.u.].
+        T_ref : float
+            Torque reference [p.u.].
+
+        Returns
+        -------
+        1 x 2 ndarray
+            Steady-state rotor flux in alpha-beta frame [p.u.].
+        """
+
         D = self.par.D
         kT = self.par.kT
         Xm = self.par.Xm
         Xs = self.par.Xs
-        Rr = self.par.Rr
 
         # Assume stator flux orientation, i.e., psiS is aligned with the d-axis
         psiS_d = psiS_mag_ref
 
-        # Rotor flux in dq-frame
+        # q-component of the rotor flux
         psiR_q = -D / (Xm * kT) * T_ref / psiS_d
 
-        a = -Rr * Xs / D
-        b = Rr * Xm / D * psiS_d
-        c = -Rr * Xs / D * psiR_q**2
+        # Discriminant
+        Delta = Xm**2 * psiS_d**2 - 4 * Xs**2 * psiR_q**2
 
-        psiR_d = (-b - np.sqrt(b**2 - 4 * a * c)) / (2 * a)
+        # d-component of the rotor flux
+        psiR_d = (Xm * psiS_d + np.sqrt(Delta)) / (2 * Xs)
 
         # Convert the rotor flux from dq-frame to alpha-beta frame using the stator flux angle
         # (0 rad)
@@ -143,7 +160,8 @@ class InductionMachine(SystemModel):
 
     def calc_steady_state_stator_current(self, psiR, T_ref):
         """
-        Calculate the steady-state stator current.
+        Calculate the steady-state stator current. Assume rotor flux orientation (i.e., psiR is 
+        aligned with the d-axis) as a reference frame for the calculation.
 
         Parameters
         ----------
@@ -212,6 +230,8 @@ class InductionMachine(SystemModel):
 
     @property
     def ws(self):
+        # Calculate the stator electrical angular frequency based on the rotor flux and stator
+        # current. The calculation is done assuming rotor flux orientation.
         theta = np.arctan2(self.psiR[1], self.psiR[0])
         psiR_dq = alpha_beta_2_dq(self.psiR, theta)
         iS_dq = alpha_beta_2_dq(self.iS, theta)

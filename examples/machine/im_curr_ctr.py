@@ -33,6 +33,10 @@ ref_seq = SimpleNamespace(T_ref_seq=T_ref_seq,
 
 # Define the rotor speed sequence. The rotor speed are given in per unit so that the stator
 # electrical angular frequency is 1 p.u. on rated torque.
+
+# Define a sequence for rotor angular speed. The angular speed is given in per unit, and the time
+# instants are given in seconds. The rotor angular speeds correspond to operating points in which
+# the stator electrical angular frequency is 1 p.u. on rated torque.
 wr_seq = Sequence(
     np.array([0, 0.15, 0.25, 0.3]),
     np.array([0.9583, 0.9583, 0.4583, 0.4583]),
@@ -57,11 +61,12 @@ sys = model.machine.InductionMachine(
     T_ref_init=T_ref_seq(0),
 )
 
-# Choose the control strategy. "MPC" for model predictive control, "FOC" for field-oriented control.
+# Choose the control strategy. "FCS_MPC" for direct (finite control set) model predictive control,
+# "FOC" for field-oriented control.
 CTR_STRATEGY = "FOC"
 
 match CTR_STRATEGY:
-    case "MPC":
+    case "FCS_MPC":
         # Use Branch-and-Bound solver
         solver = mpc.solvers.BranchAndBound()
 
@@ -69,7 +74,9 @@ match CTR_STRATEGY:
         # solver = mpc.solvers.MpcEnum(conv=config.conv)
 
         # Define the direct MPC current controller, which tracks the stator current references,
-        # derived from the stator flux magnitude and torque references.
+        # derived from the rotor flux magnitude reference and torque reference. The rotor flux
+        # magnitude reference is calculated based on the user defined stator flux magnitude
+        # reference,
         iS_ref_gen = lin.IMStatorCurrRefGen()
         iS_mpc = mpc.algorithms.IMCurrCtr(solver=solver,
                                           lambda_u=5e-3,
@@ -82,7 +89,9 @@ match CTR_STRATEGY:
                                        Ts=50e-6)
     case "FOC":
         # Define the field-oriented controller, which tracks the stator current references,
-        # derived from the stator flux magnitude and torque references.
+        # derived from the rotor flux magnitude reference and torque reference. The rotor flux
+        # magnitude reference is calculated based on the user defined stator flux magnitude
+        # reference,
         iS_ref_gen = lin.IMStatorCurrRefGen()
         foc = lin.FOCCurrCtr(sys=sys)
 
@@ -112,7 +121,7 @@ plotter.plot_states(states_to_plot=['iS', 'psiR'],
 plotter.plot_control_signals_machine(plot_T=True, T_ref=T_ref_seq)
 plotter.plot_spectra(states_to_plot=['iS'],
                      f_fund_SI=config.base.w / (2 * np.pi),
-                     f_max_SI_plot=5000,
+                     f_max_SI_plot=7500,
                      start_time=0.1,
                      n_cycles=2,
                      style='line')
