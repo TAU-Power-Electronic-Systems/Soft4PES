@@ -13,8 +13,12 @@ class InductionMachineParameters:
     ----------
     fs_SI : float
         Synchronous (stator) electrical frequency [Hz].
+    n_R_SI : float
+        Rotor speed [rpm].
     pf_SI : float
         Power factor.
+    npp : int
+        Number of pole pairs.
     Rs_SI : float
         Stator resistance [Ohm].
     Rr_SI : float
@@ -34,6 +38,8 @@ class InductionMachineParameters:
         Synchronous (stator) electrical angular frequency [p.u.].
     pf : float
         Power factor.
+    npp : int
+        Number of pole pairs.
     Rs : float
         Stator resistance [p.u.].
     Rr : float
@@ -46,9 +52,11 @@ class InductionMachineParameters:
         Mutual inductance [p.u.].
     """
 
-    def __init__(self, fs_SI, pf, Rs_SI, Rr_SI, Lls_SI, Llr_SI, Lm_SI, base):
+    def __init__(self, fs_SI, n_R_SI, pf, npp, Rs_SI, Rr_SI, Lls_SI, Llr_SI,
+                 Lm_SI, base):
         self.ws = 2 * np.pi * fs_SI / base.w
         self.pf = pf
+        self.npp = npp
         self.Rs = Rs_SI / base.Z
         self.Rr = Rr_SI / base.Z
         self.Xls = Lls_SI / base.L
@@ -58,4 +66,5 @@ class InductionMachineParameters:
         self.Xr = self.Xlr + self.Xm
         self.D = self.Xs * self.Xr - self.Xm**2
         self.kT = 1 / pf
-        self.Xsigma = self.D / self.Xr
+        self.X_sigma = self.D / self.Xr
+        self.wl = self.ws - self.npp * n_R_SI / 60 / fs_SI

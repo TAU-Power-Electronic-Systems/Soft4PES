@@ -14,6 +14,7 @@ In order to create a custom machine, a new entry can be added to ``examples/mach
             "Vm_R_SI": 400,
             "Im_R_SI": 4.4,
             "fm_R_SI": 50,
+            "n_R_SI": 2875,
             "npp": 1,
             "pf": 0.85,
             "Rs_SI": 2.7,
@@ -55,6 +56,10 @@ Predefined Machine Models
      - :math:`f_{m,R}`
      - :math:`50\,\textrm{Hz}`
      - 
+   * - Rated speed
+     - :math:`n_{R}`
+     - :math:`2875\,\textrm{rpm}`
+     -
    * - Pole pairs
      - :math:`n_{pp}`
      - :math:`1`
@@ -113,13 +118,17 @@ Predefined Machine Models
      - :math:`f_{m,R}`
      - :math:`50\,\textrm{Hz}`
      - 
+   * - Rated speed
+     - :math:`n_{R}`
+     - :math:`596\,\textrm{rpm}`
+     -
    * - Pole pairs
      - :math:`n_{pp}`
      - :math:`5`
      - 
    * - Power factor
      - :math:`\textrm{pf}`
-     - :math:`0.85`
+     - :math:`0.809`
      - 
    * - Stator resistance
      - :math:`R_s`
