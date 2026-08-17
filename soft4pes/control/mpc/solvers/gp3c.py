@@ -1,5 +1,6 @@
 """
-
+Gradient-based predictive pulse pattern control (GP3C) solver for 
+systems utilizing optimized pulse patterns.
 
 The QP is solved using the `qpsolvers` package and the `DAQP` solver (MIT license).
 """
@@ -12,15 +13,18 @@ from soft4pes.control.mpc.solvers.utils import compute_next_state
 
 class GP3C(MPCSolverBase):
     """
-    GP3C solver
+    GP3C solver for OPP-based control.
 
-    Attributes
-    ----------
+    This solver optimizes the switching time instants of the nominal OPP within 
+    the prediction horizon by describing the evolution of the system with gradients, 
+    and formulating the control problem as a quadratic program (QP).
+
+    The algorithm is based on:
+    M. A. W. Begh, P. Karamanakos and T. Geyer, "Gradient-Based Predictive Pulse Pattern 
+    Control of Medium-Voltage Drives—Part I: Control, Concept, and Analysis," 
+    in IEEE Transactions on Power Electronics, vol. 37, no. 12, pp. 14222-14236, Dec. 2022
 
     """
-
-    def __init__(self):
-        super().__init__()
 
     def get_gradient_matrix(self, ctr, sys, x_ell, d_vector=None):
         """
@@ -40,12 +44,13 @@ class GP3C(MPCSolverBase):
             Gradient matrix.
         """
 
+        # Number of outputs
         ny = ctr.C.shape[0]
 
         # Number of switching events within the prediction horizon
         nt = len(ctr.t_nom)
 
-        # Append the initial switch position
+        # Append the current switch position
         t = np.concatenate(([0], ctr.t_nom))
         u = np.vstack((ctr.u_km1_abc, np.transpose(ctr.U)))
 
@@ -89,14 +94,15 @@ class GP3C(MPCSolverBase):
             Controller object.
         y_ref_pred : ndarray of floats
             Reference trajectory over the prediction horizon [p.u.].
-        d_vector : ndarray of floats
+        d_vector : ndarray of floats (optional)
             Disturbance vector over the prediction horizon [p.u.].
         Returns
         -------
         t_opt : ndarray of floats
             Optimal switching time instants over the prediction horizon
         """
-        n = len(ctr.t_nom)
+
+        nt = len(ctr.t_nom)
         ny = ctr.C.shape[0]
 
         Tp = ctr.Np * ctr.Ts
@@ -104,27 +110,26 @@ class GP3C(MPCSolverBase):
         # Compute the gradient matrix
         M = self.get_gradient_matrix(ctr, sys, sys.x, d_vector)
 
-        # Formulate the QP matrices
-        Qblk = np.kron(np.eye(n), ctr.Q)
-        H = (M.T @ Qblk @ M + np.eye(n) * ctr.lambda_u) * Tp * Tp
+        # Formulate the objective function for the QP
+        Qblk = np.kron(np.eye(nt), ctr.Q)
+        H = (M.T @ Qblk @ M + np.eye(nt) * ctr.lambda_u) * Tp * Tp
 
-        x_rep = np.tile(sys.x[0:ny], (n, 1)).flatten()
+        x_rep = np.tile(sys.x[0:ny], (nt, 1)).flatten()
         r = y_ref_pred - x_rep
         f = (-r @ Qblk @ M - ctr.lambda_u * ctr.t_nom) * Tp
 
-        # Constraints
-        shifted_eye = np.roll(np.eye(n), shift=1, axis=1)
-        A = np.eye(n) - np.triu(shifted_eye)
+        # Formulate the constraints for the QP
+        shifted_eye = np.roll(np.eye(nt), shift=1, axis=1)
+        A = np.eye(nt) - np.triu(shifted_eye)
 
-        b = np.zeros((n, 1))
+        b = np.zeros((nt, 1))
         b[-1] = 1
 
-        lb = np.zeros((n, 1))
-        ub = np.ones((n, 1))
+        lb = np.zeros((nt, 1))
+        ub = np.ones((nt, 1))
 
         # Solve the QP
         t_opt = solve_qp(H, f, A, b, lb=lb, ub=ub, solver='daqp')
-        # t_opt = solve_qp(np.tril(H), f, A, b, lb=lb, ub=ub, solver='highs')
 
         if t_opt is None:
             raise ValueError(

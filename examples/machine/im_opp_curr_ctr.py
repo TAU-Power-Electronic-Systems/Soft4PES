@@ -19,7 +19,7 @@ from soft4pes.utils.plotter import Plotter
 # corresponding reference values (in per unit). The reference is interpolated linearly between the
 # time instants.
 T_ref_seq = Sequence(
-    np.array([0, 0.05, 0.05, 0.15, 0.15, 0.2]),
+    np.array([0, 0.075, 0.075, 0.15, 0.15, 0.2]),
     np.array([0, 0, 1, 1, 0, 0]) * 1,
 )
 
@@ -61,7 +61,6 @@ iS_ref_gen = lin.IMStatorCurrRefGen()
 iS_mpc = mpc.algorithms.IMOppCurrCtr(solver=solver,
                                      lambda_u=1e6,
                                      Np=15,
-                                     d=5,
                                      opp_file='3L_d5_opp_inductive.nc')
 
 # Instantiate the controller

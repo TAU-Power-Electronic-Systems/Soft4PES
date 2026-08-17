@@ -9,7 +9,7 @@ from soft4pes.control.common.controller import Controller
 from soft4pes.control.mpc.common.mpc_base import MPCBase
 from soft4pes.control.opp.utils import load_switching_angles, read_switching_angles
 from soft4pes.control.common.utils import wrap_theta
-from soft4pes.utils.conversions import alpha_beta_2_abc, dq_2_alpha_beta, alpha_beta_2_dq
+from soft4pes.utils.conversions import alpha_beta_2_abc, dq_2_alpha_beta
 
 
 class IMOppCurrCtr(MPCBase, Controller):
@@ -30,8 +30,6 @@ class IMOppCurrCtr(MPCBase, Controller):
     disc_method : str, optional
         Discretization method for the state-space model ('forward_euler' or 
         'exact_discretization'). Default is 'forward_euler'.
-    d : int
-        Number of switching angles.
     opp_file : str
         The name of the OPP data file.   
     m_tol : float, optional
@@ -64,14 +62,12 @@ class IMOppCurrCtr(MPCBase, Controller):
                  solver,
                  Np,
                  lambda_u,
-                 d,
                  opp_file,
-                 m_tol=1e-4,
-                 disc_method='exact_discretization'):
+                 m_tol=1e-3,
+                 disc_method='forward_euler'):
 
         # Additional attributes for the OPP-based MPC
-        self.opp_data = SimpleNamespace(d=d,
-                                        file=opp_file,
+        self.opp_data = SimpleNamespace(file=opp_file,
                                         m_tol=m_tol,
                                         m=None,
                                         angles=None,
@@ -133,6 +129,33 @@ class IMOppCurrCtr(MPCBase, Controller):
             self.opp_data.positions = self.opp_data.lut_opp[
                 'switch_positions'].sel(modulation_index=m,
                                         method='nearest').values
+
+    def make_opp_reference_vector(self, sys, ws, iS_ref, v_ang):
+        # Number of switching events within the prediction horizon
+        n = len(self.t_nom)
+
+        # Preallocate the reference vector for the prediction horizon
+        horizon_vector = np.zeros(2 * n)
+
+        for ell in range(n):
+            theta_pred = sys.base.w * ws * self.t_nom[ell]
+            R_rot = np.array([[np.cos(theta_pred), -np.sin(theta_pred)],
+                              [np.sin(theta_pred),
+                               np.cos(theta_pred)]])
+            horizon_vector[ell * 2:ell * 2 + 2] = R_rot.dot(iS_ref)
+
+            # Add harmonic reference
+            if 'harm_ref' in self.opp_data.lut_opp.data_vars:
+                theta_harm = wrap_theta(theta_pred + v_ang - np.pi +
+                                        np.pi / 2) + np.pi
+                ref = self.opp_data.lut_opp['harm_ref'].sel(
+                    modulation_index=self.opp_data.m,
+                    theta_index=theta_harm,
+                    method='nearest').values
+                horizon_vector[ell * 2:ell * 2 +
+                               2] += ref * sys.conv.v_dc / sys.par.Xsigma / ws
+
+        return horizon_vector
 
     def execute(self, sys, kTs):
         """
@@ -199,31 +222,10 @@ class IMOppCurrCtr(MPCBase, Controller):
         # Run the controller if there are switching events within the prediction horizon
         if n > 0:
             U = self.U
-            # Preallocate the reference vector for the prediction horizon
-            horizon_vector = np.zeros(2 * n)
+
+            y_ref_pred = self.make_opp_reference_vector(
+                sys, ws, iS_ref, vs_ang)
             d_vector = np.zeros(2 * n)
-
-            for ell in range(n):
-                theta_pred = sys.base.w * ws * self.t_nom[ell]
-                R_rot = np.array([[np.cos(theta_pred), -np.sin(theta_pred)],
-                                  [np.sin(theta_pred),
-                                   np.cos(theta_pred)]])
-                horizon_vector[ell * 2:ell * 2 + 2] = R_rot.dot(iS_ref)
-
-                # Add harmonic reference
-                if 'harm_ref' in self.opp_data.lut_opp.data_vars:
-                    theta_harm = wrap_theta(theta_pred + vs_ang - np.pi +
-                                            np.pi / 2) + np.pi
-                    ref = self.opp_data.lut_opp['harm_ref'].sel(
-                        modulation_index=self.opp_data.m,
-                        theta_index=theta_harm,
-                        method='nearest').values
-                    horizon_vector[
-                        ell * 2:ell * 2 +
-                        2] += ref * sys.conv.v_dc / sys.par.Xsigma / ws
-
-            y_ref_pred = horizon_vector
-
             t_opt = self.solver(sys, self, y_ref_pred, d_vector)
 
             # Save/remove switching instants and switch positions for the next control step
