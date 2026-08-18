@@ -38,12 +38,12 @@ class OPPPWM(Controller):
         switching angles and positions.
     """
 
-    def __init__(self, sys, opp_file, m_tol=1e-3):
+    def __init__(self, sys, switching_frequency, m_tol=1e-3):
         super().__init__()
         self.sys = sys
 
         self.m_tol = m_tol
-        self.lut_opp = load_switching_angles_from_file(opp_file)
+        self.lut_opp = load_switching_angles_from_file(self.sys, switching_frequency)
 
         # Namespace to store the OPPs for the current modulation index
         self.opp_data = SimpleNamespace(m=None, angles=None, positions=None)

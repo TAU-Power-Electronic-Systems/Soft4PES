@@ -109,7 +109,7 @@ match CTR_STRATEGY:
                                        Ts=250e-6,
                                        pwm=modulation.OPPPWM(
                                            sys=sys,
-                                           opp_file='2L_d11_opp_inductive.nc'))
+                                           switching_frequency=1150))
 
 # Simulate the system
 sim = Simulation(sys=sys,

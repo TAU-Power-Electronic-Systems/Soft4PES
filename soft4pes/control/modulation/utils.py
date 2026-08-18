@@ -157,14 +157,14 @@ def get_opp_switching_instants(angles, positions, v_ang, T_end, w, sys):
     return t, U
 
 
-def load_switching_angles_from_file(filename):
+def load_switching_angles_from_file(sys, switching_frequency):
     """
     Load the switching angles and positions from a file.
 
     Parameters
     ----------
-    filename : str
-        The name of the file to load.
+    switching_frequency : float
+        The switching frequency of the converter.
     sys : system object
         The system model.
 
@@ -173,6 +173,18 @@ def load_switching_angles_from_file(filename):
     opp_lut : xarray.Dataset
         The loaded switching angles and positions.
     """
+
+    # Rated fundamental frequency
+    f1 = sys.base.w / 2 / np.pi
+
+    if sys.conv.nl == 2:
+        d = str(round((switching_frequency / f1 - 1)/2))
+    elif sys.conv.nl == 3:
+        d = str(round(switching_frequency / f1))
+    else: 
+        raise ValueError('Only two- and three-level converters are supported.')
+
+    filename = str(sys.conv.nl) + 'L_' + 'd' + d + '_opp_inductive.nc'
 
     BASE_PATH = Path.cwd()
     TARGET_PATH = BASE_PATH / 'examples' / 'opp_data'
