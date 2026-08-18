@@ -77,7 +77,7 @@ def magnitude_limiter(input_signal, limit):
 
 class FirstOrderFilter:
     """
-    General first-order filter.
+    General first-order low-pass filter.
 
     Parameters
     ----------
@@ -85,6 +85,8 @@ class FirstOrderFilter:
         The bandwidth of the filter [p.u.].
     size : int
         The size of the signal to be filtered, i.e. the length of the input vector.
+    init : ndarray, optional
+        Initial value of the filter output. If not given, the initial value is set to zero.
 
     Attributes
     ----------
@@ -94,9 +96,9 @@ class FirstOrderFilter:
         The filtered signal.
     """
 
-    def __init__(self, w_bw, size):
+    def __init__(self, w_bw, size, init=None):
         self.w_bw = w_bw
-        self.output = np.zeros(size)
+        self.output = np.zeros(size) if init is None else init
 
     def update(self, value_in, Ts, base):
         """

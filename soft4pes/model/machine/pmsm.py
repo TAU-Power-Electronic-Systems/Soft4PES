@@ -63,8 +63,8 @@ class PMSM(SystemModel):
                          conv=conv,
                          base=base,
                          x_size=x_size,
-                         state_map=state_map)
-        self.time_varying_model = True
+                         state_map=state_map,
+                         time_varying_model=True)
 
         self.set_initial_state(T_ref_init=T_ref_init, mtpa_lut=mtpa_lut)
 

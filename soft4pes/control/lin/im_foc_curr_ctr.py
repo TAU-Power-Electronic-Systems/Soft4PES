@@ -40,17 +40,17 @@ class FOCCurrCtr(Controller):
         Set the sampling interval and compute controller parameters.
 
         Magnitude optimum criterion based on:
-        J. W. Umland and M. Safiuddin, 
-        "Magnitude and symmetric optimum criterion for the design 
-        of linear control systems: what is it and how does it compare with the others?," 
-        in IEEE Transactions on Industry Applications, vol. 26, no. 3, 
-        pp. 489-497, May-June 1990, doi: 10.1109/28.55967
+        J. W. Umland and M. Safiuddin, "Magnitude and symmetric optimum criterion for the design of 
+        linear control systems: what is it and how does it compare with the others?," in IEEE 
+        Transactions on Industry Applications, vol. 26, no. 3, pp. 489-497, May-June 1990, 
+        doi: 10.1109/28.55967.
         
         Parameters
         ----------
         Ts : float
             Sampling interval [s].
         """
+
         self.Ts = Ts
         Ts_pu = self.Ts * self.sys.base.w
 
@@ -90,15 +90,17 @@ class FOCCurrCtr(Controller):
         1 x 3 ndarray of floats
             Three-phase modulating signal.
         """
-        # Calculate the transformation angle
+
+        iS_ref = self.input.iS_ref
+
+        # FOC assumes rotor flux orientation
         theta = np.arctan2(sys.psiR[1], sys.psiR[0])
 
         # Stator current in dq frame
         iS_dq = alpha_beta_2_dq(sys.iS, theta)
 
         # Stator current reference in the dq frame for the current step
-        T_ref = self.input.T_ref
-        iS_ref_dq = sys.calc_stator_current(sys.psiR_mag_ref, T_ref)
+        iS_ref_dq = alpha_beta_2_dq(iS_ref, theta)
 
         # Current control error in dq-frame
         e_i_conv_dq = iS_ref_dq - iS_dq
