@@ -63,6 +63,6 @@ class CommonModeInjection(Controller):
                 'modes: MinMax.')
 
         u_ref_abc_cm = u_ref_abc + u_cm
-        self.output = SimpleNamespace(u_abc=u_ref_abc_cm)
+        self.output = SimpleNamespace(u_abc=np.clip(u_ref_abc_cm, -1, 1))
 
         return self.output

@@ -235,6 +235,9 @@ def make_QP_matrices(ctr):
             [0, 1, 0, 0, -1, 0],\
             [0, 0, 1, 0, 0, -1]]).T
 
+    if ctr.common_mode_inj_enabled:
+        V = np.sqrt(3) / 2 * V
+
     Omega = np.kron(np.eye(Np), V)
 
     # Form the linear inequality constraint matrix A_QP
