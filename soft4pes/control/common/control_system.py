@@ -66,6 +66,7 @@ class ControlSystem:
         # Initialize the control loops with the given sampling interval
         for control_loop in self.control_loops:
             control_loop.set_sampling_interval(Ts)
+            control_loop.common_mode_inj_enabled = common_mode_inj is not None
 
     def __call__(self, sys, kTs):
         """

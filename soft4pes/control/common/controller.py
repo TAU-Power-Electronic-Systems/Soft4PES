@@ -4,6 +4,8 @@ Base class for controllers.
 
 from abc import ABC, abstractmethod
 from types import SimpleNamespace
+import numpy as np
+from soft4pes.utils import alpha_beta_2_abc
 
 
 class Controller(ABC):
@@ -20,6 +22,8 @@ class Controller(ABC):
         Namespace for storing output data.
     Ts : float
         Sampling interval [s].
+    common_mode_inj_enabled : bool
+        Whether common-mode injection is used in the control system.
     """
 
     def __init__(self):
@@ -30,6 +34,7 @@ class Controller(ABC):
         self.input = SimpleNamespace()
         self.output = SimpleNamespace()
         self.Ts = 0
+        self.common_mode_inj_enabled = False
 
     def set_sampling_interval(self, Ts):
         """
@@ -43,6 +48,29 @@ class Controller(ABC):
             Sampling interval [s].
         """
         self.Ts = Ts
+
+    def make_modulating_signal(self, v_ref, v_dc):
+        """
+        Convert a voltage reference to a modulating signal.
+
+        The modulating signal is limited to the range [-1, 1] when common-mode injection is not
+        used, and to the range [-2/sqrt(3), 2/sqrt(3)] when common-mode injection is used.
+
+        Parameters
+        ----------
+        v_ref : ndarray
+            The reference voltage.
+        v_dc : float
+            The dc-link voltage.
+
+        Returns
+        -------
+        ndarray
+            The modulating signal in abc-frame.
+        """
+
+        limit = 1 if not self.common_mode_inj_enabled else 2 / np.sqrt(3)
+        return np.clip(alpha_beta_2_abc(v_ref / (v_dc / 2)), -limit, limit)
 
     @abstractmethod
     def execute(self, sys, kTs):

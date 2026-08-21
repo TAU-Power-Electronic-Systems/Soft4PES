@@ -11,7 +11,7 @@ from types import SimpleNamespace
 import numpy as np
 from soft4pes.utils import alpha_beta_2_dq, dq_2_alpha_beta
 from soft4pes.control.common.controller import Controller
-from soft4pes.control.common.utils import get_modulating_signal, DiscreteTransferFunction
+from soft4pes.control.common.utils import DiscreteTransferFunction
 
 
 class LCLGridCurrCtrWACFB(Controller):
@@ -185,7 +185,7 @@ class LCLGridCurrCtrWACFB(Controller):
         # final control signal: u_dq = u_reg_dq - u_comp_dq
         ui_dq = u_reg_dq - u_comp_dq
 
-        u_abc = get_modulating_signal(dq_2_alpha_beta(ui_dq, theta),
-                                      sys.conv.v_dc)
+        u_abc = self.make_modulating_signal(dq_2_alpha_beta(ui_dq, theta),
+                                            sys.conv.v_dc)
         self.output = SimpleNamespace(u_abc=u_abc)
         return self.output

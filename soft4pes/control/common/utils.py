@@ -3,7 +3,6 @@ Utility functions and classes for the control module.
 """
 
 import numpy as np
-from soft4pes.utils import alpha_beta_2_abc
 
 
 def wrap_theta(theta):
@@ -22,26 +21,6 @@ def wrap_theta(theta):
     """
 
     return (theta + np.pi) % (2 * np.pi) - np.pi
-
-
-def get_modulating_signal(v_ref, v_dc):
-    """
-    Convert a voltage reference to a modulating signal.
-
-    Parameters
-    ----------
-    v_ref : ndarray
-        The reference voltage.
-    v_dc : float
-        The dc-link voltage.
-
-    Returns
-    -------
-    ndarray
-        The modulating signal in abc-frame.
-    """
-
-    return np.clip(alpha_beta_2_abc(v_ref / (v_dc / 2)), -1, 1)
 
 
 def magnitude_limiter(input_signal, limit):
