@@ -7,6 +7,7 @@ positions are read from a lookup table (LUT) that is loaded from a specified OPP
 from types import SimpleNamespace
 import numpy as np
 from soft4pes.control.common.controller import Controller
+from soft4pes.control.common.utils import FirstOrderFilter
 from soft4pes.control.modulation.utils import get_opp_switching_instants, load_switching_angles_from_file
 from soft4pes.utils.conversions import abc_2_alpha_beta
 
@@ -42,8 +43,10 @@ class OPPPWM(Controller):
         super().__init__()
         self.sys = sys
 
+        self.ws_filter = None
         self.m_tol = m_tol
-        self.lut_opp = load_switching_angles_from_file(self.sys, switching_frequency)
+        self.lut_opp = load_switching_angles_from_file(self.sys,
+                                                       switching_frequency)
 
         # Namespace to store the OPPs for the current modulation index
         self.opp_data = SimpleNamespace(m=None, angles=None, positions=None)
@@ -87,6 +90,15 @@ class OPPPWM(Controller):
             Switch positions.
         """
 
+        # Initialize the first-order filter for the electrical angular frequency
+        if self.ws_filter is None:
+            self.ws_filter = FirstOrderFilter(0.3, 1, 1)
+
+        # Filter the theoretical electrical angular frequency
+        self.ws_filter.update(sys.ws, self.Ts, sys.base)
+
+        ws = self.ws_filter.output
+
         # Maximum number of switching events in the output
         MAX_COLS = 5
 
@@ -101,8 +113,8 @@ class OPPPWM(Controller):
 
         # Retrieve the switch position
         t_switch, switch_pos = get_opp_switching_instants(
-            self.opp_data.angles, self.opp_data.positions, u_ang, self.Ts,
-            self.input.ws, sys)
+            self.opp_data.angles, self.opp_data.positions, u_ang, self.Ts, ws,
+            sys)
 
         # Pad output to a fixed size
         n = len(t_switch)

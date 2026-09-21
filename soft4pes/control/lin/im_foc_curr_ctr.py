@@ -91,8 +91,6 @@ class FOCCurrCtr(Controller):
             Three-phase modulating signal.
         """
 
-        print(self.input.ws)
-
         iS_ref = self.input.iS_ref
 
         # FOC assumes rotor flux orientation

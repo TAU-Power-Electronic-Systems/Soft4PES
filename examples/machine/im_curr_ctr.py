@@ -1,7 +1,7 @@
 """
-Example of direct model predictive control (MPC) for an induction machine drive system. The 
+Example of current control for an induction machine drive system. The 
 controller aims to track the stator current reference calculated based on the reference values of 
-the stator flux magnitude and torque. The machine operates at a constant (nominal) speed.
+the stator flux magnitude and torque.
 """
 
 from types import SimpleNamespace
@@ -20,7 +20,7 @@ from soft4pes.utils.plotter import Plotter
 # time instants.
 T_ref_seq = Sequence(
     np.array([0, 0.05, 0.05, 0.3]),
-    np.array([1, 1, 1, 1]),
+    np.array([0, 0, 1, 1]),
 )
 
 psiS_mag_ref_seq = Sequence(
@@ -42,7 +42,7 @@ ref_seq = SimpleNamespace(T_ref_seq=T_ref_seq,
 # are defined in the examples/machine/pars/machine_parameter_sets.json file, and given in the
 # documentation. Here, a 2-level converter connected to low voltage induction machine is used.
 config = get_custom_system(machine_name='LV_Induction_Machine',
-                           converter_name='2L_LV_Converter')
+                           converter_name='3L_LV_Converter')
 
 # Create the system model consisting of the induction machine and converter. The initial stator flux
 # magnitude reference and torque reference are passed to the IM model to set the initial
@@ -57,11 +57,12 @@ sys = model.machine.InductionMachine(
 )
 
 # Choose the control strategy.
-# "MPC" for model predictive control,
+# "MPC" for finite-control-set model predictive control,
 # "FOC" for field-oriented control,
 # "V/f" for open-loop V/f control.
+# "GP3C" for gradient-based predictive pulse pattern control.
 
-CTR_STRATEGY = "FOC"
+CTR_STRATEGY = "V/f"
 
 match CTR_STRATEGY:
     case "MPC":
@@ -107,8 +108,28 @@ match CTR_STRATEGY:
                                        ref_seq=ref_seq,
                                        Ts=250e-6,
                                        pwm=modulation.OPPPWM(
-                                           sys=sys,
-                                           switching_frequency=1150))
+                                           sys=sys, switching_frequency=350))
+    case "GP3C":
+        # Define the electrical angular frequency estimator
+        im_ws_est = lin.IMwsEstimator(sys=sys)
+        iS_ref_gen = lin.IMStatorCurrRefGen()
+
+        # Pattern loader
+        pat_load = modulation.OPPLoader(sys=sys, switching_frequency=350)
+
+        # Use Branch-and-Bound solver
+        solver = mpc.solvers.MPCQP()
+
+        # Define the GP3C current controller, which tracks the stator current reference
+        iS_mpc = mpc.algorithms.IMGP3CCurrCtr(solver=solver,
+                                              lambda_u=3e6,
+                                              Np=10)
+
+        # Instantiate the controller
+        ctr_sys = common.ControlSystem(
+            control_loops=[iS_ref_gen, pat_load, iS_mpc],
+            ref_seq=ref_seq,
+            Ts=50e-6)
 
 # Simulate the system
 sim = Simulation(sys=sys,

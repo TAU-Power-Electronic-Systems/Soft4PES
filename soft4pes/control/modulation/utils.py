@@ -70,7 +70,7 @@ def get_opp_switching_instants(angles, positions, v_ang, T_end, w, sys):
     else:
         raise ValueError('Only two- and three-level converters are supported.')
 
-    ANGLE_TOL = 20e-3  # Tolerance for angle comparison
+    ANGLE_TOL = 0e-6  # Tolerance for angle comparison
 
     # Phase A with zero phase shift
     angles_a = angles_fw
@@ -178,10 +178,10 @@ def load_switching_angles_from_file(sys, switching_frequency):
     f1 = sys.base.w / 2 / np.pi
 
     if sys.conv.nl == 2:
-        d = str(round((switching_frequency / f1 - 1)/2))
+        d = str(round((switching_frequency / f1 - 1) / 2))
     elif sys.conv.nl == 3:
         d = str(round(switching_frequency / f1))
-    else: 
+    else:
         raise ValueError('Only two- and three-level converters are supported.')
 
     filename = str(sys.conv.nl) + 'L_' + 'd' + d + '_opp_inductive.nc'
@@ -196,3 +196,37 @@ def load_switching_angles_from_file(sys, switching_frequency):
                                 ' not found.') from exc
 
     return opp_lut
+
+
+def update_opp(opp_data, m):
+    """
+    Update the switching angles and positions based on the modulation index.
+
+    Parameters
+    ----------
+    m : float
+    Modulation index.
+
+    Returns
+    -------
+    angles : 1 x d ndarray
+        Array of switching angles [rad].
+    positions : 1 x d ndarray
+        Array of switching positions.
+    harm_ref : xarray.Dataset
+        Harmonic reference.
+    """
+
+    # Read the switching angles and positions from the LUT
+    angles = opp_data['switching_angles'].sel(modulation_index=m,
+                                              method='nearest').values
+    positions = opp_data['switch_positions'].sel(modulation_index=m,
+                                                 method='nearest').values
+
+    if 'harm_ref' in opp_data.data_vars:
+        harm_ref = opp_data['harm_ref'].sel(modulation_index=m,
+                                            method='nearest')
+    else:
+        harm_ref = None
+
+    return angles, positions, harm_ref

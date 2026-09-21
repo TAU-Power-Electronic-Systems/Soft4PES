@@ -1,12 +1,17 @@
 """
-This module contains the class IndirectQP, which is used to solve the indirect model predictive 
+This module contains the class MPCQP, which is used to solve the model predictive 
 control (MPC) problem using a quadratic program (QP) solver. 
 
 The formulation of the control problem and the QP matrices are based on:
+
 M. Rossi, P. Karamanakos, and F. Castelli-Dezza, “An indirect model predictive control method for
 grid-connected three-level neutral point clamped converters with LCL filters,” IEEE Trans. Ind.
 Applicat., vol. 58, no. 3, pp. 3750-3768, May/Jun. 2022. The same states do not have to be both
 controlled (output variables) and constrained.
+
+M. A. W. Begh, P. Karamanakos and T. Geyer, "Gradient-Based Predictive Pulse Pattern 
+Control of Medium-Voltage Drives—Part I: Control, Concept, and Analysis," 
+in IEEE Transactions on Power Electronics, vol. 37, no. 12, pp. 14222-14236, Dec. 2022
 
 The QP is solved using the `qpsolvers` package and the `DAQP` solver (MIT license).
 """
@@ -17,9 +22,9 @@ from soft4pes.control.mpc.common.solver_base import MPCSolverBase
 from soft4pes.control.mpc.solvers.utils import make_QP_matrices
 
 
-class iMPCQP(MPCSolverBase):
+class MPCQP(MPCSolverBase):
     """
-    QP solver for indirect MPC.
+    QP solver for MPC.
     
     This solver reformulates the MPC problem as a quadratic program with linear constraints, solving
     it at each time step to find the optimal control action. 
@@ -27,7 +32,7 @@ class iMPCQP(MPCSolverBase):
     Attributes
     ----------
     QP_matrices : SimpleNamespace
-        Namespace containing the precomputed matrices used in the QP problem.
+        Namespace containing the precomputed matrices used in the QP problem if such are available.
     """
 
     def __init__(self):
@@ -51,9 +56,40 @@ class iMPCQP(MPCSolverBase):
 
         Returns
         -------
-        u_abc : 1 x 3 ndarray of floats
-            Optimal three-phase modulating signal for the current time step.
+        opt_sol : 1 x n ndarray of floats
+            Optimal solution for the control action at the current time step.
         """
+
+        if ctr.M is not None:
+            nt = len(ctr.t_nom)
+            ny = ctr.C.shape[0]
+
+            Tp = ctr.Np * ctr.Ts
+
+            # Formulate the objective function for the QP
+            Qblk = np.kron(np.eye(nt), ctr.Q)
+            H = (ctr.M.T @ Qblk @ ctr.M + np.eye(nt) * ctr.lambda_u) * Tp * Tp
+
+            x_rep = np.tile(sys.x[0:ny], (nt, 1)).flatten()
+            r = y_ref_pred - x_rep
+            f = (-r @ Qblk @ ctr.M - ctr.lambda_u * ctr.t_nom) * Tp
+
+            # Formulate the constraints for the QP
+            shifted_eye = np.roll(np.eye(nt), shift=1, axis=1)
+            A = np.eye(nt) - np.triu(shifted_eye)
+
+            b = np.zeros((nt, 1))
+            b[-1] = 1
+
+            lb = np.zeros((nt, 1))
+            ub = np.ones((nt, 1))
+
+            # Solve the QP
+            t_opt = solve_qp(H, f, A, b, lb=lb, ub=ub, solver='daqp')
+
+            opt_sol = t_opt * Tp
+
+            return opt_sol
 
         # If the QP matrices have not been computed yet or if the system has a time-varying model,
         # compute the QP matrices
@@ -94,8 +130,8 @@ class iMPCQP(MPCSolverBase):
                     [b_QP, m.Delta - m.Pi.dot(m.Gamma_constraints.dot(x))])
 
         # Solve the QP
-        U_tilde = solve_qp(m.H_tilde, f, m.A_QP, b_QP, solver='daqp')
+        opt_sol = solve_qp(m.H_tilde, f, m.A_QP, b_QP, solver='daqp')
 
         # Return the first three elements of the optimal solution, which correspond to the control
         # action at the current time step
-        return U_tilde[0:3]
+        return opt_sol[0:3]

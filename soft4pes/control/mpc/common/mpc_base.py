@@ -5,6 +5,9 @@ and disturbance vectors over the prediction horizon.
 
 import numpy as np
 
+from soft4pes.control.common.utils import wrap_theta
+from soft4pes.control.mpc.solvers.utils import compute_next_state
+
 
 def has_soft_constraints(C_soft_constr, soft_constr_weights,
                          soft_constraints_max):
@@ -75,6 +78,8 @@ class MPCBase:
         Output matrix. Defines the tracked variables.
     Q : ndarray
         Weighting matrix in the objective function for the tracked variables.
+    M : ndarray
+        Gradient matrix for gradient-based MPC
     Np : int
         Prediction horizon steps.
     lambda_u : float
@@ -95,6 +100,12 @@ class MPCBase:
         Maximum values for constrained variables.
     has_soft_constraints : bool
         Flag indicating whether soft constraints are enabled.
+    t_nom : 1 x N ndarray of floats
+        Nominal switching time instants within the prediction horizon.
+    U_nom : 3 x N ndarray of floats
+        Three-phase switch positions corresponding to the nominal switching time instants.
+    U_used : int
+        Number of switching events that have already been used in the previous control step.
     """
 
     def __init__(self,
@@ -109,6 +120,7 @@ class MPCBase:
                  disc_method='exact_discretization'):
         self.C = C
         self.Q = Q
+        self.M = None
         self.Np = Np
         self.lambda_u = lambda_u
         self.solver = solver
@@ -121,6 +133,10 @@ class MPCBase:
         self.soft_constraints_max = soft_constraints_max
         self.has_soft_constraints = has_soft_constraints(
             C_soft_constr, soft_constr_weights, soft_constraints_max)
+
+        self.t_nom = np.array([])
+        self.U_nom = np.array([]).reshape(3, 0)
+        self.U_used = 0
 
     def get_ctr_state_space(self, sys, Ts):
         """
@@ -196,6 +212,180 @@ class MPCBase:
                 horizon_vector[start_idx:start_idx + 2] = variable_rotated
 
         return horizon_vector
+
+    def make_opp_reference_vector(self, sys, w, i_ref, harm_ref, v_ang):
+        """
+        Create the reference vector for based on the nominal OPP switching time instants 
+        over the prediction horizon. 
+
+        Parameters
+        ----------
+        sys : system object
+            System model.
+        w : float
+            Angular frequency [p.u.].
+        i_ref : 2 x 1 ndarray
+            Current reference in alpha-beta frame.
+        harm_ref : xarray.Dataset
+            Harmonic current reference.
+        v_ang : float
+            Converter voltage angle [rad].
+
+        Returns
+        -------
+        horizon_vector : ny*n x 1 ndarray
+            Reference vector for the prediction horizon
+        """
+        # Number of switching events within the prediction horizon
+        n = len(self.t_nom)
+
+        # Preallocate the reference vector for the prediction horizon
+        horizon_vector = np.zeros(2 * n)
+
+        for ell in range(n):
+            theta_pred = sys.base.w * w * self.t_nom[ell]
+            R_rot = np.array([[np.cos(theta_pred), -np.sin(theta_pred)],
+                              [np.sin(theta_pred),
+                               np.cos(theta_pred)]])
+            horizon_vector[ell * 2:ell * 2 + 2] = R_rot.dot(i_ref)
+
+            # Add harmonic reference
+            if harm_ref is not None:
+                theta_harm = wrap_theta(theta_pred + v_ang - np.pi +
+                                        np.pi / 2) + np.pi
+                ref = harm_ref.sel(theta_index=theta_harm,
+                                   method='nearest').values
+
+                if hasattr('sys', 'ws'):
+                    gain = sys.par.Xsigma
+                else:
+                    gain = sys.par.X_fc + sys.par.Xg
+
+                horizon_vector[ell * 2:ell * 2 +
+                               2] += ref * sys.conv.v_dc / 2 / gain
+
+        return horizon_vector
+
+    def get_gradient_matrix(self, ctr, sys, x_ell, d_vector=None):
+        """
+        Compute the gradient matrix for gradient-based MPC.
+
+        Parameters
+        ----------
+        ctr : controller object
+            Controller object.
+        sys : system object
+            System object.
+        x_ell : 1 x n ndarray of floats
+            Current state vector.
+        d_vector : 1 x m ndarray of floats, optional
+            Disturbance vector for the prediction horizon.
+
+        Returns
+        -------
+        M : ndarray of floats
+            Gradient matrix.
+        """
+
+        # Number of outputs
+        ny = ctr.C.shape[0]
+
+        # Number of switching events within the prediction horizon
+        nt = len(ctr.t_nom)
+
+        # Append the current switch position
+        t = np.concatenate(([0], ctr.t_nom))
+        u = np.vstack((ctr.u_km1_abc, np.transpose(ctr.U_nom)))
+
+        # Preallocate the gradient matrix
+        M = np.zeros((ny * nt, nt + 1))
+
+        # Compute the gradient matrix
+        for i in range(nt):
+            dt = t[i + 1] - t[i]
+            state_space = sys.get_discrete_time_state_space(
+                dt, ctr.disc_method)
+
+            # Compute the next state
+            x_ell_next = compute_next_state(state_space, x_ell, u[i, :],
+                                            d_vector, i)
+
+            # Calculate the gradient
+            m_ell = ctr.C @ (x_ell_next - x_ell) / dt
+
+            # Add to the gradient matrix
+            m_vec = np.tile(m_ell, (nt - i, 1))
+            M[ny * i:ny * nt, i + 1] = m_vec.flatten()
+            M[ny * i:ny * nt, i] = M[ny * i:ny * nt, i] - m_vec.flatten()
+
+            x_ell = x_ell_next
+
+        # Discard the first column
+        M = M[:, 1:]
+
+        return M
+
+    def read_modified_time_instants(self, t_opp, U_opp):
+        """
+        Read the information about the modificatoins to the switching time 
+        instants in the previous control step and update the nominal 
+        switching time instants and switch positions
+
+        Parameters
+        ----------
+        t_opp : ndarray
+            Switching time instants of the nominal OPP within the prediction horizon.
+        U_opp : ndarray
+            Switch positions of the nominal OPP within the prediction horizon.
+
+        """
+        # Remove switching events that have already been
+        # used in the previous control step
+        t_new = t_opp[self.U_used:]
+        U_new = U_opp[:, self.U_used:]
+        self.U_used = 0
+
+        # Append saved switching events from the previous control step
+        self.t_nom = np.concatenate((self.t_nom, t_new))
+        self.U_nom = np.hstack((self.U_nom, U_new))
+
+    def write_modified_time_instants(self, Ts, t_opt):
+        """
+        Save the information about the modifications to the switching time instants 
+        in the current control step for the next control step.
+        
+        
+        Parameters
+        ----------
+        Ts : float
+            Sampling interval [s].
+        t_opt : ndarray
+            Switching time instants of the optimal solution within the prediction horizon.
+
+        """
+        # Save/remove switching instants and switch positions for the next control step
+        t_opt_Ts = np.sum(t_opt < Ts)
+        t_nom_Ts = np.sum(self.t_nom < Ts)
+        t_diff = t_nom_Ts - t_opt_Ts
+
+        U_tmp = self.U_nom
+
+        if t_diff > 0:
+            # Save switching events that have not been used in the current control step
+            self.t_nom = np.linspace(1e-6, t_diff * 1e-6, t_diff)
+            self.U_nom = U_tmp[:, t_opt_Ts:t_nom_Ts]
+        elif t_diff < 0:
+            # Remove switching events that have been used in the current control step
+            self.U_used = -t_diff
+            self.t_nom = np.array([])
+            self.U_nom = np.array([]).reshape(3, 0)
+        else:
+            self.t_nom = np.array([])
+            self.U_nom = np.array([]).reshape(3, 0)
+
+        # Update the current switch position for the next control step
+        if t_opt_Ts > 0:
+            self.u_km1_abc = U_tmp[:, t_opt_Ts - 1]
 
     def make_reference_vector(self, w, Ts, ref):
         """

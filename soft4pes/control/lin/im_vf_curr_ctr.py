@@ -87,6 +87,6 @@ class VfCurrCtr(Controller):
 
         u_abc = get_modulating_signal(v_conv, sys.conv.v_dc)
 
-        self.output = SimpleNamespace(u_abc=u_abc, ws=ws)
+        self.output = SimpleNamespace(u_abc=u_abc)
 
         return self.output
