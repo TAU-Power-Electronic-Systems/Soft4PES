@@ -24,6 +24,8 @@ class OPPLoader(Controller):
         The desired switching frequency of the converter [Hz].
     m_tol : float (optional)
         Tolerance for the modulation index change to trigger an update of the OPP.
+    w_bw : float (optional)
+        Cutoff frequency for the low-pass filter applied to the electrical angular frequency estimation.
 
     Attributes
     ----------
@@ -31,6 +33,10 @@ class OPPLoader(Controller):
         Current modulation index.
     m_tol : float
         Tolerance for the modulation index change to trigger an update of the OPP.
+    w_bw : float
+        Cutoff frequency for the low-pass filter applied to the electrical angular frequency estimation.
+    ws_filter : FirstOrderFilter
+        First-order low-pass filter for smoothing the electrical angular frequency estimate.
     lut_opp : xarray.Dataset
         Dataset containing the OPP data for different modulation indices.
     opp_data : SimpleNamespace
@@ -38,7 +44,7 @@ class OPPLoader(Controller):
 
     """
 
-    def __init__(self, sys, switching_frequency, m_tol=1e-2):
+    def __init__(self, sys, switching_frequency, m_tol=0.01, w_bw=0.5):
         super().__init__()
         self.sys = sys
 
@@ -47,6 +53,7 @@ class OPPLoader(Controller):
         self.lut_opp = load_switching_angles_from_file(self.sys,
                                                        switching_frequency)
         self.ws_filter = None
+        self.w_bw = w_bw
 
         # Namespace to store the OPPs for the current modulation index
         self.opp_data = SimpleNamespace(m=None,
@@ -74,7 +81,7 @@ class OPPLoader(Controller):
         if hasattr(sys, "ws"):
             # Initialize the first-order filter for the electrical angular frequency
             if self.ws_filter is None:
-                self.ws_filter = FirstOrderFilter(0.1, 1, 1)
+                self.ws_filter = FirstOrderFilter(self.w_bw, 1, sys.wr)
 
             # Filter the theoretical electrical angular frequency
             self.ws_filter.update(sys.ws, self.Ts, sys.base)
@@ -95,7 +102,7 @@ class OPPLoader(Controller):
             m = 2 / sys.conv.v_dc * v_conv_mag
 
         # If the modulation index change exceeds the tolerance, update the angles and positions.
-        if self.m is None or not np.isclose(m, self.m, rtol=self.m_tol):
+        if self.m is None or not np.isclose(m, self.m, atol=self.m_tol):
             self.m = m
             [angles, positions, harm_ref] = update_opp(self.lut_opp, self.m)
 

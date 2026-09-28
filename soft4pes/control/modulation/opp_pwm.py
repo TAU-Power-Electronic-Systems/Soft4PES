@@ -24,6 +24,8 @@ class OPPPWM(Controller):
         Path to the OPP file.
     m_tol : float (optional)
         Tolerance for modulation index change to update the OPP data.
+    w_bw : float (optional)
+        Cutoff frequency for the low-pass filter applied to the electrical angular frequency estimation.
 
     Attributes
     ----------
@@ -37,9 +39,11 @@ class OPPPWM(Controller):
     opp_data : SimpleNamespace
         A SimpleNamespace object that contains the current modulation index and the corresponding 
         switching angles and positions.
+    ws_filter : FirstOrderFilter
+        First-order low-pass filter for smoothing the electrical angular frequency estimate.
     """
 
-    def __init__(self, sys, switching_frequency, m_tol=1e-3):
+    def __init__(self, sys, switching_frequency, m_tol=1e-2, w_bw=0.5):
         super().__init__()
         self.sys = sys
 
@@ -50,6 +54,7 @@ class OPPPWM(Controller):
 
         # Namespace to store the OPPs for the current modulation index
         self.opp_data = SimpleNamespace(m=None, angles=None, positions=None)
+        self.w_bw = w_bw
 
     def update_opp(self, m):
         """
@@ -64,7 +69,7 @@ class OPPPWM(Controller):
         # Read the switching angles and positions from the LUT.
         # If the modulation index change exceeds the tolerance, update the angles and positions.
         if self.opp_data.m is None or not np.isclose(
-                m, self.opp_data.m, rtol=self.m_tol):
+                m, self.opp_data.m, atol=self.m_tol):
             self.opp_data.m = m
             self.opp_data.angles = self.lut_opp['switching_angles'].sel(
                 modulation_index=m, method='nearest').values
@@ -92,7 +97,7 @@ class OPPPWM(Controller):
 
         # Initialize the first-order filter for the electrical angular frequency
         if self.ws_filter is None:
-            self.ws_filter = FirstOrderFilter(0.3, 1, 1)
+            self.ws_filter = FirstOrderFilter(self.w_bw, 1, sys.wr)
 
         # Filter the theoretical electrical angular frequency
         self.ws_filter.update(sys.ws, self.Ts, sys.base)

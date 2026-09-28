@@ -70,7 +70,7 @@ match CTR_STRATEGY:
         solver = mpc.solvers.MPCQP()
 
         # Define the OPP loader to get the optimal pulse pattern for the current control
-        pat_load = modulation.OPPLoader(sys=sys, switching_frequency=350)
+        pat_load = modulation.OPPLoader(sys=sys, switching_frequency=300)
 
         # Define the GP3C controller
         ctr = mpc.algorithms.GridGP3CCurrCtr(solver=solver,

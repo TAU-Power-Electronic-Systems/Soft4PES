@@ -33,10 +33,10 @@ ref_seq = SimpleNamespace(T_ref_seq=T_ref_seq,
 
 # Define the rotor speed sequence. The rotor speed are given in per unit so that the stator
 # electrical angular frequency is 1 p.u. on rated torque.
-# wr_seq = Sequence(
-#     np.array([0, 0.15, 0.25, 0.3]),
-#     np.array([0.9583, 0.9583, 0.4583, 0.4583]),
-# )
+wr_seq = Sequence(
+    np.array([0, 0.15, 0.25, 0.3]),
+    np.array([0.9583, 0.9583, 0.4583, 0.4583]),
+)
 
 # Get the system parameters from the ready made components. All the available components and systems
 # are defined in the examples/machine/pars/machine_parameter_sets.json file, and given in the
@@ -54,6 +54,7 @@ sys = model.machine.InductionMachine(
     base=config.base,
     psiS_mag_ref_init=psiS_mag_ref_seq(0),
     T_ref_init=T_ref_seq(0),
+    wr=wr_seq,
 )
 
 # Choose the control strategy.
@@ -62,7 +63,7 @@ sys = model.machine.InductionMachine(
 # "V/f" for open-loop V/f control.
 # "GP3C" for gradient-based predictive pulse pattern control.
 
-CTR_STRATEGY = "V/f"
+CTR_STRATEGY = "GP3C"
 
 match CTR_STRATEGY:
     case "MPC":
@@ -108,21 +109,19 @@ match CTR_STRATEGY:
                                        ref_seq=ref_seq,
                                        Ts=250e-6,
                                        pwm=modulation.OPPPWM(
-                                           sys=sys, switching_frequency=350))
+                                           sys=sys, switching_frequency=300))
     case "GP3C":
-        # Define the electrical angular frequency estimator
-        im_ws_est = lin.IMwsEstimator(sys=sys)
         iS_ref_gen = lin.IMStatorCurrRefGen()
 
         # Pattern loader
-        pat_load = modulation.OPPLoader(sys=sys, switching_frequency=350)
+        pat_load = modulation.OPPLoader(sys=sys, switching_frequency=300)
 
         # Use Branch-and-Bound solver
         solver = mpc.solvers.MPCQP()
 
         # Define the GP3C current controller, which tracks the stator current reference
         iS_mpc = mpc.algorithms.IMGP3CCurrCtr(solver=solver,
-                                              lambda_u=3e6,
+                                              lambda_u=1e6,
                                               Np=10)
 
         # Instantiate the controller
@@ -151,6 +150,6 @@ plotter.plot_spectra(states_to_plot=['iS'],
                      f_fund_SI=config.base.w / (2 * np.pi),
                      f_max_SI_plot=5000,
                      start_time=0.1,
-                     n_cycles=2,
+                     n_cycles=4,
                      style='line')
 plotter.show_all()

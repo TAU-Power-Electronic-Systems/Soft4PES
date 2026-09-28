@@ -256,7 +256,7 @@ class MPCBase:
                 ref = harm_ref.sel(theta_index=theta_harm,
                                    method='nearest').values
 
-                if hasattr('sys', 'ws'):
+                if hasattr(sys.par, 'Xsigma'):
                     gain = sys.par.Xsigma
                 else:
                     gain = sys.par.X_fc + sys.par.Xg
@@ -365,7 +365,7 @@ class MPCBase:
         """
         # Save/remove switching instants and switch positions for the next control step
         t_opt_Ts = np.sum(t_opt < Ts)
-        t_nom_Ts = np.sum(self.t_nom < Ts)
+        t_nom_Ts = np.sum(self.t_nom < Ts + 10e-6)
         t_diff = t_nom_Ts - t_opt_Ts
 
         U_tmp = self.U_nom
