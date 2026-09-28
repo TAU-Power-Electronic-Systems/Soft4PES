@@ -11,6 +11,8 @@ from soft4pes.control.lin.rfpsc import RFPSC
 from soft4pes.control.lin.lcl_grid_curr_ctr_wacfb import LCLGridCurrCtrWACFB
 from soft4pes.control.lin.pll import PLL
 from soft4pes.control.lin.im_foc_curr_ctr import FOCCurrCtr
+from soft4pes.control.lin.im_vf_curr_ctr import VfCurrCtr
+from soft4pes.control.lin.im_stator_curr_ref_gen import IMStatorCurrRefGen
 
 __all__ = [
     "GridCurrRefGen",
@@ -21,4 +23,6 @@ __all__ = [
     "LCLGridCurrCtrWACFB",
     "PLL",
     "FOCCurrCtr",
+    "VfCurrCtr",
+    "IMStatorCurrRefGen",
 ]

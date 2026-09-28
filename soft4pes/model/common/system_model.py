@@ -24,6 +24,8 @@ class SystemModel(ABC):
         Length of the state vector.
     state_map : dict
         A dictionary mapping states to elements of the state vector.
+    time_varying_model : bool, optional
+        Indicates if the system model is time-varying. Default is False.
 
     Attributes
     ----------
@@ -51,23 +53,14 @@ class SystemModel(ABC):
         State vector at the previous time step.
     """
 
-    def __init__(self, par, base, conv, x_size, state_map):
-        """
-        Initialize the system model.
+    def __init__(self,
+                 par,
+                 base,
+                 conv,
+                 x_size,
+                 state_map,
+                 time_varying_model=False):
 
-        Parameters
-        ----------
-        par : system parameters
-            System parameters in p.u.
-        base : base value object
-            Base values.
-        conv : converter object
-            Converter object.
-        x_size : int
-            Length of the state vector.
-        state_map : dict
-            A dictionary mapping states to elements of the state vector.        
-        """
         self.base = base
         self.data = SimpleNamespace(x=[], t=[], u_abc=[])
         self.par = par
@@ -75,7 +68,7 @@ class SystemModel(ABC):
         if not hasattr(self, 'x'):
             self.x = np.zeros(x_size)
         self.state_map = state_map
-        self.time_varying_model = False
+        self.time_varying_model = time_varying_model
         self.cont_state_space = self.get_continuous_time_state_space()
         self.u_abc_k = np.zeros(3)
         self.x_km1 = np.zeros(x_size)

@@ -17,3 +17,7 @@ docs/build
 
 # Build and distribution files
 *.egg-info/
+
+# OPP data files
+*.nc
+!examples/opp_data/*.nc

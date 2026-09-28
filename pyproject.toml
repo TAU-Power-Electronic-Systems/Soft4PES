@@ -10,5 +10,7 @@ dependencies = [
     "scipy", 
     "matplotlib",
     "qpsolvers[daqp]",
+    "xarray",
+    "netcdf4",
 ]
 requires-python = ">=3.12,<3.13"

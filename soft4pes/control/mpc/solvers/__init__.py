@@ -3,7 +3,7 @@ Solvers for model predictive control (MPC) algorithms.
 
 """
 
-from soft4pes.control.mpc.solvers.indirect_mpc_qp import iMPCQP
+from soft4pes.control.mpc.solvers.mpc_qp import MPCQP
 from soft4pes.control.mpc.solvers.branch_and_bound import BranchAndBound
 from soft4pes.control.mpc.solvers.enumeration import Enumeration
 
@@ -16,7 +16,7 @@ from soft4pes.control.mpc.solvers.utils import (
 )
 
 __all__ = [
-    'iMPCQP',
+    'MPCQP',
     'BranchAndBound',
     'Enumeration',
     'switching_constraint_violated',

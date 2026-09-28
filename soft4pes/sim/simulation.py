@@ -77,8 +77,9 @@ class SwitchingLogic:
 
     def quantize_switching_time_instants(self, t_switch):
         """
-        Quantize the switching time instants.
-
+        Quantize the switching time instants to the nearest simulation sampling interval within the 
+        current control interval.
+        
         Parameters
         ----------
         t_switch : ndarray
@@ -90,7 +91,7 @@ class SwitchingLogic:
             Quantized switching time instants.
         """
 
-        return np.round(t_switch * self.Ts / self.Ts_sim)
+        return np.maximum(np.floor(t_switch * self.Ts / self.Ts_sim) - 1, 0)
 
     def get_switch_positions(self, ctr_output, k_sim):
         """
@@ -125,7 +126,7 @@ class SwitchingLogic:
             # step. Multiple switching time instants can be equal to the current simulation step. If
             # this is the case, the last entry is used, as it includes the preceding ones.
             self.u_abc = ctr_output.switch_pos[k_sim == self.k_switch]
-            if self.u_abc.ndim == 2:
+            if self.u_abc.ndim > 1:
                 self.u_abc = self.u_abc[-1]
         return self.u_abc
 

@@ -1,7 +1,6 @@
 """
 Grid current reference generator.
 """
-from types import SimpleNamespace
 import numpy as np
 from soft4pes.control.common import Controller
 from soft4pes.utils import alpha_beta_2_dq, dq_2_alpha_beta
@@ -55,6 +54,8 @@ class GridCurrRefGen(Controller):
         else:
             theta_out = self.input.theta
 
-        self.output = SimpleNamespace(ig_ref=ig_ref, theta=theta_out)
+        self.output = self.input
+        self.output.ig_ref = ig_ref
+        self.output.theta = theta_out
 
         return self.output

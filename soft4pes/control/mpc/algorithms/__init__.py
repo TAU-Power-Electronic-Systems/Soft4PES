@@ -7,10 +7,10 @@ from soft4pes.control.mpc.algorithms.lcl_grid_vc_ctr import LCLGridVcCtr
 from soft4pes.control.mpc.algorithms.im_curr_ctr import IMCurrCtr
 from soft4pes.control.mpc.algorithms.pmsm_curr_ctr import PMSMCurrCtr
 from soft4pes.control.mpc.algorithms.rl_grid_curr_ctr import RLGridCurrCtr
+from soft4pes.control.mpc.algorithms.im_gp3c_curr_ctr import IMGP3CCurrCtr
+from soft4pes.control.mpc.algorithms.grid_gp3c_curr_ctr import GridGP3CCurrCtr
 
 __all__ = [
-    "LCLGridVcCtr",
-    "IMCurrCtr",
-    "PMSMCurrCtr",
-    "RLGridCurrCtr",
+    "LCLGridVcCtr", "IMCurrCtr", "PMSMCurrCtr", "RLGridCurrCtr",
+    "IMGP3CCurrCtr", "GridGP3CCurrCtr"
 ]

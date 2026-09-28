@@ -1,5 +1,5 @@
 """
-Example of direct model predictive control (MPC) for a grid-connected power converter. MPC is 
+Example of model predictive control (MPC) for a grid-connected power converter. MPC is 
 designed as a current controller, thus the main objective is to track the reference of the grid 
 current. The current references are generated based on the power references. 
 """
@@ -9,7 +9,7 @@ import numpy as np
 
 from pars.grid_config import get_custom_system
 from soft4pes import model
-from soft4pes.control import mpc, common, lin
+from soft4pes.control import modulation, mpc, common, lin
 from soft4pes.utils import Sequence
 from soft4pes.sim import Simulation
 from soft4pes.utils.plotter import Plotter
@@ -34,22 +34,54 @@ sys = model.grid.RLGridLFilter(par_grid=config.grid_params,
 P_ref_seq = Sequence(np.array([0, 0.05, 0.05, 0.1, 0.1, 0.2]),
                      np.array([0, 0, 1, 1, 0, 0]))
 Q_ref_seq = Sequence(
-    np.array([0, 0.15, 0.15, 0.2]),
-    np.array([0, 0, 0.5, 0.5]),
+    np.array([0, 0.1, 0.1, 0.2]),
+    np.array([0, 0, 1, 1]),
 )
 ref_seq = SimpleNamespace(P_ref_seq=P_ref_seq, Q_ref_seq=Q_ref_seq)
 
-# Define solver to be Branch-and-Bound
-solver = mpc.solvers.BranchAndBound()
-
 # Define control loops, the outer loop generates the grid current reference based on the power
-# references, acting as a feedforward term. The inner loop (direct MPC) is used to track the grid
+# references, acting as a feedforward term. The inner loop (MPC) is used to track the grid
 # current reference.
+
+# PLL implementation
+pll = lin.PLL(sys=sys, zeta=1, wn=2 * np.pi * 5)
+
+# Grid current reference generator
 ref_ctr = lin.GridCurrRefGen()
-ctr = mpc.algorithms.RLGridCurrCtr(solver=solver, lambda_u=5e-3, Np=2)
-ctr_sys = common.ControlSystem(control_loops=[ref_ctr, ctr],
+
+# Choose the current control strategy.
+# "FCSMPC" for finite-control-set model predictive control,
+# "GP3C" for gradient-based predictive pulse pattern control
+
+CTR_STRATEGY = "GP3C"
+
+match CTR_STRATEGY:
+    case "FCSMPC":
+        # Define solver to be Branch-and-Bound
+        solver = mpc.solvers.BranchAndBound()
+
+        # Define the MPC controller
+        ctr = mpc.algorithms.RLGridCurrCtr(solver=solver, lambda_u=5e-3, Np=2)
+
+        control_loops = [pll, ref_ctr, ctr]
+
+    case "GP3C":
+        # Define the QP solver for the GP3C algorithm
+        solver = mpc.solvers.MPCQP()
+
+        # Define the OPP loader to get the optimal pulse pattern for the current control
+        pat_load = modulation.OPPLoader(sys=sys, switching_frequency=300)
+
+        # Define the GP3C controller
+        ctr = mpc.algorithms.GridGP3CCurrCtr(solver=solver,
+                                             lambda_u=1e6,
+                                             Np=10)
+
+        control_loops = [pll, ref_ctr, pat_load, ctr]
+
+ctr_sys = common.ControlSystem(control_loops=control_loops,
                                ref_seq=ref_seq,
-                               Ts=100e-6)
+                               Ts=50e-6)
 
 # Simulate the system
 sim = Simulation(sys=sys, ctr=ctr_sys, Ts_sim=5e-6)
