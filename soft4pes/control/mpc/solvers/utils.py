@@ -235,8 +235,7 @@ def make_QP_matrices(ctr):
             [0, 1, 0, 0, -1, 0],\
             [0, 0, 1, 0, 0, -1]]).T
 
-    if ctr.common_mode_inj_enabled:
-        V = np.sqrt(3) / 2 * V
+    V = 1 / ctr.u_abc_ref_max * V
 
     Omega = np.kron(np.eye(Np), V)
 

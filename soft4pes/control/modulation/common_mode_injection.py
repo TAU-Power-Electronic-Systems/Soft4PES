@@ -17,7 +17,8 @@ class CommonModeInjection(Controller):
     Available common-mode injection methods:
     - MinMax: Adds a common-mode component u_cm = -0.5 * (max(u_ref_abc) + min(u_ref_abc)) to the 
       modulating signal. For a two level converter, this method is equivalent to space-vector 
-      modulation (SVM). 
+      modulation (SVM). The maximum amplitude of the three-phase modulating signal before the
+    common-mode injection is u_abc_ref_max = 2/sqrt(3) = 1.1547.
 
     Parameters
     ----------
@@ -28,11 +29,18 @@ class CommonModeInjection(Controller):
     ----------
     mode : str
         Common-mode injection method.
+    u_abc_ref_max : float
+        Maximum value of the three-phase modulating signal before common-mode injection.
     """
 
     def __init__(self, mode='MinMax'):
         super().__init__()
         self.mode = mode
+
+        if self.mode == 'MinMax':
+            self.u_abc_ref_max = 2 / np.sqrt(3)
+        else:
+            self.u_abc_ref_max = 1
 
     def execute(self, sys, kTs):
         """
@@ -62,7 +70,6 @@ class CommonModeInjection(Controller):
                 f'Common mode injection mode {self.mode} not recognized. Available '
                 'modes: MinMax.')
 
-        u_ref_abc_cm = u_ref_abc + u_cm
-        self.output = SimpleNamespace(u_abc=np.clip(u_ref_abc_cm, -1, 1))
+        self.output = SimpleNamespace(u_abc=u_ref_abc + u_cm)
 
         return self.output
