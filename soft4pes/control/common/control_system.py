@@ -67,6 +67,14 @@ class ControlSystem:
         for control_loop in self.control_loops:
             control_loop.set_sampling_interval(Ts)
 
+            # If common-mode injection is used, the maximum value of the three-phase modulating
+            # signal is aqquired from the common-mode injection block. Otherwise, default value of 1
+            # is used.
+            if common_mode_inj is not None:
+                control_loop.u_abc_ref_max = common_mode_inj.u_abc_ref_max
+            else:
+                control_loop.u_abc_ref_max = 1
+
     def __call__(self, sys, kTs):
         """
         Execute the control system for a given discrete time step. The control system

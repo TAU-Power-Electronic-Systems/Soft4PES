@@ -11,7 +11,7 @@ from types import SimpleNamespace
 import numpy as np
 from soft4pes.control.common.controller import Controller
 from soft4pes.utils import alpha_beta_2_dq, dq_2_alpha_beta
-from soft4pes.control.common.utils import wrap_theta, get_modulating_signal, FirstOrderFilter
+from soft4pes.control.common.utils import wrap_theta, FirstOrderFilter
 
 
 class RFPSC(Controller):
@@ -104,7 +104,10 @@ class RFPSC(Controller):
         self.output = SimpleNamespace(
             vc_ref=v_ref,
             theta=self.theta_c,
-            u_abc=get_modulating_signal(v_ref, sys.conv.v_dc),
+            u_abc=self.make_modulating_signal(
+                v_ref,
+                sys.conv.v_dc,
+            ),
         )
 
         self.ig_filter.update(ig_dq, self.Ts, sys.base)

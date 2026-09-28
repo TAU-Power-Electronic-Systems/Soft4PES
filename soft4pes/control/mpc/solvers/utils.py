@@ -235,6 +235,8 @@ def make_QP_matrices(ctr):
             [0, 1, 0, 0, -1, 0],\
             [0, 0, 1, 0, 0, -1]]).T
 
+    V = 1 / ctr.u_abc_ref_max * V
+
     Omega = np.kron(np.eye(Np), V)
 
     # Form the linear inequality constraint matrix A_QP
