@@ -156,13 +156,14 @@ def get_custom_system(grid_name, filter_name, converter_name):
         )
     if filter_name not in _config['filters']:
         raise ValueError(
-            f"Unknown filter '{filter_name}'. Available filters: {', '.join(
-                _config['filters'].keys())}"
-        )
+            f"Unknown filter '{filter_name}'. "
+            f"Available filters: {', '.join(_config['filters'].keys())}"
+       )
+
     if converter_name not in _config['converters']:
         raise ValueError(
-            f"Unknown converter '{converter_name}'. Available converters: {', '.join(
-                _config['converters'].keys())}"
+            f"Unknown converter '{converter_name}'. "
+            f"Available converters: {', '.join(_config['converters'].keys())}"
         )
 
     # Load components
