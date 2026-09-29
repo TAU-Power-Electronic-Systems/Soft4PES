@@ -1,11 +1,11 @@
 """
-Offline optimal pulse pattern (OPP) computation.
+Offline optimized pulse pattern (OPP) computation.
 
 Supported features
 ------------------
 - Two-level and three-level converters
 - QaHWS and HWS pulse patterns
-- Load-connected and grid-connected converters
+- Machine- or grid-connected converters
 """
 
 from datetime import datetime
@@ -49,12 +49,12 @@ def objective_function(x):
     Parameters
     ----------
     x : ndarray
-        Switching-angle vector.
+        Vector of switching angles.
 
     Returns
     -------
     float
-        Objective-function value.
+        Value of the OPP objective function.
     """
 
     data = _WORKER_DATA
@@ -74,21 +74,21 @@ def objective_function(x):
         harmonic_weight = harmonic_weights[harmonic_index]
 
         if symmetry == "HWS":
-            coeff_cos = np.dot(delta_u, np.cos(harmonic_order * x))
-            coeff_sin = np.dot(delta_u, np.sin(harmonic_order * x))
+            cosine_sum = np.dot(delta_u, np.cos(harmonic_order * x))
+            sine_sum = np.dot(delta_u, np.sin(harmonic_order * x))
 
             cost += ((harmonic_weight / harmonic_order)**
-                     2) * (coeff_cos**2 + coeff_sin**2)
+                     2) * (cosine_sum**2 + sine_sum**2)
 
         else:
 
             if converter_level == 2:
-                harmonic_coeff = 1 + 2 * np.dot(delta_u,
+                harmonic_sum = 1 + 2 * np.dot(delta_u,
                                                 np.cos(harmonic_order * x))
             else:
-                harmonic_coeff = np.dot(delta_u, np.cos(harmonic_order * x))
+                harmonic_sum = np.dot(delta_u, np.cos(harmonic_order * x))
 
-            cost += ((harmonic_weight * harmonic_coeff) / harmonic_order)**2
+            cost += ((harmonic_weight * harmonic_sum) / harmonic_order)**2
 
     return cost
 
@@ -100,18 +100,18 @@ def nonlinear_constraint_function(x, modulation_index, u0):
     Parameters
     ----------
     x : ndarray
-        Switching-angle vector.
+        Vector of switching angles.
 
     modulation_index : float
         Desired modulation index.
 
     u0 : int
-        Initial switching state.
+        Initial switch position.
 
     Returns
     -------
     ndarray
-        Equality-constraint values.
+        Values of equality constraints.
     """
 
     data = _WORKER_DATA
@@ -123,15 +123,16 @@ def nonlinear_constraint_function(x, modulation_index, u0):
     delta_u = data["delta_u"]
 
     if symmetry == "HWS":
-        coeff_cos = np.dot(delta_u, np.cos(x))
-        coeff_sin = np.dot(delta_u, np.sin(x))
+        cosine_sum = np.dot(delta_u, np.cos(x))
+        sine_sum = np.dot(delta_u, np.sin(x))
 
         if converter_level == 2:
-            ceq1 = (u0 * 4 / np.pi) * coeff_cos - modulation_index
-            ceq2 = -(u0 * 4 / np.pi) * coeff_sin
+            ceq1 = (u0 * 4 / np.pi) * cosine_sum - modulation_index
+            # The fundamental OPP component is chosen to have zero initial phase.
+            ceq2 = -(u0 * 4 / np.pi) * sine_sum
         else:
-            ceq1 = (2 / np.pi) * coeff_cos - modulation_index
-            ceq2 = -(2 / np.pi) * coeff_sin
+            ceq1 = (2 / np.pi) * cosine_sum - modulation_index
+            ceq2 = -(2 / np.pi) * sine_sum
 
         return np.array([ceq1, ceq2])
 
@@ -151,8 +152,8 @@ def run_single_optimization(task):
     Parameters
     ----------
     task : tuple
-        Tuple containing the initial switching-angle vector, modulation index,
-        and initial switching state.
+        Tuple containing the initial vector of switching angles, modulation index,
+        and initial switch position.
 
     Returns
     -------
@@ -202,7 +203,9 @@ class OPPComputation:
         System model.
 
     d : int, default=5
-        Pulse number.
+        Base number of switching transitions used to construct the OPP.
+        For example, this corresponds to the pulse number for three-level
+        QaHWS OPPs.
 
     symmetry : str, default="QaHWS"
         Waveform symmetry.
@@ -213,7 +216,9 @@ class OPPComputation:
         - "QaHWS": quarter- and half-wave symmetry
 
     n_m : int, default=256
-        Number of points in the default modulation-index grid.
+        Number of points used to discretize the modulation index range
+        [0, 4/pi], resulting in n_m - 1 nonzero modulation indices for
+        which OPPs are computed.
 
     n_ini_points : int, default=1000
         Number of multistart initial points.
@@ -223,7 +228,8 @@ class OPPComputation:
 
     modulation_indices : array_like or None, default=None
         Modulation indices for which OPPs are computed. If None, the
-        default modulation-index grid is used.
+        modulation index range [0, 4/pi] is discretized using n_m
+        points.
 
     Attributes
     ----------
@@ -237,10 +243,10 @@ class OPPComputation:
         Switching-angle and switching-pattern data.
 
     constraints : SimpleNamespace
-        Bound and linear constraints.
+        Bounds and ordering constraints for the switching angles.
 
     initial_points : ndarray or None
-        Initial switching-angle vectors used for multistart optimization.
+        Initial vectors of switching angles used for multistart optimization.
 
     results : dict or None
         Computed OPP lookup table.
@@ -342,6 +348,7 @@ class OPPComputation:
 
         if self.setup.symmetry == "HWS":
             if self.setup.level == 2:
+                # We assume a switching transition at pi for two-level HWS OPPs.
                 self.switching.n_angles = 2 * self.setup.d + 1
             else:
                 self.switching.n_angles = 2 * self.setup.d
@@ -363,15 +370,18 @@ class OPPComputation:
         """
         Build harmonic weighting factors used in the objective function.
 
-        For systems with an LCL filter, the weighting factors are obtained from the
-        LCL-filter frequency-response magnitude. All other currently supported
-        systems use 1/n weighting factors.
+        For systems with an LCL filter, the weighting factors are based on the
+        gain of the transfer function from the switch position to the output
+        current. All other currently supported systems use 1/n weighting
+        factors.
         """
 
         if isinstance(self.sys, RLGridLCLFilter):
 
             state_space = self.sys.cont_state_space
 
+            # States are the alpha-beta components of the converter current,
+            # grid current, and capacitor voltage.
             F_sys = state_space.F
             G_sys = state_space.G
 
@@ -496,19 +506,21 @@ class OPPComputation:
 
         results = {
             "angles":
-            np.zeros((n_modulation_indices, self.switching.n_angles)),
+            np.full((n_modulation_indices, self.switching.n_angles), np.nan),
             "modulation_index":
             self.setup.modulation_indices.copy(),
             "switch_positions":
-            np.zeros((n_modulation_indices, self.switching.n_angles + 1)),
+            np.full(
+                (n_modulation_indices, self.switching.n_angles + 1), np.nan
+            ),
             "symmetry":
             self.setup.symmetry,
             "converter_type":
-            "2Level" if self.setup.level == 2 else "3Level",
+            f"{self.setup.level}Level",
             "d":
             self.setup.d,
             "system_type":
-            "grid" if self.setup.is_grid else "load",
+            "grid" if self.setup.is_grid else "machine",
         }
 
         worker_data = self.get_worker_data()
@@ -574,16 +586,11 @@ class OPPComputation:
                         converged_results,
                         key=lambda result: result.fun,
                     )
-                else:
-                    candidate = min(
-                        local_results,
-                        key=lambda result: result.fun,
-                    )
 
-                if candidate.fun < best_cost:
-                    best_cost = candidate.fun
-                    best_result = candidate
-                    best_u0 = u0
+                    if candidate.fun < best_cost:
+                        best_cost = candidate.fun
+                        best_result = candidate
+                        best_u0 = u0
 
             if best_result is not None:
                 results["angles"][m_index, :] = best_result.x
@@ -617,8 +624,8 @@ class OPPComputation:
                 "No results found. Run compute() before save_results().")
 
         if filename is None:
-            system_name = "grid" if self.setup.is_grid else "load"
-            level_name = "2Level" if self.setup.level == 2 else "3Level"
+            system_name = "grid" if self.setup.is_grid else "machine"
+            level_name = f"{self.setup.level}Level"
             symmetry_name = self.setup.symmetry
 
             filename = (f"d{self.setup.d}_"
@@ -647,9 +654,9 @@ class OPPComputation:
                 "description": "Optimized pulse pattern lookup table",
                 "angle_units": "radians",
                 "converter_type": f"{self.setup.level}Level",
-                "system_type": "grid" if self.setup.is_grid else "load",
+                "system_type": "grid" if self.setup.is_grid else "machine",
                 "symmetry": self.setup.symmetry,
-                "pulse_number": self.setup.d,
+                "base_number_of_switching_transitions": self.setup.d,
                 "creation_date": datetime.now().strftime("%d-%b-%Y %H:%M:%S"),
             },
         )

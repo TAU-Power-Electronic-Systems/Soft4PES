@@ -1,5 +1,5 @@
 """
-Example of offline optimal pulse pattern (OPP) computation.
+Example of offline optimized pulse pattern (OPP) computation.
 
 This example computes OPPs for the selected converter-machine system and stores
 the resulting switching-angle and switch-position lookup tables in a NetCDF file.
@@ -33,7 +33,7 @@ if __name__ == "__main__":
         d=5,
         symmetry="QaHWS",
         n_m=256,
-        n_ini_points=500,
+        n_ini_points=1000,
         max_harmonics=500,
         modulation_indices=None,
     )

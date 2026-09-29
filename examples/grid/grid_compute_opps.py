@@ -1,8 +1,9 @@
 """
-Example of offline optimal pulse pattern (OPP) computation.
+Example of offline optimized pulse pattern (OPP) computation.
 
-This example computes OPPs for the selected grid-connected system and stores the
-resulting switching-angle and switch-position lookup tables in a NetCDF file.
+This example computes OPPs for the selected grid-connected converter and LCL
+filter and stores the resulting switching-angle and switch-position lookup
+tables in a NetCDF file.
 """
 
 from pars.grid_config import get_custom_system
@@ -15,7 +16,7 @@ if __name__ == "__main__":
     # Create the system from predefined grid, filter, and converter components.
     config = get_custom_system(
         grid_name="Strong_LV_Grid",
-        filter_name="LCL_Filter_fr_1300",
+        filter_name="LCL_Filter_fr_380",
         converter_name="2L_LV_Converter",
     )
 
@@ -27,7 +28,7 @@ if __name__ == "__main__":
         d=5,
         symmetry="QaHWS",
         n_m=256,
-        n_ini_points=500,
+        n_ini_points=1000,
         max_harmonics=500,
         modulation_indices=None,
     )
