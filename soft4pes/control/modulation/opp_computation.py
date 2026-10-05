@@ -68,29 +68,96 @@ def objective_function(x):
     harmonic_orders = data["harmonic_orders"]
     harmonic_weights = data["harmonic_weights"]
 
-    cost = 0
+    harmonic_angles = harmonic_orders[:, None] * x[None, :]
 
-    for harmonic_index, harmonic_order in enumerate(harmonic_orders):
-        harmonic_weight = harmonic_weights[harmonic_index]
+    if symmetry == "HWS":
+        cosine_sum = np.cos(harmonic_angles) @ delta_u
+        sine_sum = np.sin(harmonic_angles) @ delta_u
 
-        if symmetry == "HWS":
-            cosine_sum = np.dot(delta_u, np.cos(harmonic_order * x))
-            sine_sum = np.dot(delta_u, np.sin(harmonic_order * x))
+        cost = np.sum(
+            (harmonic_weights / harmonic_orders)**2
+            * (cosine_sum**2 + sine_sum**2)
+        )
 
-            cost += ((harmonic_weight / harmonic_order)**
-                     2) * (cosine_sum**2 + sine_sum**2)
+    else:
+        cosine_sum = np.cos(harmonic_angles) @ delta_u
 
+        if converter_level == 2:
+            harmonic_sum = 1 + 2 * cosine_sum
         else:
+            harmonic_sum = cosine_sum
 
-            if converter_level == 2:
-                harmonic_sum = 1 + 2 * np.dot(delta_u,
-                                                np.cos(harmonic_order * x))
-            else:
-                harmonic_sum = np.dot(delta_u, np.cos(harmonic_order * x))
-
-            cost += ((harmonic_weight * harmonic_sum) / harmonic_order)**2
+        cost = np.sum(
+            ((harmonic_weights * harmonic_sum) / harmonic_orders)**2
+        )
 
     return cost
+
+def objective_gradient(x):
+    """
+    Evaluate the gradient of the objective function.
+
+    Parameters
+    ----------
+    x : ndarray
+        Vector of switching angles.
+
+    Returns
+    -------
+    ndarray
+        Gradient of the objective function with respect to the switching angles.
+    """
+    data = _WORKER_DATA
+
+    x = np.asarray(x)
+
+    converter_level = data["level"]
+    symmetry = data["symmetry"]
+    delta_u = data["delta_u"]
+
+    harmonic_orders = data["harmonic_orders"]
+    harmonic_weights = data["harmonic_weights"]
+
+    harmonic_angles = harmonic_orders[:, None] * x[None, :]
+
+    if symmetry == "HWS":
+        cosine_sum = np.cos(harmonic_angles) @ delta_u
+        sine_sum = np.sin(harmonic_angles) @ delta_u
+
+        factors = 2 * harmonic_weights**2 / harmonic_orders
+
+        gradient = np.sum(
+            factors[:, None]
+            * (
+                -cosine_sum[:, None] * np.sin(harmonic_angles)
+                + sine_sum[:, None] * np.cos(harmonic_angles)
+            ),
+            axis=0,
+        ) * delta_u
+
+    else:
+        cosine_sum = np.cos(harmonic_angles) @ delta_u
+
+        if converter_level == 2:
+            harmonic_sum = 1 + 2 * cosine_sum
+            scale = 4
+        else:
+            harmonic_sum = cosine_sum
+            scale = 2
+
+        factors = (
+            -scale
+            * harmonic_weights**2
+            * harmonic_sum
+            / harmonic_orders
+        )
+
+        gradient = np.sum(
+            factors[:, None] * np.sin(harmonic_angles),
+            axis=0,
+        ) * delta_u
+
+    return gradient
 
 
 def nonlinear_constraint_function(x, modulation_index, u0):
@@ -144,6 +211,51 @@ def nonlinear_constraint_function(x, modulation_index, u0):
 
     return np.array([ceq])
 
+def nonlinear_constraint_jacobian(x, u0):
+    """
+    Evaluate the Jacobian of the equality constraints.
+
+    Parameters
+    ----------
+    x : ndarray
+        Vector of switching angles.
+
+    u0 : int
+        Initial switch position.
+
+    Returns
+    -------
+    ndarray
+        Jacobian of the equality constraints with respect to the switching angles.
+    """
+    data = _WORKER_DATA
+
+    converter_level = data["level"]
+    symmetry = data["symmetry"]
+    delta_u = data["delta_u"]
+
+    if symmetry == "HWS":
+        if converter_level == 2:
+            factor = u0 * 4 / np.pi
+        else:
+            factor = 2 / np.pi
+
+        jacobian = np.vstack((
+            -factor * delta_u * np.sin(x),
+            -factor * delta_u * np.cos(x),
+        ))
+
+    else:
+        if converter_level == 2:
+            factor = u0 * 8 / np.pi
+        else:
+            factor = 4 / np.pi
+
+        jacobian = (
+            -factor * delta_u * np.sin(x)
+        )[None, :]
+
+    return jacobian
 
 def run_single_optimization(task):
     """
@@ -172,12 +284,17 @@ def run_single_optimization(task):
             modulation_index,
             u0,
         ),
+        "jac": lambda x: nonlinear_constraint_jacobian(
+            x,
+            u0,
+        ),
     }
 
     result = minimize(
         objective_function,
         x0,
         method="SLSQP",
+        jac=objective_gradient,
         bounds=data["bounds"],
         constraints=[
             nonlinear_constraint,
