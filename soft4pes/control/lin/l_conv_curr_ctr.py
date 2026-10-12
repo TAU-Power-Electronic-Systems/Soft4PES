@@ -11,7 +11,6 @@ from types import SimpleNamespace
 import numpy as np
 from soft4pes.utils import alpha_beta_2_dq, dq_2_alpha_beta
 from soft4pes.control.common.controller import Controller
-from soft4pes.control.common.utils import get_modulating_signal
 
 
 class LConvCurrCtr(Controller):
@@ -116,7 +115,7 @@ class LConvCurrCtr(Controller):
 
         # Get the modulating signal in abc frame
         v_conv_ref = dq_2_alpha_beta(v_conv_ref_dq, theta)
-        u_abc = get_modulating_signal(v_conv_ref, sys.conv.v_dc)
+        u_abc = self.make_modulating_signal(v_conv_ref, sys.conv.v_dc)
 
         self.output = SimpleNamespace(u_abc=u_abc)
         return self.output

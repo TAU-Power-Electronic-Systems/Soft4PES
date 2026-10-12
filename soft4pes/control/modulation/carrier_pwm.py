@@ -60,7 +60,7 @@ class CarrierPWM(Controller):
             Switch positions.
         """
 
-        u_ref_abc = self.input.u_abc
+        u_ref_abc = np.clip(self.input.u_abc, -1, 1)
 
         # Calculate the duty ratio, bound to [0 1]. Note that the full duty cycle corresponds to the
         # controller sampling interval.

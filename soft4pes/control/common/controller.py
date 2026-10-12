@@ -4,6 +4,8 @@ Base class for controllers.
 
 from abc import ABC, abstractmethod
 from types import SimpleNamespace
+import numpy as np
+from soft4pes.utils import alpha_beta_2_abc
 
 
 class Controller(ABC):
@@ -20,6 +22,9 @@ class Controller(ABC):
         Namespace for storing output data.
     Ts : float
         Sampling interval [s].
+    u_abc_ref_max : float
+        Maximum value of the three-phase modulating signal. The default value of 1 is overwritten 
+        during the initialization of the control system.
     """
 
     def __init__(self):
@@ -30,6 +35,7 @@ class Controller(ABC):
         self.input = SimpleNamespace()
         self.output = SimpleNamespace()
         self.Ts = 0
+        self.u_abc_ref_max = 1
 
     def set_sampling_interval(self, Ts):
         """
@@ -43,6 +49,29 @@ class Controller(ABC):
             Sampling interval [s].
         """
         self.Ts = Ts
+
+    def make_modulating_signal(self, v_ref, v_dc):
+        """
+        Convert a voltage reference to a modulating signal.
+
+        The modulating signal is limited to the maximum value of the three-phase modulating signal, 
+        which is control system specific.
+
+        Parameters
+        ----------
+        v_ref : ndarray
+            The reference voltage.
+        v_dc : float
+            The dc-link voltage.
+
+        Returns
+        -------
+        ndarray
+            The modulating signal in abc-frame.
+        """
+
+        return np.clip(alpha_beta_2_abc(v_ref / (v_dc / 2)),
+                       -self.u_abc_ref_max, self.u_abc_ref_max)
 
     @abstractmethod
     def execute(self, sys, kTs):
