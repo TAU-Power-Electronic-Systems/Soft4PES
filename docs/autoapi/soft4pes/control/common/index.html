@@ -161,6 +161,7 @@
 <li class="toctree-l3 has-children"><a class="reference internal" href="../modulation/index.html">soft4pes.control.modulation</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../modulation/carrier_pwm/index.html">soft4pes.control.modulation.carrier_pwm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../modulation/common_mode_injection/index.html">soft4pes.control.modulation.common_mode_injection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../modulation/opp_computation/index.html">soft4pes.control.modulation.opp_computation</a></li>
 </ul>
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../mpc/index.html">soft4pes.control.mpc</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -881,14 +882,14 @@ If not given, [1] is used.</p></li>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="soft4pes.control.common.MTPALookupTable">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.common.</span></span><span class="sig-name descname"><span class="pre">MTPALookupTable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">par</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iS_mag_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">101</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2001</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/common/pmsm_mtpa.html#MTPALookupTable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.common.MTPALookupTable" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.common.</span></span><span class="sig-name descname"><span class="pre">MTPALookupTable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">par</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iS_mag_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">101</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2001</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#soft4pes.control.common.MTPALookupTable" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="controller/index.html#soft4pes.control.common.controller.Controller" title="soft4pes.control.common.controller.Controller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soft4pes.control.common.controller.Controller</span></code></a></p>
 <p>Maximum Torque Per Ampere (MTPA) lookup table for permanent magnet synchronous machines (PMSM).</p>
 <p>This class generates and manages the MTPA trajectory, providing optimal current references for
 given torque demands.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.control.common.MTPALookupTable.generate_mtpa_trajectory">
-<span class="sig-name descname"><span class="pre">generate_mtpa_trajectory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/common/pmsm_mtpa.html#MTPALookupTable.generate_mtpa_trajectory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.common.MTPALookupTable.generate_mtpa_trajectory" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">generate_mtpa_trajectory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#soft4pes.control.common.MTPALookupTable.generate_mtpa_trajectory" title="Permalink to this definition">#</a></dt>
 <dd><p>Generate the maximum torque per ampere (MTPA) trajectory for both positive and negative
 torque.</p>
 <p>The algorithm sweeps current magnitude from 0 to 1 p.u. and for each magnitude finds the
@@ -899,7 +900,7 @@ interpolation.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.control.common.MTPALookupTable.get_optimal_current">
-<span class="sig-name descname"><span class="pre">get_optimal_current</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Te_ref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/common/pmsm_mtpa.html#MTPALookupTable.get_optimal_current"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.common.MTPALookupTable.get_optimal_current" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_optimal_current</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Te_ref</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#soft4pes.control.common.MTPALookupTable.get_optimal_current" title="Permalink to this definition">#</a></dt>
 <dd><p>Get optimal stator current reference for given torque reference using linear interpolation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -916,7 +917,7 @@ interpolation.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="soft4pes.control.common.MTPALookupTable.execute">
-<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/common/pmsm_mtpa.html#MTPALookupTable.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.common.MTPALookupTable.execute" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kTs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#soft4pes.control.common.MTPALookupTable.execute" title="Permalink to this definition">#</a></dt>
 <dd><p>Execute MTPA lookup.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>

@@ -1,0 +1,1199 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>soft4pes.control.modulation.opp_computation &#8212; Soft4PES  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../_static/clipboard.min.js"></script>
+    <script src="../../../../_static/copybutton.js"></script>
+    <script src="../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/soft4pes/control/modulation/opp_computation';</script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Soft4PES  documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/index.html">API</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/control/index.html">soft4pes.control</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/control/common/index.html">soft4pes.control.common</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/common/control_system/index.html">soft4pes.control.common.control_system</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/common/controller/index.html">soft4pes.control.common.controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/common/utils/index.html">soft4pes.control.common.utils</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/index.html">soft4pes.control.lin</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/grid_curr_ref_gen/index.html">soft4pes.control.lin.grid_curr_ref_gen</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/im_foc_curr_ctr/index.html">soft4pes.control.lin.im_foc_curr_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/l_conv_curr_ctr/index.html">soft4pes.control.lin.l_conv_curr_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_conv_curr_ctr/index.html">soft4pes.control.lin.lcl_conv_curr_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_grid_curr_ctr_wacfb/index.html">soft4pes.control.lin.lcl_grid_curr_ctr_wacfb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/lcl_vc_ctr/index.html">soft4pes.control.lin.lcl_vc_ctr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/pll/index.html">soft4pes.control.lin.pll</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/lin/rfpsc/index.html">soft4pes.control.lin.rfpsc</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/control/modulation/index.html">soft4pes.control.modulation</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/modulation/carrier_pwm/index.html">soft4pes.control.modulation.carrier_pwm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/modulation/common_mode_injection/index.html">soft4pes.control.modulation.common_mode_injection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/modulation/opp_computation/index.html">soft4pes.control.modulation.opp_computation</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/control/mpc/index.html">soft4pes.control.mpc</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/mpc/algorithms/index.html">soft4pes.control.mpc.algorithms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/mpc/common/index.html">soft4pes.control.mpc.common</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/control/mpc/solvers/index.html">soft4pes.control.mpc.solvers</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/model/index.html">soft4pes.model</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/model/conv/index.html">soft4pes.model.conv</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/conv/converter/index.html">soft4pes.model.conv.converter</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/index.html">soft4pes.model.grid</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/base_grid/index.html">soft4pes.model.grid.base_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/l_filter_param/index.html">soft4pes.model.grid.l_filter_param</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/lcl_filter_param/index.html">soft4pes.model.grid.lcl_filter_param</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/rl_grid/index.html">soft4pes.model.grid.rl_grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/rl_grid_l_filter/index.html">soft4pes.model.grid.rl_grid_l_filter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/rl_grid_lcl_filter/index.html">soft4pes.model.grid.rl_grid_lcl_filter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/grid/rl_grid_param/index.html">soft4pes.model.grid.rl_grid_param</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/model/machine/index.html">soft4pes.model.machine</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/machine/base_machine/index.html">soft4pes.model.machine.base_machine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/machine/induction_machine/index.html">soft4pes.model.machine.induction_machine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/machine/induction_machine_param/index.html">soft4pes.model.machine.induction_machine_param</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/machine/pmsm/index.html">soft4pes.model.machine.pmsm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../autoapi/soft4pes/model/machine/pmsm_param/index.html">soft4pes.model.machine.pmsm_param</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/sim/index.html">soft4pes.sim</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../autoapi/soft4pes/sim/simulation/index.html">soft4pes.sim.simulation</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../autoapi/soft4pes/utils/index.html">soft4pes.utils</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../autoapi/soft4pes/utils/conversions/index.html">soft4pes.utils.conversions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../autoapi/soft4pes/utils/plotter/index.html">soft4pes.utils.plotter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../autoapi/soft4pes/utils/sequence/index.html">soft4pes.utils.sequence</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Parameter Sets</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../parameter_sets/grid_parameter_sets.html">Grid Parameter Sets</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../parameter_sets/grid/systems.html">Grid Systems</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../parameter_sets/grid/components.html">Grid Components</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-14"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../parameter_sets/grid/components/grids.html">Grids</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../parameter_sets/grid/components/filters.html">Filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../parameter_sets/grid/components/converters.html">Converters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../parameter_sets/drive_parameter_sets.html">Drive Parameter Sets</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-15"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../parameter_sets/drive/systems.html">Drive Systems</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../parameter_sets/drive/components.html">Drive Components</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-16"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../parameter_sets/drive/components/machines.html">Machines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../parameter_sets/drive/components/converters.html">Converters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/TAU-Power-Electronic-Systems/Soft4PES" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for soft4pes.control.modulation.opp_computation</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Offline optimized pulse pattern (OPP) computation.</span>
+
+<span class="sd">Supported features</span>
+<span class="sd">------------------</span>
+<span class="sd">- Two-level and three-level converters</span>
+<span class="sd">- QaHWS and HWS pulse patterns</span>
+<span class="sd">- Machine- or grid-connected converters</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">multiprocessing</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleNamespace</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">control</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ct</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bounds</span><span class="p">,</span> <span class="n">LinearConstraint</span><span class="p">,</span> <span class="n">minimize</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">qmc</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.model.grid.rl_grid</span><span class="w"> </span><span class="kn">import</span> <span class="n">RLGrid</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">soft4pes.model.grid.rl_grid_lcl_filter</span><span class="w"> </span><span class="kn">import</span> <span class="n">RLGridLCLFilter</span>
+
+<span class="c1"># Data shared by worker processes.</span>
+<span class="n">_WORKER_DATA</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<div class="viewcode-block" id="init_worker"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/modulation/opp_computation/index.html#soft4pes.control.modulation.init_worker">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">init_worker</span><span class="p">(</span><span class="n">worker_data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Initialize worker-local data.</span>
+
+<span class="sd">    Large arrays are stored once per worker process to reduce inter-process</span>
+<span class="sd">    communication overhead.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    worker_data : dict</span>
+<span class="sd">        Data shared by all optimization tasks executed by each worker.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">global</span> <span class="n">_WORKER_DATA</span>
+    <span class="n">_WORKER_DATA</span> <span class="o">=</span> <span class="n">worker_data</span></div>
+
+
+<div class="viewcode-block" id="objective_function"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/modulation/opp_computation/index.html#soft4pes.control.modulation.objective_function">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">objective_function</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Evaluate the OPP objective function.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : ndarray</span>
+<span class="sd">        Vector of switching angles.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        Value of the OPP objective function.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">_WORKER_DATA</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="n">converter_level</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;level&quot;</span><span class="p">]</span>
+    <span class="n">symmetry</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;symmetry&quot;</span><span class="p">]</span>
+    <span class="n">delta_u</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;delta_u&quot;</span><span class="p">]</span>
+
+    <span class="n">harmonic_orders</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;harmonic_orders&quot;</span><span class="p">]</span>
+    <span class="n">harmonic_weights</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;harmonic_weights&quot;</span><span class="p">]</span>
+
+    <span class="n">harmonic_angles</span> <span class="o">=</span> <span class="n">harmonic_orders</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+
+    <span class="k">if</span> <span class="n">symmetry</span> <span class="o">==</span> <span class="s2">&quot;HWS&quot;</span><span class="p">:</span>
+        <span class="n">cosine_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">harmonic_angles</span><span class="p">)</span> <span class="o">@</span> <span class="n">delta_u</span>
+        <span class="n">sine_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">harmonic_angles</span><span class="p">)</span> <span class="o">@</span> <span class="n">delta_u</span>
+
+        <span class="n">cost</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">harmonic_weights</span> <span class="o">/</span> <span class="n">harmonic_orders</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+            <span class="o">*</span> <span class="p">(</span><span class="n">cosine_sum</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">sine_sum</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cosine_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">harmonic_angles</span><span class="p">)</span> <span class="o">@</span> <span class="n">delta_u</span>
+
+        <span class="k">if</span> <span class="n">converter_level</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">harmonic_sum</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">cosine_sum</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">harmonic_sum</span> <span class="o">=</span> <span class="n">cosine_sum</span>
+
+        <span class="n">cost</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+            <span class="p">((</span><span class="n">harmonic_weights</span> <span class="o">*</span> <span class="n">harmonic_sum</span><span class="p">)</span> <span class="o">/</span> <span class="n">harmonic_orders</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">cost</span></div>
+
+<div class="viewcode-block" id="objective_gradient"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/modulation/opp_computation/index.html#soft4pes.control.modulation.objective_gradient">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">objective_gradient</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Evaluate the gradient of the objective function.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : ndarray</span>
+<span class="sd">        Vector of switching angles.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ndarray</span>
+<span class="sd">        Gradient of the objective function with respect to the switching angles.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">_WORKER_DATA</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="n">converter_level</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;level&quot;</span><span class="p">]</span>
+    <span class="n">symmetry</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;symmetry&quot;</span><span class="p">]</span>
+    <span class="n">delta_u</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;delta_u&quot;</span><span class="p">]</span>
+
+    <span class="n">harmonic_orders</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;harmonic_orders&quot;</span><span class="p">]</span>
+    <span class="n">harmonic_weights</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;harmonic_weights&quot;</span><span class="p">]</span>
+
+    <span class="n">harmonic_angles</span> <span class="o">=</span> <span class="n">harmonic_orders</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+
+    <span class="k">if</span> <span class="n">symmetry</span> <span class="o">==</span> <span class="s2">&quot;HWS&quot;</span><span class="p">:</span>
+        <span class="n">cosine_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">harmonic_angles</span><span class="p">)</span> <span class="o">@</span> <span class="n">delta_u</span>
+        <span class="n">sine_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">harmonic_angles</span><span class="p">)</span> <span class="o">@</span> <span class="n">delta_u</span>
+
+        <span class="n">factors</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">harmonic_weights</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">harmonic_orders</span>
+
+        <span class="n">gradient</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+            <span class="n">factors</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+            <span class="o">*</span> <span class="p">(</span>
+                <span class="o">-</span><span class="n">cosine_sum</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">harmonic_angles</span><span class="p">)</span>
+                <span class="o">+</span> <span class="n">sine_sum</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">harmonic_angles</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">*</span> <span class="n">delta_u</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cosine_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">harmonic_angles</span><span class="p">)</span> <span class="o">@</span> <span class="n">delta_u</span>
+
+        <span class="k">if</span> <span class="n">converter_level</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">harmonic_sum</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">cosine_sum</span>
+            <span class="n">scale</span> <span class="o">=</span> <span class="mi">4</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">harmonic_sum</span> <span class="o">=</span> <span class="n">cosine_sum</span>
+            <span class="n">scale</span> <span class="o">=</span> <span class="mi">2</span>
+
+        <span class="n">factors</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="o">-</span><span class="n">scale</span>
+            <span class="o">*</span> <span class="n">harmonic_weights</span><span class="o">**</span><span class="mi">2</span>
+            <span class="o">*</span> <span class="n">harmonic_sum</span>
+            <span class="o">/</span> <span class="n">harmonic_orders</span>
+        <span class="p">)</span>
+
+        <span class="n">gradient</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+            <span class="n">factors</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">harmonic_angles</span><span class="p">),</span>
+            <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">*</span> <span class="n">delta_u</span>
+
+    <span class="k">return</span> <span class="n">gradient</span></div>
+
+
+<div class="viewcode-block" id="nonlinear_constraint_function"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/modulation/opp_computation/index.html#soft4pes.control.modulation.nonlinear_constraint_function">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">nonlinear_constraint_function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">modulation_index</span><span class="p">,</span> <span class="n">u0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Evaluate the OPP equality constraints.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : ndarray</span>
+<span class="sd">        Vector of switching angles.</span>
+
+<span class="sd">    modulation_index : float</span>
+<span class="sd">        Desired modulation index.</span>
+
+<span class="sd">    u0 : int</span>
+<span class="sd">        Initial switch position.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ndarray</span>
+<span class="sd">        Values of equality constraints.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">_WORKER_DATA</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="n">converter_level</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;level&quot;</span><span class="p">]</span>
+    <span class="n">symmetry</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;symmetry&quot;</span><span class="p">]</span>
+    <span class="n">delta_u</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;delta_u&quot;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">symmetry</span> <span class="o">==</span> <span class="s2">&quot;HWS&quot;</span><span class="p">:</span>
+        <span class="n">cosine_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">delta_u</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">sine_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">delta_u</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">converter_level</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">ceq1</span> <span class="o">=</span> <span class="p">(</span><span class="n">u0</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">*</span> <span class="n">cosine_sum</span> <span class="o">-</span> <span class="n">modulation_index</span>
+            <span class="c1"># The fundamental OPP component is chosen to have zero initial phase.</span>
+            <span class="n">ceq2</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">u0</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">*</span> <span class="n">sine_sum</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ceq1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">*</span> <span class="n">cosine_sum</span> <span class="o">-</span> <span class="n">modulation_index</span>
+            <span class="n">ceq2</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">*</span> <span class="n">sine_sum</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">ceq1</span><span class="p">,</span> <span class="n">ceq2</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">converter_level</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">ceq</span> <span class="o">=</span> <span class="p">(</span><span class="n">u0</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">/</span>
+               <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">delta_u</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span> <span class="o">-</span> <span class="n">modulation_index</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ceq</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">delta_u</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">-</span> <span class="n">modulation_index</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">ceq</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="nonlinear_constraint_jacobian"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/modulation/opp_computation/index.html#soft4pes.control.modulation.nonlinear_constraint_jacobian">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">nonlinear_constraint_jacobian</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">u0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Evaluate the Jacobian of the equality constraints.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : ndarray</span>
+<span class="sd">        Vector of switching angles.</span>
+
+<span class="sd">    u0 : int</span>
+<span class="sd">        Initial switch position.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ndarray</span>
+<span class="sd">        Jacobian of the equality constraints with respect to the switching angles.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">_WORKER_DATA</span>
+
+    <span class="n">converter_level</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;level&quot;</span><span class="p">]</span>
+    <span class="n">symmetry</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;symmetry&quot;</span><span class="p">]</span>
+    <span class="n">delta_u</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;delta_u&quot;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">symmetry</span> <span class="o">==</span> <span class="s2">&quot;HWS&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">converter_level</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">factor</span> <span class="o">=</span> <span class="n">u0</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">factor</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+
+        <span class="n">jacobian</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span>
+            <span class="o">-</span><span class="n">factor</span> <span class="o">*</span> <span class="n">delta_u</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+            <span class="o">-</span><span class="n">factor</span> <span class="o">*</span> <span class="n">delta_u</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+        <span class="p">))</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">converter_level</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">factor</span> <span class="o">=</span> <span class="n">u0</span> <span class="o">*</span> <span class="mi">8</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">factor</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+
+        <span class="n">jacobian</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="o">-</span><span class="n">factor</span> <span class="o">*</span> <span class="n">delta_u</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+
+    <span class="k">return</span> <span class="n">jacobian</span></div>
+
+<div class="viewcode-block" id="run_single_optimization"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/modulation/opp_computation/index.html#soft4pes.control.modulation.run_single_optimization">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">run_single_optimization</span><span class="p">(</span><span class="n">task</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Run a local SLSQP optimization from a single initial point.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    task : tuple</span>
+<span class="sd">        Tuple containing the initial vector of switching angles, modulation index,</span>
+<span class="sd">        and initial switch position.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    OptimizeResult</span>
+<span class="sd">        Optimization result returned by scipy.optimize.minimize.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">x0</span><span class="p">,</span> <span class="n">modulation_index</span><span class="p">,</span> <span class="n">u0</span> <span class="o">=</span> <span class="n">task</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">_WORKER_DATA</span>
+
+    <span class="n">nonlinear_constraint</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;eq&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;fun&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">nonlinear_constraint_function</span><span class="p">(</span>
+            <span class="n">x</span><span class="p">,</span>
+            <span class="n">modulation_index</span><span class="p">,</span>
+            <span class="n">u0</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;jac&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">nonlinear_constraint_jacobian</span><span class="p">(</span>
+            <span class="n">x</span><span class="p">,</span>
+            <span class="n">u0</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">}</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span>
+        <span class="n">objective_function</span><span class="p">,</span>
+        <span class="n">x0</span><span class="p">,</span>
+        <span class="n">method</span><span class="o">=</span><span class="s2">&quot;SLSQP&quot;</span><span class="p">,</span>
+        <span class="n">jac</span><span class="o">=</span><span class="n">objective_gradient</span><span class="p">,</span>
+        <span class="n">bounds</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;bounds&quot;</span><span class="p">],</span>
+        <span class="n">constraints</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">nonlinear_constraint</span><span class="p">,</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;linear_constraint&quot;</span><span class="p">],</span>
+        <span class="p">],</span>
+        <span class="n">options</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;maxiter&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+            <span class="s2">&quot;ftol&quot;</span><span class="p">:</span> <span class="mf">1e-12</span><span class="p">,</span>
+            <span class="s2">&quot;disp&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="OPPComputation"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/modulation/opp_computation/index.html#soft4pes.control.modulation.OPPComputation">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">OPPComputation</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Offline OPP computation.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sys : SystemModel</span>
+<span class="sd">        System model.</span>
+
+<span class="sd">    d : int, default=5</span>
+<span class="sd">        Base number of switching transitions used to construct the OPP.</span>
+<span class="sd">        For example, this corresponds to the pulse number for three-level</span>
+<span class="sd">        QaHWS OPPs.</span>
+
+<span class="sd">    symmetry : str, default=&quot;QaHWS&quot;</span>
+<span class="sd">        Waveform symmetry.</span>
+
+<span class="sd">        Options</span>
+<span class="sd">        -------</span>
+<span class="sd">        - &quot;HWS&quot;: half-wave symmetry</span>
+<span class="sd">        - &quot;QaHWS&quot;: quarter- and half-wave symmetry</span>
+
+<span class="sd">    n_m : int, default=256</span>
+<span class="sd">        Number of points used to discretize the modulation index range</span>
+<span class="sd">        [0, 4/pi], resulting in n_m - 1 nonzero modulation indices for</span>
+<span class="sd">        which OPPs are computed.</span>
+
+<span class="sd">    n_ini_points : int, default=1000</span>
+<span class="sd">        Number of multistart initial points.</span>
+
+<span class="sd">    max_harmonics : int, default=500</span>
+<span class="sd">        Maximum harmonic order included in the objective function.</span>
+
+<span class="sd">    modulation_indices : array_like or None, default=None</span>
+<span class="sd">        Modulation indices for which OPPs are computed. If None, the</span>
+<span class="sd">        modulation index range [0, 4/pi] is discretized using n_m</span>
+<span class="sd">        points.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    setup : SimpleNamespace</span>
+<span class="sd">        OPP configuration data.</span>
+
+<span class="sd">    harmonics : SimpleNamespace</span>
+<span class="sd">        Harmonic orders and weighting factors used in the objective function.</span>
+
+<span class="sd">    switching : SimpleNamespace</span>
+<span class="sd">        Switching-angle and switching-pattern data.</span>
+
+<span class="sd">    constraints : SimpleNamespace</span>
+<span class="sd">        Bounds and ordering constraints for the switching angles.</span>
+
+<span class="sd">    initial_points : ndarray or None</span>
+<span class="sd">        Initial vectors of switching angles used for multistart optimization.</span>
+
+<span class="sd">    results : dict or None</span>
+<span class="sd">        Computed OPP lookup table.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">sys</span><span class="p">,</span>
+        <span class="n">d</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">symmetry</span><span class="o">=</span><span class="s2">&quot;QaHWS&quot;</span><span class="p">,</span>
+        <span class="n">n_m</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+        <span class="n">n_ini_points</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+        <span class="n">max_harmonics</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+        <span class="n">modulation_indices</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sys</span> <span class="o">=</span> <span class="n">sys</span>
+
+        <span class="k">if</span> <span class="n">symmetry</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;HWS&quot;</span><span class="p">,</span> <span class="s2">&quot;QaHWS&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;symmetry must be either &#39;QaHWS&#39; or &#39;HWS&#39;.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">n_m</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;n_m must be at least 2.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">modulation_indices</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">modulation_indices</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_m</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n_m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mi">4</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">modulation_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">modulation_indices</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">modulation_indices</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;modulation_indices must contain at least one value.&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">modulation_indices</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span>
+                    <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">modulation_indices</span> <span class="o">&gt;</span> <span class="mi">4</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;modulation_indices must be in the interval (0, 4/pi].&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">setup</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span>
+            <span class="n">d</span><span class="o">=</span><span class="n">d</span><span class="p">,</span>
+            <span class="n">level</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">nl</span><span class="p">,</span>
+            <span class="n">symmetry</span><span class="o">=</span><span class="n">symmetry</span><span class="p">,</span>
+            <span class="n">n_m</span><span class="o">=</span><span class="n">n_m</span><span class="p">,</span>
+            <span class="n">n_ini_points</span><span class="o">=</span><span class="n">n_ini_points</span><span class="p">,</span>
+            <span class="n">max_harmonics</span><span class="o">=</span><span class="n">max_harmonics</span><span class="p">,</span>
+            <span class="n">modulation_indices</span><span class="o">=</span><span class="n">modulation_indices</span><span class="p">,</span>
+            <span class="n">is_grid</span><span class="o">=</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="n">RLGrid</span><span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">harmonics</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span>
+            <span class="n">orders</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">switching</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span>
+            <span class="n">n_angles</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">u0_candidates</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">delta_u</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span>
+            <span class="n">angle_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">linear_constraint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial_points</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">build_problem</span><span class="p">()</span>
+
+    <span class="c1"># Problem setup</span>
+
+<div class="viewcode-block" id="OPPComputation.build_problem"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/modulation/opp_computation/index.html#soft4pes.control.modulation.OPPComputation.build_problem">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">build_problem</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build all quantities required for OPP computation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">build_harmonics</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">build_switching_sequence</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">build_system_model</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">build_constraints</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">build_initial_points</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="OPPComputation.build_harmonics"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/modulation/opp_computation/index.html#soft4pes.control.modulation.OPPComputation.build_harmonics">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">build_harmonics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build the set of considered non-triplen odd harmonic orders.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">harmonics</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="o">.</span><span class="n">max_harmonics</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">harmonics</span><span class="o">.</span><span class="n">orders</span> <span class="o">=</span> <span class="n">harmonics</span><span class="p">[(</span><span class="n">harmonics</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+                                          <span class="o">&amp;</span> <span class="p">(</span><span class="n">harmonics</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)]</span></div>
+
+<div class="viewcode-block" id="OPPComputation.build_switching_sequence"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/modulation/opp_computation/index.html#soft4pes.control.modulation.OPPComputation.build_switching_sequence">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">build_switching_sequence</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build switching-angle and switching-sequence information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="o">.</span><span class="n">symmetry</span> <span class="o">==</span> <span class="s2">&quot;HWS&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="o">.</span><span class="n">level</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="c1"># We assume a switching transition at pi for two-level HWS OPPs.</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">switching</span><span class="o">.</span><span class="n">n_angles</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="o">.</span><span class="n">d</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">switching</span><span class="o">.</span><span class="n">n_angles</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="o">.</span><span class="n">d</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">switching</span><span class="o">.</span><span class="n">n_angles</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="o">.</span><span class="n">d</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="o">.</span><span class="n">level</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">switching</span><span class="o">.</span><span class="n">u0_candidates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">switching</span><span class="o">.</span><span class="n">delta_u</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
+                <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">switching</span><span class="o">.</span><span class="n">n_angles</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">switching</span><span class="o">.</span><span class="n">u0_candidates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">switching</span><span class="o">.</span><span class="n">delta_u</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
+                <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">switching</span><span class="o">.</span><span class="n">n_angles</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">switching</span><span class="o">.</span><span class="n">delta_u</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">switching</span><span class="o">.</span><span class="n">delta_u</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OPPComputation.build_system_model"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/modulation/opp_computation/index.html#soft4pes.control.modulation.OPPComputation.build_system_model">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">build_system_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build harmonic weighting factors used in the objective function.</span>
+
+<span class="sd">        For systems with an LCL filter, the weighting factors are based on the</span>
+<span class="sd">        gain of the transfer function from the switch position to the output</span>
+<span class="sd">        current. All other currently supported systems use 1/n weighting</span>
+<span class="sd">        factors.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="p">,</span> <span class="n">RLGridLCLFilter</span><span class="p">):</span>
+
+            <span class="n">state_space</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sys</span><span class="o">.</span><span class="n">cont_state_space</span>
+
+            <span class="c1"># States are the alpha-beta components of the converter current,</span>
+            <span class="c1"># grid current, and capacitor voltage.</span>
+            <span class="n">F_sys</span> <span class="o">=</span> <span class="n">state_space</span><span class="o">.</span><span class="n">F</span>
+            <span class="n">G_sys</span> <span class="o">=</span> <span class="n">state_space</span><span class="o">.</span><span class="n">G</span>
+
+            <span class="c1"># Grid current as the output.</span>
+            <span class="n">C_sys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+                <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">])</span>
+
+            <span class="n">D_sys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+            <span class="n">filter_model</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">ss</span><span class="p">(</span><span class="n">F_sys</span><span class="p">,</span> <span class="n">G_sys</span><span class="p">,</span> <span class="n">C_sys</span><span class="p">,</span> <span class="n">D_sys</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">harmonics</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">harmonics</span><span class="o">.</span><span class="n">orders</span><span class="p">))</span>
+
+            <span class="k">for</span> <span class="n">harmonic_index</span><span class="p">,</span> <span class="n">harmonic_order</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">harmonics</span><span class="o">.</span><span class="n">orders</span><span class="p">):</span>
+                <span class="n">mag</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">frequency_response</span><span class="p">(</span><span class="n">filter_model</span><span class="p">,</span>
+                                                  <span class="p">[</span><span class="n">harmonic_order</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">harmonics</span><span class="o">.</span><span class="n">weights</span><span class="p">[</span><span class="n">harmonic_index</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">mag</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># All other currently supported systems use 1/n harmonic weighting factors.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">harmonics</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">harmonics</span><span class="o">.</span><span class="n">orders</span></div>
+
+<div class="viewcode-block" id="OPPComputation.build_constraints"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/modulation/opp_computation/index.html#soft4pes.control.modulation.OPPComputation.build_constraints">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">build_constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build bound and ordering constraints for the switching angles.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">angle_max</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="o">.</span><span class="n">symmetry</span> <span class="o">==</span> <span class="s2">&quot;HWS&quot;</span>
+                                      <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">bounds</span> <span class="o">=</span> <span class="n">Bounds</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">switching</span><span class="o">.</span><span class="n">n_angles</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">switching</span><span class="o">.</span><span class="n">n_angles</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">angle_max</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">switching</span><span class="o">.</span><span class="n">n_angles</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">switching</span><span class="o">.</span><span class="n">n_angles</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">switching</span><span class="o">.</span><span class="n">n_angles</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+            <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
+
+        <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">switching</span><span class="o">.</span><span class="n">n_angles</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Remove duplicate reflected solutions in the two-level HWS formulation.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="o">.</span><span class="n">symmetry</span> <span class="o">==</span> <span class="s2">&quot;HWS&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="o">.</span><span class="n">level</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span>
+                <span class="n">A</span><span class="p">,</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">switching</span><span class="o">.</span><span class="n">n_angles</span><span class="p">)),</span>
+            <span class="p">))</span>
+
+            <span class="n">A</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+            <span class="n">A</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+            <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span>
+                <span class="n">b</span><span class="p">,</span>
+                <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">+</span> <span class="mf">1e-12</span><span class="p">],</span>
+            <span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">linear_constraint</span> <span class="o">=</span> <span class="n">LinearConstraint</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OPPComputation.build_initial_points"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/modulation/opp_computation/index.html#soft4pes.control.modulation.OPPComputation.build_initial_points">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">build_initial_points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate Halton initial points for multistart optimization.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">sampler</span> <span class="o">=</span> <span class="n">qmc</span><span class="o">.</span><span class="n">Halton</span><span class="p">(</span>
+            <span class="n">d</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">switching</span><span class="o">.</span><span class="n">n_angles</span><span class="p">,</span>
+            <span class="n">scramble</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Skip the first Halton points to improve sample distribution.</span>
+        <span class="n">sampler</span><span class="o">.</span><span class="n">fast_forward</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+
+        <span class="n">initial_points</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="o">.</span><span class="n">n_ini_points</span><span class="p">)</span>
+        <span class="n">initial_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">initial_points</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial_points</span> <span class="o">=</span> <span class="n">initial_points</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">angle_max</span></div>
+
+<div class="viewcode-block" id="OPPComputation.get_worker_data"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/modulation/opp_computation/index.html#soft4pes.control.modulation.OPPComputation.get_worker_data">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_worker_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Collect data required by multiprocessing workers.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            Data shared with worker processes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="o">.</span><span class="n">level</span><span class="p">,</span>
+            <span class="s2">&quot;symmetry&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="o">.</span><span class="n">symmetry</span><span class="p">,</span>
+            <span class="s2">&quot;delta_u&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">switching</span><span class="o">.</span><span class="n">delta_u</span><span class="p">,</span>
+            <span class="s2">&quot;harmonic_orders&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">harmonics</span><span class="o">.</span><span class="n">orders</span><span class="p">,</span>
+            <span class="s2">&quot;harmonic_weights&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">harmonics</span><span class="o">.</span><span class="n">weights</span><span class="p">,</span>
+            <span class="s2">&quot;bounds&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">bounds</span><span class="p">,</span>
+            <span class="s2">&quot;linear_constraint&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">linear_constraint</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
+<div class="viewcode-block" id="OPPComputation.compute"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/modulation/opp_computation/index.html#soft4pes.control.modulation.OPPComputation.compute">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">use_parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute OPPs.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        use_parallel : bool, default=True</span>
+<span class="sd">            If True, the multistart initial points are solved in parallel.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            Computed OPP lookup-table data, including switching angles,</span>
+<span class="sd">            modulation indices, and switch positions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">use_parallel</span><span class="p">:</span>
+            <span class="n">mp</span><span class="o">.</span><span class="n">freeze_support</span><span class="p">()</span>
+
+        <span class="n">n_modulation_indices</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="o">.</span><span class="n">modulation_indices</span><span class="p">)</span>
+
+        <span class="n">results</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;angles&quot;</span><span class="p">:</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">n_modulation_indices</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">switching</span><span class="o">.</span><span class="n">n_angles</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">),</span>
+            <span class="s2">&quot;modulation_index&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="o">.</span><span class="n">modulation_indices</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+            <span class="s2">&quot;switch_positions&quot;</span><span class="p">:</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">n_modulation_indices</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">switching</span><span class="o">.</span><span class="n">n_angles</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;symmetry&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="o">.</span><span class="n">symmetry</span><span class="p">,</span>
+            <span class="s2">&quot;converter_type&quot;</span><span class="p">:</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="o">.</span><span class="n">level</span><span class="si">}</span><span class="s2">Level&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;d&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="o">.</span><span class="n">d</span><span class="p">,</span>
+            <span class="s2">&quot;system_type&quot;</span><span class="p">:</span>
+            <span class="s2">&quot;grid&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="o">.</span><span class="n">is_grid</span> <span class="k">else</span> <span class="s2">&quot;machine&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">worker_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_worker_data</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">use_parallel</span><span class="p">:</span>
+            <span class="n">n_workers</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">mp</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+            <span class="k">with</span> <span class="n">mp</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span>
+                    <span class="n">processes</span><span class="o">=</span><span class="n">n_workers</span><span class="p">,</span>
+                    <span class="n">initializer</span><span class="o">=</span><span class="n">init_worker</span><span class="p">,</span>
+                    <span class="n">initargs</span><span class="o">=</span><span class="p">(</span><span class="n">worker_data</span><span class="p">,</span> <span class="p">),</span>
+            <span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">compute_loop</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">pool</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">init_worker</span><span class="p">(</span><span class="n">worker_data</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">compute_loop</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="n">results</span>
+
+        <span class="k">return</span> <span class="n">results</span></div>
+
+<div class="viewcode-block" id="OPPComputation.compute_loop"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/modulation/opp_computation/index.html#soft4pes.control.modulation.OPPComputation.compute_loop">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">compute_loop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="p">,</span> <span class="n">pool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Main loop over modulation indices and switching sequences.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        results : dict</span>
+<span class="sd">            Dictionary used to store computed OPP data.</span>
+
+<span class="sd">        pool : multiprocessing.Pool or None</span>
+<span class="sd">            Worker pool used for parallel execution.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">m_index</span><span class="p">,</span> <span class="n">modulation_index</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="o">.</span><span class="n">modulation_indices</span><span class="p">):</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Modulation index = </span><span class="si">{</span><span class="n">modulation_index</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">best_cost</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+            <span class="n">best_result</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">best_u0</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="k">for</span> <span class="n">u0</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">switching</span><span class="o">.</span><span class="n">u0_candidates</span><span class="p">:</span>
+
+                <span class="n">tasks</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x0</span><span class="p">,</span> <span class="n">modulation_index</span><span class="p">,</span> <span class="n">u0</span><span class="p">)</span>
+                         <span class="k">for</span> <span class="n">x0</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_points</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="n">pool</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">local_results</span> <span class="o">=</span> <span class="p">[</span>
+                        <span class="n">run_single_optimization</span><span class="p">(</span><span class="n">task</span><span class="p">)</span> <span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">tasks</span>
+                    <span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">local_results</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">run_single_optimization</span><span class="p">,</span> <span class="n">tasks</span><span class="p">)</span>
+
+                <span class="n">converged_results</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">result</span> <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">local_results</span> <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">success</span>
+                <span class="p">]</span>
+
+                <span class="k">if</span> <span class="n">converged_results</span><span class="p">:</span>
+                    <span class="n">candidate</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+                        <span class="n">converged_results</span><span class="p">,</span>
+                        <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">result</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">fun</span><span class="p">,</span>
+                    <span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">candidate</span><span class="o">.</span><span class="n">fun</span> <span class="o">&lt;</span> <span class="n">best_cost</span><span class="p">:</span>
+                        <span class="n">best_cost</span> <span class="o">=</span> <span class="n">candidate</span><span class="o">.</span><span class="n">fun</span>
+                        <span class="n">best_result</span> <span class="o">=</span> <span class="n">candidate</span>
+                        <span class="n">best_u0</span> <span class="o">=</span> <span class="n">u0</span>
+
+            <span class="k">if</span> <span class="n">best_result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;angles&quot;</span><span class="p">][</span><span class="n">m_index</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">best_result</span><span class="o">.</span><span class="n">x</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="o">.</span><span class="n">level</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="n">switch_positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">switching</span><span class="o">.</span><span class="n">n_angles</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="n">switch_positions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">best_u0</span>
+
+                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">switching</span><span class="o">.</span><span class="n">n_angles</span><span class="p">):</span>
+                        <span class="n">switch_positions</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">switch_positions</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">switch_positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">switching</span><span class="o">.</span><span class="n">n_angles</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="n">switch_positions</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">switching</span><span class="o">.</span><span class="n">delta_u</span><span class="p">)</span>
+
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;switch_positions&quot;</span><span class="p">][</span><span class="n">m_index</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">switch_positions</span></div>
+
+<div class="viewcode-block" id="OPPComputation.save_results"><a class="viewcode-back" href="../../../../autoapi/soft4pes/control/modulation/opp_computation/index.html#soft4pes.control.modulation.OPPComputation.save_results">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">save_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Save computed OPPs to a NetCDF file.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : str, optional</span>
+<span class="sd">            Output file name.</span>
+<span class="sd">            If None, a file name is generated from the OPP configuration.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;No results found. Run compute() before save_results().&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">system_name</span> <span class="o">=</span> <span class="s2">&quot;grid&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="o">.</span><span class="n">is_grid</span> <span class="k">else</span> <span class="s2">&quot;machine&quot;</span>
+            <span class="n">level_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="o">.</span><span class="n">level</span><span class="si">}</span><span class="s2">Level&quot;</span>
+            <span class="n">symmetry_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="o">.</span><span class="n">symmetry</span>
+
+            <span class="n">filename</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;d</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="o">.</span><span class="n">d</span><span class="si">}</span><span class="s2">_&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">level_name</span><span class="si">}</span><span class="s2">_&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">system_name</span><span class="si">}</span><span class="s2">_&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">symmetry_name</span><span class="si">}</span><span class="s2">_&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;OPPs.nc&quot;</span><span class="p">)</span>
+
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span>
+            <span class="n">data_vars</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;switching_angles&quot;</span><span class="p">:</span> <span class="p">(</span>
+                    <span class="p">[</span><span class="s2">&quot;angle_index&quot;</span><span class="p">,</span> <span class="s2">&quot;modulation_index&quot;</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;angles&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="s2">&quot;switch_positions&quot;</span><span class="p">:</span> <span class="p">(</span>
+                    <span class="p">[</span><span class="s2">&quot;position_index&quot;</span><span class="p">,</span> <span class="s2">&quot;modulation_index&quot;</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;switch_positions&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+                <span class="p">),</span>
+            <span class="p">},</span>
+            <span class="n">coords</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;angle_index&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">switching</span><span class="o">.</span><span class="n">n_angles</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="s2">&quot;position_index&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">switching</span><span class="o">.</span><span class="n">n_angles</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="s2">&quot;modulation_index&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;modulation_index&quot;</span><span class="p">],</span>
+            <span class="p">},</span>
+            <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Optimized pulse pattern lookup table&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;angle_units&quot;</span><span class="p">:</span> <span class="s2">&quot;radians&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;converter_type&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="o">.</span><span class="n">level</span><span class="si">}</span><span class="s2">Level&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;system_type&quot;</span><span class="p">:</span> <span class="s2">&quot;grid&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="o">.</span><span class="n">is_grid</span> <span class="k">else</span> <span class="s2">&quot;machine&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;symmetry&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="o">.</span><span class="n">symmetry</span><span class="p">,</span>
+                <span class="s2">&quot;base_number_of_switching_transitions&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="o">.</span><span class="n">d</span><span class="p">,</span>
+                <span class="s2">&quot;creation_date&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">-%b-%Y %H:%M:%S&quot;</span><span class="p">),</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
+        <span class="n">dataset</span><span class="o">.</span><span class="n">to_netcdf</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved: </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div></div>
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By TAU Power Electronic Systems
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024 TAU Power Electronic Systems.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

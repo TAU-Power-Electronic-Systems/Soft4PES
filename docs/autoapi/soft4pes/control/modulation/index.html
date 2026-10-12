@@ -161,6 +161,7 @@
 <li class="toctree-l3 current active has-children"><a class="current reference internal" href="#">soft4pes.control.modulation</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="carrier_pwm/index.html">soft4pes.control.modulation.carrier_pwm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="common_mode_injection/index.html">soft4pes.control.modulation.common_mode_injection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="opp_computation/index.html">soft4pes.control.modulation.opp_computation</a></li>
 </ul>
 </li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../mpc/index.html">soft4pes.control.mpc</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -406,6 +407,19 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.CommonModeInjection.execute"><code class="docutils literal notranslate"><span class="pre">CommonModeInjection.execute()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.OPPComputation"><code class="docutils literal notranslate"><span class="pre">OPPComputation</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.OPPComputation.build_problem"><code class="docutils literal notranslate"><span class="pre">OPPComputation.build_problem()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.OPPComputation.build_harmonics"><code class="docutils literal notranslate"><span class="pre">OPPComputation.build_harmonics()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.OPPComputation.build_switching_sequence"><code class="docutils literal notranslate"><span class="pre">OPPComputation.build_switching_sequence()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.OPPComputation.build_system_model"><code class="docutils literal notranslate"><span class="pre">OPPComputation.build_system_model()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.OPPComputation.build_constraints"><code class="docutils literal notranslate"><span class="pre">OPPComputation.build_constraints()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.OPPComputation.build_initial_points"><code class="docutils literal notranslate"><span class="pre">OPPComputation.build_initial_points()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.OPPComputation.get_worker_data"><code class="docutils literal notranslate"><span class="pre">OPPComputation.get_worker_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.OPPComputation.compute"><code class="docutils literal notranslate"><span class="pre">OPPComputation.compute()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.OPPComputation.compute_loop"><code class="docutils literal notranslate"><span class="pre">OPPComputation.compute_loop()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.OPPComputation.save_results"><code class="docutils literal notranslate"><span class="pre">OPPComputation.save_results()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -428,6 +442,7 @@ document.write(`
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="carrier_pwm/index.html">soft4pes.control.modulation.carrier_pwm</a></li>
 <li class="toctree-l1"><a class="reference internal" href="common_mode_injection/index.html">soft4pes.control.modulation.common_mode_injection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opp_computation/index.html">soft4pes.control.modulation.opp_computation</a></li>
 </ul>
 </div>
 </section>
@@ -440,6 +455,9 @@ document.write(`
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#soft4pes.control.modulation.CommonModeInjection" title="soft4pes.control.modulation.CommonModeInjection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CommonModeInjection</span></code></a></p></td>
 <td><p>Common-mode injection for modulating signal. The selected common-mode injection method</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#soft4pes.control.modulation.OPPComputation" title="soft4pes.control.modulation.OPPComputation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OPPComputation</span></code></a></p></td>
+<td><p>Offline OPP computation.</p></td>
 </tr>
 </tbody>
 </table>
@@ -562,6 +580,121 @@ modulation (SVM).</p>
 
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="soft4pes.control.modulation.OPPComputation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">soft4pes.control.modulation.</span></span><span class="sig-name descname"><span class="pre">OPPComputation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symmetry</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'QaHWS'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">256</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_ini_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_harmonics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modulation_indices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/modulation/opp_computation.html#OPPComputation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.modulation.OPPComputation" title="Permalink to this definition">#</a></dt>
+<dd><p>Offline OPP computation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sys</strong> (<em>SystemModel</em>) – System model.</p></li>
+<li><p><strong>d</strong> (<em>int</em><em>, </em><em>default=5</em>) – Base number of switching transitions used to construct the OPP.
+For example, this corresponds to the pulse number for three-level
+QaHWS OPPs.</p></li>
+<li><p><strong>symmetry</strong> – Waveform symmetry.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.control.modulation.OPPComputation.build_problem">
+<span class="sig-name descname"><span class="pre">build_problem</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/modulation/opp_computation.html#OPPComputation.build_problem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.modulation.OPPComputation.build_problem" title="Permalink to this definition">#</a></dt>
+<dd><p>Build all quantities required for OPP computation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.control.modulation.OPPComputation.build_harmonics">
+<span class="sig-name descname"><span class="pre">build_harmonics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/modulation/opp_computation.html#OPPComputation.build_harmonics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.modulation.OPPComputation.build_harmonics" title="Permalink to this definition">#</a></dt>
+<dd><p>Build the set of considered non-triplen odd harmonic orders.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.control.modulation.OPPComputation.build_switching_sequence">
+<span class="sig-name descname"><span class="pre">build_switching_sequence</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/modulation/opp_computation.html#OPPComputation.build_switching_sequence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.modulation.OPPComputation.build_switching_sequence" title="Permalink to this definition">#</a></dt>
+<dd><p>Build switching-angle and switching-sequence information.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.control.modulation.OPPComputation.build_system_model">
+<span class="sig-name descname"><span class="pre">build_system_model</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/modulation/opp_computation.html#OPPComputation.build_system_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.modulation.OPPComputation.build_system_model" title="Permalink to this definition">#</a></dt>
+<dd><p>Build harmonic weighting factors used in the objective function.</p>
+<p>For systems with an LCL filter, the weighting factors are based on the
+gain of the transfer function from the switch position to the output
+current. All other currently supported systems use 1/n weighting
+factors.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.control.modulation.OPPComputation.build_constraints">
+<span class="sig-name descname"><span class="pre">build_constraints</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/modulation/opp_computation.html#OPPComputation.build_constraints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.modulation.OPPComputation.build_constraints" title="Permalink to this definition">#</a></dt>
+<dd><p>Build bound and ordering constraints for the switching angles.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.control.modulation.OPPComputation.build_initial_points">
+<span class="sig-name descname"><span class="pre">build_initial_points</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/modulation/opp_computation.html#OPPComputation.build_initial_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.modulation.OPPComputation.build_initial_points" title="Permalink to this definition">#</a></dt>
+<dd><p>Generate Halton initial points for multistart optimization.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.control.modulation.OPPComputation.get_worker_data">
+<span class="sig-name descname"><span class="pre">get_worker_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/modulation/opp_computation.html#OPPComputation.get_worker_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.modulation.OPPComputation.get_worker_data" title="Permalink to this definition">#</a></dt>
+<dd><p>Collect data required by multiprocessing workers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Data shared with worker processes.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.control.modulation.OPPComputation.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">use_parallel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/modulation/opp_computation.html#OPPComputation.compute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.modulation.OPPComputation.compute" title="Permalink to this definition">#</a></dt>
+<dd><p>Compute OPPs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>use_parallel</strong> (<em>bool</em><em>, </em><em>default=True</em>) – If True, the multistart initial points are solved in parallel.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Computed OPP lookup-table data, including switching angles,
+modulation indices, and switch positions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.control.modulation.OPPComputation.compute_loop">
+<span class="sig-name descname"><span class="pre">compute_loop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/modulation/opp_computation.html#OPPComputation.compute_loop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.modulation.OPPComputation.compute_loop" title="Permalink to this definition">#</a></dt>
+<dd><p>Main loop over modulation indices and switching sequences.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>results</strong> (<em>dict</em>) – Dictionary used to store computed OPP data.</p></li>
+<li><p><strong>pool</strong> (<em>multiprocessing.Pool</em><em> or </em><em>None</em>) – Worker pool used for parallel execution.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="soft4pes.control.modulation.OPPComputation.save_results">
+<span class="sig-name descname"><span class="pre">save_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/soft4pes/control/modulation/opp_computation.html#OPPComputation.save_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#soft4pes.control.modulation.OPPComputation.save_results" title="Permalink to this definition">#</a></dt>
+<dd><p>Save computed OPPs to a NetCDF file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em><em>, </em><em>optional</em>) – Output file name.
+If None, a file name is generated from the OPP configuration.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 
@@ -620,6 +753,19 @@ modulation (SVM).</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.CommonModeInjection"><code class="docutils literal notranslate"><span class="pre">CommonModeInjection</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.CommonModeInjection.mode"><code class="docutils literal notranslate"><span class="pre">CommonModeInjection.mode</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.CommonModeInjection.execute"><code class="docutils literal notranslate"><span class="pre">CommonModeInjection.execute()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.OPPComputation"><code class="docutils literal notranslate"><span class="pre">OPPComputation</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.OPPComputation.build_problem"><code class="docutils literal notranslate"><span class="pre">OPPComputation.build_problem()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.OPPComputation.build_harmonics"><code class="docutils literal notranslate"><span class="pre">OPPComputation.build_harmonics()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.OPPComputation.build_switching_sequence"><code class="docutils literal notranslate"><span class="pre">OPPComputation.build_switching_sequence()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.OPPComputation.build_system_model"><code class="docutils literal notranslate"><span class="pre">OPPComputation.build_system_model()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.OPPComputation.build_constraints"><code class="docutils literal notranslate"><span class="pre">OPPComputation.build_constraints()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.OPPComputation.build_initial_points"><code class="docutils literal notranslate"><span class="pre">OPPComputation.build_initial_points()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.OPPComputation.get_worker_data"><code class="docutils literal notranslate"><span class="pre">OPPComputation.get_worker_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.OPPComputation.compute"><code class="docutils literal notranslate"><span class="pre">OPPComputation.compute()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.OPPComputation.compute_loop"><code class="docutils literal notranslate"><span class="pre">OPPComputation.compute_loop()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#soft4pes.control.modulation.OPPComputation.save_results"><code class="docutils literal notranslate"><span class="pre">OPPComputation.save_results()</span></code></a></li>
 </ul>
 </li>
 </ul>
